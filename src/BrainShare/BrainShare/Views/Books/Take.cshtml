@@ -1,15 +1,33 @@
 ﻿@model BrainShare.Controllers.TakeBookViewModel
 
-<h2>Owner of book</h2>
 @if (Model.Book != null)
 {
+ 
+    {
+        ViewBag.Title = Model.Book.Title;
+    }
     @Html.Partial("Details", Model.Book)
 }
-
-<ul>
-    
-    @foreach (var owner in Model.Owners)
-    {
-        <li>@owner.UserName | <a href="#">Профиль</a> | <a href="/books/take/@Model.Id/from/@owner.UserId">Отослать запрос на обмен</a> |</li>
-    }
-</ul>
+<div>
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>Пользователь</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var owner in Model.Owners)
+            {
+                <tr>
+                    <td>@owner.UserName </td>
+                    <td>
+                        <a class="btn btn-small" href="#">Профиль</a>
+                        <a class="btn btn-small" href="/books/take/@Model.Id/from/@owner.UserId">Отослать запрос
+                            на обмен</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

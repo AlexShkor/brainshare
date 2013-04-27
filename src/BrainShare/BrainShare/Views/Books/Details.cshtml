@@ -1,21 +1,45 @@
 ﻿@model BrainShare.Controllers.BookViewModel
 
-<div class="thumbnail">
+<div class="row">
+    
+    <div class="span6">
         
-                <img src="@Model.Image" />
-                <div class="caption">
-                    <h5 data-bind="text: volumeInfo.title">@Model.Title</h5>
-                    <p data-bind="text: volumeInfo.subtitle">@Model.Subtitle</p>
-                    
-                    <p>
-                          <span data-bind="text: volumeInfo.publisher">@Model.Publisher</span>
-                    <strong data-bind="text: volumeInfo.publishedDate">@Model.PublishedDate</strong>
-                    <span class="label" data-bind="text: volumeInfo.pageCount">@Model.PageCount</span> стр.
-                    </p>
-                    <strong>@Model.Authors</strong>
-                   
+        <div class="thumbnail">
 
-                    <p data-bind="text: volumeInfo.description">@Model.SearchInfo
-                    </p>
-                </div>
+            <img src="@Model.Image" />
+            <div class="caption">
+                <h5 data-bind="text: volumeInfo.title">@Model.Title</h5>
+                <p data-bind="text: volumeInfo.subtitle">@Model.Subtitle</p>
+
+                <p>
+                    <span data-bind="text: volumeInfo.publisher">@Model.Publisher</span>
+                    <strong data-bind="text: volumeInfo.publishedDate">@Model.PublishedDate</strong>
+                    <span class="label" data-bind="text: volumeInfo.pageCount">@Model.PageCount</span>
+                    стр.
+                </p>
+                <strong>@Model.Authors</strong>
+
+
+                <p data-bind="text: volumeInfo.description">@Model.SearchInfo
+                </p>
             </div>
+        </div>
+    </div>
+    <div class="span6">
+       
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'brainshare3'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+    
+    </div>
+</div>
+   

@@ -5,6 +5,7 @@ namespace BrainShare.Documents
 {
     public class Book
     {
+        [BsonId]
         public string Id { get; set; }
 
         public string ISBN { get; set; }
