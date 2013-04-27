@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
+using BrainShare.Documents;
 
 namespace BrainShare.Utils
 {
@@ -60,16 +61,29 @@ namespace BrainShare.Utils
             return SendMessage(ConfigurationManager.AppSettings["adminEmail"], email, "Wellcome header", body);
         }
 
-        public static bool SendExchangeConfirmMessage(string firstUserEmail, string secondUserEmail)
+        public static bool SendExchangeConfirmMessage(User firstUser, Book firstBook, User secondUser, Book secondBook)
         {
-            var header = "Уведомление об обмене";
-            var body = "Ваш обмен успешно произведён";
+            bool isSent = false;
+            var header = "BrainShare : Уведомление об обмене";
+            var bodyForFirstUser = "Вы успешно обменялись книгой \"" + firstBook.Title + "\" с пользователем " +
+                                   secondUser.FirstName + " " + secondUser.LastName + " (" + secondUser.Email +
+                                   "). В вашу коллекцию добавлена книга \"" + secondBook.Title + "\"";
 
-            var sendToFirstUser = SendMessage(ConfigurationManager.AppSettings["adminEmail"], firstUserEmail, header,
-                                              body);
-            var sendToSecondUser = SendMessage(ConfigurationManager.AppSettings["adminEmail"], secondUserEmail, header,
-                                               body);
-            return (sendToFirstUser == sendToSecondUser);
+            var bodyForSecondUser = "Вы успешно обменялись книгой \"" + secondBook.Title + "\" с пользователем " +
+                                    firstUser.FirstName + " " + firstUser.LastName + " (" + firstUser.Email +
+                                    "). В вашу коллекцию добавлена книга \"" + firstBook.Title + "\"";
+
+            var sendToFirstUser = SendMessage(ConfigurationManager.AppSettings["adminEmail"], firstUser.Email, header,
+                                              bodyForFirstUser);
+            var sendToSecondUser = SendMessage(ConfigurationManager.AppSettings["adminEmail"], secondUser.Email, header,
+                                               bodyForSecondUser);
+            
+            if (sendToFirstUser == true && sendToSecondUser == true)
+            {
+                isSent = true;
+            }
+
+            return isSent;
         }
     }
 }
