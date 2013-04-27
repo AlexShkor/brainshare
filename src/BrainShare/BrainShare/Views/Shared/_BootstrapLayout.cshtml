@@ -1,0 +1,45 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>@ViewBag.Title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="@Styles.Url("~/content/css")" rel="stylesheet"/>
+        <script src="~/Scripts/jquery-1.7.1.js"></script>
+        <script src="~/Scripts/knockout-2.1.0.debug.js"></script>
+
+        @RenderSection("head", required: false)
+        @* favicons and touch icons go here *@
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="/"> BrainShare</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li>
+                                <a href="/">Home</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <div class="container">
+            @RenderBody()   
+            <hr>
+            <footer>
+                <p>&copy; Imaginator @System.DateTime.Now.ToString("yyyy")</p>
+            </footer> 
+        </div>
+         @Scripts.Render("~/js")
+         @RenderSection("Scripts", required: false)
+    </body>
+</html>
