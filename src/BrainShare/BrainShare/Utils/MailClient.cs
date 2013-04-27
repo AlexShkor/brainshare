@@ -60,9 +60,16 @@ namespace BrainShare.Utils
             return SendMessage(ConfigurationManager.AppSettings["adminEmail"], email, "Wellcome header", body);
         }
 
-        public static bool SendExchangeConfirmMessage()
+        public static bool SendExchangeConfirmMessage(string firstUserEmail, string secondUserEmail)
         {
-            return false;
+            var header = "Уведомление об обмене";
+            var body = "Ваш обмен успешно произведён";
+
+            var sendToFirstUser = SendMessage(ConfigurationManager.AppSettings["adminEmail"], firstUserEmail, header,
+                                              body);
+            var sendToSecondUser = SendMessage(ConfigurationManager.AppSettings["adminEmail"], secondUserEmail, header,
+                                               body);
+            return (sendToFirstUser == sendToSecondUser);
         }
     }
 }
