@@ -34,7 +34,7 @@ namespace BrainShare.Controllers
         }
 
 
-        public UserController(IAuthentication auth , UsersService users,  FacebookClientFactory fbFactory, Settings settings)
+        public UserController(IAuthentication auth, UsersService users, FacebookClientFactory fbFactory, Settings settings)
         {
             _users = users;
             _settings = settings;
@@ -80,19 +80,44 @@ namespace BrainShare.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
         public ActionResult Register()
         {
             return View(new RegisterViewModel());
         }
+
         [HttpPost]
         public ActionResult Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var anyUser = _users.GetUserByEmail(model.Email);
+                if (anyUser == null)
+                {
+                    var newUser = new User()
+                                      {
+                                          Id = GetIdForUser(),
+                                          FirstName = model.FirstName,
+                                          LastName = model.LastName,
+                                          Email = model.Email,
+                                          Password = model.Password
+                                      };
+                    _users.AddUser(newUser);
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
+                }
             }
             return View(model);
         }
 
+        public static string GetIdForUser()
+        {
+            return ObjectId.GenerateNewId().ToString();
+        }
 
         [FacebookAuthorize]
 

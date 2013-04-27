@@ -213,7 +213,6 @@
     <Compile Include="Services\UsersService.cs" />
     <Compile Include="ViewModels\LoginView.cs" />
     <Compile Include="Controllers\BooksController.cs" />
-    <Compile Include="ViewModels\RegisterView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\body.css" />
