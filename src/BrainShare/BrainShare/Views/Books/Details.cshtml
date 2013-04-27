@@ -1,2 +1,21 @@
 ﻿@model BrainShare.Controllers.BookViewModel
 
+<div class="thumbnail">
+        
+                <img src="@Model.Image" />
+                <div class="caption">
+                    <h5 data-bind="text: volumeInfo.title">@Model.Title</h5>
+                    <p data-bind="text: volumeInfo.subtitle">@Model.Subtitle</p>
+                    
+                    <p>
+                          <span data-bind="text: volumeInfo.publisher">@Model.Publisher</span>
+                    <strong data-bind="text: volumeInfo.publishedDate">@Model.PublishedDate</strong>
+                    <span class="label" data-bind="text: volumeInfo.pageCount">@Model.PageCount</span> стр.
+                    </p>
+                    <strong>@Model.Authors</strong>
+                   
+
+                    <p data-bind="text: volumeInfo.description">@Model.SearchInfo
+                    </p>
+                </div>
+            </div>

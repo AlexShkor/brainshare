@@ -1,6 +1,15 @@
 ﻿@model BrainShare.Controllers.TakeBookViewModel
 
-@if(Model.Book != null)
+<h2>Owner of book</h2>
+@if (Model.Book != null)
 {
     @Html.Partial("Details", Model.Book)
 }
+
+<ul>
+    
+    @foreach (var owner in Model.Owners)
+    {
+        <li>@owner.UserName | <a href="#">Профиль</a> | <a href="/books/take/@Model.Id/from/@owner.UserId">Отослать запрос на обмен</a> |</li>
+    }
+</ul>
