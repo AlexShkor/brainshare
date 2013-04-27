@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using AttributeRouting;
+using AttributeRouting.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Services;
@@ -9,12 +11,12 @@ using Newtonsoft.Json;
 
 namespace BrainShare.Controllers
 {
-    public class BooksController : Controller
+    [RoutePrefix("books")]
+    public class BooksController : BaseController
     {
         private readonly UsersService _users;
         private readonly BooksService _books;
 
-        public string UserId {get { return ((UserIdentity) User.Identity).User.Id; }}
 
         public BooksController(UsersService users, BooksService books)
         {
@@ -72,6 +74,7 @@ namespace BrainShare.Controllers
         public ActionResult TakeOne(string id)
         {
             var model = new TakeBookViewModel();
+            model.Id = id;
             var book = _books.GetById(id);
             if (book != null)
             {
@@ -80,6 +83,12 @@ namespace BrainShare.Controllers
             var owners = _users.GetOwners(id);
             model.Owners = owners.Select(x => new OwnerViewModel(x)).ToList();
             return View(model);
+        }
+
+        [GET("take/{bookId}/from/{userId}")]
+        public ActionResult TakeFromUser(string bookId, string userId)
+        {
+            return View();
         }
     }
 
@@ -102,6 +111,7 @@ namespace BrainShare.Controllers
         public string Id { get; set; }
         public string ISBN { get; set; }
         public string Title { get; set; }
+        public string Authors { get; set; }
         public string SearchInfo { get; set; }
         public int PageCount { get; set; }
         public string PublishedDate { get; set; }
@@ -120,6 +130,7 @@ namespace BrainShare.Controllers
             Publisher = book.Publisher;
             Subtitle = book.Subtitle;
             Image = book.Image;
+            Authors = string.Join(", ", book.Authors);
         }
     }
 

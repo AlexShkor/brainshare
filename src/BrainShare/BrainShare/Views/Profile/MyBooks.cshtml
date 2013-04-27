@@ -1,0 +1,27 @@
+﻿@model List<BrainShare.Controllers.BookViewModel>
+
+
+
+<h2>Мои Книги</h2>
+
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Автор(ы)    </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var book in Model)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.Authors</td>
+                <td>
+                    <a href="/profile/delete/@book.Id">Удалить</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
