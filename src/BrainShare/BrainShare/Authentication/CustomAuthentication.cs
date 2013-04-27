@@ -5,21 +5,22 @@ using System.Security.Principal;
 using System.Web;
 using BrainShare.Documents;
 using BrainShare.Mongo;
+using BrainShare.Services;
 
 namespace BrainShare.Authentication
 {
     public class CustomAuthentication : IAuthentication
     {
-        public CustomAuthentication(MongoDocumentsDatabase database)
+        private readonly UsersService _users;
+
+        public CustomAuthentication(UsersService users)
         {
-            this.Database = database;
+            _users = users;
         }
 
         private const string cookieName = "__AUTH_COOKIE";
         
         public HttpContext HttpContext { get; set; }
-
-        public MongoDocumentsDatabase Database { get; set; }
 
         public User Login(string userName, string password, bool isPersistent)
         {
