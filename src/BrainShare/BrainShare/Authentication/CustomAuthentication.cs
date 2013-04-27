@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Web;
 using BrainShare.Documents;
-using BrainShare.MongoDatabase;
+using BrainShare.Mongo;
 
 namespace BrainShare.Authentication
 {
@@ -24,5 +25,17 @@ namespace BrainShare.Authentication
         {
             throw new NotImplementedException();
         }
+
+        public User Login(string login)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Logout()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPrincipal CurrentUser { get; private set; }
     }
 }
