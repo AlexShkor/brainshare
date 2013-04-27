@@ -8,6 +8,7 @@
         <link href="@Styles.Url("~/content/css")" rel="stylesheet"/>
         <script src="~/Scripts/jquery-1.7.1.js"></script>
         <script src="~/Scripts/knockout-2.1.0.debug.js"></script>
+        <script src="~/Scripts/custom/addbook.js"></script>
 
         @RenderSection("head", required: false)
         @* favicons and touch icons go here *@
@@ -26,6 +27,7 @@
                         <ul class="nav pull-right">
                                 <li><a href="@Url.Action("Register","Account")">Register</a></li>
                                 <li><a href="@Url.Action("Login","Account")">Login</a></li>
+                                <li><a href="@Url.Action("Add","Books")">Add book</a></li>
                             </ul>
                         <p class="navbar-text pull-right ">
                             
@@ -44,7 +46,7 @@
             @RenderBody()   
             <hr>
             <footer>
-                <p>&copy; Imaginator @System.DateTime.Now.ToString("yyyy")</p>
+                <p>&copy; BrainShare @System.DateTime.Now.ToString("yyyy")</p>
             </footer> 
         </div>
          @Scripts.Render("~/js")
