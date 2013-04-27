@@ -94,7 +94,7 @@ namespace BrainShare.Controllers
         }
 
 
-        //[FacebookAuthorize]
+        [FacebookAuthorize]
 
         public ActionResult ProcessFacebook(string returnUrl)
         {
@@ -244,6 +244,22 @@ namespace BrainShare.Controllers
         [Display(Name = "Confirm password")]
         [System.Web.Mvc.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+
+    public class FacebookAuthorizeAttribute : AuthorizeAttribute
+    {
+        protected override bool AuthorizeCore(System.Web.HttpContextBase httpContext)
+        {
+            var accessToken = httpContext.Session[SessionKeys.FbAccessToken] as string;
+            if (string.IsNullOrWhiteSpace(accessToken))
+                return false;
+            return true;
+        }
+
+        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+        {
+            filterContext.Result = new RedirectResult("/account/loginwithfacebook");
+        }
     }
 }
 

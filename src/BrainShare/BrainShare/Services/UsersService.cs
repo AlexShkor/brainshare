@@ -30,7 +30,8 @@ namespace BrainShare.Services
 
         public User GetByFacebookId(string facebookId)
         {
-            throw new System.NotImplementedException();
+            return
+                 Items.FindOne(Query<User>.EQ(x => x.FacebookId, facebookId));
         }
     }
 }

@@ -24,15 +24,22 @@
                     </a>
                     <a class="brand" href="/"> BrainShare</a>
                     <div class="nav-collapse collapse">
-                        <ul class="nav pull-right">
-                                <li><a href="@Url.Action("Register","User")">Register</a></li>
-                                <li><a href="@Url.Action("Login","User")">Login</a></li>
-                                <li><a href="@Url.Action("LoginWithFacebook","User")">Facebook</a></li>
-                            </ul>
+                        
+                        @if (Request.IsAuthenticated)
+                        {
                         <p class="navbar-text pull-right ">
                             
-                            Logged in as <a href="#" class="navbar-link">Username</a>
+                            Logged in as <a href="#" class="navbar-link">@User.Identity.Name</a>  <a  href="@Url.Action("Logout","User")" >Logout</a>
                         </p>
+                        }
+                        else
+                        {
+                            <ul class="nav pull-right">
+                            <li><a href="@Url.Action("Register","User")">Register</a></li>
+                            <li><a href="@Url.Action("Login","User")">Login</a></li>
+                            <li><a href="@Url.Action("LoginWithFacebook","User")">Facebook</a></li>
+                        </ul>
+                        }
                         <ul class="nav">
                             <li>
                                 <a href="/">Home</a>
