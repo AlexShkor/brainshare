@@ -9,7 +9,7 @@
 
 <form class="form-inline" data-bind="submit: search">
   
-<select class="span2" data-bind="options: availableLanguages, optionsText: 'title', optionsValue: 'code', value: selectedLanguage" ></select>
+<select class="span2" data-bind="event: {change: search} , options: availableLanguages, optionsText: 'title', optionsValue: 'code', value: selectedLanguage" ></select>
 
     <input type="text" data-bind="value: query" />
    @* <select class="span2" data-bind="options: searchTypes, optionsText: 'title', optionsValue: 'code', value: searchType" ></select>*@
@@ -49,6 +49,8 @@
                     @*  <p data-bind="text: volumeInfo.description">
                     </p>*@
                     <p>
+                        <a href="#" class="btn btn-primary" data-bind="click: $root.give">Give</a>
+                        <a href="#" class="btn" data-bind="click: $root.take">Take</a>
                     </p>
                 </div>
             </div>

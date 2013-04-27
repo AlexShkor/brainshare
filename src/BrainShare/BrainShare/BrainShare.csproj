@@ -280,6 +280,7 @@
     <Content Include="Views\Books\Add.cshtml" />
     <Content Include="Views\User\UserLogin.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

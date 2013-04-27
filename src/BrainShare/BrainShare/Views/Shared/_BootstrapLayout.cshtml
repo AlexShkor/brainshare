@@ -25,9 +25,8 @@
                     <a class="brand" href="/"> BrainShare</a>
                     <div class="nav-collapse collapse">
                         <ul class="nav pull-right">
-                                <li><a href="@Url.Action("Register","Account")">Register</a></li>
-                                <li><a href="@Url.Action("Login","Account")">Login</a></li>
-                                <li><a href="@Url.Action("Add","Books")">Add book</a></li>
+                                <li><a href="@Url.Action("Register","User")">Register</a></li>
+                                <li><a href="@Url.Action("Login","User")">Login</a></li>
                             </ul>
                         <p class="navbar-text pull-right ">
                             
@@ -36,6 +35,8 @@
                         <ul class="nav">
                             <li>
                                 <a href="/">Home</a>
+                                
+                                <li><a href="@Url.Action("Add","Books")">Search books</a></li>
                             </li>
                         </ul>
                     </div>
