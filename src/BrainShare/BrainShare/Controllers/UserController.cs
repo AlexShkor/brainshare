@@ -8,6 +8,7 @@ using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Models;
 using BrainShare.Services;
+using BrainShare.Utils;
 using BrainShare.ViewModels;
 using Facebook;
 using MongoDB.Bson;
@@ -103,6 +104,7 @@ namespace BrainShare.Controllers
                                           Password = model.Password
                                       };
                     _users.AddUser(newUser);
+                    MailClient.SendWelcome(newUser.Email);
 
                     return RedirectToAction("Index", "Home");
                 }
