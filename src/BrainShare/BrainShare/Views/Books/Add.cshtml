@@ -7,9 +7,15 @@
 
 </script>
 
-<select class="span2" data-bind="options: availableLanguages, optionsText: 'title', optionsValue: 'code', value: selectedLanguage" />
-<input type="text" data-bind="value: query" />
-<a class="btn btn-success" href="#" data-bind="click: search">Search</a>
+<form class="form-inline" data-bind="submit: search">
+  
+    <select class="span2" data-bind="options: availableLanguages, optionsText: 'title', optionsValue: 'code', value: selectedLanguage" ></select>
+
+    <input type="text" data-bind="value: query" />
+    <select class="span2" data-bind="options: searchTypes, optionsText: 'title', optionsValue: 'code', value: searchType" ></select>
+  <button type="submit" class="btn btn-success">Search</button>
+</form>
+
 
 <style>
     .books .span3 {
@@ -21,15 +27,26 @@
     <ul class="thumbnails books" data-bind="foreach: items">
         <li class="span3">
             <div class="thumbnail">
-               <img data-bind="attr: {src: volumeInfo.imageLinks.thumbnail}" />
+                <!-- ko with: volumeInfo.imageLinks -->
+        
+                <img data-bind="attr: {src: thumbnail}" />
+    <!-- /ko -->
                 <div class="caption">
                     <h5 data-bind="text: volumeInfo.title"></h5>
                     <p data-bind="text: volumeInfo.subtitle"></p>
-                    <p data-bind="text: volumeInfo.publisher"></p>
+                    
+                    <p>
+                          <span data-bind="text: volumeInfo.publisher"></span>
                     <strong data-bind="text: volumeInfo.publishedDate"></strong>
-                    <p data-bind="text: volumeInfo.pageCount"></p>
+                    <span class="label" data-bind="text: volumeInfo.pageCount"></span> стр.
+                    </p>
+                    <strong>Авторы</strong>
+                    <ul data-bind="foreach: volumeInfo.authors" >
+                        <li data-bind="text: $data"></li>
+                    </ul>
+                   
 
-                  @*  <p data-bind="text: volumeInfo.description">
+                    @*  <p data-bind="text: volumeInfo.description">
                     </p>*@
                     <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a>
                     </p>
