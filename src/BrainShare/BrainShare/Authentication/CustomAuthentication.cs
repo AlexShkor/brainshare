@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using BrainShare.Documents;
-using BrainShare.MongoDB;
+using BrainShare.MongoDatabase;
 
 namespace BrainShare.Authentication
 {

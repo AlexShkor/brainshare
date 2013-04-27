@@ -2,7 +2,7 @@
 using BrainShare.Documents;
 using MongoDB.Driver;
 
-namespace BrainShare.MongoDB
+namespace BrainShare.Mongo
 {
     public class MongoDocumentsDatabase
     {

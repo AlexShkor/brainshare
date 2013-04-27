@@ -1,4 +1,4 @@
-﻿using BrainShare.MongoDB;
+﻿using BrainShare.Mongo;
 using StructureMap;
 
 namespace BrainShare

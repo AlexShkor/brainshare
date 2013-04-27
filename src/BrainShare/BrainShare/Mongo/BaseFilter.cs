@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace MvcMusicStore.MongoDB
+namespace BrainShare.Mongo
 {
     public class BaseFilter
     {

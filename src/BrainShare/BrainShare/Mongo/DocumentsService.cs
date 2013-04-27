@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MongoDB.Driver;
 
-namespace MvcMusicStore.MongoDB
+namespace BrainShare.Mongo
 {
     public abstract class DocumentsService<T>
     {

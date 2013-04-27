@@ -190,8 +190,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="MongoDB\MongoDocumentsDatabase.cs" />
+    <Compile Include="Mongo\BaseFilter.cs" />
+    <Compile Include="Mongo\DocumentsService.cs" />
+    <Compile Include="Mongo\MongoDocumentsDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\UsersService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\body.css" />
@@ -263,7 +266,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Authentication\" />
-    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
