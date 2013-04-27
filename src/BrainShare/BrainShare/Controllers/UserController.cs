@@ -55,6 +55,19 @@ namespace BrainShare.Controllers
             Auth.Logout();
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public ActionResult Register()
+        {
+            
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Register(RegisterView newUser)
+        {
+            return View();
+        }
     }
 }
 

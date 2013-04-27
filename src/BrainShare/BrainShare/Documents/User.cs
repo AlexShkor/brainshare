@@ -1,7 +1,10 @@
-﻿namespace BrainShare.Documents
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace BrainShare.Documents
 {
     public class User
     {
+        [BsonId]
         public string Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
