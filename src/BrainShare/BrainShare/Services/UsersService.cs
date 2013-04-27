@@ -1,4 +1,5 @@
-﻿using BrainShare.Documents;
+﻿using System.Collections.Generic;
+using BrainShare.Documents;
 using BrainShare.Mongo;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
@@ -50,6 +51,11 @@ namespace BrainShare.Services
         public void AddUser(User user)
         {
             Items.Save(user);
+        }
+
+        public IEnumerable<User> GetOwners(string id)
+        {
+            return Items.Find(Query.EQ("Books", id));
         }
     }
 }
