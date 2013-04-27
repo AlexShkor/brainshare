@@ -22,7 +22,7 @@ namespace BrainShare.Authentication
 
         public User Login(string userName, string password, bool isPersistent)
         {
-            
+            throw new NotImplementedException();
         }
     }
 }
