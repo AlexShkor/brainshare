@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Services;
@@ -49,7 +51,7 @@ namespace BrainShare.Controllers
         }
 
         [HttpPost]
-        public ActionResult Take(string book)
+        public ActionResult Take(string book, int fake)
         {
             var doc = JsonConvert.DeserializeObject<Book>(book);
             var user = _users.GetById(UserId);
@@ -63,5 +65,59 @@ namespace BrainShare.Controllers
             _books.Save(currentDoc);
             return Json(new { doc.Id });
         }
+
+        [HttpGet]
+        public ActionResult Take(string id)
+        {
+            var model = new TakeBookViewModel();
+
+            throw new NotImplementedException();
+        }
+    }
+
+    public class TakeBookViewModel
+    {
+        public string Id { get; set; }
+
+        public BookViewModel Book { get; set; }
+
+        public List<OwnerViewModel> Owners { get; set; }
+
+        public TakeBookViewModel()
+        {
+            Owners = new List<OwnerViewModel>();
+        }
+    }
+
+    public class BookViewModel
+    {
+        public string Id { get; set; }
+        public string ISBN { get; set; }
+        public string Title { get; set; }
+        public string SearchInfo { get; set; }
+        public int PageCount { get; set; }
+        public string PublishedDate { get; set; }
+        public string Publisher { get; set; }
+        public string Subtitle { get; set; }
+        public string Image { get; set; }
+
+        public BookViewModel(Book book)
+        {
+            Id = book.Id;
+            ISBN = book.ISBN;
+            Title = book.Title;
+            SearchInfo = book.SearchInfo;
+            PageCount = book.PageCount;
+            PublishedDate = book.PublishedDate;
+            Publisher = book.Publisher;
+            Subtitle = book.Subtitle;
+            Image = book.Image;
+        }
+    }
+
+    public class OwnerViewModel
+    {
+        public string UserId { get; set; }
+        public string UserName { get; set; }
     }
 }

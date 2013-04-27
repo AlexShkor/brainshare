@@ -53,21 +53,8 @@ var AddBookModel = function(ownedItems) {
     };
 
     this.give = function (item) {
-        var data = {
-            Id: item.id,
-            Country: self.selectedLanguage(),
-            SearchInfo: (item.searchInfo || {}).textSnippet,
-            Authors: item.volumeInfo.authors,
-            Categories: item.volumeInfo.categories,
-            Language: item.volumeInfo.language,
-            PageCount: item.volumeInfo.pageCount,
-            PublishedDate: item.volumeInfo.publishedDate,
-            Publisher: item.volumeInfo.publisher,
-            Subtitle: item.volumeInfo.subtitle,
-            Title: item.volumeInfo.title,
-            Image: (item.volumeInfo.imageLinks || {}).thumbnail,
-            ISBN: item.volumeInfo.industryIdentifiers[0].identifier
-        };
+
+        var data = self.mapData(item);
 
         $.ajax({
             type: "POST",
@@ -83,8 +70,40 @@ var AddBookModel = function(ownedItems) {
         });
     };
 
-    this.take = function() {
+    this.mapData = function(item) {
+        var data = {
+            Id: item.id,
+            Country: self.selectedLanguage(),
+            SearchInfo: (item.searchInfo || { }).textSnippet,
+            Authors: item.volumeInfo.authors,
+            Categories: item.volumeInfo.categories,
+            Language: item.volumeInfo.language,
+            PageCount: item.volumeInfo.pageCount,
+            PublishedDate: item.volumeInfo.publishedDate,
+            Publisher: item.volumeInfo.publisher,
+            Subtitle: item.volumeInfo.subtitle,
+            Title: item.volumeInfo.title,
+            Image: (item.volumeInfo.imageLinks || { }).thumbnail,
+            ISBN: item.volumeInfo.industryIdentifiers[0].identifier
+        };
+        return data;
+    };
 
+    this.take = function (item) {
+
+        var data = self.mapData(item);
+        $.ajax({
+            type: "POST",
+            url: "/books/take",
+            data: { book: JSON.stringify(data) },
+            success: function (response) {
+                if (response.Error) {
+                    alert(response.Error);
+                } else {
+                    window.location = "/books/take/" + response.Id;
+                }
+            }
+        });
     };
 
 };
