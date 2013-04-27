@@ -1,0 +1,12 @@
+﻿@model BrainShare.Documents.User
+
+@if (Model != null)
+{
+    <li>@Model.Email</li>
+    <li>@Html.ActionLink("Выход", "Logout", "User")</li>
+}
+else
+{
+    <li>@Html.ActionLink("Вход", "Login", "User")</li>
+    <li>@Html.ActionLink("Регистрация", "Register", "User")</li>
+}

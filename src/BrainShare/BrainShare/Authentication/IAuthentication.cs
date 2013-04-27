@@ -9,7 +9,7 @@ using BrainShare.Documents;
 
 namespace BrainShare.Authentication
 {
-    interface IAuthentication
+    public interface IAuthentication
     {
         HttpContext HttpContext { get; set; }
         User Login(string login, string password, bool isPersistent);
