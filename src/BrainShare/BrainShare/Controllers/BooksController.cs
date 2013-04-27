@@ -93,12 +93,15 @@ namespace BrainShare.Controllers
         public ActionResult TakeFromUser(string bookId, string userId)
         {
             var user = _users.GetById(userId);
-            user.Inbox.Add(new ChangeRequest
-                {
-                    UserId = userId,
-                    BookId = bookId
-                });
-            _users.Save(user);
+            if (!user.Inbox.Any(x=> x.BookId == bookId && x.UserId == userId))
+            {
+                user.Inbox.Add(new ChangeRequest
+                    {
+                        UserId = userId,
+                        BookId = bookId
+                    });
+                _users.Save(user);
+            }
             var book = _books.GetById(bookId);
             var model = new ChangeRequestSentModel(book, user);
             return View(model);
