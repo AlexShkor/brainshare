@@ -1,0 +1,40 @@
+﻿<script type="text/javascript">
+    $(function () {
+
+        var model = new AddBookModel();
+        ko.applyBindings(model);
+    });
+
+</script>
+
+<select class="span2" data-bind="options: availableLanguages, optionsText: 'title', optionsValue: 'code', value: selectedLanguage" />
+<input type="text" data-bind="value: query" />
+<a class="btn btn-success" href="#" data-bind="click: search">Search</a>
+
+<style>
+    .books .span3 {
+        margin-left: 0px;
+        margin-right: 20px
+    }
+</style>
+<div class="row-fluid">
+    <ul class="thumbnails books" data-bind="foreach: items">
+        <li class="span3">
+            <div class="thumbnail">
+               <img data-bind="attr: {src: volumeInfo.imageLinks.thumbnail}" />
+                <div class="caption">
+                    <h5 data-bind="text: volumeInfo.title"></h5>
+                    <p data-bind="text: volumeInfo.subtitle"></p>
+                    <p data-bind="text: volumeInfo.publisher"></p>
+                    <strong data-bind="text: volumeInfo.publishedDate"></strong>
+                    <p data-bind="text: volumeInfo.pageCount"></p>
+
+                  @*  <p data-bind="text: volumeInfo.description">
+                    </p>*@
+                    <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a>
+                    </p>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
