@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Documents;
@@ -51,7 +52,7 @@ namespace BrainShare.Controllers
         }
 
         [HttpPost]
-        public ActionResult Take(string book, int fake)
+        public ActionResult Take(string book)
         {
             var doc = JsonConvert.DeserializeObject<Book>(book);
             var user = _users.GetById(UserId);
@@ -67,11 +68,18 @@ namespace BrainShare.Controllers
         }
 
         [HttpGet]
-        public ActionResult Take(string id)
+        [ActionName("Take")]
+        public ActionResult TakeOne(string id)
         {
             var model = new TakeBookViewModel();
-
-            throw new NotImplementedException();
+            var book = _books.GetById(id);
+            if (book != null)
+            {
+                model.Book = new BookViewModel(book);
+            }
+            var owners = _users.GetOwners(id);
+            model.Owners = owners.Select(x => new OwnerViewModel(x)).ToList();
+            return View(model);
         }
     }
 
@@ -119,5 +127,11 @@ namespace BrainShare.Controllers
     {
         public string UserId { get; set; }
         public string UserName { get; set; }
+
+        public OwnerViewModel(User doc)
+        {
+            UserId = doc.Id;
+            UserName = string.Format("{0} {1}", doc.FirstName, doc.LastName);
+        }
     }
 }
