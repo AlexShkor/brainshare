@@ -10,6 +10,6 @@
     
     @foreach (var owner in Model.Owners)
     {
-        <li><a href="/books/take/@Model.Id/from/@owner.UserId">@owner.UserName</a></li>
+        <li>@owner.UserName | <a href="#">Профиль</a> | <a href="/books/take/@Model.Id/from/@owner.UserId">Отослать запрос на обмен</a> |</li>
     }
 </ul>
