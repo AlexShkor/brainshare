@@ -28,6 +28,8 @@ var AddBookModel = function() {
     //);
     
     this.items = ko.observableArray();
+    
+    this.owned = ko.observableArray();
 
     this.search = function () {
         if (self.query()) {
@@ -50,8 +52,30 @@ var AddBookModel = function() {
         }, 10);
     };
 
-    this.give = function() {
+    this.give = function (item) {
+        var data = {
+            Id: item.id,
+            SearchInfo: (item.searchInfo || {}).textSnippet,
+            Authors: item.volumeInfo.authors,
+            Categories: item.volumeInfo.categories,
+            Language: item.volumeInfo.language,
+            PageCount: item.volumeInfo.pageCount,
+            PublishedDate: item.volumeInfo.publishedDate,
+            Publisher: item.volumeInfo.publisher,
+            Subtitle: item.volumeInfo.subtitle,
+            Title: item.volumeInfo.title,
+            Image: (item.volumeInfo.imageLinks || {}).thumbnail,
+            ISBN: item.volumeInfo.industryIdentifiers[0].identifier
+        };
 
+        $.ajax({
+            type: "POST",
+            url: "/books/give",
+            data: {book: JSON.stringify(data)},
+            success: function(response) {
+                self.owned.push(response.Id);
+            }
+        });
     };
 
     this.take = function() {
