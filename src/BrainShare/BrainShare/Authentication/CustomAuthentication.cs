@@ -109,6 +109,9 @@ namespace BrainShare.Authentication
             }
         }
 
-
+        public void LoginUser(User user, bool isPersistent)
+        {
+            CreateCookie(user.Email,isPersistent);
+        }
     }
 }
