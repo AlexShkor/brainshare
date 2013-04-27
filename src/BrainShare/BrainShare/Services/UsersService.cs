@@ -5,6 +5,18 @@ using MongoDB.Driver.Builders;
 
 namespace BrainShare.Services
 {
+    public class BooksService : DocumentsService<Book>
+    {
+        public BooksService(MongoDocumentsDatabase database) : base(database)
+        {
+        }
+
+        protected override MongoCollection<Book> Items
+        {
+            get { return Database.Books; }
+        }
+    }
+
     public class UsersService : DocumentsService<User>
     {
         public UsersService(MongoDocumentsDatabase database)

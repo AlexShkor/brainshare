@@ -16,6 +16,7 @@ namespace BrainShare.Documents
         public string Publisher { get; set; }
         public string Subtitle { get; set; }
         public string Image { get; set; }
+        public string Country { get; set; }
         public List<string> Authors { get; set; }
         public List<string> Owners { get; set; }
 

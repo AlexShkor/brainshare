@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace BrainShare.Documents
 {
@@ -12,5 +13,12 @@ namespace BrainShare.Documents
         public string LastName { get; set; }
 
         public string FacebookId { get; set; }
+
+        public List<string> Books { get; set; }
+
+        public User()
+        {
+            Books = new List<string>();
+        }
     }
 }

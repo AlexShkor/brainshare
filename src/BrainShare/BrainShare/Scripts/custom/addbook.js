@@ -1,5 +1,5 @@
 ﻿
-var AddBookModel = function() {
+var AddBookModel = function(ownedItems) {
     var self = this;
 
     this.postfix = "&key=AIzaSyAFFukdkjHMHh5WmucwuxVGt18XA9LEJ1I&language=ru&country=";
@@ -29,7 +29,7 @@ var AddBookModel = function() {
     
     this.items = ko.observableArray();
     
-    this.owned = ko.observableArray();
+    this.owned = ko.observableArray(ownedItems);
 
     this.search = function () {
         if (self.query()) {
@@ -55,6 +55,7 @@ var AddBookModel = function() {
     this.give = function (item) {
         var data = {
             Id: item.id,
+            Country: self.selectedLanguage(),
             SearchInfo: (item.searchInfo || {}).textSnippet,
             Authors: item.volumeInfo.authors,
             Categories: item.volumeInfo.categories,
@@ -72,8 +73,12 @@ var AddBookModel = function() {
             type: "POST",
             url: "/books/give",
             data: {book: JSON.stringify(data)},
-            success: function(response) {
-                self.owned.push(response.Id);
+            success: function (response) {
+                if (response.Error) {
+                    alert(response.Error);
+                } else {
+                    self.owned.push(response.Id);
+                }
             }
         });
     };
