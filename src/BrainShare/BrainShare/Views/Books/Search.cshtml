@@ -1,7 +1,10 @@
-﻿<script type="text/javascript">
+﻿@using Newtonsoft.Json
+@model List<string>
+
+<script type="text/javascript">
     $(function () {
 
-        var model = new AddBookModel();
+        var model = new AddBookModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
         ko.applyBindings(model);
     });
 
@@ -26,7 +29,7 @@
 </style>
 <div class="row-fluid">
     <ul class="thumbnails books" data-bind="foreach: items">
-        <li class="span3">
+        <li style="width: 250px">
             <div class="thumbnail">
                 <!-- ko with: volumeInfo.imageLinks -->
         
@@ -50,7 +53,7 @@
                     @*  <p data-bind="text: volumeInfo.description">
                     </p>*@
                     <p>
-                        <a href="#" class="btn btn-primary" data-bind="click: $root.give">Give</a>
+                        <a href="#" class="btn btn-primary" data-bind="visible: ($root.owned().indexOf(id) == -1), click: $root.give">Give</a>
                         <a href="#" class="btn" data-bind="click: $root.take">Take</a>
                     </p>
                 </div>

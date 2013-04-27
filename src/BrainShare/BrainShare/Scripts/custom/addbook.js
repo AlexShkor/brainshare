@@ -1,5 +1,5 @@
 ﻿
-var AddBookModel = function() {
+var AddBookModel = function(ownedItems) {
     var self = this;
 
     this.postfix = "&key=AIzaSyAFFukdkjHMHh5WmucwuxVGt18XA9LEJ1I&language=ru&country=";
@@ -28,6 +28,8 @@ var AddBookModel = function() {
     //);
     
     this.items = ko.observableArray();
+    
+    this.owned = ko.observableArray(ownedItems);
 
     this.search = function () {
         if (self.query()) {
@@ -50,8 +52,35 @@ var AddBookModel = function() {
         }, 10);
     };
 
-    this.give = function() {
+    this.give = function (item) {
+        var data = {
+            Id: item.id,
+            Country: self.selectedLanguage(),
+            SearchInfo: (item.searchInfo || {}).textSnippet,
+            Authors: item.volumeInfo.authors,
+            Categories: item.volumeInfo.categories,
+            Language: item.volumeInfo.language,
+            PageCount: item.volumeInfo.pageCount,
+            PublishedDate: item.volumeInfo.publishedDate,
+            Publisher: item.volumeInfo.publisher,
+            Subtitle: item.volumeInfo.subtitle,
+            Title: item.volumeInfo.title,
+            Image: (item.volumeInfo.imageLinks || {}).thumbnail,
+            ISBN: item.volumeInfo.industryIdentifiers[0].identifier
+        };
 
+        $.ajax({
+            type: "POST",
+            url: "/books/give",
+            data: {book: JSON.stringify(data)},
+            success: function (response) {
+                if (response.Error) {
+                    alert(response.Error);
+                } else {
+                    self.owned.push(response.Id);
+                }
+            }
+        });
     };
 
     this.take = function() {
