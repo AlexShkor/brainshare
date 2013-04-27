@@ -3,7 +3,7 @@ using System.Linq;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
-namespace MvcMusicStore.MongoDB
+namespace BrainShare.MongoDatabase
 {
     public abstract class DocumentsServiceFiltered<T, TFilter> : DocumentsService<T> where TFilter : BaseFilter
     {

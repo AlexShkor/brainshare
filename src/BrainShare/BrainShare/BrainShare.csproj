@@ -178,8 +178,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Authentication\CustomAuthentication.cs" />
-    <Compile Include="Authentication\IAuthentication.cs" />
     <Compile Include="ContainerConfigure.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -264,6 +262,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Authentication\" />
     <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
