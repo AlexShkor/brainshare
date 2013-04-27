@@ -1,60 +1,69 @@
 ﻿@model BrainShare.Controllers.RegisterViewModel
 
-<h2>Регистрация</h2>
+@{
+    ViewBag.Title = "Register";
+}
 
 @using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     <fieldset>
-        <legend>Регистрация</legend>
-        <div class="control-group">
-            <label class="control-label" for="Email">
-                Email</label>
-            <div class="controls">
-                @Html.TextBox("Email", Model.Email, new { @class = "input-xlarge" })
-                @Html.ValidationMessage("Email")
-            </div>
-
-        </div>
-        
-        
+        <legend>Fill the form</legend>
         <div class="control-group">
             <label class="control-label" for="FirstName">
-                Имя</label>
+                FirstName
+            </label>
             <div class="controls">
-                @Html.TextBox("FirstName", Model.FirstName, new { @class = "input-xlarge" })
+                @Html.TextBox("FirstName", Model.FirstName)
+                
                 @Html.ValidationMessage("FirstName")
             </div>
         </div>
-        
         <div class="control-group">
             <label class="control-label" for="LastName">
-                Фамилия</label>
+                LastName
+            </label>
             <div class="controls">
-                @Html.TextBox("LastName", Model.LastName, new { @class = "input-xlarge" })
-                @Html.ValidationMessage("LastName")
+                @Html.TextBox("LastName", Model.LastName)
+                @Html.ValidationMessage("LastName") 
             </div>
         </div>
-
         <div class="control-group">
-            <label class="control-label" for="Password">
-                Пароль</label>
+            <label class="control-label" for="Email">
+                Email
+            </label>
             <div class="controls">
-                @Html.Password("Password", Model.Password, new { @class = "input-xlarge" })
+                @Html.TextBox("Email", Model.Email)
+                
+                @Html.ValidationMessage("Email")
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="FirstName">
+                Password
+            </label>
+            <div class="controls">
+                @Html.Password("Password", Model.Password)
+                
                 @Html.ValidationMessage("Password")
             </div>
         </div>
-
         <div class="control-group">
-            <label class="control-label" for="ConfirmPassword">
-                Подтвердите</label>
+            <label class="control-label" for="FirstName">
+                Confirm Password
+            </label>
             <div class="controls">
-                @Html.Password("ConfirmPassword", Model.ConfirmPassword, new { @class = "input-xlarge" })
+                @Html.Password("ConfirmPassword", Model.ConfirmPassword)
+                
                 @Html.ValidationMessage("ConfirmPassword")
             </div>
         </div>
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">
-                Войти</button>
+                Register
+            </button>
+            @Html.ActionLink("Cancel", "Index", "Home", null, new { @class = "btn" })
         </div>
     </fieldset>
 }
+
+

@@ -5,9 +5,10 @@ using MongoDB.Driver.Builders;
 
 namespace BrainShare.Services
 {
-    public class UsersService: DocumentsService<User>
+    public class UsersService : DocumentsService<User>
     {
-        public UsersService(MongoDocumentsDatabase database) : base(database)
+        public UsersService(MongoDocumentsDatabase database)
+            : base(database)
         {
         }
 
@@ -32,6 +33,11 @@ namespace BrainShare.Services
         {
             return
                  Items.FindOne(Query<User>.EQ(x => x.FacebookId, facebookId));
+        }
+
+        public void AddUser(User user)
+        {
+            Items.Save(user);
         }
     }
 }
