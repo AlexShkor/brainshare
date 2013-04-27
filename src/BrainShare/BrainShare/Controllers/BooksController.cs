@@ -79,7 +79,7 @@ namespace BrainShare.Controllers
             }
             var owners = _users.GetOwners(id);
             model.Owners = owners.Select(x => new OwnerViewModel(x)).ToList();
-            throw new NotImplementedException();
+            return View(model);
         }
     }
 

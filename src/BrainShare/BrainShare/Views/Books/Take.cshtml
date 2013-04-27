@@ -1,0 +1,6 @@
+﻿@model BrainShare.Controllers.TakeBookViewModel
+
+@if(Model.Book != null)
+{
+    @Html.Partial("Details", Model.Book)
+}
