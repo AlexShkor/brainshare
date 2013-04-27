@@ -32,8 +32,12 @@ namespace BrainShare.Controllers
 
         public ActionResult Search()
         {
-            var user = _users.GetById(UserId);
-            return View(user.Books);
+            var model = new List<string>();
+            if (UserId != null)
+            {
+                model = _users.GetById(UserId).Books;
+            }
+            return View(model);
         }
 
         [HttpPost]
@@ -88,7 +92,29 @@ namespace BrainShare.Controllers
         [GET("take/{bookId}/from/{userId}")]
         public ActionResult TakeFromUser(string bookId, string userId)
         {
-            return View();
+            var user = _users.GetById(userId);
+            user.ChangeRequests.Add(new ChangeRequest
+                {
+                    UserId = userId,
+                    BookId = bookId
+                });
+            _users.Save(user);
+            var book = _books.GetById(bookId);
+            var model = new ChangeRequestSentModel(book, user);
+            return View(model);
+        }
+    }
+
+    public class ChangeRequestSentModel
+    {
+        public BookViewModel Book { get; set; }
+
+        public OwnerViewModel Owner { get; set; }
+
+        public ChangeRequestSentModel(Book book, User user)
+        {
+            Book = new BookViewModel(book);
+            Owner = new OwnerViewModel(user);
         }
     }
 

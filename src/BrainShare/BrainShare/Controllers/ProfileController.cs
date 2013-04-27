@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BrainShare.Authentication;
+using BrainShare.Documents;
 using BrainShare.Services;
 
 namespace BrainShare.Controllers
@@ -30,9 +31,15 @@ namespace BrainShare.Controllers
         }
     }
 
-    public class BaseController: Controller
+    public class BaseController : Controller
     {
-        public string UserId { get { return ((UserIdentity)User.Identity).User.Id; } }
+        public string UserId
+        {
+            get
+            {
+                return  (((UserIdentity) User.Identity).User ?? new User()).Id;
+            }
+        }
 
     }
 }

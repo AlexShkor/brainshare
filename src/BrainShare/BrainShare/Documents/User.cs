@@ -17,10 +17,19 @@ namespace BrainShare.Documents
         public List<string> Books { get; set; }
         public List<string> WishList { get; set; }
 
+        public List<ChangeRequest> ChangeRequests { get; set; }
+
         public User()
         {
             Books = new List<string>();
             WishList = new List<string>();
+            ChangeRequests = new List<ChangeRequest>();
         }
+    }
+
+    public class ChangeRequest
+    {
+        public string UserId { get; set; }
+        public string BookId { get; set; }
     }
 }
