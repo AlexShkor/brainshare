@@ -1,4 +1,4 @@
-﻿@model BrainShare.ViewModels.RegisterView
+﻿@model BrainShare.Controllers.RegisterViewModel
 
 @{
     ViewBag.Title = "Register";
@@ -13,8 +13,9 @@
                 FirstName
             </label>
             <div class="controls">
-                @Html.ValidationMessage("FirstName")
                 @Html.TextBox("FirstName", Model.FirstName)
+                
+                @Html.ValidationMessage("FirstName")
             </div>
         </div>
         <div class="control-group">
@@ -22,8 +23,8 @@
                 LastName
             </label>
             <div class="controls">
-                @Html.ValidationMessage("LastName")
                 @Html.TextBox("LastName", Model.LastName)
+                @Html.ValidationMessage("LastName")
             </div>
         </div>
         <div class="control-group">
@@ -31,8 +32,9 @@
                 Email
             </label>
             <div class="controls">
-                @Html.ValidationMessage("Email")
                 @Html.TextBox("Email", Model.Email)
+                
+                @Html.ValidationMessage("Email")
             </div>
         </div>
         <div class="control-group">
@@ -40,8 +42,9 @@
                 Password
             </label>
             <div class="controls">
-                @Html.ValidationMessage("Password")
                 @Html.Password("Password", Model.Password)
+                
+                @Html.ValidationMessage("Password")
             </div>
         </div>
         <div class="control-group">
@@ -49,8 +52,9 @@
                 Confirm Password
             </label>
             <div class="controls">
-                @Html.ValidationMessage("ConfirmPassword")
                 @Html.Password("ConfirmPassword", Model.ConfirmPassword)
+                
+                @Html.ValidationMessage("ConfirmPassword")
             </div>
         </div>
         <div class="form-actions">

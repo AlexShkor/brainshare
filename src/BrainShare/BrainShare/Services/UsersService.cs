@@ -27,5 +27,11 @@ namespace BrainShare.Services
                 Items.FindOne(Query.And(Query<User>.EQ(x => x.Email, email),
                                      Query<User>.EQ(x => x.Password, password)));
         }
+
+        public User GetByFacebookId(string facebookId)
+        {
+            return
+                 Items.FindOne(Query<User>.EQ(x => x.FacebookId, facebookId));
+        }
     }
 }

@@ -21,7 +21,11 @@ namespace BrainShare.Authentication
 
         private const string CookieName = "__AUTH_COOKIE";
 
-        public HttpContext HttpContext { get; set; }
+        public HttpContext HttpContext
+        {
+            get { return _httpContext; }
+            set { _httpContext = value; }
+        }
 
         public User Login(string email, string password, bool isPersistent)
         {
@@ -78,6 +82,8 @@ namespace BrainShare.Authentication
         }
 
         private IPrincipal _currentUser;
+        private HttpContext _httpContext = HttpContext.Current;
+
         public IPrincipal CurrentUser
         { 
             get
@@ -109,6 +115,9 @@ namespace BrainShare.Authentication
             }
         }
 
-
+        public void LoginUser(User user, bool isPersistent)
+        {
+            CreateCookie(user.Email,isPersistent);
+        }
     }
 }

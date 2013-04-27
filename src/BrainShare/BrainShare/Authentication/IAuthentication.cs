@@ -16,5 +16,6 @@ namespace BrainShare.Authentication
         User Login(string login);
         void Logout();
         IPrincipal CurrentUser { get; }
+        void LoginUser(User user, bool isPersistent);
     }
 }
