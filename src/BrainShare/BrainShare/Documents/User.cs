@@ -15,10 +15,12 @@ namespace BrainShare.Documents
         public string FacebookId { get; set; }
 
         public List<string> Books { get; set; }
+        public List<string> WishList { get; set; }
 
         public User()
         {
             Books = new List<string>();
+            WishList = new List<string>();
         }
     }
 }

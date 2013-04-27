@@ -47,5 +47,21 @@ namespace BrainShare.Controllers
             _books.Save(currentDoc);
             return Json(new { doc.Id });
         }
+
+        [HttpPost]
+        public ActionResult Take(string book)
+        {
+            var doc = JsonConvert.DeserializeObject<Book>(book);
+            var user = _users.GetById(UserId);
+            if (!user.WishList.Contains(doc.Id))
+            {
+                user.Books.Add(doc.Id);
+                _users.Save(user);
+            }
+            var currentDoc = _books.GetById(doc.Id) ?? doc;
+            currentDoc.Lookers.Add(UserId);
+            _books.Save(currentDoc);
+            return Json(new { doc.Id });
+        }
     }
 }
