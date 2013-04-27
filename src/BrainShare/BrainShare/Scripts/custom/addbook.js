@@ -7,26 +7,29 @@ var AddBookModel = function() {
 
     this.query = ko.observable();
     this.selectedLanguage = ko.observable();
-    this.searchType = ko.observable();
+   
 
     this.availableLanguages = ko.observableArray(
        [ { title: "Русский", code: "RU" },
         { title: "Анлглийский", code: "US" }]
     );
-    this.searchTypes = ko.observableArray(
-       [ 
-           { title: "Везде", code: "" },
-           { title: "В названии", code: "+intitle" },
-           { title: "В авторах", code: "+inauthor" },
-           { title: "В издателе", code: "+inpublisher" },
-           { title: "В категориях", code: "+subject" },
-           { title: "ISBN", code: "+isbn" }
-       ]
-    );
+    
+    //this.searchType = ko.observable();
+    //this.searchTypes = ko.observableArray(
+    //   [ 
+    //       { title: "Везде", code: "" },
+    //       { title: "В названии", code: "+intitle" },
+    //       { title: "В авторах", code: "+inauthor" },
+    //       { title: "В издателе", code: "+inpublisher" },
+    //       { title: "В категориях", code: "+subject" },
+    //       { title: "ISBN", code: "+isbn" }
+    //   ]
+    //);
+    
     this.items = ko.observableArray();
 
     this.search = function() {
-        $.get(self.baseUrl + encodeURIComponent(self.query() + self.searchType()) + self.postfix + self.selectedLanguage(),
+        $.get(self.baseUrl + encodeURIComponent(self.query()) + self.postfix + self.selectedLanguage(),
 
             function (response) {
 
@@ -35,6 +38,14 @@ var AddBookModel = function() {
                     self.items.push(item);
                 });
             });
+    };
+
+    this.give = function() {
+
+    };
+
+    this.take = function() {
+
     };
 
 };
