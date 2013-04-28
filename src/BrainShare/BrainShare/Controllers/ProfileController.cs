@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Services;
 
@@ -95,17 +94,5 @@ namespace BrainShare.Controllers
             Email = doc.Email;
             UserName = string.Format("{0} {1}", doc.FirstName, doc.LastName);
         }
-    }
-
-    public class BaseController : Controller
-    {
-        public string UserId
-        {
-            get
-            {
-                return  (((UserIdentity) User.Identity).User ?? new User()).Id;
-            }
-        }
-
     }
 }

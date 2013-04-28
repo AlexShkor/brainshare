@@ -39,6 +39,7 @@ namespace BrainShare.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Give(string book)
         {
             var doc = JsonConvert.DeserializeObject<Book>(book);
@@ -57,6 +58,7 @@ namespace BrainShare.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Take(string book)
         {
             var doc = JsonConvert.DeserializeObject<Book>(book);
@@ -85,13 +87,17 @@ namespace BrainShare.Controllers
                 model.Book = new BookViewModel(book);
             }
             var owners = _users.GetOwners(id);
-            model.Owners = owners.Select(x => new UserItemViewModel(x)).ToList();
+            model.Owners = owners.Where(x=> x.Id == UserId).Select(x => new UserItemViewModel(x)).ToList();
             return View(model);
         }
 
         [GET("take/{bookId}/from/{userId}")]
         public ActionResult TakeFromUser(string bookId, string userId)
         {
+            if (userId == UserId)
+            {
+                return View("CustomError", (object) "Вы не можете отправить запрос самому себе.");
+            }
             var user = _users.GetById(userId);
 
             var book = _books.GetById(bookId);
@@ -128,6 +134,10 @@ namespace BrainShare.Controllers
         [GET("give/{yourBookId}/take/{bookId}/from/{userId}")]
         public ActionResult Exchange(string userId, string bookId, string yourBookId)
         {
+            if (userId == UserId)
+            {
+                return View("CustomError", (object)"Вы не можете бмениваться книгами с самим собой.");
+            }
             var you = _users.GetById(UserId);
             if (you.Books.Contains(yourBookId))
             {

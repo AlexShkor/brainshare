@@ -208,6 +208,7 @@
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="ContainerConfigure.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -305,6 +306,7 @@
     <Content Include="Views\Books\Exchange.cshtml" />
     <Content Include="Views\Profile\WishList.cshtml" />
     <Content Include="Views\Books\CantExchangeError.cshtml" />
+    <Content Include="Views\Shared\CustomError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
