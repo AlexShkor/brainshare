@@ -88,6 +88,8 @@ namespace BrainShare.Controllers
         public ActionResult TakeFromUser(string bookId, string userId)
         {
             var user = _users.GetById(userId);
+
+            var book = _books.GetById(bookId);
             if (!user.Inbox.Any(x => x.BookId == bookId && x.UserId == UserId))
             {
                 user.Inbox.Add(new ChangeRequest
@@ -96,11 +98,10 @@ namespace BrainShare.Controllers
                         BookId = bookId
                     });
                 _users.Save(user);
+                var currentUser = _users.GetById(UserId);
+                MailClient.SendRequestMessage(currentUser, user, book);
             }
-            var book = _books.GetById(bookId);
             var model = new ChangeRequestSentModel(book, user);
-            var currentUser = _users.GetById(UserId);
-            MailClient.SendRequestMessage(currentUser, user, book);
             return View(model);
         }
     }
