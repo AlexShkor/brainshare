@@ -7,6 +7,7 @@ using AttributeRouting.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Services;
+using BrainShare.Utils;
 using Newtonsoft.Json;
 
 namespace BrainShare.Controllers
@@ -87,7 +88,7 @@ namespace BrainShare.Controllers
         public ActionResult TakeFromUser(string bookId, string userId)
         {
             var user = _users.GetById(userId);
-            if (!user.Inbox.Any(x=> x.BookId == bookId && x.UserId == userId))
+            if (!user.Inbox.Any(x => x.BookId == bookId && x.UserId == UserId))
             {
                 user.Inbox.Add(new ChangeRequest
                     {
@@ -98,6 +99,8 @@ namespace BrainShare.Controllers
             }
             var book = _books.GetById(bookId);
             var model = new ChangeRequestSentModel(book, user);
+            var currentUser = _users.GetById(UserId);
+            MailClient.SendRequestMessage(currentUser, user, book);
             return View(model);
         }
     }
