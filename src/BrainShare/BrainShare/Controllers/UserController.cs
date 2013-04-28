@@ -30,7 +30,7 @@ namespace BrainShare.Controllers
         {
             get
             {
-                return Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, "") +
+                return Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, "").Replace(":"+ Request.Url.Port, "") +
                                   Url.Action("FacebookCallback");
             }
         }
