@@ -46,5 +46,6 @@ namespace BrainShare.Mongo
 
         public MongoCollection<User> Users { get { return Database.GetCollection<User>("users"); } }
         public MongoCollection<Book> Books { get { return Database.GetCollection<Book>("books"); } }
+        public MongoCollection<ActivityFeed> ActivityFeeds { get { return Database.GetCollection<ActivityFeed>("feeds"); } }
     }
 }

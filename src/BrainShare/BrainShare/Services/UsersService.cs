@@ -26,6 +26,11 @@ namespace BrainShare.Services
         {
             return Items.Find(Query<Book>.In(x => x.Id, ids));
         }
+
+        public IEnumerable<Book> GetUserWantedBooks(string userId)
+        {
+            return Items.Find(Query.EQ("Lookers", userId));
+        }
     }
 
     public class UsersService : DocumentsService<User>

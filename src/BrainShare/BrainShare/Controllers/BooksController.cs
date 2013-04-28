@@ -59,7 +59,7 @@ namespace BrainShare.Controllers
             var user = _users.GetById(UserId);
             if (!user.WishList.Contains(doc.Id))
             {
-                user.Books.Add(doc.Id);
+                user.WishList.Add(doc.Id);
                 _users.Save(user);
             }
             var currentDoc = _books.GetById(doc.Id) ?? doc;
@@ -118,6 +118,12 @@ namespace BrainShare.Controllers
             var yourBook = _books.GetById(requestedBookId);
             model.YourBook = new BookViewModel(yourBook);
             return View(model);
+        }
+
+        [GET("give/{yourBookId}/take/{bookId}/from/{userId}")]
+        public ActionResult Exchange(string userId, string bookId, string yourBookId)
+        {
+            return View();
         }
     }
 

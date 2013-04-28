@@ -1,8 +1,6 @@
-﻿@model List<BrainShare.Controllers.BookViewModel>
+﻿@model System.Collections.Generic.List<BrainShare.Controllers.BookViewModel>
 
-
-
-<h2>Мои Книги</h2>
+<h2>Я ищу</h2>
 
 <table class="table table-condensed">
     <thead>
@@ -19,7 +17,7 @@
                 <td>@book.Title</td>
                 <td>@book.Authors</td>
                 <td>
-                    <a href="/profile/donthave/@book.Id">Пропала :(</a>
+                    <a href="/profile/dontwant/@book.Id">Больше не ищу</a>
                 </td>
             </tr>
         }

@@ -21,6 +21,11 @@ namespace BrainShare.Documents
 
         public List<ChangeRequest> Inbox { get; set; }
 
+        public string FullName
+        {
+            get {return string.Format("{0} {1}", FirstName, LastName); }
+        }
+
         public User()
         {
             Books = new List<string>();

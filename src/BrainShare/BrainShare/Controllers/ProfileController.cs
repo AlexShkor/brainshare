@@ -25,9 +25,28 @@ namespace BrainShare.Controllers
             return View();
         }
 
+        public ActionResult DontHave(string id)
+        {
+            var user = _users.GetById(UserId);
+            return RedirectToAction("MyBooks");
+        }
+
+        public ActionResult DontWant(string id)
+        {
+             var user = _users.GetById(UserId);
+            return RedirectToAction("WishList");
+        }
+
         public ActionResult MyBooks()
         {
             var books = _books.GetUserBooks(UserId);
+            var model = books.Select(x => new BookViewModel(x)).ToList();
+            return View(model);
+        }
+
+        public ActionResult WishList()
+        {
+            var books = _books.GetUserWantedBooks(UserId);
             var model = books.Select(x => new BookViewModel(x)).ToList();
             return View(model);
         }
