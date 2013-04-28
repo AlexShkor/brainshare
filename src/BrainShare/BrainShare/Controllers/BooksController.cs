@@ -24,12 +24,6 @@ namespace BrainShare.Controllers
             _books = books;
         }
 
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-
         public ActionResult Search()
         {
             var model = new List<string>();
@@ -85,7 +79,7 @@ namespace BrainShare.Controllers
                 model.Book = new BookViewModel(book);
             }
             var owners = _users.GetOwners(id);
-            model.Owners = owners.Select(x => new OwnerViewModel(x)).ToList();
+            model.Owners = owners.Select(x => new UserItemViewModel(x)).ToList();
             return View(model);
         }
 
@@ -112,12 +106,12 @@ namespace BrainShare.Controllers
     {
         public BookViewModel Book { get; set; }
 
-        public OwnerViewModel Owner { get; set; }
+        public UserItemViewModel Owner { get; set; }
 
         public ChangeRequestSentModel(Book book, User user)
         {
             Book = new BookViewModel(book);
-            Owner = new OwnerViewModel(user);
+            Owner = new UserItemViewModel(user);
         }
     }
 
@@ -127,11 +121,11 @@ namespace BrainShare.Controllers
 
         public BookViewModel Book { get; set; }
 
-        public List<OwnerViewModel> Owners { get; set; }
+        public List<UserItemViewModel> Owners { get; set; }
 
         public TakeBookViewModel()
         {
-            Owners = new List<OwnerViewModel>();
+            Owners = new List<UserItemViewModel>();
         }
     }
 
@@ -160,18 +154,6 @@ namespace BrainShare.Controllers
             Subtitle = book.Subtitle;
             Image = book.Image;
             Authors = string.Join(", ", book.Authors);
-        }
-    }
-
-    public class OwnerViewModel
-    {
-        public string UserId { get; set; }
-        public string UserName { get; set; }
-
-        public OwnerViewModel(User doc)
-        {
-            UserId = doc.Id;
-            UserName = string.Format("{0} {1}", doc.FirstName, doc.LastName);
         }
     }
 }
