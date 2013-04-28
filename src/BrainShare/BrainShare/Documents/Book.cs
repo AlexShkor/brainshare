@@ -19,14 +19,14 @@ namespace BrainShare.Documents
         public string Image { get; set; }
         public string Country { get; set; }
         public List<string> Authors { get; set; }
-        public List<string> Owners { get; set; }
-        public List<string> Lookers { get; set; }
+        public SortedSet<string> Owners { get; set; }
+        public SortedSet<string> Lookers { get; set; }
 
         public Book()
         {
             Authors = new List<string>();
-            Owners = new List<string>();
-            Lookers = new List<string>();
+            Owners = new SortedSet<string>();
+            Lookers = new SortedSet<string>();
         }
     }
 }

@@ -15,8 +15,8 @@ namespace BrainShare.Documents
 
         public string FacebookId { get; set; }
 
-        public List<string> Books { get; set; }
-        public List<string> WishList { get; set; }
+        public SortedSet<string> Books { get; set; }
+        public SortedSet<string> WishList { get; set; }
         public List<ChangeRequest> Recieved { get; set; }
 
         public List<ChangeRequest> Inbox { get; set; }
@@ -28,10 +28,15 @@ namespace BrainShare.Documents
 
         public User()
         {
-            Books = new List<string>();
-            WishList = new List<string>();
+            Books = new SortedSet<string>();
+            WishList = new SortedSet<string>();
             Inbox = new List<ChangeRequest>();
             Recieved = new List<ChangeRequest>();
+        }
+
+        public void AddRecievedBook(string bookId, string userId)
+        {
+            Recieved.Add(new ChangeRequest() { BookId = bookId, UserId = userId });
         }
     }
 

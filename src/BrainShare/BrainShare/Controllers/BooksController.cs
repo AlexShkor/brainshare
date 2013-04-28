@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
@@ -17,12 +18,14 @@ namespace BrainShare.Controllers
     {
         private readonly UsersService _users;
         private readonly BooksService _books;
+        private readonly ActivityFeedsService _feeds;
 
 
-        public BooksController(UsersService users, BooksService books)
+        public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds)
         {
             _users = users;
             _books = books;
+            _feeds = feeds;
         }
 
         public ActionResult Search()
@@ -30,7 +33,7 @@ namespace BrainShare.Controllers
             var model = new List<string>();
             if (UserId != null)
             {
-                model = _users.GetById(UserId).Books;
+                model = _users.GetById(UserId).Books.ToList();
             }
             return View(model);
         }
@@ -49,6 +52,7 @@ namespace BrainShare.Controllers
             var currentDoc = _books.GetById(doc.Id) ?? doc;
             currentDoc.Owners.Add(UserId);
             _books.Save(currentDoc);
+            SaveFeedAsync(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
             return Json(new { doc.Id });
         }
 
@@ -61,10 +65,11 @@ namespace BrainShare.Controllers
             {
                 user.WishList.Add(doc.Id);
                 _users.Save(user);
+                var currentDoc = _books.GetById(doc.Id) ?? doc;
+                currentDoc.Lookers.Add(UserId);
+                _books.Save(currentDoc);
+                SaveFeedAsync(ActivityFeed.BookWanted(doc.Id,doc.Title,user.Id,user.FullName));
             }
-            var currentDoc = _books.GetById(doc.Id) ?? doc;
-            currentDoc.Lookers.Add(UserId);
-            _books.Save(currentDoc);
             return Json(new { doc.Id });
         }
 
@@ -123,7 +128,55 @@ namespace BrainShare.Controllers
         [GET("give/{yourBookId}/take/{bookId}/from/{userId}")]
         public ActionResult Exchange(string userId, string bookId, string yourBookId)
         {
-            return View();
+            var you = _users.GetById(UserId);
+            if (you.Books.Contains(yourBookId))
+            {
+                var him = _users.GetById(userId);
+                if (him.Books.Contains(bookId) && him.WishList.Contains(yourBookId))
+                {
+                    you.Books.Remove(yourBookId);
+                    you.WishList.Remove(bookId);
+                    you.AddRecievedBook(bookId, userId);
+                    you.Inbox.RemoveAll(x => x.UserId == userId && x.BookId == yourBookId);
+                    _users.Save(you);
+
+                   
+                    him.Books.Remove(bookId);
+                    him.WishList.Remove(yourBookId);
+                    him.AddRecievedBook(yourBookId, you.Id);
+                    _users.Save(him);
+
+                    var himBook = _books.GetById(bookId);
+                    himBook.Lookers.Remove(you.Id);
+                    himBook.Owners.Remove(him.Id);
+                    _books.Save(himBook);
+
+
+                    var yourBook = _books.GetById(yourBookId);
+                    yourBook.Owners.Remove(you.Id);
+                    yourBook.Lookers.Remove(him.Id);
+                    _books.Save(yourBook);
+
+                    SaveFeedAsync(ActivityFeed.BooksExchanged(yourBook,you,himBook,him));
+                    SendExchangeMail(yourBook,you,himBook,him);
+
+                    return RedirectToAction("MyBooks", "Profile");
+                }
+            }
+            return View("CantExchangeError");
+        }
+
+        private void SendExchangeMail(Book yourBook, User you, Book himBook, User him)
+        {
+            Task.Factory.StartNew(() =>
+                {
+                    MailClient.SendExchangeConfirmMessage(you, yourBook, him, himBook);
+                });
+        }
+
+        private void SaveFeedAsync(ActivityFeed feed)
+        {
+            Task.Factory.StartNew(() => _feeds.Save(feed));
         }
     }
 

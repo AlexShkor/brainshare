@@ -304,6 +304,7 @@
     <Content Include="Views\Books\TablePartial.cshtml" />
     <Content Include="Views\Books\Exchange.cshtml" />
     <Content Include="Views\Profile\WishList.cshtml" />
+    <Content Include="Views\Books\CantExchangeError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
