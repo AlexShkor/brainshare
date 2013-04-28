@@ -67,5 +67,10 @@ namespace BrainShare.Services
         {
             return Items.Find(Query.EQ("Books", id));
         }
+
+        public IEnumerable<User> GetByIds(IEnumerable<string> ids)
+        {
+            return Items.Find(Query<Book>.In(x => x.Id, ids));
+        }
     }
 }

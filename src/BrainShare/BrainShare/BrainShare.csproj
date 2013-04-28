@@ -297,6 +297,9 @@
     <Content Include="Views\Profile\MyBooks.cshtml" />
     <Content Include="Views\Books\TakeFromUser.cshtml" />
     <Content Include="Views\Profile\Inbox.cshtml" />
+    <Content Include="Views\Books\AcceptRequestFrom.cshtml" />
+    <Content Include="Views\Books\DetailsPartial.cshtml" />
+    <Content Include="Views\Books\TablePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

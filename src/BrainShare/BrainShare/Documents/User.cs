@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace BrainShare.Documents
@@ -33,5 +34,11 @@ namespace BrainShare.Documents
     {
         public string UserId { get; set; }
         public string BookId { get; set; }
+        public DateTime Created { get; set; }
+
+        public ChangeRequest()
+        {
+            Created = DateTime.Now;
+        }
     }
 }

@@ -35,8 +35,12 @@ namespace BrainShare.Controllers
         public ActionResult Inbox()
         {
             var user = _users.GetById(UserId);
-            var books = _books.GetByIds(user.Inbox.Select(x => x.BookId));
+            var books = _books.GetByIds(user.Inbox.Select(x => x.BookId)).ToList();
+            var users = _users.GetByIds(user.Inbox.Select(x => x.UserId)).ToList();
             var model = new InboxViewModel();
+            model.Items = user.Inbox.OrderBy(x=> x.Created).Select(x =>
+                                            new InboxItem(x.Created, books.Find(b => b.Id == x.BookId),
+                                                          users.Find(u => u.Id == x.UserId))).ToList();
             return View(model);
         }
     }
@@ -48,18 +52,28 @@ namespace BrainShare.Controllers
 
     public class InboxItem
     {
-        public BookViewModel Book { get; set; }
+        public string Created { get; set; }
         public UserItemViewModel User { get; set; }
+        public BookViewModel Book { get; set; }
+
+        public InboxItem(DateTime created, Book book, User user)
+        {
+            Created = created.ToShortDateString();
+            Book = new BookViewModel(book);
+            User = new UserItemViewModel(user);
+        }
     }
 
     public class UserItemViewModel
     {
         public string UserId { get; set; }
         public string UserName { get; set; }
+        public string Email { get; set; }
 
         public UserItemViewModel(User doc)
         {
             UserId = doc.Id;
+            Email = doc.Email;
             UserName = string.Format("{0} {1}", doc.FirstName, doc.LastName);
         }
     }

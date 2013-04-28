@@ -1,2 +1,24 @@
 ﻿@model BrainShare.Controllers.InboxViewModel
-
+<h2>Входящие</h2>
+<table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>Пользователь</th>
+                <th>Книга</th>
+                <th>Дата</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.User.UserName </td>
+                    <td>@item.Book.Title </td>
+                    <td>@item.Created</td>
+                    <td>
+                        <a class="btn btn-small" href="/books/accept/@item.Book.Id/from/@item.User.UserId">Рассмотреть</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

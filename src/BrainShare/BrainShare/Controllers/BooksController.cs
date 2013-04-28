@@ -104,6 +104,31 @@ namespace BrainShare.Controllers
             var model = new ChangeRequestSentModel(book, user);
             return View(model);
         }
+
+        [GET("accept/{requestedBookId}/from/{userId}")]
+        public ActionResult AcceptRequestFrom(string requestedBookId, string userId)
+        {
+            var currentUser = _users.GetById(UserId);
+            var books = _books.GetUserBooks(userId).ToList();
+            var model = new AcceptRequestViewModel();
+            model.AllBooks = books.Select(x => new BookViewModel(x)).ToList();
+            model.BooksYouNeed = books.Where(x => currentUser.WishList.Contains(x.Id)).Select(x=> new BookViewModel(x)).ToList();
+            var fromUser = _users.GetById(userId);
+            model.FromUser = new UserItemViewModel(fromUser);
+            var yourBook = _books.GetById(requestedBookId);
+            model.YourBook = new BookViewModel(yourBook);
+            return View(model);
+        }
+    }
+
+    public class AcceptRequestViewModel
+    {
+        public BookViewModel YourBook { get; set; }
+        public string FromUserId { get; set; }
+        public List<BookViewModel> AllBooks { get; set; }
+        public List<BookViewModel> BooksYouNeed { get; set; }
+
+        public UserItemViewModel FromUser { get; set; }
     }
 
     public class ChangeRequestSentModel

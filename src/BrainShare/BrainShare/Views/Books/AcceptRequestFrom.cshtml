@@ -1,0 +1,75 @@
+﻿@model BrainShare.Controllers.AcceptRequestViewModel
+
+
+<div class="row">
+    <div class="span6">
+        <h4>Входищий запрос на вашу кгигу</h4>
+        @Html.Partial("DetailsPartial",Model.YourBook)
+    </div>
+    <div class="span6">
+        <h4>От пользователя @Model.FromUser.UserName</h4>
+        <p>@Model.FromUser.Email</p>
+        <a href="#" class="btn btn-danger">Отказать</a>
+    </div>
+</div>
+<div>
+    @if(Model.BooksYouNeed.Count > 0)
+    {
+        <div>
+            <h6>
+                Книги пользователя @Model.FromUser.UserName, которые вам нужны
+            </h6>
+            
+            <table class="table table-condensed">
+                <tbody>
+                    @foreach (var item in Model.BooksYouNeed)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@item.Image" /> </td>
+                            <td>@item.Title </td>
+                            <td>@item.Authors </td>
+                            <td>@item.Subtitle </td>
+                            <td>@item.Publisher </td>
+                            <td>@item.PublishedDate </td>
+                            <td>@item.PageCount стр</td>
+                            <td>
+                            <a class="btn btn-small" href="/books/give/@Model.YourBook.Id/take/@item.Id/from/@Model.FromUser.UserId">Поменяться</a>
+                                
+                            </td>
+                                
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    
+    <div>
+        <h6>
+            Все книги пользователя @Model.FromUser.UserName
+        </h6>
+         <table class="table table-condensed">
+                <tbody>
+                    @foreach (var item in Model.AllBooks)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@item.Image" /> </td>
+                            <td>@item.Title </td>
+                            <td>@item.Authors </td>
+                            <td>@item.Subtitle </td>
+                            <td>@item.Publisher </td>
+                            <td>@item.PublishedDate </td>
+                            <td>@item.PageCount стр</td>
+                            <td>
+                            <a class="btn btn-small" href="/books/give/@Model.YourBook.Id/take/@item.Id/from/@Model.FromUser.UserId">Поменяться</a>
+                                
+                            </td>
+                                
+                        </tr>
+                    }
+                </tbody>
+            </table>
+    </div>
+</div>
