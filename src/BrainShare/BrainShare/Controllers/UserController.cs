@@ -15,6 +15,7 @@ using MongoDB.Bson;
 
 namespace BrainShare.Controllers
 {
+    
     public class UserController : BaseController
     {
         private readonly UsersService _users;

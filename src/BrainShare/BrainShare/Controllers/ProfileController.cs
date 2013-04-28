@@ -8,6 +8,7 @@ using BrainShare.Services;
 
 namespace BrainShare.Controllers
 {
+    [Authorize]
     public class ProfileController : BaseController
     {
         private readonly BooksService _books;

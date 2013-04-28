@@ -34,7 +34,7 @@ namespace BrainShare.Documents
 
         public static ActivityFeed BooksExchanged(Book book1, User user1, Book book2, User user2)
         {
-            var result = OneBook(book1.Id, book1.Title, user1.Id, user1.FullName, ActivityTypeEnum.BooksExchanhed);
+            var result = OneBook(book1.Id, book1.Title, user1.Id, user1.FullName, ActivityTypeEnum.BooksExchanged);
             result.Items.Add(new ActivityFeedItem
                 {
                     UserId = user2.Id,
@@ -76,6 +76,6 @@ namespace BrainShare.Documents
     {
         BookAdded,
         BookWanted,
-        BooksExchanhed
+        BooksExchanged
     }
 }

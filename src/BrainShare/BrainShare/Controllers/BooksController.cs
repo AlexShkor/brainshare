@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 namespace BrainShare.Controllers
 {
     [RoutePrefix("books")]
+    [Authorize]
     public class BooksController : BaseController
     {
         private readonly UsersService _users;

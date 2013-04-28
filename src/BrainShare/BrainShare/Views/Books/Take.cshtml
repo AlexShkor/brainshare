@@ -9,13 +9,9 @@
     @Html.Partial("Details", Model.Book)
 }
 <div>
-    <table class="table table-condensed">
-        <thead>
-            <tr>
-                <th>Пользователи которые меняют эту книгу</th>
-                <th></th>
-            </tr>
-        </thead>
+    <h4>Пользователи которые меняют эту книгу</h4>
+    <table class="table table-condensed table-striped">
+      
         <tbody>
             @foreach (var owner in Model.Owners)
             {

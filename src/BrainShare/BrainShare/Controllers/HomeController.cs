@@ -3,14 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BrainShare.Services;
 
 namespace BrainShare.Controllers
 {
     public class HomeController : BaseController
     {
+        private readonly ActivityFeedsService _activityFeeds;
+
+        public HomeController(ActivityFeedsService activityFeeds)
+        {
+            _activityFeeds = activityFeeds;
+        }
+
         public ActionResult Index()
         {
-            return View();
+            var feeds = _activityFeeds.GetLast100();
+            return View(feeds);
         }
 
         public ActionResult About()
