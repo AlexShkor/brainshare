@@ -34,13 +34,14 @@ var AddBookModel = function(ownedItems) {
     this.search = function () {
         if (self.query()) {
             self.loading(true);
-            $.get(self.baseUrl + encodeURIComponent(self.query()) + self.postfix + self.selectedLanguage(),
+            $.getJSON(self.baseUrl + encodeURIComponent(self.query()) + self.postfix + self.selectedLanguage(),
                 function(response) {
-
-                    self.items.removeAll();
-                    $.each(response.items, function(index, item) {
-                        self.items.push(item);
-                    });
+                    if (response.items) {
+                        self.items.removeAll();
+                        $.each(response.items, function(index, item) {
+                            self.items.push(item);
+                        });
+                    }
                     self.loading(false);
                 });
         }

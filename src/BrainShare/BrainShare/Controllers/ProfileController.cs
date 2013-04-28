@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AttributeRouting.Web.Mvc;
 using BrainShare.Documents;
 using BrainShare.Services;
 
@@ -61,6 +62,15 @@ namespace BrainShare.Controllers
                                             new InboxItem(x.Created, books.Find(b => b.Id == x.BookId),
                                                           users.Find(u => u.Id == x.UserId))).ToList();
             return View(model);
+        }
+
+        [GET("/profile/reject/{bookId}/from/{userId}")]
+        public ActionResult Reject(string bookId, string userId)
+        {
+            var user = _users.GetById(UserId);
+            user.Inbox.RemoveAll(x => x.BookId == bookId && x.UserId == userId);
+            _users.Save(user);
+            return RedirectToAction("Inbox");
         }
     }
 

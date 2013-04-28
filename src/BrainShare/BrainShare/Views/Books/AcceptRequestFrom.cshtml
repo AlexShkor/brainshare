@@ -3,13 +3,13 @@
 
 <div class="row">
     <div class="span6">
-        <h4>Входищий запрос на вашу кгигу</h4>
+        <h4>Входящий запрос на вашу кгигу</h4>
         @Html.Partial("DetailsPartial",Model.YourBook)
     </div>
     <div class="span6">
         <h4>От пользователя @Model.FromUser.UserName</h4>
         <p>@Model.FromUser.Email</p>
-        <a href="#" class="btn btn-danger">Отказать</a>
+        <a href="/profile/reject/@Model.YourBook.Id/from/@Model.FromUser.UserId" class="btn btn-danger">Отказать</a>
     </div>
 </div>
 <div>
@@ -24,7 +24,7 @@
                 <tbody>
                     @foreach (var item in Model.BooksYouNeed)
                     {
-                        <tr>
+                        <tr class="success">
                             <td>
                                 <img src="@item.Image" /> </td>
                             <td>@item.Title </td>

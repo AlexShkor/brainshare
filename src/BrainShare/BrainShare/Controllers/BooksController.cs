@@ -88,7 +88,7 @@ namespace BrainShare.Controllers
                 model.Book = new BookViewModel(book);
             }
             var owners = _users.GetOwners(id);
-            model.Owners = owners.Where(x=> x.Id == UserId).Select(x => new UserItemViewModel(x)).ToList();
+            model.Owners = owners.Where(x=> x.Id != UserId).Select(x => new UserItemViewModel(x)).ToList();
             return View(model);
         }
 
@@ -106,7 +106,7 @@ namespace BrainShare.Controllers
             {
                 user.Inbox.Add(new ChangeRequest
                     {
-                        UserId = userId,
+                        UserId = UserId,
                         BookId = bookId
                     });
                 _users.Save(user);
