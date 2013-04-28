@@ -61,6 +61,18 @@ namespace BrainShare.Utils
             return SendMessage(ConfigurationManager.AppSettings["adminEmail"], email, "Wellcome header", body);
         }
 
+        public static bool SendRequestMessage(User currentUser, User requestedUser, Book book)
+        {
+
+            string header = "BrainShare : Уведомление об отправке запроса";
+            string body = "Ваш запрос к пользователю " + requestedUser.FirstName + " " + requestedUser.LastName + " на книгу \"" + book.Title + "\"" + "отрправлен.";
+
+            var isSent =  SendMessage(ConfigurationManager.AppSettings["adminEmail"], currentUser.Email, header, body);
+
+            return isSent;
+        }
+
+
         public static bool SendExchangeConfirmMessage(User firstUser, Book firstBook, User secondUser, Book secondBook)
         {
             bool isSent = false;

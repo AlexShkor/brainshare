@@ -1,2 +1,8 @@
 ﻿@model BrainShare.Controllers.ChangeRequestSentModel
 
+<p>Вы отправили запрос на книгу "@Model.Book.Title" пользователю @Model.Owner.UserName. 
+    После его подтверждения обмен будет произведён.</p>
+
+<p>Что бы продолжить ваш обзор нажмите @Html.ActionLink("сюда","Index", "Home")</p>
+
+
