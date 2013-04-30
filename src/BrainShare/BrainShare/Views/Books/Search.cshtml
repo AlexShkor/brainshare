@@ -28,36 +28,43 @@
     }
 </style>
 <div class="row-fluid">
-    <ul class="thumbnails books" data-bind="foreach: items">
-        <li style="width: 250px">
-            <div class="thumbnail">
+    
+     <div>
+         <table class="table table-condensed">
+                <tbody data-bind="foreach: items">
+                        <tr>
+                            <td>
+                                
                 <!-- ko with: volumeInfo.imageLinks -->
         
-                <img data-bind="attr: {src: thumbnail}" />
-    <!-- /ko -->
-                <div class="caption">
-                    <h5 data-bind="text: volumeInfo.title"></h5>
-                    <p data-bind="text: volumeInfo.subtitle"></p>
-                    
-                    <p>
-                          <span data-bind="text: volumeInfo.publisher"></span>
-                    <strong data-bind="text: volumeInfo.publishedDate"></strong>
-                    <span class="label" data-bind="text: volumeInfo.pageCount"></span> стр.
-                    </p>
-                    <strong>Авторы</strong>
-                    <ul data-bind="foreach: volumeInfo.authors" >
-                        <li data-bind="text: $data"></li>
-                    </ul>
-                   
+                                   <img data-bind="attr: { src: thumbnail }" />
+                                                <!-- /ko -->
+                            </td>
+                            <td >
+                                <strong data-bind="text: volumeInfo.title"></strong> 
+                                <br/>
+                                <span data-bind="text: volumeInfo.subtitle"></span>
+                            </td>
+                            <td >
+                                
+                                 <span data-bind="foreach: volumeInfo.authors" >
+                        <span data-bind="text: $data"></span> 
+                    </span> 
+                            </td>
+                            <td>
+                        <span data-bind="text: volumeInfo.publisher"></span>
+                        <strong data-bind="text: volumeInfo.publishedDate"></strong>
+                        <span class="label" data-bind="text: volumeInfo.pageCount"></span> стр. </td>
 
-                    @*  <p data-bind="text: volumeInfo.description">
-                    </p>*@
-                    <p>
-                        <a href="#" class="btn btn-primary" data-bind="visible: ($root.owned().indexOf(id) == -1), click: $root.give">У мня есть</a>
-                        <a href="#" class="btn" data-bind="click: $root.take">Мне нужна</a>
-                    </p>
-                </div>
-            </div>
-        </li>
-    </ul>
+                            <td>
+                                <div class="well well-small"><a href="#" class="btn btn-primary btn-block" data-bind="visible: ($root.owned().indexOf(id) == -1), click: $root.give">У меня есть</a>
+                                <a href="#" class="btn btn-block" data-bind="click: $root.take">Мне нужна</a></div>
+                                
+                                
+                            </td>
+                                
+                        </tr>
+                </tbody>
+            </table>
+    </div>
 </div>
