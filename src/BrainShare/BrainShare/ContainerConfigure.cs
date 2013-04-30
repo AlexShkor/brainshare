@@ -8,7 +8,7 @@ namespace BrainShare
     {
         public static void Configure(IContainer container)
         {
-            var database = new MongoDocumentsDatabase("mongodb://admin:1@ds061807.mongolab.com:61807/brainshare_prod");
+            var database = new MongoDocumentsDatabase("mongodb://admin:1@dbh61.mongolab.com:27617/brainshare");
             container.Configure(c=>
                 {
                     c.For<MongoDocumentsDatabase>().Singleton().Use(database);
