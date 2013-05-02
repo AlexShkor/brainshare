@@ -181,19 +181,12 @@ namespace BrainShare.Controllers
 
         private void SendExchangeMail(Book yourBook, User you, Book hisBook, User he)
         {
-            Task.Factory.StartNew(() =>
-            {
-                var mailer = new MailService();
-                var emailTofirst = mailer.SendExchangeConfirmMessage(you, yourBook, he, hisBook);
-                emailTofirst.Deliver();
-
-            });
-            Task.Factory.StartNew(() =>
-            {
-                var mailer = new MailService();
-                var emailToSecond = mailer.SendExchangeConfirmMessage(he, hisBook, you, yourBook);
-                emailToSecond.Deliver();
-            });
+            var mailer = new MailService();
+            var emailTofirst = mailer.SendExchangeConfirmMessage(you, yourBook, he, hisBook);
+            emailTofirst.Deliver();
+            var mailer2 = new MailService();
+            var emailToSecond = mailer2.SendExchangeConfirmMessage(he, hisBook, you, yourBook);
+            emailToSecond.Deliver();
         }
 
         private void SaveFeedAsync(ActivityFeed feed)
