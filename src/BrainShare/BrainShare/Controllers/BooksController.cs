@@ -8,7 +8,6 @@ using AttributeRouting.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Services;
-using BrainShare.Utils;
 using Newtonsoft.Json;
 
 namespace BrainShare.Controllers
@@ -20,13 +19,15 @@ namespace BrainShare.Controllers
         private readonly UsersService _users;
         private readonly BooksService _books;
         private readonly ActivityFeedsService _feeds;
+        private readonly MailService _mail;
 
 
-        public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds)
+        public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds, MailService mail)
         {
             _users = users;
             _books = books;
             _feeds = feeds;
+            _mail = mail;
         }
 
         public ActionResult Search()
@@ -47,7 +48,7 @@ namespace BrainShare.Controllers
             var user = _users.GetById(UserId);
             if (user.Books.Contains(doc.Id))
             {
-                return Json(new {Error = "This book already added;"});
+                return Json(new { Error = "This book already added;" });
             }
             user.Books.Add(doc.Id);
             _users.Save(user);
@@ -71,7 +72,7 @@ namespace BrainShare.Controllers
                 var currentDoc = _books.GetById(doc.Id) ?? doc;
                 currentDoc.Lookers.Add(UserId);
                 _books.Save(currentDoc);
-                SaveFeedAsync(ActivityFeed.BookWanted(doc.Id,doc.Title,user.Id,user.FullName));
+                SaveFeedAsync(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
             }
             return Json(new { doc.Id });
         }
@@ -88,7 +89,7 @@ namespace BrainShare.Controllers
                 model.Book = new BookViewModel(book);
             }
             var owners = _users.GetOwners(id);
-            model.Owners = owners.Where(x=> x.Id != UserId).Select(x => new UserItemViewModel(x)).ToList();
+            model.Owners = owners.Where(x => x.Id != UserId).Select(x => new UserItemViewModel(x)).ToList();
             return View(model);
         }
 
@@ -97,7 +98,7 @@ namespace BrainShare.Controllers
         {
             if (userId == UserId)
             {
-                return View("CustomError", (object) "Вы не можете отправить запрос самому себе.");
+                return View("CustomError", (object)"Вы не можете отправить запрос самому себе.");
             }
             var user = _users.GetById(userId);
 
@@ -111,7 +112,9 @@ namespace BrainShare.Controllers
                     });
                 _users.Save(user);
                 var currentUser = _users.GetById(UserId);
-                MailClient.SendRequestMessage(currentUser, user, book);
+
+                var requestEmail = _mail.SendRequestMessage(currentUser, user, book);
+                requestEmail.Deliver();
             }
             var model = new ChangeRequestSentModel(book, user);
             return View(model);
@@ -124,7 +127,7 @@ namespace BrainShare.Controllers
             var books = _books.GetUserBooks(userId).ToList();
             var model = new AcceptRequestViewModel();
             model.AllBooks = books.Select(x => new BookViewModel(x)).ToList();
-            model.BooksYouNeed = books.Where(x => currentUser.WishList.Contains(x.Id)).Select(x=> new BookViewModel(x)).ToList();
+            model.BooksYouNeed = books.Where(x => currentUser.WishList.Contains(x.Id)).Select(x => new BookViewModel(x)).ToList();
             var fromUser = _users.GetById(userId);
             model.FromUser = new UserItemViewModel(fromUser);
             var yourBook = _books.GetById(requestedBookId);
@@ -151,7 +154,7 @@ namespace BrainShare.Controllers
                     you.Inbox.RemoveAll(x => x.UserId == userId && x.BookId == yourBookId);
                     _users.Save(you);
 
-                   
+
                     him.Books.Remove(bookId);
                     him.WishList.Remove(yourBookId);
                     him.AddRecievedBook(yourBookId, you.Id);
@@ -168,8 +171,8 @@ namespace BrainShare.Controllers
                     yourBook.Lookers.Remove(him.Id);
                     _books.Save(yourBook);
 
-                    SaveFeedAsync(ActivityFeed.BooksExchanged(yourBook,you,himBook,him));
-                    SendExchangeMail(yourBook,you,himBook,him);
+                    SaveFeedAsync(ActivityFeed.BooksExchanged(yourBook, you, himBook, him));
+                    SendExchangeMail(yourBook, you, himBook, him);
 
                     return RedirectToAction("MyBooks", "Profile");
                 }
@@ -177,11 +180,14 @@ namespace BrainShare.Controllers
             return View("CantExchangeError");
         }
 
-        private void SendExchangeMail(Book yourBook, User you, Book himBook, User him)
+        private void SendExchangeMail(Book yourBook, User you, Book hisBook, User he)
         {
             Task.Factory.StartNew(() =>
                 {
-                    MailClient.SendExchangeConfirmMessage(you, yourBook, him, himBook);
+                    var emailTofirst = _mail.SendExchangeConfirmMessage(you, yourBook, he, hisBook);
+                    emailTofirst.Deliver();
+                    var emailToSecond = _mail.SendExchangeConfirmMessage(he, hisBook, you, yourBook);
+                    emailToSecond.Deliver();
                 });
         }
 

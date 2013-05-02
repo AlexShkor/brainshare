@@ -8,7 +8,6 @@ using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Models;
 using BrainShare.Services;
-using BrainShare.Utils;
 using BrainShare.ViewModels;
 using Facebook;
 using MongoDB.Bson;
@@ -21,6 +20,7 @@ namespace BrainShare.Controllers
         private readonly UsersService _users;
         private readonly Settings _settings;
         public IAuthentication Auth { get; set; }
+        private readonly MailService _mail;
 
 
 
@@ -36,12 +36,13 @@ namespace BrainShare.Controllers
         }
 
 
-        public UserController(IAuthentication auth, UsersService users, FacebookClientFactory fbFactory, Settings settings)
+        public UserController(IAuthentication auth, UsersService users, FacebookClientFactory fbFactory, Settings settings, MailService mail)
         {
             _users = users;
             _settings = settings;
             Auth = auth;
             _fb = fbFactory.GetClient();
+            _mail = mail;
         }
 
         private User CurrentUser
@@ -104,10 +105,19 @@ namespace BrainShare.Controllers
                                           Email = model.Email,
                                           Password = model.Password
                                       };
+                    
                     _users.AddUser(newUser);
-                    MailClient.SendWelcome(newUser.Email);
+                    
+                    var welcomeEmail = _mail.SendWelcomeMessage(newUser);
+                    welcomeEmail.Deliver();
 
-                    return RedirectToAction("Index", "Home");
+                    var login = new LoginView()
+                                    {
+                                        Email = newUser.Email,
+                                        Password = newUser.Password
+                                    };
+
+                    return RedirectToAction("Login", "User");
                 }
                 else
                 {

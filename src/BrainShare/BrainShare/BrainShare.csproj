@@ -39,6 +39,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ActionMailer.Net">
+      <HintPath>..\packages\ActionMailer.0.7.4\lib\Net40\ActionMailer.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="ActionMailer.Net.Mvc">
+      <HintPath>..\packages\ActionMailer.0.7.4\lib\Net40\ActionMailer.Net.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="AttributeRouting">
       <HintPath>..\packages\AttributeRouting.Core.3.5.6\lib\net40\AttributeRouting.dll</HintPath>
     </Reference>
@@ -232,8 +238,10 @@
     <Compile Include="Mongo\MongoDocumentsDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActivityFeedsService.cs" />
+    <Compile Include="Services\MailService.cs" />
+    <Compile Include="ViewModels\ExchangeConfirmViewModel.cs" />
+    <Compile Include="ViewModels\RequestViewModel.cs" />
     <Compile Include="Services\UsersService.cs" />
-    <Compile Include="Utils\MailClient.cs" />
     <Compile Include="ViewModels\LoginView.cs" />
     <Compile Include="Controllers\BooksController.cs" />
   </ItemGroup>
@@ -315,6 +323,9 @@
     <Content Include="Views\Home\BookAdded.cshtml" />
     <Content Include="Views\Home\BookWanted.cshtml" />
     <Content Include="Views\Home\BooksExchanged.cshtml" />
+    <Content Include="Views\MailService\WelcomeMessage.html.cshtml" />
+    <Content Include="Views\MailService\ExchangeConfirmMessage.html.cshtml" />
+    <Content Include="Views\MailService\RequestMessage.html.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

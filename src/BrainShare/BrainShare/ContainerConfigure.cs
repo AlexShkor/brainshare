@@ -1,5 +1,6 @@
 ﻿using BrainShare.Authentication;
 using BrainShare.Mongo;
+using BrainShare.Services;
 using StructureMap;
 
 namespace BrainShare
@@ -13,6 +14,7 @@ namespace BrainShare
                 {
                     c.For<MongoDocumentsDatabase>().Singleton().Use(database);
                     c.For<IAuthentication>().Transient().Use<CustomAuthentication>();
+                    c.For<MailService>().Transient().Use<MailService>();
                 });
 
             
