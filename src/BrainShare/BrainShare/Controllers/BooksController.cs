@@ -38,6 +38,27 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
+        [GET("info/{id}")]
+        public ActionResult Info(string id)
+        {
+            var book = _books.GetById(id);
+            var model = new BookViewModel(book);
+            return View("Info", model);
+        }
+
+
+        [POST("info")]
+        public ActionResult InfoPost(string book)
+        {
+            var doc = JsonConvert.DeserializeObject<Book>(book);
+            var existing = _books.GetById(doc.Id);
+            if (existing == null)
+            {
+                _books.Save(doc);
+            }
+            return Json(new { doc.Id });
+        }
+
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Give(string book)

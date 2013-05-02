@@ -259,6 +259,7 @@
     <Content Include="Content\site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="App_Code\Links.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Images\loading.gif" />
     <Content Include="Scripts\custom\addbook.js" />
@@ -326,6 +327,8 @@
     <Content Include="Views\MailService\WelcomeMessage.html.cshtml" />
     <Content Include="Views\MailService\ExchangeConfirmMessage.html.cshtml" />
     <Content Include="Views\MailService\RequestMessage.html.cshtml" />
+    <Content Include="Views\Books\Info.cshtml" />
+    <Content Include="Views\Profile\ViewUserProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using BrainShare.Documents;
 using BrainShare.Services;
@@ -10,6 +11,7 @@ using BrainShare.Services;
 namespace BrainShare.Controllers
 {
     [Authorize]
+    [RoutePrefix("profile")]
     public class ProfileController : BaseController
     {
         private readonly BooksService _books;
@@ -24,6 +26,14 @@ namespace BrainShare.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        [GET("view/{id}")]
+        public ActionResult ViewUserProfile(string id)
+        {
+            var user = _users.GetById(id);
+            var model = new UserProfileModel(user);
+            return View(model);
         }
 
         public ActionResult DontHave(string id)
@@ -64,13 +74,25 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
-        [GET("/profile/reject/{bookId}/from/{userId}")]
+        [GET("reject/{bookId}/from/{userId}")]
         public ActionResult Reject(string bookId, string userId)
         {
             var user = _users.GetById(UserId);
             user.Inbox.RemoveAll(x => x.BookId == bookId && x.UserId == userId);
             _users.Save(user);
             return RedirectToAction("Inbox");
+        }
+    }
+
+    public class UserProfileModel 
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+
+        public UserProfileModel(User user)
+        {
+            Id = user.Id;
+            Name = user.FullName;
         }
     }
 

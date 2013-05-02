@@ -1,3 +1,3 @@
 ﻿@model BrainShare.Documents.ActivityFeed
 
-Пользователь <a href="#">@Model.Items.First().UserName</a> добавил книгу <a href="#">@Model.Items.First().BookTitle</a>
+Пользователь @Links.UserLink(Model.Items[0]) добавил книгу @Links.BookLink(Model.Items[0])
