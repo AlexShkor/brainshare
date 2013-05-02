@@ -19,15 +19,13 @@ namespace BrainShare.Controllers
         private readonly UsersService _users;
         private readonly BooksService _books;
         private readonly ActivityFeedsService _feeds;
-        private readonly MailService _mail;
 
 
-        public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds, MailService mail)
+        public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds)
         {
             _users = users;
             _books = books;
             _feeds = feeds;
-            _mail = mail;
         }
 
         public ActionResult Search()
@@ -113,7 +111,8 @@ namespace BrainShare.Controllers
                 _users.Save(user);
                 var currentUser = _users.GetById(UserId);
 
-                var requestEmail = _mail.SendRequestMessage(currentUser, user, book);
+                var mailer = new MailService();
+                var requestEmail = mailer.SendRequestMessage(currentUser, user, book);
                 requestEmail.Deliver();
             }
             var model = new ChangeRequestSentModel(book, user);
@@ -183,12 +182,18 @@ namespace BrainShare.Controllers
         private void SendExchangeMail(Book yourBook, User you, Book hisBook, User he)
         {
             Task.Factory.StartNew(() =>
-                {
-                    var emailTofirst = _mail.SendExchangeConfirmMessage(you, yourBook, he, hisBook);
-                    emailTofirst.Deliver();
-                    var emailToSecond = _mail.SendExchangeConfirmMessage(he, hisBook, you, yourBook);
-                    emailToSecond.Deliver();
-                });
+            {
+                var mailer = new MailService();
+                var emailTofirst = mailer.SendExchangeConfirmMessage(you, yourBook, he, hisBook);
+                emailTofirst.Deliver();
+
+            });
+            Task.Factory.StartNew(() =>
+            {
+                var mailer = new MailService();
+                var emailToSecond = mailer.SendExchangeConfirmMessage(he, hisBook, you, yourBook);
+                emailToSecond.Deliver();
+            });
         }
 
         private void SaveFeedAsync(ActivityFeed feed)
