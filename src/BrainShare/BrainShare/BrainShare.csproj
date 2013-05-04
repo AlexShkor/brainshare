@@ -216,9 +216,21 @@
     <Compile Include="Authentication\UserIdentity.cs" />
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="ContainerConfigure.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Facebook\FacebookAuthorizeAttribute.cs" />
+    <Compile Include="ViewModels\AcceptRequestViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="ViewModels\AllThreadsViewModel.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="ViewModels\BookViewModel.cs" />
+    <Compile Include="ViewModels\ChangeRequestSentModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="ViewModels\MessageViewModel.cs" />
+    <Compile Include="ViewModels\MessagingThreadViewModel.cs" />
+    <Compile Include="ViewModels\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\TakeBookViewModel.cs" />
+    <Compile Include="ViewModels\ThreadItemViewModel.cs" />
+    <Compile Include="ViewModels\UserProfileModel.cs" />
     <Compile Include="ViewModels\InboxItem.cs" />
     <Compile Include="ViewModels\InboxViewModel.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
@@ -232,7 +244,7 @@
     <Compile Include="Documents\Thread.cs" />
     <Compile Include="Documents\User.cs" />
     <Compile Include="Extensions\DateTimeExt.cs" />
-    <Compile Include="FacebookClientFactory.cs" />
+    <Compile Include="Facebook\FacebookClientFactory.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

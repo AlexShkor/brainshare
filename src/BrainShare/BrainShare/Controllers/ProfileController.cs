@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AttributeRouting;
@@ -136,82 +134,6 @@ namespace BrainShare.Controllers
                 return HttpNotFound();
             }
             return RedirectToAction("ViewThread", new { threadId = thread.Id });
-        }
-    }
-
-    public class AllThreadsViewModel
-    {
-        public List<ThreadItemViewModel> Items { get; set; } 
-
-        public AllThreadsViewModel(IEnumerable<Thread> threads, string me)
-        {
-            Items = threads.Select(x => new ThreadItemViewModel(x,me)).ToList();
-        }
-    }
-
-    public class ThreadItemViewModel
-    {
-
-        public string ThreadId { get; set; }
-
-        public string To { get; set; }
-
-        public ThreadItemViewModel(Thread thread, string me)
-        {
-            ThreadId = thread.Id;
-            To = thread.GetSecondUserName(me);
-        }
-
-    }
-
-    public class MessagingThreadViewModel
-    {
-        public string ThreadId { get; set; }
-        public string RecipientId { get; set; }
-        public string RecipientName { get; set; }
-
-        public List<MessageViewModel> Messages { get; set; }
-
-        public MessagingThreadViewModel(Thread thread, User me, User recipient)
-        {
-            ThreadId = thread.Id;
-            RecipientId = recipient.Id;
-            RecipientName = recipient.FullName;
-            Messages = thread.Messages.Select(x => new MessageViewModel(x, recipient)).ToList();
-        }
-    }
-
-    public class MessageViewModel
-    {
-        public string From { get; set; }
-
-        public string Content { get; set; }
-
-        public string Posted { get; set; }
-
-        public string Class { get; set; }
-
-        public MessageViewModel(Message message, User recipient)
-        {
-            var notMe = message.UserId == recipient.Id;
-            From = notMe ? recipient.FullName : "Я";
-            Class = notMe ? "" : "pull-right";
-            Posted = message.Posted.ToRelativeDate();
-            Content = message.Content;
-        }
-    }
-
-    public class UserProfileModel 
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public bool IsMe { get; set; }
-
-        public UserProfileModel(User user, string myId)
-        {
-            Id = user.Id;
-            Name = user.FullName;
-            IsMe = user.Id == myId;
         }
     }
 }
