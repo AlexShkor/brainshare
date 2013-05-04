@@ -16,11 +16,13 @@ namespace BrainShare.Controllers
     {
         private readonly BooksService _books;
         private readonly UsersService _users;
+        private readonly ThreadsService _threads;
 
-        public ProfileController(BooksService books, UsersService users)
+        public ProfileController(BooksService books, UsersService users, ThreadsService threads)
         {
             _books = books;
             _users = users;
+            _threads = threads;
         }
 
         public ActionResult Index()
@@ -32,7 +34,7 @@ namespace BrainShare.Controllers
         public ActionResult ViewUserProfile(string id)
         {
             var user = _users.GetById(id);
-            var model = new UserProfileModel(user);
+            var model = new UserProfileModel(user, UserId);
             return View(model);
         }
 
@@ -82,50 +84,134 @@ namespace BrainShare.Controllers
             _users.Save(user);
             return RedirectToAction("Inbox");
         }
+
+
+        [GET("messages")]
+        public ActionResult AllMessages()
+        {
+            var threads = _threads.GetAllForUser(UserId).Where(x=> x.Messages.Any()).OrderByDescending(x=> x.Messages.Max(m=> m.Posted));
+            var model = new AllThreadsViewModel(threads,UserId);
+            return View(model);
+        }
+
+
+        [GET("message/to/{recipientId}")]
+        public ActionResult MessageTo(string recipientId)
+        {
+            var thread = _threads.GetFor(UserId, recipientId);
+            if (thread == null)
+            {
+                var user = _users.GetById(UserId);
+                var recipient = _users.GetById(recipientId);
+                thread = new Thread(UserId, user.FullName, recipientId, recipient.FullName);
+                _threads.Save(thread);
+            }
+           return RedirectToAction("ViewThread",new {threadId = thread.Id});
+        }
+
+        [GET("thread/view/{threadId}")]
+        public ActionResult ViewThread(string threadId)
+        {
+            var thread = _threads.GetById(threadId);
+            if (!thread.ContainsUser(UserId))
+            {
+                return HttpNotFound();
+            }
+            var me = _users.GetById(UserId);
+            var recipient = _users.GetById(thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId);
+            var model = new MessagingThreadViewModel(thread, me,recipient);
+            return View("Messages",model);
+        }
+
+        [POST("thread/post")]
+        public ActionResult PostToThread(string threadId, string content)
+        {
+            var thread = _threads.GetById(threadId);
+            if (thread != null && thread.ContainsUser(UserId))
+            {
+                _threads.PostToThread(threadId, UserId, content);
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+            return RedirectToAction("ViewThread", new { threadId = thread.Id });
+        }
+    }
+
+    public class AllThreadsViewModel
+    {
+        public List<ThreadItemViewModel> Items { get; set; } 
+
+        public AllThreadsViewModel(IEnumerable<Thread> threads, string me)
+        {
+            Items = threads.Select(x => new ThreadItemViewModel(x,me)).ToList();
+        }
+    }
+
+    public class ThreadItemViewModel
+    {
+
+        public string ThreadId { get; set; }
+
+        public string To { get; set; }
+
+        public ThreadItemViewModel(Thread thread, string me)
+        {
+            ThreadId = thread.Id;
+            To = thread.GetSecondUserName(me);
+        }
+
+    }
+
+    public class MessagingThreadViewModel
+    {
+        public string ThreadId { get; set; }
+        public string RecipientId { get; set; }
+        public string RecipientName { get; set; }
+
+        public List<MessageViewModel> Messages { get; set; }
+
+        public MessagingThreadViewModel(Thread thread, User me, User recipient)
+        {
+            ThreadId = thread.Id;
+            RecipientId = recipient.Id;
+            RecipientName = recipient.FullName;
+            Messages = thread.Messages.Select(x => new MessageViewModel(x, recipient)).ToList();
+        }
+    }
+
+    public class MessageViewModel
+    {
+        public string From { get; set; }
+
+        public string Content { get; set; }
+
+        public string Posted { get; set; }
+
+        public string Class { get; set; }
+
+        public MessageViewModel(Message message, User recipient)
+        {
+            var notMe = message.UserId == recipient.Id;
+            From = notMe ? recipient.FullName : "Я";
+            Class = notMe ? "" : "pull-right";
+            Posted = message.Posted.ToRelativeDate();
+            Content = message.Content;
+        }
     }
 
     public class UserProfileModel 
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public bool IsMe { get; set; }
 
-        public UserProfileModel(User user)
+        public UserProfileModel(User user, string myId)
         {
             Id = user.Id;
             Name = user.FullName;
-        }
-    }
-
-    public class InboxViewModel
-    {
-        public List<InboxItem> Items { get; set; }
-    }
-
-    public class InboxItem
-    {
-        public string Created { get; set; }
-        public UserItemViewModel User { get; set; }
-        public BookViewModel Book { get; set; }
-
-        public InboxItem(DateTime created, Book book, User user)
-        {
-            Created = created.ToShortDateString();
-            Book = new BookViewModel(book);
-            User = new UserItemViewModel(user);
-        }
-    }
-
-    public class UserItemViewModel
-    {
-        public string UserId { get; set; }
-        public string UserName { get; set; }
-        public string Email { get; set; }
-
-        public UserItemViewModel(User doc)
-        {
-            UserId = doc.Id;
-            Email = doc.Email;
-            UserName = string.Format("{0} {1}", doc.FirstName, doc.LastName);
+            IsMe = user.Id == myId;
         }
     }
 }
