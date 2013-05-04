@@ -1,14 +1,15 @@
 ﻿@model BrainShare.Controllers.MessagingThreadViewModel
 <div class="container" >
     <hr/>
-    <div class="span6 well">
+    <div class="span8">
     
         @foreach(var message in Model.Messages)
         {
-            <blockquote class="span5 @message.Class">
+            <div class="span6  alert @message.Class">
+                
+                <strong >от <span class="label label-inverse">@message.From</span> @message.Posted</strong>
                 <p>@message.Content</p>
-                <small>от @message.From @message.Posted</small>
-            </blockquote>
+            </div>
             <br/>
         }
     
