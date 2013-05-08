@@ -1,0 +1,16 @@
+﻿@model BrainShare.Controllers.AllThreadsViewModel
+
+ <table class="table table-condensed table-striped">
+      
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.To </td>
+                    <td>
+                        <a class="btn btn-small" href="/profile/thread/view/@item.ThreadId">Ответить</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

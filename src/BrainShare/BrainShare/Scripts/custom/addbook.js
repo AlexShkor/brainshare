@@ -65,6 +65,25 @@ var AddBookModel = function(ownedItems) {
         });
     };
 
+
+    this.info = function (item) {
+
+        var data = self.mapData(item);
+
+        $.ajax({
+            type: "POST",
+            url: "/books/info",
+            data: {book: JSON.stringify(data)},
+            success: function (response) {
+                if (response.Error) {
+                    alert(response.Error);
+                } else {
+                    window.location = "/books/info/" + response.Id;
+                }
+            }
+        });
+    };
+
     this.mapData = function(item) {
         var data = {
             Id: item.id,

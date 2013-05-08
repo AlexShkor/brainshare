@@ -8,6 +8,7 @@
     </div>
     <div class="span6">
         <h4>От пользователя @Model.FromUser.UserName</h4>
+        <a href="/profile/message/to/@Model.FromUser.UserId" class="btn btn-info">Отправить сообщение</a>
         <p>@Model.FromUser.Email</p>
         <a href="/profile/reject/@Model.YourBook.Id/from/@Model.FromUser.UserId" class="btn btn-danger">Отказать</a>
     </div>

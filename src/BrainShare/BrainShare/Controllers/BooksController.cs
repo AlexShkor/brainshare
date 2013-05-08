@@ -38,6 +38,27 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
+        [GET("info/{id}")]
+        public ActionResult Info(string id)
+        {
+            var book = _books.GetById(id);
+            var model = new BookViewModel(book);
+            return View("Info", model);
+        }
+
+
+        [POST("info")]
+        public ActionResult InfoPost(string book)
+        {
+            var doc = JsonConvert.DeserializeObject<Book>(book);
+            var existing = _books.GetById(doc.Id);
+            if (existing == null)
+            {
+                _books.Save(doc);
+            }
+            return Json(new { doc.Id });
+        }
+
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Give(Book doc)
@@ -191,71 +212,6 @@ namespace BrainShare.Controllers
         private void SaveFeedAsync(ActivityFeed feed)
         {
             Task.Factory.StartNew(() => _feeds.Save(feed));
-        }
-    }
-
-    public class AcceptRequestViewModel
-    {
-        public BookViewModel YourBook { get; set; }
-        public string FromUserId { get; set; }
-        public List<BookViewModel> AllBooks { get; set; }
-        public List<BookViewModel> BooksYouNeed { get; set; }
-
-        public UserItemViewModel FromUser { get; set; }
-    }
-
-    public class ChangeRequestSentModel
-    {
-        public BookViewModel Book { get; set; }
-
-        public UserItemViewModel Owner { get; set; }
-
-        public ChangeRequestSentModel(Book book, User user)
-        {
-            Book = new BookViewModel(book);
-            Owner = new UserItemViewModel(user);
-        }
-    }
-
-    public class TakeBookViewModel
-    {
-        public string Id { get; set; }
-
-        public BookViewModel Book { get; set; }
-
-        public List<UserItemViewModel> Owners { get; set; }
-
-        public TakeBookViewModel()
-        {
-            Owners = new List<UserItemViewModel>();
-        }
-    }
-
-    public class BookViewModel
-    {
-        public string Id { get; set; }
-        public string ISBN { get; set; }
-        public string Title { get; set; }
-        public string Authors { get; set; }
-        public string SearchInfo { get; set; }
-        public int PageCount { get; set; }
-        public string PublishedDate { get; set; }
-        public string Publisher { get; set; }
-        public string Subtitle { get; set; }
-        public string Image { get; set; }
-
-        public BookViewModel(Book book)
-        {
-            Id = book.Id;
-            ISBN = book.ISBN;
-            Title = book.Title;
-            SearchInfo = book.SearchInfo;
-            PageCount = book.PageCount;
-            PublishedDate = book.PublishedDate;
-            Publisher = book.Publisher;
-            Subtitle = book.Subtitle;
-            Image = book.Image;
-            Authors = string.Join(", ", book.Authors);
         }
     }
 }
