@@ -39,7 +39,7 @@ var AddBookModel = function(ownedItems) {
                     if (response.items) {
                         self.items.removeAll();
                         $.each(response.items, function(index, item) {
-                            self.items.push(item);
+                            self.items.push(new BookViewModel(item));
                         });
                     }
                     self.loading(false);
@@ -56,17 +56,11 @@ var AddBookModel = function(ownedItems) {
     this.give = function (item) {
 
         var data = self.mapData(item);
-
-        $.ajax({
-            type: "POST",
-            url: "/books/give",
-            data: {book: JSON.stringify(data)},
-            success: function (response) {
-                if (response.Error) {
-                    alert(response.Error);
-                } else {
-                    self.owned.push(response.Id);
-                }
+        $.post("/books/give", ko.toJS(data), function (response) {
+            if (response.Error) {
+                alert(response.Error);
+            } else {
+                self.owned.push(response.Id);
             }
         });
     };
@@ -76,8 +70,8 @@ var AddBookModel = function(ownedItems) {
             Id: item.id,
             Country: self.selectedLanguage(),
             SearchInfo: (item.searchInfo || { }).textSnippet,
-            Authors: item.volumeInfo.authors,
-            Categories: item.volumeInfo.categories,
+            Authors: new Array(item.volumeInfo.authors),
+            Categories: new Array(item.volumeInfo.categories),
             Language: item.volumeInfo.language,
             PageCount: item.volumeInfo.pageCount,
             PublishedDate: item.volumeInfo.publishedDate,
@@ -108,3 +102,21 @@ var AddBookModel = function(ownedItems) {
     };
 
 };
+
+
+var BookViewModel = function(data) {
+    var self = this;
+    this.Id = item.id;
+    this.Country = self.selectedLanguage();
+    this.SearchInfo = (item.searchInfo || { }).textSnippet;
+    this.Authors = ko.observableArray(item.volumeInfo.authors);
+    this.Categories = ko.observableArray(item.volumeInfo.categories);
+    this.Language = item.volumeInfo.language;
+    this.PageCount = item.volumeInfo.pageCount;
+    this.PublishedDate = item.volumeInfo.publishedDate;
+    this.Publisher = item.volumeInfo.publisher;
+    this.Subtitle = item.volumeInfo.subtitle;
+    this.Title = item.volumeInfo.title;
+    this.Image = (item.volumeInfo.imageLinks || { }).thumbnail;
+    this.ISBN = item.volumeInfo.industryIdentifiers[0].identifier;
+}

@@ -14,13 +14,13 @@ using MongoDB.Bson;
 
 namespace BrainShare.Controllers
 {
-    
+
     public class UserController : BaseController
     {
         private readonly UsersService _users;
         private readonly Settings _settings;
         public IAuthentication Auth { get; set; }
-        private readonly MailService _mail;
+
 
 
 
@@ -30,19 +30,18 @@ namespace BrainShare.Controllers
         {
             get
             {
-                return Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, "").Replace(":"+ Request.Url.Port, "") +
+                return Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, "").Replace(":" + Request.Url.Port, "") +
                                   Url.Action("FacebookCallback");
             }
         }
 
 
-        public UserController(IAuthentication auth, UsersService users, FacebookClientFactory fbFactory, Settings settings, MailService mail)
+        public UserController(IAuthentication auth, UsersService users, FacebookClientFactory fbFactory, Settings settings)
         {
             _users = users;
             _settings = settings;
             Auth = auth;
             _fb = fbFactory.GetClient();
-            _mail = mail;
         }
 
         private User CurrentUser
@@ -105,10 +104,11 @@ namespace BrainShare.Controllers
                                           Email = model.Email,
                                           Password = model.Password
                                       };
-                    
+
                     _users.AddUser(newUser);
-                    
-                    var welcomeEmail = _mail.SendWelcomeMessage(newUser);
+
+                    var mailer = new MailService();
+                    var welcomeEmail = mailer.SendWelcomeMessage(newUser);
                     welcomeEmail.Deliver();
 
                     var login = new LoginView()

@@ -40,9 +40,8 @@ namespace BrainShare.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Give(string book)
+        public ActionResult Give(Book doc)
         {
-            var doc = JsonConvert.DeserializeObject<Book>(book);
             var user = _users.GetById(UserId);
             if (user.Books.Contains(doc.Id))
             {

@@ -10,14 +10,13 @@ namespace BrainShare
         public static void Configure(IContainer container)
         {
             var database = new MongoDocumentsDatabase("mongodb://admin:1@dbh61.mongolab.com:27617/brainshare");
-            container.Configure(c=>
+            container.Configure(c =>
                 {
                     c.For<MongoDocumentsDatabase>().Singleton().Use(database);
                     c.For<IAuthentication>().Transient().Use<CustomAuthentication>();
-                    c.For<MailService>().Transient().Use<MailService>();
                 });
 
-            
+
         }
     }
 
