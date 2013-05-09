@@ -12,7 +12,7 @@ var AddBookModel = function(ownedItems) {
 
     this.availableLanguages = ko.observableArray(
        [ { title: "Русский", code: "RU" },
-        { title: "Анлглийский", code: "US" }]
+        { title: "Английский", code: "US" }]
     );
     
     //this.searchType = ko.observable();
@@ -55,7 +55,7 @@ var AddBookModel = function(ownedItems) {
 
     this.give = function (item) {
         send("/books/give", item, function (response) {
-            self.owned.push(response.Id);
+            self.owned.push(response.Id); 
         });
     };
 

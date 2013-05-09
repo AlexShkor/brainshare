@@ -284,6 +284,7 @@
     <Content Include="Scripts\custom\addbook.js" />
     <Content Include="Scripts\custom\allMessages.js" />
     <Content Include="Scripts\custom\common.js" />
+    <Content Include="Scripts\custom\wishList.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

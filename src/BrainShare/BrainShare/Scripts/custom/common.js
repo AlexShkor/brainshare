@@ -1,4 +1,4 @@
-﻿var send = function(url, model, successCallback) {
+﻿var send = function (url, model, successCallback) {
     $.ajax({
         url: url,
         type: 'POST',
@@ -12,4 +12,4 @@
             }
         }
     });
-}
+};

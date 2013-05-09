@@ -73,7 +73,7 @@ namespace BrainShare.Controllers
             currentDoc.Owners.Add(UserId);
             _books.Save(currentDoc);
             SaveFeedAsync(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
-            return Json(new { doc.Id });
+            return Json(new { Id = doc.Id });
         }
 
         [HttpPost]

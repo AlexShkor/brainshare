@@ -11,13 +11,12 @@
 </script>
 
 <table class="table table-condensed table-striped">
-      
-        <tbody data-bind="foreach: items">
-                <tr>
-                    <td data-bind="text: To"></td>
-                    <td>
-                        <a class="btn btn-small" href="#" data-bind="click: $root.reply">Ответить</a>
-                    </td>
-                </tr>
-        </tbody>
-    </table>
+    <tbody data-bind="foreach: items">
+        <tr>
+            <td data-bind="text: To"></td>
+            <td>
+                <a class="btn btn-small" href="#" data-bind="click: $root.reply">Ответить</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

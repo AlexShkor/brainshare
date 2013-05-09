@@ -5,6 +5,10 @@ using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using BrainShare.Documents;
 using BrainShare.Services;
+using BrainShare.ViewModels;
+
+ //<a class="btn btn-primary" href="/books/take/book.Id">У кого есть?</a>
+ //               <a class="btn btn-danger" href="/profile/dontwant/book.Id">Больше не ищу</a>
 
 namespace BrainShare.Controllers
 {
