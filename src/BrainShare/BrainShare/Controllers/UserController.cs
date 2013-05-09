@@ -10,6 +10,7 @@ using BrainShare.Services;
 using BrainShare.ViewModels;
 using Facebook;
 using MongoDB.Bson;
+using Newtonsoft.Json;
 
 namespace BrainShare.Controllers
 {
@@ -167,7 +168,7 @@ namespace BrainShare.Controllers
         {
             var csrfToken = Guid.NewGuid().ToString();
             Session[SessionKeys.FbCsrfToken] = csrfToken;
-            var state = Convert.ToBase64String(Encoding.UTF8.GetBytes(_fb.SerializeJson(new { returnUrl = returnUrl, csrf = csrfToken })));
+            var state = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new { returnUrl = returnUrl, csrf = csrfToken })));
             const string scope = "user_about_me,email";
             var fbLoginUrl = _fb.GetLoginUrl(
                 new
@@ -196,7 +197,7 @@ namespace BrainShare.Controllers
             dynamic decodedState;
             try
             {
-                decodedState = _fb.DeserializeJson(Encoding.UTF8.GetString(Convert.FromBase64String(state)), null);
+                decodedState = JsonConvert.DeserializeObject(Encoding.UTF8.GetString(Convert.FromBase64String(state)));
                 var exepectedCsrfToken = Session[SessionKeys.FbCsrfToken] as string;
                 // make the fb_csrf_token invalid
                 Session[SessionKeys.FbCsrfToken] = null;
