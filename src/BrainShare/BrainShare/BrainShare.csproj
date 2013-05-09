@@ -216,6 +216,7 @@
     <Compile Include="Authentication\UserIdentity.cs" />
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="ContainerConfigure.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Extensions\HtmlHelperExt.cs" />
     <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="SessionKeys.cs" />
