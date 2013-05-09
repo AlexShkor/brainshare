@@ -1,16 +1,23 @@
-﻿@model BrainShare.Controllers.AllThreadsViewModel
+﻿@using Newtonsoft.Json
+@model BrainShare.Controllers.AllThreadsViewModel
 
- <table class="table table-condensed table-striped">
+<script type="text/javascript">
+    $(function () {
+
+        var model = new AllMessagesModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+        ko.applyBindings(model);
+    });
+
+</script>
+
+<table class="table table-condensed table-striped">
       
-        <tbody>
-            @foreach (var item in Model.Items)
-            {
+        <tbody data-bind="foreach: items">
                 <tr>
-                    <td>@item.To </td>
+                    <td data-bind="text: To"></td>
                     <td>
-                        <a class="btn btn-small" href="/profile/thread/view/@item.ThreadId">Ответить</a>
+                        <a class="btn btn-small" href="#" data-bind="click: $root.reply">Ответить</a>
                     </td>
                 </tr>
-            }
         </tbody>
     </table>

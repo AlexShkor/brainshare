@@ -39,7 +39,7 @@ var AddBookModel = function(ownedItems) {
                     if (response.items) {
                         self.items.removeAll();
                         $.each(response.items, function(index, item) {
-                            self.items.push(new BookViewModel(item));
+                            self.items.push(new BookViewModel(item, self));
                         });
                     }
                     self.loading(false);
@@ -54,79 +54,34 @@ var AddBookModel = function(ownedItems) {
     };
 
     this.give = function (item) {
-
-        var data = self.mapData(item);
-        $.post("/books/give", ko.toJS(data), function (response) {
-            if (response.Error) {
-                alert(response.Error);
-            } else {
-                self.owned.push(response.Id);
-            }
+        send("/books/give", item, function (response) {
+            self.owned.push(response.Id);
         });
     };
 
 
     this.info = function (item) {
-
-        var data = self.mapData(item);
-
-        $.ajax({
-            type: "POST",
-            url: "/books/info",
-            data: {book: JSON.stringify(data)},
-            success: function (response) {
-                if (response.Error) {
-                    alert(response.Error);
-                } else {
-                    window.location = "/books/info/" + response.Id;
-                }
-            }
-        });
-    };
-
-    this.mapData = function(item) {
-        var data = {
-            Id: item.id,
-            Country: self.selectedLanguage(),
-            SearchInfo: (item.searchInfo || { }).textSnippet,
-            Authors: new Array(item.volumeInfo.authors),
-            Categories: new Array(item.volumeInfo.categories),
-            Language: item.volumeInfo.language,
-            PageCount: item.volumeInfo.pageCount,
-            PublishedDate: item.volumeInfo.publishedDate,
-            Publisher: item.volumeInfo.publisher,
-            Subtitle: item.volumeInfo.subtitle,
-            Title: item.volumeInfo.title,
-            Image: (item.volumeInfo.imageLinks || { }).thumbnail,
-            ISBN: item.volumeInfo.industryIdentifiers[0].identifier
+        var callback = function(response) {
+            window.location = "/books/info/" + response.Id;
         };
-        return data;
+        send("/books/info", item, callback );
     };
+
 
     this.take = function (item) {
-
-        var data = self.mapData(item);
-        $.ajax({
-            type: "POST",
-            url: "/books/take",
-            data: { book: JSON.stringify(data) },
-            success: function (response) {
-                if (response.Error) {
-                    alert(response.Error);
-                } else {
-                    window.location = "/books/take/" + response.Id;
-                }
-            }
+        
+        send("/books/take", item, function (response) {
+            window.location = "/books/take/" + response.Id;
         });
     };
 
 };
 
 
-var BookViewModel = function(data) {
+var BookViewModel = function(item, parent) {
     var self = this;
     this.Id = item.id;
-    this.Country = self.selectedLanguage();
+    this.Country = parent.selectedLanguage();
     this.SearchInfo = (item.searchInfo || { }).textSnippet;
     this.Authors = ko.observableArray(item.volumeInfo.authors);
     this.Categories = ko.observableArray(item.volumeInfo.categories);

@@ -48,9 +48,8 @@ namespace BrainShare.Controllers
 
 
         [POST("info")]
-        public ActionResult InfoPost(string book)
+        public ActionResult InfoPost(Book doc)
         {
-            var doc = JsonConvert.DeserializeObject<Book>(book);
             var existing = _books.GetById(doc.Id);
             if (existing == null)
             {
@@ -79,9 +78,8 @@ namespace BrainShare.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Take(string book)
+        public ActionResult Take(Book doc)
         {
-            var doc = JsonConvert.DeserializeObject<Book>(book);
             var user = _users.GetById(UserId);
             if (!user.WishList.Contains(doc.Id))
             {
