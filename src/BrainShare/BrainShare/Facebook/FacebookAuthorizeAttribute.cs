@@ -14,7 +14,7 @@ namespace BrainShare.Controllers
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            filterContext.Result = new RedirectResult("/account/loginwithfacebook");
+            filterContext.Result = new RedirectResult("/user/loginwithfacebook");
         }
     }
 }
