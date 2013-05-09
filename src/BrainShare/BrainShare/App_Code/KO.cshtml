@@ -1,0 +1,167 @@
+﻿
+@helper EditRow(
+    string bindProperty, 
+    string displayName = null, 
+    string modelPrefix = "model.", 
+    string inputType = "text", 
+    string additionalAttributes = "", 
+    string visibleBinding = "",
+    string enableBinding = "")
+{
+    displayName = displayName ?? bindProperty;
+    <div class="control-group" data-bind="@(visibleBinding.HasValue() ? ", visible:" + modelPrefix + visibleBinding : "")">
+        <label class="control-label" for="@bindProperty">@displayName</label>
+        <div class="controls">
+            <input type="@inputType" id="@bindProperty" data-bind="value: @(modelPrefix + bindProperty) @(enableBinding.HasValue() ? ", enable:" + modelPrefix + enableBinding : "")" name="@bindProperty" @additionalAttributes>
+        </div>
+    </div>
+}
+
+@helper EditRowWithAppend(
+    string bindProperty, 
+    string displayName = null, 
+    string modelPrefix = "model.", 
+    string inputType = "text", 
+    string additionalAttributes = "", 
+    string visibleBinding = "", 
+    string append = null)
+{
+    displayName = displayName ?? bindProperty;
+    <div class="control-group" data-bind="@(visibleBinding.HasValue() ? ", visible:" + modelPrefix + visibleBinding : "")">
+        <label class="control-label" for="@bindProperty">@displayName</label>
+        <div class="controls">
+
+            <div class="input-append">
+                <input type="@inputType" id="@bindProperty" data-bind="value: @(modelPrefix + bindProperty) " name="@bindProperty" @additionalAttributes>
+                <span class="add-on">@append</span>
+            </div>
+        </div>
+    </div>
+}
+
+@helper DateRow(
+    string bindProperty, 
+    string displayName = null, 
+    string modelPrefix = "model.", 
+    string inputType = "text", 
+    string additionalAttributes = "", 
+    string enableBinding = "")
+{
+    displayName = displayName ?? bindProperty;
+    <div class="control-group">
+        <label for="@bindProperty" class="control-label">@displayName</label>
+        <div class="controls">
+            <div class="input-append date">
+                <input type="text" name="@bindProperty" data-bind="value: @(modelPrefix + bindProperty) @(enableBinding.HasValue() ? ", enable:" + modelPrefix + enableBinding : "")" @additionalAttributes>
+                <span class="add-on"><i class="icon-calendar"></i></span>
+            </div>
+        </div>
+    </div>
+}
+
+@helper TextAreaRow(
+    string bindProperty, 
+    string displayName = null, 
+    string modelPrefix = "model.", 
+    string inputType = "text")
+{
+    displayName = displayName ?? bindProperty;
+    <div class="control-group">
+        <label class="control-label" for="@bindProperty">@displayName</label>
+        <div class="controls">
+            <textarea  id="@bindProperty" data-bind="value: @(modelPrefix + bindProperty)" name="@bindProperty"></textarea>
+        </div>
+    </div>
+}
+
+@helper PasswordRow(
+    string bindProperty, 
+    string displayName = null, 
+    string modelPrefix = "model.")
+{
+    @EditRow(bindProperty, displayName, modelPrefix, "password")
+}
+
+@helper CheckBoxRow(
+    string bindProperty, 
+    string displayName = null, 
+    string modelPrefix = "model.", 
+    string inputType = "text")
+{
+    displayName = displayName ?? bindProperty;
+    <div class="control-group">
+        <label class="control-label no-padding" for="@bindProperty">@displayName</label>
+        <div class="controls">
+            <input name="@bindProperty" data-bind="checked: @(modelPrefix + bindProperty)" type="checkbox">
+        </div>
+    </div>
+}
+
+@helper SpanRow(string bindProperty, string displayName = null, string modelPrefix = "model.", string inputType = "text")
+{
+    displayName = displayName ?? bindProperty;
+    <div class="control-group">
+        <label class="control-label">@displayName</label>
+        <div class="controls">
+            <span data-bind="text: @(modelPrefix + bindProperty)"></span>
+        </div>
+    </div>
+}
+
+@helper DropdownRow(
+    string bindProperty, 
+    string optionsList, 
+    string displayName = null, 
+    string optionsCaption = "Please Choose",
+    string modelPrefix = "model.", 
+    string additionalAttributes = "",
+    string visibleBinding = "", 
+    string selectEnableBinding = "")
+{
+    displayName = displayName ?? bindProperty;
+    
+    <div class="control-group" data-bind="@(visibleBinding.HasValue() ? ", visible:" + modelPrefix + visibleBinding : "")">
+        <label class="control-label" for="@bindProperty">@displayName</label>
+        <div class="controls">
+            <select data-bind="
+                value: @(modelPrefix + bindProperty), 
+                options: @(modelPrefix + optionsList), 
+                optionsValue: 'Value', 
+                optionsText: 'Text' 
+                @(string.IsNullOrEmpty(optionsCaption) ? "" : string.Format(", optionsCaption: '{0}'", optionsCaption))
+                @(selectEnableBinding.HasValue() ? ", enable:" + modelPrefix + selectEnableBinding : "")" name="@bindProperty" @additionalAttributes></select>
+        </div>
+    </div>
+}
+
+@helper OrderedHeader(
+    string key, 
+    string display = null, 
+    string thClass = "")
+{
+    display = display ?? key;
+    <th>
+        <label data-bind="click: sort" data-key="@key" class="@thClass">
+            @display
+            <i data-bind="visible: filter.OrderByKey() == '@key', css:{'icon-arrow-up': filter.Desc, 'icon-arrow-down': !filter.Desc()}"></i>
+        </label>
+    </th>
+}
+
+@helper RadioButtonRow(
+    string bindProperty, 
+    string optionsList, 
+    string modelPrefix = "model.", 
+    string displayName = null)
+{
+    displayName = displayName ?? bindProperty;
+    
+    <div class="control-group margin-bottom-large">
+        <label class="control-label" >@displayName</label>
+        <div class="controls" data-bind="foreach: @(modelPrefix + optionsList)">
+            <label>
+                <input type="radio" name="@bindProperty" data-bind="attr: {value: Value}, checked: $root.@(modelPrefix + bindProperty)" /><span data-bind="text: Text"></span>
+            </label>
+        </div>
+    </div>
+}

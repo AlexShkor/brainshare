@@ -1,7 +1,14 @@
 ﻿@using Newtonsoft.Json
 @model BrainShare.Controllers.AllThreadsViewModel
 
-@Html.ApplyModel(Model)
+<script type="text/javascript">
+    $(function () {
+
+        var model = new AllMessagesModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+        ko.applyBindings(model);
+    });
+
+</script>
 
 <table class="table table-condensed table-striped">
       

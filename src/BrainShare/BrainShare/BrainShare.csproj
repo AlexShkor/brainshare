@@ -217,6 +217,7 @@
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="ContainerConfigure.cs" />
     <Compile Include="Extensions\HtmlHelperExt.cs" />
+    <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="SessionKeys.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Facebook\FacebookAuthorizeAttribute.cs" />
