@@ -1,5 +1,6 @@
 ﻿using BrainShare.Authentication;
 using BrainShare.Mongo;
+using BrainShare.Services;
 using StructureMap;
 
 namespace BrainShare
@@ -14,15 +15,6 @@ namespace BrainShare
                     c.For<MongoDocumentsDatabase>().Singleton().Use(database);
                     c.For<IAuthentication>().Transient().Use<CustomAuthentication>();
                 });
-
-            
         }
-    }
-
-    public class SessionKeys
-    {
-        public const string FbCsrfToken = "fb_csrf_token";
-        public const string FbAccessToken = "fb_access_token";
-        public const string FbExpiresIn = "fb_expires_in";
     }
 }

@@ -1,0 +1,28 @@
+﻿@model BrainShare.Controllers.MessagingThreadViewModel
+<div class="container" >
+    <hr/>
+    <div class="span8">
+    
+        @foreach(var message in Model.Messages)
+        {
+            <div class="span6  alert @message.Class">
+                
+                <strong >от <span class="label label-inverse">@message.From</span> @message.Posted</strong>
+                <p>@message.Content</p>
+            </div>
+            <br/>
+        }
+    
+        <div>
+            <form method="POST" action="/profile/thread/post">
+                <input type="hidden" name="threadId" value="@Model.ThreadId"/>
+                <textarea style="width: 100%; height: 100px;" name="content"></textarea>
+                <input type="submit" value="Отправить"/>
+            </form>
+        </div>
+    </div>
+    <hr/>
+    <div>
+    
+    </div>
+</div>

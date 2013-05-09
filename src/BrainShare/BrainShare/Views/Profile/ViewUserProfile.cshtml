@@ -1,0 +1,7 @@
+﻿@model BrainShare.Controllers.UserProfileModel
+
+<h3>Профиль пользователя @Model.Name</h3>
+@if(!Model.IsMe)
+{
+    <a href="/profile/message/to/@Model.Id">Отослать сообщение</a>
+}

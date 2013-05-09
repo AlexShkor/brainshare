@@ -8,7 +8,6 @@ using AttributeRouting.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Services;
-using BrainShare.Utils;
 using Newtonsoft.Json;
 
 namespace BrainShare.Controllers
@@ -39,15 +38,34 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
+        [GET("info/{id}")]
+        public ActionResult Info(string id)
+        {
+            var book = _books.GetById(id);
+            var model = new BookViewModel(book);
+            return View("Info", model);
+        }
+
+
+        [POST("info")]
+        public ActionResult InfoPost(Book doc)
+        {
+            var existing = _books.GetById(doc.Id);
+            if (existing == null)
+            {
+                _books.Save(doc);
+            }
+            return Json(new { doc.Id });
+        }
+
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Give(string book)
+        public ActionResult Give(Book doc)
         {
-            var doc = JsonConvert.DeserializeObject<Book>(book);
             var user = _users.GetById(UserId);
             if (user.Books.Contains(doc.Id))
             {
-                return Json(new {Error = "This book already added;"});
+                return Json(new { Error = "This book already added;" });
             }
             user.Books.Add(doc.Id);
             _users.Save(user);
@@ -60,9 +78,8 @@ namespace BrainShare.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Take(string book)
+        public ActionResult Take(Book doc)
         {
-            var doc = JsonConvert.DeserializeObject<Book>(book);
             var user = _users.GetById(UserId);
             if (!user.WishList.Contains(doc.Id))
             {
@@ -71,7 +88,7 @@ namespace BrainShare.Controllers
                 var currentDoc = _books.GetById(doc.Id) ?? doc;
                 currentDoc.Lookers.Add(UserId);
                 _books.Save(currentDoc);
-                SaveFeedAsync(ActivityFeed.BookWanted(doc.Id,doc.Title,user.Id,user.FullName));
+                SaveFeedAsync(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
             }
             return Json(new { doc.Id });
         }
@@ -88,7 +105,7 @@ namespace BrainShare.Controllers
                 model.Book = new BookViewModel(book);
             }
             var owners = _users.GetOwners(id);
-            model.Owners = owners.Where(x=> x.Id != UserId).Select(x => new UserItemViewModel(x)).ToList();
+            model.Owners = owners.Where(x => x.Id != UserId).Select(x => new UserItemViewModel(x)).ToList();
             return View(model);
         }
 
@@ -97,7 +114,7 @@ namespace BrainShare.Controllers
         {
             if (userId == UserId)
             {
-                return View("CustomError", (object) "Вы не можете отправить запрос самому себе.");
+                return View("CustomError", (object)"Вы не можете отправить запрос самому себе.");
             }
             var user = _users.GetById(userId);
 
@@ -111,7 +128,10 @@ namespace BrainShare.Controllers
                     });
                 _users.Save(user);
                 var currentUser = _users.GetById(UserId);
-                MailClient.SendRequestMessage(currentUser, user, book);
+
+                var mailer = new MailService();
+                var requestEmail = mailer.SendRequestMessage(currentUser, user, book);
+                requestEmail.Deliver();
             }
             var model = new ChangeRequestSentModel(book, user);
             return View(model);
@@ -124,7 +144,7 @@ namespace BrainShare.Controllers
             var books = _books.GetUserBooks(userId).ToList();
             var model = new AcceptRequestViewModel();
             model.AllBooks = books.Select(x => new BookViewModel(x)).ToList();
-            model.BooksYouNeed = books.Where(x => currentUser.WishList.Contains(x.Id)).Select(x=> new BookViewModel(x)).ToList();
+            model.BooksYouNeed = books.Where(x => currentUser.WishList.Contains(x.Id)).Select(x => new BookViewModel(x)).ToList();
             var fromUser = _users.GetById(userId);
             model.FromUser = new UserItemViewModel(fromUser);
             var yourBook = _books.GetById(requestedBookId);
@@ -151,7 +171,7 @@ namespace BrainShare.Controllers
                     you.Inbox.RemoveAll(x => x.UserId == userId && x.BookId == yourBookId);
                     _users.Save(you);
 
-                   
+
                     him.Books.Remove(bookId);
                     him.WishList.Remove(yourBookId);
                     him.AddRecievedBook(yourBookId, you.Id);
@@ -168,8 +188,8 @@ namespace BrainShare.Controllers
                     yourBook.Lookers.Remove(him.Id);
                     _books.Save(yourBook);
 
-                    SaveFeedAsync(ActivityFeed.BooksExchanged(yourBook,you,himBook,him));
-                    SendExchangeMail(yourBook,you,himBook,him);
+                    SaveFeedAsync(ActivityFeed.BooksExchanged(yourBook, you, himBook, him));
+                    SendExchangeMail(yourBook, you, himBook, him);
 
                     return RedirectToAction("MyBooks", "Profile");
                 }
@@ -177,82 +197,19 @@ namespace BrainShare.Controllers
             return View("CantExchangeError");
         }
 
-        private void SendExchangeMail(Book yourBook, User you, Book himBook, User him)
+        private void SendExchangeMail(Book yourBook, User you, Book hisBook, User he)
         {
-            Task.Factory.StartNew(() =>
-                {
-                    MailClient.SendExchangeConfirmMessage(you, yourBook, him, himBook);
-                });
+            var mailer = new MailService();
+            var emailTofirst = mailer.SendExchangeConfirmMessage(you, yourBook, he, hisBook);
+            emailTofirst.Deliver();
+            var mailer2 = new MailService();
+            var emailToSecond = mailer2.SendExchangeConfirmMessage(he, hisBook, you, yourBook);
+            emailToSecond.Deliver();
         }
 
         private void SaveFeedAsync(ActivityFeed feed)
         {
             Task.Factory.StartNew(() => _feeds.Save(feed));
-        }
-    }
-
-    public class AcceptRequestViewModel
-    {
-        public BookViewModel YourBook { get; set; }
-        public string FromUserId { get; set; }
-        public List<BookViewModel> AllBooks { get; set; }
-        public List<BookViewModel> BooksYouNeed { get; set; }
-
-        public UserItemViewModel FromUser { get; set; }
-    }
-
-    public class ChangeRequestSentModel
-    {
-        public BookViewModel Book { get; set; }
-
-        public UserItemViewModel Owner { get; set; }
-
-        public ChangeRequestSentModel(Book book, User user)
-        {
-            Book = new BookViewModel(book);
-            Owner = new UserItemViewModel(user);
-        }
-    }
-
-    public class TakeBookViewModel
-    {
-        public string Id { get; set; }
-
-        public BookViewModel Book { get; set; }
-
-        public List<UserItemViewModel> Owners { get; set; }
-
-        public TakeBookViewModel()
-        {
-            Owners = new List<UserItemViewModel>();
-        }
-    }
-
-    public class BookViewModel
-    {
-        public string Id { get; set; }
-        public string ISBN { get; set; }
-        public string Title { get; set; }
-        public string Authors { get; set; }
-        public string SearchInfo { get; set; }
-        public int PageCount { get; set; }
-        public string PublishedDate { get; set; }
-        public string Publisher { get; set; }
-        public string Subtitle { get; set; }
-        public string Image { get; set; }
-
-        public BookViewModel(Book book)
-        {
-            Id = book.Id;
-            ISBN = book.ISBN;
-            Title = book.Title;
-            SearchInfo = book.SearchInfo;
-            PageCount = book.PageCount;
-            PublishedDate = book.PublishedDate;
-            Publisher = book.Publisher;
-            Subtitle = book.Subtitle;
-            Image = book.Image;
-            Authors = string.Join(", ", book.Authors);
         }
     }
 }
