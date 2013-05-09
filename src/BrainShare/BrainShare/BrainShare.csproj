@@ -216,6 +216,7 @@
     <Compile Include="Authentication\UserIdentity.cs" />
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="ContainerConfigure.cs" />
+    <Compile Include="Extensions\HtmlHelperExt.cs" />
     <Compile Include="SessionKeys.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Facebook\FacebookAuthorizeAttribute.cs" />
@@ -279,6 +280,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="App_Code\Links.cshtml" />
+    <Content Include="App_Code\KO.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Images\loading.gif" />
     <Content Include="Scripts\custom\addbook.js" />
