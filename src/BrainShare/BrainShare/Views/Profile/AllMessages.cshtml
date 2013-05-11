@@ -1,15 +1,16 @@
 ﻿@using Newtonsoft.Json
 @model BrainShare.Controllers.AllThreadsViewModel
 
-<script type="text/javascript">
-    $(function () {
-
-        var model = new AllMessagesModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
-        ko.applyBindings(model);
-    });
-
-</script>
-
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Profile/allMessages.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            var model = new AllMessagesModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+            ko.applyBindings(model);
+        });
+    </script>
+}
+   
 <table class="table table-condensed table-striped">
     <tbody data-bind="foreach: items">
         <tr>

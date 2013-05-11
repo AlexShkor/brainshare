@@ -5,6 +5,6 @@
     this.items = ko.observableArray(data.Items);
 
     this.reply = function(item) {
-        window.location = "/profile/thread/view/" + item.ThreadId;
+        window.location = "/Profile/Thread/View/" + item.ThreadId;
     };
 }

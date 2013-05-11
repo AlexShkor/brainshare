@@ -1,13 +1,15 @@
 ﻿@using Newtonsoft.Json
-@model IList<BrainShare.Controllers.BookViewModel>
+@model List<BrainShare.Controllers.BookViewModel>
 
-<script type="text/javascript">
-    $(function () {
-
-        var model = new WishListModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
-        ko.applyBindings(model);
-    });
-</script>
+@section Scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Profile/wishList.js")"></script>
+    <script type="text/javascript">
+        $(function() {
+            var model = new WishListModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+            ko.applyBindings(model);
+        });
+    </script>
+}
 
 <h2>Я ищу</h2>
 

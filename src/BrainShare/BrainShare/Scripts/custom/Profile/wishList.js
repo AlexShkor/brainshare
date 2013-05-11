@@ -6,12 +6,12 @@
 
     this.whoHas = function(book) {
         
-        window.location = "/books/take/" + book.Id;
+        window.location = "/Books/Take/" + book.Id;
        
     };
     
     this.dontWant = function (book) {
-        send("/profile/dontwant", book, function (response) {
+        send("/Profile/DontWant", book, function (response) {
             self.books.remove(book);
         });
     };

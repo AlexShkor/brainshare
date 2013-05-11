@@ -48,6 +48,7 @@ namespace BrainShare.Controllers
 
 
         [POST("info")]
+        [ValidateInput(false)]
         public ActionResult InfoPost(Book doc)
         {
             var existing = _books.GetById(doc.Id);

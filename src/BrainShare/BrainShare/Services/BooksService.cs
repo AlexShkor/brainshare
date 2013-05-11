@@ -24,12 +24,26 @@ namespace BrainShare.Services
 
         public IEnumerable<Book> GetByIds(IEnumerable<string> ids)
         {
-            return Items.Find(Query<Book>.In(x => x.Id, ids));
+            return Items.Find(Query<Book>.In(b => b.Id, ids));
         }
 
         public IEnumerable<Book> GetUserWantedBooks(string userId)
         {
             return Items.Find(Query.EQ("Lookers", userId));
+        }
+
+        public void RemoveLooker(string bookId, string lookerId)
+        {
+            var book = Items.FindOne(Query<Book>.EQ(b => b.Id, bookId));
+            book.Lookers.Remove(lookerId);
+            Items.Save(book);
+        }
+
+        public void RemoveOwner(string bookId, string ownerId)
+        {
+            var book = Items.FindOne(Query<Book>.EQ(b => b.Id, bookId));
+            book.Owners.Remove(ownerId);
+            Items.Save(book);
         }
     }
 }

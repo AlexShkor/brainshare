@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AttributeRouting;
@@ -7,8 +8,6 @@ using BrainShare.Documents;
 using BrainShare.Services;
 using BrainShare.ViewModels;
 
- //<a class="btn btn-primary" href="/books/take/book.Id">У кого есть?</a>
- //               <a class="btn btn-danger" href="/profile/dontwant/book.Id">Больше не ищу</a>
 
 namespace BrainShare.Controllers
 {
@@ -40,16 +39,35 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
-        public ActionResult DontHave(string id)
+        public ActionResult DontHave(BookViewModel book)
         {
-            var user = _users.GetById(UserId);
-            return RedirectToAction("MyBooks");
+            try
+            {
+                _users.RemoveFromBooks(book.Id, UserId);
+                _books.RemoveOwner(book.Id, UserId);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Error = ex.Message });
+            }
+
+            return Json(new { Success = "OK" });
         }
 
-        public ActionResult DontWant(string id)
+        [HttpPost]
+        public ActionResult DontWant(BookViewModel book)
         {
-             var user = _users.GetById(UserId);
-            return RedirectToAction("WishList");
+            try
+            {
+                _users.RemoveFromWishList(book.Id, UserId);
+                _books.RemoveLooker(book.Id, UserId);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Error = ex.Message });
+            }
+
+            return Json(new { Success = "OK" });
         }
 
         public ActionResult MyBooks()
@@ -72,7 +90,7 @@ namespace BrainShare.Controllers
             var books = _books.GetByIds(user.Inbox.Select(x => x.BookId)).ToList();
             var users = _users.GetByIds(user.Inbox.Select(x => x.UserId)).ToList();
             var model = new InboxViewModel();
-            model.Items = user.Inbox.OrderBy(x=> x.Created).Select(x =>
+            model.Items = user.Inbox.OrderBy(x => x.Created).Select(x =>
                                             new InboxItem(x.Created, books.Find(b => b.Id == x.BookId),
                                                           users.Find(u => u.Id == x.UserId))).ToList();
             return View(model);
@@ -91,8 +109,8 @@ namespace BrainShare.Controllers
         [GET("messages")]
         public ActionResult AllMessages()
         {
-            var threads = _threads.GetAllForUser(UserId).Where(x=> x.Messages.Any()).OrderByDescending(x=> x.Messages.Max(m=> m.Posted));
-            var model = new AllThreadsViewModel(threads,UserId);
+            var threads = _threads.GetAllForUser(UserId).Where(x => x.Messages.Any()).OrderByDescending(x => x.Messages.Max(m => m.Posted));
+            var model = new AllThreadsViewModel(threads, UserId);
             return View(model);
         }
 
@@ -108,7 +126,7 @@ namespace BrainShare.Controllers
                 thread = new Thread(UserId, user.FullName, recipientId, recipient.FullName);
                 _threads.Save(thread);
             }
-           return RedirectToAction("ViewThread",new {threadId = thread.Id});
+            return RedirectToAction("ViewThread", new { threadId = thread.Id });
         }
 
         [GET("thread/view/{threadId}")]
@@ -121,8 +139,8 @@ namespace BrainShare.Controllers
             }
             var me = _users.GetById(UserId);
             var recipient = _users.GetById(thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId);
-            var model = new MessagingThreadViewModel(thread, me,recipient);
-            return View("Messages",model);
+            var model = new MessagingThreadViewModel(thread, me, recipient);
+            return View("Messages", model);
         }
 
         [POST("thread/post")]

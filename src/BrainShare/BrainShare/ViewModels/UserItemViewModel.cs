@@ -14,5 +14,10 @@ namespace BrainShare.Controllers
             Email = doc.Email;
             UserName = string.Format("{0} {1}", doc.FirstName, doc.LastName);
         }
+
+        public UserItemViewModel()
+        {
+            
+        }
     }
 }

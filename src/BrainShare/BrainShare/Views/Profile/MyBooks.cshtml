@@ -1,6 +1,15 @@
-﻿@model List<BrainShare.Controllers.BookViewModel>
+﻿@using Newtonsoft.Json
+@model List<BrainShare.Controllers.BookViewModel>
 
-
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Profile/myBooks.js")"></script>
+    <script type="text/javascript">
+        $(function() {
+            var model = new MyBooksModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+            ko.applyBindings(model);
+        });
+    </script>
+}
 
 <h2>Мои Книги</h2>
 
@@ -12,16 +21,13 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-        @foreach(var book in Model)
-        {
-            <tr>
-                <td>@book.Title</td>
-                <td>@book.Authors</td>
-                <td>
-                    <a href="/profile/donthave/@book.Id">Убрать</a>
-                </td>
-            </tr>
-        }
+    <tbody data-bind="foreach: books">
+        <tr>
+            <td data-bind="text: Title"></td>
+            <td data-bind="text: Authors"></td>
+            <td>
+                <a class="btn btn-small" href="#" data-bind="click: $root.dontHave">Уже нет</a>
+            </td>
+        </tr>
     </tbody>
 </table>

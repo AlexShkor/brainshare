@@ -28,5 +28,10 @@ namespace BrainShare.Controllers
             Image = book.Image;
             Authors = string.Join(", ", book.Authors);
         }
+
+        public BookViewModel()
+        {
+            
+        }
     }
 }

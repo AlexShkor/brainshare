@@ -1,22 +1,30 @@
-﻿@model BrainShare.Controllers.BookViewModel
+﻿@using Newtonsoft.Json
+@model BrainShare.Controllers.BookViewModel
+
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/detailsPartial.js")"></script>
+<script type="text/javascript">
+    var model = new DetailsPartialModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+    ko.applyBindings(model);
+</script>
 
 <div class="thumbnail">
 
             <img src="@Model.Image" />
             <div class="caption">
-                <h5 data-bind="text: volumeInfo.title">@Model.Title</h5>
-                <p data-bind="text: volumeInfo.subtitle">@Model.Subtitle</p>
+               <h5 data-bind="text: title">@*@Model.Title*@</h5>
+                <p data-bind="text: book.Subtitle">@*@Model.Subtitle*@</p>
 
                 <p>
-                    <span data-bind="text: volumeInfo.publisher">@Model.Publisher</span>
-                    <strong data-bind="text: volumeInfo.publishedDate">@Model.PublishedDate</strong>
-                    <span class="label" data-bind="text: volumeInfo.pageCount">@Model.PageCount</span>
+                    <span data-bind="text: book.Publisher">@*@Model.Publisher*@</span>
+                    <strong data-bind="text: book.PublishedDate">@*@Model.PublishedDate*@</strong>
+                    <span class="label" data-bind="text: book.PageCount">@*@Model.PageCount*@</span>
                     стр.
                 </p>
-                <strong>@Model.Authors</strong>
+                <strong data-bind="text: book.Authors">@*@Model.Authors*@</strong>
 
 
-                <p data-bind="text: volumeInfo.description">@Model.SearchInfo
+                <p data-bind="text: book.Description">@*@Model.SearchInfo*@
                 </p>
             </div>
         </div>

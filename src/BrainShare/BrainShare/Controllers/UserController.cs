@@ -10,6 +10,7 @@ using BrainShare.Services;
 using BrainShare.ViewModels;
 using Facebook;
 using MongoDB.Bson;
+using Newtonsoft.Json;
 
 namespace BrainShare.Controllers
 {
@@ -132,7 +133,6 @@ namespace BrainShare.Controllers
         }
 
         [FacebookAuthorize]
-
         public ActionResult ProcessFacebook(string returnUrl)
         {
             if (Request.IsAuthenticated)

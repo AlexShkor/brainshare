@@ -93,4 +93,4 @@ var BookViewModel = function(item, parent) {
     this.Title = item.volumeInfo.title;
     this.Image = (item.volumeInfo.imageLinks || { }).thumbnail;
     this.ISBN = item.volumeInfo.industryIdentifiers[0].identifier;
-}
+};
