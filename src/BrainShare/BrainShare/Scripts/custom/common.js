@@ -4,6 +4,8 @@
         type: 'POST',
         traditional: true,
         data: ko.toJS(model),
+        //data: {data: model},
+        //data: model,
         success: function(response) {
             if (response.Error) {
                 alert(response.Error);

@@ -17,7 +17,7 @@ namespace BrainShare.Controllers
         {
             var notMe = message.UserId == recipient.Id;
             From = notMe ? recipient.FullName : "Я";
-            Class = notMe ? "alert-info" : "pull-right alert-success text-right";
+            Class = notMe ? "span6 alert alert-info" : "span6 alert pull-right alert-success text-right";
             Posted = message.Posted.ToRelativeDate();
             Content = message.Content;
         }

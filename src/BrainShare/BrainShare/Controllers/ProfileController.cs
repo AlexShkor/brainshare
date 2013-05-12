@@ -7,6 +7,7 @@ using AttributeRouting.Web.Mvc;
 using BrainShare.Documents;
 using BrainShare.Services;
 using BrainShare.ViewModels;
+using Newtonsoft.Json;
 
 
 namespace BrainShare.Controllers
@@ -140,6 +141,7 @@ namespace BrainShare.Controllers
             var me = _users.GetById(UserId);
             var recipient = _users.GetById(thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId);
             var model = new MessagingThreadViewModel(thread, me, recipient);
+
             return View("Messages", model);
         }
 
@@ -155,7 +157,13 @@ namespace BrainShare.Controllers
             {
                 return HttpNotFound();
             }
-            return RedirectToAction("ViewThread", new { threadId = thread.Id });
+
+            var updatedThread = _threads.GetById(threadId);
+            var me = _users.GetById(UserId);
+            var recipient = _users.GetById(updatedThread.OwnerId == UserId ? updatedThread.RecipientId : updatedThread.OwnerId);
+            var model = new MessagingThreadViewModel(updatedThread, me, recipient);
+
+            return Json(model.Messages.LastOrDefault());
         }
     }
 }

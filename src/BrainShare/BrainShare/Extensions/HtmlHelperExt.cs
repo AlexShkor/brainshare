@@ -14,7 +14,6 @@ namespace System.Web.Mvc
 
         public static IHtmlString ApplyModel(this HtmlHelper page, object model)
         {
-            
             return new MvcHtmlString(string.Format(BaseApplyModelScriptString, JsonConvert.SerializeObject(model)));
         }
     }

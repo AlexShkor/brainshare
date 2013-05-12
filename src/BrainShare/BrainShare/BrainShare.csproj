@@ -291,6 +291,7 @@
     <Content Include="Scripts\custom\common.js" />
     <Content Include="Scripts\custom\Profile\inbox.js" />
     <Content Include="Scripts\custom\Profile\myBooks.js" />
+    <Content Include="Scripts\custom\Profile\viewThread.js" />
     <Content Include="Scripts\custom\Profile\wishList.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
