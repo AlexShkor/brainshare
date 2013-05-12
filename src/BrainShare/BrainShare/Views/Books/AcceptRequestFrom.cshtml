@@ -4,8 +4,10 @@
 @section Scripts{
     <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/acceptRequestFrom.js")"></script>
     <script type="text/javascript">
-        var model = new AcceptRequestModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
-        ko.applyBindings(model);
+        $(function () {
+            var model = new AcceptRequestModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+            ko.applyBindings(model);
+        });
     </script>
 }
 
@@ -15,7 +17,8 @@
         @Html.Partial("DetailsPartial", Model.YourBook)
     </div>
     <div class="span6">
-        <h4 data-bind="text: От пользователя fromUser.UserName"></h4>
+        <span>От пользователя</span>
+        <h4 data-bind="text: fromUser.UserName"></h4>
         <a class="btn btn-info" href="#" data-bind="click: sendMessage">Отправить сообщение</a>
         <p data-bind="text: fromUser.Email"></p>
         <a class="btn btn-danger" href="#" data-bind="click: reject">Отказать</a>
@@ -25,13 +28,17 @@
     @if (Model.BooksYouNeed.Count > 0)
     {
         <div>
-            <h6 data-bind="text: Книги пользователя fromUser.UserName, которые вам нужны"></h6>
+            <div>
+                <span>Книги пользователя </span>
+                <span data-bind="text: fromUser.UserName"></span>
+                <span>которые вам нужны</span>
+            </div>
             <table class="table table-condensed">
                 <tbody data-bind="foreach: booksYouNeed">
                     <tr class="success">
-                        @*<td>
-                            <img data-bind="src: Image" />
-                        </td>*@
+                        <td>
+                            <img data-bind="attr:{src: Image}" />
+                        </td>
                         <td data-bind="text: Title"></td>
                         <td data-bind="text: Authors"></td>
                         <td data-bind="text: Subtitle"></td>
@@ -48,13 +55,16 @@
     }
 
     <div>
-        <h6 data-bind="text: Все книги пользователя fromUser.UserName"></h6>
+        <div>
+            <span>Все книги пользователя </span>
+            <span data-bind="text: fromUser.UserName"></span>
+        </div>
         <table class="table table-condensed">
             <tbody data-bind="foreach: allBooks">
                 <tr>
-                    @*<td>
-                            <img src="@item.Image" />
-                        </td>*@
+                    <td>
+                        <img data-bind="attr:{src: Image}" />
+                    </td>
                     <td data-bind="text: Title"></td>
                     <td data-bind="text: Authors"></td>
                     <td data-bind="text: Subtitle"></td>
@@ -69,3 +79,4 @@
         </table>
     </div>
 </div>
+

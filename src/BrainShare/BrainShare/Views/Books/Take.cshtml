@@ -4,19 +4,18 @@
 @section Scripts{
     <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/take.js")"></script>
     <script type="text/javascript">
-        var model = new TakeModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
-        ko.applyBindings(model);
+        $(function () {
+            var model = new TakeModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+            ko.applyBindings(model);
+        });
     </script>
 }
 
 @if (Model.Book != null)
 {
     ViewBag.Title = Model.Book.Title;
-    
-    
     @Html.Partial("Details", Model.Book)
 }
-
 
 <div>
     <h4>Пользователи которые меняют эту книгу</h4>

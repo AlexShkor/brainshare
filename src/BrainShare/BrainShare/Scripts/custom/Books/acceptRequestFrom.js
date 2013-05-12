@@ -20,4 +20,7 @@
         window.location = "/books/give/" + self.yourBook.Id + "/take/" + book.Id + "/from/" + self.fromUser.UserId;
     };
     
+
+    // ViewModel for PartialView
+    this.book = self.yourBook;
  }

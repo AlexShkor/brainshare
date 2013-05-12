@@ -9,7 +9,7 @@ namespace BrainShare.Controllers
         public string Title { get; set; }
         public string Authors { get; set; }
         public string SearchInfo { get; set; }
-        public int PageCount { get; set; }
+        public int? PageCount { get; set; }
         public string PublishedDate { get; set; }
         public string Publisher { get; set; }
         public string Subtitle { get; set; }
@@ -31,7 +31,7 @@ namespace BrainShare.Controllers
 
         public BookViewModel()
         {
-            
+          
         }
     }
 }
