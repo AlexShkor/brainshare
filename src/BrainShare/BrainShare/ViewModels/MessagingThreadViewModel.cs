@@ -17,7 +17,7 @@ namespace BrainShare.Controllers
             ThreadId = thread.Id;
             RecipientId = recipient.Id;
             RecipientName = recipient.FullName;
-            Messages = thread.Messages.Select(x => new MessageViewModel(x, recipient)).ToList();
+            Messages = thread.Messages.OrderByDescending(x=> x.Posted).Select(x => new MessageViewModel(x, recipient)).ToList();
         }
     }
 }

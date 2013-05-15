@@ -13,13 +13,23 @@ namespace BrainShare.Controllers
 
         public string Class { get; set; }
 
+        public MessageViewModel()
+        {
+            
+        }
+
         public MessageViewModel(Message message, User recipient)
         {
             var notMe = message.UserId == recipient.Id;
-            From = notMe ? recipient.FullName : "Я";
+            Init(message.Content, message.Posted, notMe, recipient.FullName);
+        }
+
+        public void  Init(string content, DateTime posted, bool notMe, string from = null)
+        {
+            From = notMe ? from : "Я";
             Class = notMe ? "span6 alert alert-info" : "span6 alert pull-right alert-success text-right";
-            Posted = message.Posted.ToRelativeDate();
-            Content = message.Content;
+            Posted = posted.ToRelativeDate();
+            Content = content;
         }
     }
 }

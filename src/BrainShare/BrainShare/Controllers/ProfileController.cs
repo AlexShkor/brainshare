@@ -157,13 +157,9 @@ namespace BrainShare.Controllers
             {
                 return HttpNotFound();
             }
-
-            var updatedThread = _threads.GetById(threadId);
-            var me = _users.GetById(UserId);
-            var recipient = _users.GetById(updatedThread.OwnerId == UserId ? updatedThread.RecipientId : updatedThread.OwnerId);
-            var model = new MessagingThreadViewModel(updatedThread, me, recipient);
-
-            return Json(model.Messages.LastOrDefault());
+            var model = new MessageViewModel();
+            model.Init(content,DateTime.Now,false);
+            return Json(model);
         }
     }
 }

@@ -12,7 +12,7 @@
         var formData = { threadId: self.threadId, content: self.content() };
         send("/profile/thread/post", formData, function (message) {
             self.content("");
-            self.messages.push(message);
+            self.messages.unshift(message);
         });
 
     };
