@@ -4,15 +4,14 @@
 
     this.messages = ko.observableArray(data.Messages);
     this.threadId = data.ThreadId;
+    this.content = ko.observable();
+
 
     this.submitMessage = function () {
 
-        var threadId = $("#threadId").val();
-        var content = $("#content").val();
-
-        var formData = { threadId: threadId, content: content };
+        var formData = { threadId: self.threadId, content: self.content() };
         send("/profile/thread/post", formData, function (message) {
-            $("#content").val("");
+            self.content("");
             self.messages.push(message);
         });
 

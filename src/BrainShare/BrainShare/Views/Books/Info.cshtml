@@ -1,4 +1,16 @@
-﻿@model BrainShare.Controllers.BookViewModel
+﻿@using Newtonsoft.Json
+@model BrainShare.Controllers.BookViewModel
+
+@section Scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/info.js")"></script>
+    <script>
+        $(function() {
+            var model = new InfoModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+            ko.applyBindings(model);
+        })
+    </script>
+}
+
 @Html.Partial("Details")
 
 <div class="row">
