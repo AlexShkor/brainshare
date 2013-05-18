@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using System.Web.Security;
 using BrainShare.Authentication;
 using BrainShare.Documents;
-using BrainShare.Models;
 using BrainShare.Services;
 using BrainShare.ViewModels;
 using Facebook;

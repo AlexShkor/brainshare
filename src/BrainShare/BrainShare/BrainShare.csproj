@@ -247,11 +247,9 @@
     <Compile Include="Documents\User.cs" />
     <Compile Include="Extensions\DateTimeExt.cs" />
     <Compile Include="Facebook\FacebookClientFactory.cs" />
-    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Mongo\BaseFilter.cs" />
     <Compile Include="Mongo\DocumentsService.cs" />
     <Compile Include="Mongo\MongoDocumentsDatabase.cs" />
