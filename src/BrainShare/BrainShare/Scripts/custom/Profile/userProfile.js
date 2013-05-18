@@ -2,9 +2,6 @@
     var self = this;
     this.user = data;
 
-    this.postfix = "&key=AIzaSyAFFukdkjHMHh5WmucwuxVGt18XA9LEJ1I&language=ru&country=";
-    this.baseUrl = "https://www.googleapis.com/books/v1/volumes?q=";
-
     this.showOwnedBooks = ko.observable(false);
     this.showWishedBooks = ko.observable(false);
 
@@ -25,14 +22,10 @@
 
     this.getOwnedBooks = function () {
         self.listOfOwnedBooks.removeAll();
-        // No matter what language is, there will be only one book in the array because we're getting it by id 
-        $.each(self.user.Books, function (index, bookId) {
-            $.getJSON(self.baseUrl + encodeURIComponent(bookId) + self.postfix + "ru", function (response) {
-                if (response.items) {  // we can use '[0]' instead of 'each'
-                    $.each(response.items, function (index, book) {
-                        self.listOfOwnedBooks.push(new UserBookViewModel(book));
-                    });
-                }
+        var ids = { ids: self.user.Books };
+        send("/Profile/getBooks", ids, function (response) {
+            $.each(response.books, function (index, book) {
+                self.listOfOwnedBooks.push(book);
             });
         });
         self.showOwnedBooks(true);
@@ -40,14 +33,10 @@
     };
     this.getWishedBooks = function () {
         self.listOfWishedBooks.removeAll();
-        // No matter what language is, there will be only one book in the array because we're getting it by id 
-        $.each(self.user.WishList, function (index, bookId) {
-            $.getJSON(self.baseUrl + encodeURIComponent(bookId) + self.postfix + "ru", function (response) {
-                if (response.items) {  // we can use '[0]' instead of 'each'
-                    $.each(response.items, function (index, book) {
-                        self.listOfWishedBooks.push(new UserBookViewModel(book));
-                    });
-                }
+        var ids = { ids: self.user.WishList };
+        send("/Profile/getBooks", ids, function (response) {
+            $.each(response.books, function (index, book) {
+                self.listOfWishedBooks.push(book);
             });
         });
         self.showWishedBooks(true);

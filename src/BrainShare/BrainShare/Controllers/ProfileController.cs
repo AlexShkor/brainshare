@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -160,6 +161,13 @@ namespace BrainShare.Controllers
             var model = new MessageViewModel();
             model.Init(content,DateTime.Now,false);
             return Json(model);
+        }
+
+        [POST("getBooks")]
+        public ActionResult GetUserBooks(IEnumerable<string> ids)
+        {
+            var books = _books.GetByIds(ids);
+            return Json(new {books = books});
         }
     }
 }
