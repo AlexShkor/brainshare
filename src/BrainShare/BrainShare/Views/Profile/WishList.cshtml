@@ -1,4 +1,15 @@
-﻿@model System.Collections.Generic.List<BrainShare.Controllers.BookViewModel>
+﻿@using Newtonsoft.Json
+@model List<BrainShare.Controllers.BookViewModel>
+
+@section Scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Profile/wishList.js")"></script>
+    <script type="text/javascript">
+        $(function() {
+            var model = new WishListModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+            ko.applyBindings(model);
+        });
+    </script>
+}
 
 <h2>Я ищу</h2>
 
@@ -6,21 +17,18 @@
     <thead>
         <tr>
             <th>Название</th>
-            <th>Автор(ы)    </th>
+            <th>Автор(ы)</th>
             <th></th>
         </tr>
     </thead>
-    <tbody>
-        @foreach(var book in Model)
-        {
-            <tr>
-                <td>@book.Title</td>
-                <td>@book.Authors</td>
-                <td>
-                    <a class="btn btn-primary" href="/books/take/@book.Id">У кого есть?</a>
-                    <a class="btn btn-danger" href="/profile/dontwant/@book.Id">Больше не ищу</a>
-                </td>
-            </tr>
-        }
+    <tbody data-bind="foreach: books">
+        <tr>
+            <td data-bind="text: Title"></td>
+            <td data-bind="text: Authors"></td>
+            <td>
+                <a class="btn btn-small" href="#" data-bind="click: $root.whoHas">У кого есть?</a>
+                <a class="btn btn-danger" href="#" data-bind="click: $root.dontWant">Больше не ищу</a>
+            </td>
+        </tr>
     </tbody>
 </table>

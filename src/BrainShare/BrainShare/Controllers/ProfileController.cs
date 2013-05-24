@@ -3,22 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using BrainShare.Documents;
 using BrainShare.Services;
+using BrainShare.ViewModels;
+using Newtonsoft.Json;
+
 
 namespace BrainShare.Controllers
 {
     [Authorize]
+    [RoutePrefix("profile")]
     public class ProfileController : BaseController
     {
         private readonly BooksService _books;
         private readonly UsersService _users;
+        private readonly ThreadsService _threads;
 
-        public ProfileController(BooksService books, UsersService users)
+        public ProfileController(BooksService books, UsersService users, ThreadsService threads)
         {
             _books = books;
             _users = users;
+            _threads = threads;
         }
 
         public ActionResult Index()
@@ -26,16 +33,43 @@ namespace BrainShare.Controllers
             return View();
         }
 
-        public ActionResult DontHave(string id)
+        [GET("view/{id}")]
+        public ActionResult ViewUserProfile(string id)
         {
-            var user = _users.GetById(UserId);
-            return RedirectToAction("MyBooks");
+            var user = _users.GetById(id);
+            var model = new UserProfileModel(user, UserId);
+            return View(model);
         }
 
-        public ActionResult DontWant(string id)
+        public ActionResult DontHave(BookViewModel book)
         {
-             var user = _users.GetById(UserId);
-            return RedirectToAction("WishList");
+            try
+            {
+                _users.RemoveFromBooks(book.Id, UserId);
+                _books.RemoveOwner(book.Id, UserId);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Error = ex.Message });
+            }
+
+            return Json(new { Success = "OK" });
+        }
+
+        [HttpPost]
+        public ActionResult DontWant(BookViewModel book)
+        {
+            try
+            {
+                _users.RemoveFromWishList(book.Id, UserId);
+                _books.RemoveLooker(book.Id, UserId);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Error = ex.Message });
+            }
+
+            return Json(new { Success = "OK" });
         }
 
         public ActionResult MyBooks()
@@ -58,13 +92,13 @@ namespace BrainShare.Controllers
             var books = _books.GetByIds(user.Inbox.Select(x => x.BookId)).ToList();
             var users = _users.GetByIds(user.Inbox.Select(x => x.UserId)).ToList();
             var model = new InboxViewModel();
-            model.Items = user.Inbox.OrderBy(x=> x.Created).Select(x =>
+            model.Items = user.Inbox.OrderBy(x => x.Created).Select(x =>
                                             new InboxItem(x.Created, books.Find(b => b.Id == x.BookId),
                                                           users.Find(u => u.Id == x.UserId))).ToList();
             return View(model);
         }
 
-        [GET("/profile/reject/{bookId}/from/{userId}")]
+        [GET("reject/{bookId}/from/{userId}")]
         public ActionResult Reject(string bookId, string userId)
         {
             var user = _users.GetById(UserId);
@@ -72,38 +106,68 @@ namespace BrainShare.Controllers
             _users.Save(user);
             return RedirectToAction("Inbox");
         }
-    }
 
-    public class InboxViewModel
-    {
-        public List<InboxItem> Items { get; set; }
-    }
 
-    public class InboxItem
-    {
-        public string Created { get; set; }
-        public UserItemViewModel User { get; set; }
-        public BookViewModel Book { get; set; }
-
-        public InboxItem(DateTime created, Book book, User user)
+        [GET("messages")]
+        public ActionResult AllMessages()
         {
-            Created = created.ToShortDateString();
-            Book = new BookViewModel(book);
-            User = new UserItemViewModel(user);
+            var threads = _threads.GetAllForUser(UserId).Where(x => x.Messages.Any()).OrderByDescending(x => x.Messages.Max(m => m.Posted));
+            var model = new AllThreadsViewModel(threads, UserId);
+            return View(model);
         }
-    }
 
-    public class UserItemViewModel
-    {
-        public string UserId { get; set; }
-        public string UserName { get; set; }
-        public string Email { get; set; }
 
-        public UserItemViewModel(User doc)
+        [GET("message/to/{recipientId}")]
+        public ActionResult MessageTo(string recipientId)
         {
-            UserId = doc.Id;
-            Email = doc.Email;
-            UserName = string.Format("{0} {1}", doc.FirstName, doc.LastName);
+            var thread = _threads.GetFor(UserId, recipientId);
+            if (thread == null)
+            {
+                var user = _users.GetById(UserId);
+                var recipient = _users.GetById(recipientId);
+                thread = new Thread(UserId, user.FullName, recipientId, recipient.FullName);
+                _threads.Save(thread);
+            }
+            return RedirectToAction("ViewThread", new { threadId = thread.Id });
+        }
+
+        [GET("thread/view/{threadId}")]
+        public ActionResult ViewThread(string threadId)
+        {
+            var thread = _threads.GetById(threadId);
+            if (!thread.ContainsUser(UserId))
+            {
+                return HttpNotFound();
+            }
+            var me = _users.GetById(UserId);
+            var recipient = _users.GetById(thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId);
+            var model = new MessagingThreadViewModel(thread, me, recipient);
+
+            return View("Messages", model);
+        }
+
+        [POST("thread/post")]
+        public ActionResult PostToThread(string threadId, string content)
+        {
+            var thread = _threads.GetById(threadId);
+            if (thread != null && thread.ContainsUser(UserId))
+            {
+                _threads.PostToThread(threadId, UserId, content);
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+            var model = new MessageViewModel();
+            model.Init(content,DateTime.Now,false);
+            return Json(model);
+        }
+
+        [POST("getBooks")]
+        public ActionResult GetUserBooks(IEnumerable<string> ids)
+        {
+            var books = _books.GetByIds(ids);
+            return Json(new {books = books});
         }
     }
 }

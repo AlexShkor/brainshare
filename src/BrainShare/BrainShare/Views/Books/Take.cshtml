@@ -1,29 +1,33 @@
-﻿@model BrainShare.Controllers.TakeBookViewModel
+﻿@using Newtonsoft.Json
+@model BrainShare.Controllers.TakeBookViewModel
+
+@section Scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/take.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            var model = new TakeModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+            ko.applyBindings(model);
+        });
+    </script>
+}
 
 @if (Model.Book != null)
 {
- 
-    {
-        ViewBag.Title = Model.Book.Title;
-    }
+    ViewBag.Title = Model.Book.Title;
     @Html.Partial("Details", Model.Book)
 }
+
 <div>
     <h4>Пользователи которые меняют эту книгу</h4>
     <table class="table table-condensed table-striped">
-      
-        <tbody>
-            @foreach (var owner in Model.Owners)
-            {
-                <tr>
-                    <td>@owner.UserName </td>
-                    <td>
-                        <a class="btn btn-small" href="#">Профиль</a>
-                        <a class="btn btn-small" href="/books/take/@Model.Id/from/@owner.UserId">Отослать запрос
-                            на обмен</a>
-                    </td>
-                </tr>
-            }
+        <tbody data-bind="foreach: owners">
+            <tr>
+                <td data-bind="text: UserName"></td>
+                <td>
+                    <a class="btn btn-small" href="#" data-bind="click: $root.seeProfile">Профиль</a>
+                    <a class="btn btn-small" href="#" data-bind="click: $root.sendRequest">Отослать запрос на обмен</a>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>

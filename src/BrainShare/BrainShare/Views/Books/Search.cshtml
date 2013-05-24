@@ -35,30 +35,30 @@
                         <tr>
                             <td>
                                 
-                <!-- ko with: volumeInfo.imageLinks -->
-        
-                                   <img data-bind="attr: { src: thumbnail }" />
-                                                <!-- /ko -->
+                                   <img data-bind="attr: { src: Image }" />
                             </td>
                             <td >
-                                <strong data-bind="text: volumeInfo.title"></strong> 
+                                <strong data-bind="text: Title"></strong> 
                                 <br/>
-                                <span data-bind="text: volumeInfo.subtitle"></span>
+                                <span data-bind="text: Subtitle"></span>
                             </td>
                             <td >
                                 
-                                 <span data-bind="foreach: volumeInfo.authors" >
+                                 <span data-bind="foreach: Authors" >
                         <span data-bind="text: $data"></span> 
                     </span> 
                             </td>
                             <td>
-                        <span data-bind="text: volumeInfo.publisher"></span>
-                        <strong data-bind="text: volumeInfo.publishedDate"></strong>
-                        <span class="label" data-bind="text: volumeInfo.pageCount"></span> стр. </td>
+                        <span data-bind="text: Publisher"></span>
+                        <strong data-bind="text: PublishedDate"></strong>
+                        <span class="label" data-bind="text: PageCount"></span> стр. </td>
 
                             <td>
-                                <div class="well well-small"><a href="#" class="btn btn-primary btn-block" data-bind="visible: ($root.owned().indexOf(id) == -1), click: $root.give">У меня есть</a>
-                                <a href="#" class="btn btn-block" data-bind="click: $root.take">Мне нужна</a></div>
+                                <div class="well well-small">
+                                    <a href="#" class="btn btn-info btn-block" data-bind="click: $root.info">Информация</a>
+                                    <a href="#" class="btn btn-primary btn-block" data-bind="visible: ($root.owned().indexOf(Id) == -1), click: $root.give">У меня есть</a>
+                                    <a href="#" class="btn btn-success btn-block" data-bind="click: $root.take">Мне нужна</a>
+                                </div>
                                 
                                 
                             </td>

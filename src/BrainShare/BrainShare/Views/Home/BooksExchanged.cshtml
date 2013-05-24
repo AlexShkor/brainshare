@@ -1,3 +1,5 @@
-﻿@model BrainShare.Documents.ActivityFeed
+﻿@using BrainShare.Documents
+@model BrainShare.Documents.ActivityFeed
 
-<a href="#">@Model.Items.First().UserName</a> поменял свою книгу <a href="#">@Model.Items.First().BookTitle</a> на книгу <a href="#">@Model.Items[1].BookTitle</a> пользователя <a href="#">@Model.Items[1].UserName</a>
+@Links.UserLink(Model.Items[0]) поменял свою книгу @Links.BookLink(Model.Items[0]) на книгу @Links.BookLink(Model.Items[1]) пользователя @Links.UserLink(Model.Items[1])>
+

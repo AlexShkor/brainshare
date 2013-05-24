@@ -1,0 +1,81 @@
+﻿@using Newtonsoft.Json
+@model BrainShare.Controllers.UserProfileModel
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Profile/userProfile.js")"></script>
+<script type="text/javascript">
+    $(function () {
+        var model = new UserProfileModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+        ko.applyBindings(model);
+    })
+</script>
+
+<h3>Профиль пользователя <span data-bind="text: user.Name"></span></h3>
+
+@if (!Model.IsMe)
+{
+    <div>
+        <a class="btn btn-small" href="#" data-bind="click: sendMessage">Отослать сообщение</a>
+    </div>
+}
+
+<br />
+
+@if (Model.Books.Count > 0)
+{
+    <div>
+        <button class="btn btn-success" data-bind="click: getOwnedBooks, visible: showOwnedBooksButton">Показать все книги пользователя</button>
+        <div data-bind="visible: showOwnedBooks">
+            <button class="btn btn-danger" data-bind="click: hideOwnedBooks">Cкрыть книги</button>
+            <table class="table table-condensed">
+                <tbody data-bind="foreach: listOfOwnedBooks">
+                    <tr class="success">
+                        <td>
+                            <img data-bind="attr:{src: Image}" />
+                        </td>
+                        <td data-bind="text: Title"></td>
+                        <td data-bind="text: Authors"></td>
+                        <td data-bind="text: Subtitle"></td>
+                        <td data-bind="text: Publisher"></td>
+                        <td data-bind="text: PublishedDate"></td>
+                        <td data-bind="text: PageCount"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+@if (Model.Books.Count == 0)
+{
+    <p>У пользователя <span data-bind="text: user.Name"></span>нет книг</p>
+}
+
+<br />
+
+@if (Model.WishList.Count > 0)
+{
+    <div>
+        <button class="btn btn-primary" data-bind="click: getWishedBooks, visible: showWishedBooksButton">Показать книги которые ищет пользователь</button>
+        <div data-bind="visible: showWishedBooks">
+            <button class="btn btn-danger" data-bind="click: hideWishedBooks">Cкрыть книги</button>
+            <table class="table table-condensed">
+                <tbody data-bind="foreach: listOfWishedBooks">
+                    <tr class="success">
+                        <td>
+                            <img data-bind="attr:{src: Image}" />
+                        </td>
+                        <td data-bind="text: Title"></td>
+                        <td data-bind="text: Authors"></td>
+                        <td data-bind="text: Subtitle"></td>
+                        <td data-bind="text: Publisher"></td>
+                        <td data-bind="text: PublishedDate"></td>
+                        <td data-bind="text: PageCount">стр </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+@if (Model.WishList.Count == 0)
+{
+    <p>Пользователь <span data-bind="text: user.Name"></span>пока не ищет ниодной книги</p>
+}

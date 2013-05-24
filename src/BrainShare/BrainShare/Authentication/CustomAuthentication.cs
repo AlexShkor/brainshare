@@ -105,7 +105,7 @@ namespace BrainShare.Authentication
                         }
                     }
 
-                    catch(Exception ex)
+                    catch(Exception)
                     {
                         _currentUser = new UserProvider(null, null);
                     }

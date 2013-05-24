@@ -6,33 +6,6 @@ using MongoDB.Driver.Builders;
 
 namespace BrainShare.Services
 {
-    public class BooksService : DocumentsService<Book>
-    {
-        public BooksService(MongoDocumentsDatabase database) : base(database)
-        {
-        }
-
-        protected override MongoCollection<Book> Items
-        {
-            get { return Database.Books; }
-        }
-
-        public IEnumerable<Book> GetUserBooks(string userId)
-        {
-            return Items.Find(Query.EQ("Owners", userId));
-        }
-
-        public IEnumerable<Book> GetByIds(IEnumerable<string> ids)
-        {
-            return Items.Find(Query<Book>.In(x => x.Id, ids));
-        }
-
-        public IEnumerable<Book> GetUserWantedBooks(string userId)
-        {
-            return Items.Find(Query.EQ("Lookers", userId));
-        }
-    }
-
     public class UsersService : DocumentsService<User>
     {
         public UsersService(MongoDocumentsDatabase database)
@@ -75,7 +48,21 @@ namespace BrainShare.Services
 
         public IEnumerable<User> GetByIds(IEnumerable<string> ids)
         {
-            return Items.Find(Query<Book>.In(x => x.Id, ids));
+            return Items.Find(Query<User>.In(x => x.Id, ids));
+        }
+
+        public void RemoveFromWishList(string bookId, string userId)
+        {
+            var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
+            user.WishList.Remove(bookId);
+            Items.Save(user);
+        }
+
+        public void RemoveFromBooks(string bookId, string userId)
+        {
+            var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
+            user.Books.Remove(bookId);
+            Items.Save(user);
         }
     }
 }

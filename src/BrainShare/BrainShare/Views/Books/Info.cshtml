@@ -1,0 +1,26 @@
+﻿@using Newtonsoft.Json
+@model BrainShare.Controllers.BookViewModel
+
+@section Scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/info.js")"></script>
+    <script>
+        $(function() {
+            var model = new InfoModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+            ko.applyBindings(model);
+        })
+    </script>
+}
+
+@Html.Partial("Details")
+
+<div class="row">
+    <div>
+        <a href="#"></a>
+    </div>
+    <hr/>
+    <h4>Предпросмотр</h4>
+    <div >
+        <iframe frameborder="0" scrolling="no" style="border:0px" src="http://books.google.by/books?id=@(Model.Id)&lpg=PP1&hl=ru&pg=PT3&output=embed" width="100%" height=800></iframe>
+    </div>
+</div>
+

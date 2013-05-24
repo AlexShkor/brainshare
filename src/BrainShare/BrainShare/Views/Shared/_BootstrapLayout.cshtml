@@ -1,4 +1,5 @@
 ﻿@using System.Web.Optimization
+@using Newtonsoft.Json
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -6,10 +7,16 @@
         <title>@ViewBag.Title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="@Styles.Url("~/content/css")" rel="stylesheet"/>
-        <script src="~/Scripts/jquery-1.7.1.js"></script>
-        <script src="~/Scripts/knockout-2.1.0.debug.js"></script>
-        <script src="~/Scripts/custom/addbook.js"></script>
+        
+        @* Libs Scripts*@
+        <script src="~/Scripts/jquery-2.0.0.min.js"></script>
+        <script src="~/Scripts/knockout-2.2.1.js"></script>
+        <script src="~/Scripts/knockout-bootstrap.min.js"></script>
 
+        @* Our Scripts*@
+        <script src="~/Scripts/custom/common.js"></script>
+        <script src="~/Scripts/custom/addbook.js"></script>
+        
         @RenderSection("head", required: false)
         @* favicons and touch icons go here *@
     </head>
@@ -50,6 +57,7 @@
                                 <li><a href="@Url.Action("MyBooks","Profile")">Мои Книги</a></li>
                                 <li><a href="@Url.Action("WishList","Profile")">Я ищу Книги</a></li>
                                 <li><a href="@Url.Action("Inbox","Profile")">Входящие</a></li>
+                                <li><a href="@Url.Action("AllMessages","Profile")">Сообщения</a></li>
                         </ul>
                     </div>
                 </div>
@@ -62,7 +70,6 @@
                 <p>&copy; BrainShare @System.DateTime.Now.ToString("yyyy")</p>
             </footer> 
         </div>
-         @Scripts.Render("~/js")
          @RenderSection("Scripts", required: false)
     </body>
 </html>

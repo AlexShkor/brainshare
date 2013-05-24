@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
 using BrainShare.Authentication;
 using BrainShare.Documents;
-using BrainShare.Models;
 using BrainShare.Services;
-using BrainShare.Utils;
 using BrainShare.ViewModels;
 using Facebook;
 using MongoDB.Bson;
+using Newtonsoft.Json;
 
 namespace BrainShare.Controllers
 {
-    
+
     public class UserController : BaseController
     {
         private readonly UsersService _users;
         private readonly Settings _settings;
         public IAuthentication Auth { get; set; }
+
 
 
 
@@ -30,7 +29,7 @@ namespace BrainShare.Controllers
         {
             get
             {
-                return Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, "").Replace(":"+ Request.Url.Port, "") +
+                return Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, "").Replace(":" + Request.Url.Port, "") +
                                   Url.Action("FacebookCallback");
             }
         }
@@ -104,10 +103,20 @@ namespace BrainShare.Controllers
                                           Email = model.Email,
                                           Password = model.Password
                                       };
-                    _users.AddUser(newUser);
-                    MailClient.SendWelcome(newUser.Email);
 
-                    return RedirectToAction("Index", "Home");
+                    _users.AddUser(newUser);
+
+                    var mailer = new MailService();
+                    var welcomeEmail = mailer.SendWelcomeMessage(newUser);
+                    welcomeEmail.Deliver();
+
+                    var login = new LoginView()
+                                    {
+                                        Email = newUser.Email,
+                                        Password = newUser.Password
+                                    };
+
+                    return RedirectToAction("Login", "User");
                 }
                 else
                 {
@@ -123,7 +132,6 @@ namespace BrainShare.Controllers
         }
 
         [FacebookAuthorize]
-
         public ActionResult ProcessFacebook(string returnUrl)
         {
             if (Request.IsAuthenticated)
@@ -230,63 +238,6 @@ namespace BrainShare.Controllers
                 // log exception
                 return RedirectToProcessFacebook();
             }
-        }
-    }
-
-    public class Settings
-    {
-        public string FacebookAppId
-        {
-            get { return "366146963495815"; }
-        }
-
-        public string FacebookSecretKey
-        {
-            get { return "dddbde39b505a7186604dbf208a2c715"; }
-        }
-    }
-
-
-    public class RegisterViewModel
-    {
-        [Required]
-        [Display(Name = "Имя")]
-        public string FirstName { get; set; }
-
-        [Required]
-        [Display(Name = "Фамилия")]
-        public string LastName { get; set; }
-
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [System.Web.Mvc.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
-    }
-
-    public class FacebookAuthorizeAttribute : AuthorizeAttribute
-    {
-        protected override bool AuthorizeCore(System.Web.HttpContextBase httpContext)
-        {
-            var accessToken = httpContext.Session[SessionKeys.FbAccessToken] as string;
-            if (string.IsNullOrWhiteSpace(accessToken))
-                return false;
-            return true;
-        }
-
-        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
-        {
-            filterContext.Result = new RedirectResult("/account/loginwithfacebook");
         }
     }
 }

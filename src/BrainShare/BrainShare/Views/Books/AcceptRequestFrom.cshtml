@@ -1,75 +1,82 @@
-﻿@model BrainShare.Controllers.AcceptRequestViewModel
+﻿@using Newtonsoft.Json
+@model BrainShare.Controllers.AcceptRequestViewModel
 
+@section Scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/acceptRequestFrom.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            var model = new AcceptRequestModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+            ko.applyBindings(model);
+        });
+    </script>
+}
 
 <div class="row">
     <div class="span6">
-        <h4>Входящий запрос на вашу кгигу</h4>
-        @Html.Partial("DetailsPartial",Model.YourBook)
+        <h4>Входящий запрос на вашу книгу</h4>
+        @Html.Partial("DetailsPartial", Model.YourBook)
     </div>
     <div class="span6">
-        <h4>От пользователя @Model.FromUser.UserName</h4>
-        <p>@Model.FromUser.Email</p>
-        <a href="/profile/reject/@Model.YourBook.Id/from/@Model.FromUser.UserId" class="btn btn-danger">Отказать</a>
+        <span>От пользователя</span>
+        <h4 data-bind="text: fromUser.UserName"></h4>
+        <a class="btn btn-info" href="#" data-bind="click: sendMessage">Отправить сообщение</a>
+        <p data-bind="text: fromUser.Email"></p>
+        <a class="btn btn-danger" href="#" data-bind="click: reject">Отказать</a>
     </div>
 </div>
 <div>
-    @if(Model.BooksYouNeed.Count > 0)
+    @if (Model.BooksYouNeed.Count > 0)
     {
         <div>
-            <h6>
-                Книги пользователя @Model.FromUser.UserName, которые вам нужны
-            </h6>
-            
+            <div>
+                <span>Книги пользователя </span>
+                <span data-bind="text: fromUser.UserName"></span>
+                <span>которые вам нужны</span>
+            </div>
             <table class="table table-condensed">
-                <tbody>
-                    @foreach (var item in Model.BooksYouNeed)
-                    {
-                        <tr class="success">
-                            <td>
-                                <img src="@item.Image" /> </td>
-                            <td>@item.Title </td>
-                            <td>@item.Authors </td>
-                            <td>@item.Subtitle </td>
-                            <td>@item.Publisher </td>
-                            <td>@item.PublishedDate </td>
-                            <td>@item.PageCount стр</td>
-                            <td>
-                            <a class="btn btn-small" href="/books/give/@Model.YourBook.Id/take/@item.Id/from/@Model.FromUser.UserId">Поменяться</a>
-                                
-                            </td>
-                                
-                        </tr>
-                    }
+                <tbody data-bind="foreach: booksYouNeed">
+                    <tr class="success">
+                        <td>
+                            <img data-bind="attr:{src: Image}" />
+                        </td>
+                        <td data-bind="text: Title"></td>
+                        <td data-bind="text: Authors"></td>
+                        <td data-bind="text: Subtitle"></td>
+                        <td data-bind="text: Publisher"></td>
+                        <td data-bind="text: PublishedDate"></td>
+                        <td data-bind="text: PageCount"></td>
+                        <td>
+                            <a class="btn btn-small" href="#" data-bind="click: $root.exchange">Поменяться</a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     }
-    
+
     <div>
-        <h6>
-            Все книги пользователя @Model.FromUser.UserName
-        </h6>
-         <table class="table table-condensed">
-                <tbody>
-                    @foreach (var item in Model.AllBooks)
-                    {
-                        <tr>
-                            <td>
-                                <img src="@item.Image" /> </td>
-                            <td>@item.Title </td>
-                            <td>@item.Authors </td>
-                            <td>@item.Subtitle </td>
-                            <td>@item.Publisher </td>
-                            <td>@item.PublishedDate </td>
-                            <td>@item.PageCount стр</td>
-                            <td>
-                            <a class="btn btn-small" href="/books/give/@Model.YourBook.Id/take/@item.Id/from/@Model.FromUser.UserId">Поменяться</a>
-                                
-                            </td>
-                                
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        <div>
+            <span>Все книги пользователя </span>
+            <span data-bind="text: fromUser.UserName"></span>
+        </div>
+        <table class="table table-condensed">
+            <tbody data-bind="foreach: allBooks">
+                <tr>
+                    <td>
+                        <img data-bind="attr:{src: Image}" />
+                    </td>
+                    <td data-bind="text: Title"></td>
+                    <td data-bind="text: Authors"></td>
+                    <td data-bind="text: Subtitle"></td>
+                    <td data-bind="text: Publisher"></td>
+                    <td data-bind="text: PublishedDate"></td>
+                    <td data-bind="text: PageCount">стр </td>
+                    <td>
+                        <a class="btn btn-small" href="#" data-bind="click: $root.exchange">Поменяться</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
+

@@ -1,22 +1,20 @@
-﻿@model BrainShare.Controllers.BookViewModel
+﻿@using Newtonsoft.Json
+@model BrainShare.Controllers.BookViewModel
+
 
 <div class="thumbnail">
+    <img data-bind="attr:{src: book.Image}" />
+    <div class="caption">
+        <h5 data-bind="text: book.Title"></h5>
+        <p data-bind="text: book.Subtitle"></p>
+        <p>
+            <span data-bind="text: book.Publisher"></span>
+            <strong data-bind="text: book.PublishedDate"></strong>
+            <span class="label" data-bind="text: book.PageCount"></span>
+            стр.
+        </p>
+        <strong data-bind="text: book.Authors"></strong>
 
-            <img src="@Model.Image" />
-            <div class="caption">
-                <h5 data-bind="text: volumeInfo.title">@Model.Title</h5>
-                <p data-bind="text: volumeInfo.subtitle">@Model.Subtitle</p>
-
-                <p>
-                    <span data-bind="text: volumeInfo.publisher">@Model.Publisher</span>
-                    <strong data-bind="text: volumeInfo.publishedDate">@Model.PublishedDate</strong>
-                    <span class="label" data-bind="text: volumeInfo.pageCount">@Model.PageCount</span>
-                    стр.
-                </p>
-                <strong>@Model.Authors</strong>
-
-
-                <p data-bind="text: volumeInfo.description">@Model.SearchInfo
-                </p>
-            </div>
-        </div>
+        <p data-bind="text: book.Description"></p>
+    </div>
+</div>

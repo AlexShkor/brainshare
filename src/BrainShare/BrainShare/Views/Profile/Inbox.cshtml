@@ -1,24 +1,37 @@
-﻿@model BrainShare.Controllers.InboxViewModel
+﻿@using Newtonsoft.Json
+@model BrainShare.Controllers.InboxViewModel
+
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Profile/inbox.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            var model = new InboxModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+            ko.applyBindings(model);
+        });
+    </script>
+}
+
 <h2>Входящие</h2>
+
 <table class="table table-condensed">
-        <thead>
-            <tr>
-                <th>Пользователь</th>
-                <th>Книга</th>
-                <th>Дата</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Items)
-            {
-                <tr>
-                    <td>@item.User.UserName </td>
-                    <td>@item.Book.Title </td>
-                    <td>@item.Created</td>
-                    <td>
-                        <a class="btn btn-small" href="/books/accept/@item.Book.Id/from/@item.User.UserId">Рассмотреть</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <thead>
+        <tr>
+            <th>Пользователь</th>
+            <th>Книга</th>
+            <th>Дата</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: items">
+
+        <tr>
+            <td data-bind="text: User.UserName"></td>
+            <td data-bind="text: Book.Title"></td>
+            <td data-bind="text: Created"></td>
+            <td>
+                <a class="btn btn-small" href="#" data-bind="click: $root.consider">Рассмотреть</a>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
