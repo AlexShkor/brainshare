@@ -362,11 +362,8 @@
     <Content Include="Views\Profile\ViewUserProfile.cshtml" />
     <Content Include="Views\Profile\Messages.cshtml" />
     <Content Include="Views\Profile\AllMessages.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\User\GetFbFriends.cshtml" />
-=======
     <Content Include="Views\Home\Feedback.cshtml" />
->>>>>>> 8ba208c5019b5770dd3b092bba2afb30ba0d1b0a
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
