@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using BrainShare.Authentication;
 using BrainShare.Documents;
+using BrainShare.Facebook;
 using BrainShare.Services;
 using BrainShare.ViewModels;
 using Facebook;
@@ -19,9 +20,6 @@ namespace BrainShare.Controllers
         private readonly UsersService _users;
         private readonly Settings _settings;
         public IAuthentication Auth { get; set; }
-
-
-
 
         private readonly FacebookClient _fb;
 
@@ -238,6 +236,17 @@ namespace BrainShare.Controllers
                 // log exception
                 return RedirectToProcessFacebook();
             }
+        }
+
+        public ActionResult GetFbFriends()
+        {
+            FacebookFriendsModel friends = new FacebookFriendsModel();
+
+            dynamic fbresult = _fb.Get("me/friends");
+            var fbfriends = fbresult["data"].ToString();
+
+            friends.FriendsListing = JsonConvert.DeserializeObject<List<FacebookFriend>>(fbfriends);
+            return View(friends);
         }
     }
 }

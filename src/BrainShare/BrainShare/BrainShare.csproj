@@ -218,6 +218,7 @@
     <Compile Include="ContainerConfigure.cs" />
     <Compile Include="Extensions\HtmlHelperExt.cs" />
     <Compile Include="Extensions\StringExt.cs" />
+    <Compile Include="Facebook\FacebookFriendsModel.cs" />
     <Compile Include="SessionKeys.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Facebook\FacebookAuthorizeAttribute.cs" />
@@ -359,6 +360,7 @@
     <Content Include="Views\Profile\ViewUserProfile.cshtml" />
     <Content Include="Views\Profile\Messages.cshtml" />
     <Content Include="Views\Profile\AllMessages.cshtml" />
+    <Content Include="Views\User\GetFbFriends.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
