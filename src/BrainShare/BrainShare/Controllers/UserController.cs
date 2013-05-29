@@ -27,8 +27,12 @@ namespace BrainShare.Controllers
         {
             get
             {
-                return Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, "").Replace(":" + Request.Url.Port, "") +
-                                  Url.Action("FacebookCallback");
+                var url = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, "");
+                if (Request.Url.Host != "localhost")
+                {
+                    url = url.Replace(":" + Request.Url.Port, "");
+                }
+                return url + Url.Action("FacebookCallback");
             }
         }
 
