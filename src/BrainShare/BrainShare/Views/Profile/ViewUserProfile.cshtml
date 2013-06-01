@@ -30,7 +30,7 @@
 @if (!Model.IsMe)
 {
     <div>
-        <a class="btn btn-small" href="#" data-bind="click: sendMessage">Отослать сообщение</a>
+        <a class="btn btn-small" href="#" data-bind="click: sendMessage">Отправить сообщение</a>
     </div>
 }
 
@@ -62,7 +62,7 @@
 }
 @if (Model.Books.Count == 0)
 {
-    <p>У пользователя <span data-bind="text: user.Name"></span>нет книг</p>
+    <p>У пользователя <span data-bind="text: user.Name"></span> нет книг</p>
 }
 
 <br />
@@ -93,5 +93,5 @@
 }
 @if (Model.WishList.Count == 0)
 {
-    <p>Пользователь <span data-bind="text: user.Name"></span>пока не ищет ниодной книги</p>
+    <p>Пользователь <span data-bind="text: user.Name"></span> пока не ищет ни одной книги</p>
 }
