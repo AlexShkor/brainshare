@@ -163,7 +163,7 @@ namespace BrainShare.Controllers
             var model = new MessageViewModel();
             model.Init(UserId,content,DateTime.Now,false);
             var callbackModel = new MessageViewModel();
-            callbackModel.Init(UserId, content, DateTime.Now, true);
+            callbackModel.Init(UserId, content, DateTime.Now, true, thread.OwnerId == UserId ? thread.OwnerName : thread.RecipientName);
             ThreadHub.HubContext.Clients.Group(threadId).messageSent(callbackModel);
             return Json(model);
         }
