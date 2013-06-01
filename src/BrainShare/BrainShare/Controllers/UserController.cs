@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using BrainShare.Authentication;
 using BrainShare.Documents;
+using BrainShare.Facebook;
 using BrainShare.Services;
 using BrainShare.ViewModels;
 using Facebook;
@@ -20,17 +21,18 @@ namespace BrainShare.Controllers
         private readonly Settings _settings;
         public IAuthentication Auth { get; set; }
 
-
-
-
         private readonly FacebookClient _fb;
 
         public string FacebookCallbackUri
         {
             get
             {
-                return Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, "").Replace(":" + Request.Url.Port, "") +
-                                  Url.Action("FacebookCallback");
+                var url = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, "");
+                if (Request.Url.Host != "localhost")
+                {
+                    url = url.Replace(":" + Request.Url.Port, "");
+                }
+                return url + Url.Action("FacebookCallback");
             }
         }
 
@@ -238,6 +240,17 @@ namespace BrainShare.Controllers
                 // log exception
                 return RedirectToProcessFacebook();
             }
+        }
+
+        public ActionResult GetFbFriends()
+        {
+            FacebookFriendsModel friends = new FacebookFriendsModel();
+
+            dynamic fbresult = _fb.Get("me/friends");
+            var fbfriends = fbresult["data"].ToString();
+
+            friends.FriendsListing = JsonConvert.DeserializeObject<List<FacebookFriend>>(fbfriends);
+            return View(friends);
         }
     }
 }

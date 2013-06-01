@@ -1,0 +1,13 @@
+﻿@model BrainShare.Facebook.FacebookFriendsModel
+ 
+@{
+    ViewBag.Title = "Part 3 - Facebook Friends Listing";
+}
+ 
+<h2>Part 3 - Facebook Friends Listing</h2>
+ 
+<table>
+    @foreach(var friend in Model.FriendsListing){
+        <tr><td>@friend.Id</td><td>@friend.Name</td></tr>
+    }
+</table>

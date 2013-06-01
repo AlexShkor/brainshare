@@ -6,14 +6,16 @@ using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using BrainShare.Documents;
+using BrainShare.Hubs;
 using BrainShare.Services;
 using BrainShare.ViewModels;
+using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
 
 
 namespace BrainShare.Controllers
 {
-    [Authorize]
+    [System.Web.Mvc.Authorize]
     [RoutePrefix("profile")]
     public class ProfileController : BaseController
     {
@@ -159,7 +161,10 @@ namespace BrainShare.Controllers
                 return HttpNotFound();
             }
             var model = new MessageViewModel();
-            model.Init(content,DateTime.Now,false);
+            model.Init(UserId,content,DateTime.Now,false);
+            var callbackModel = new MessageViewModel();
+            callbackModel.Init(UserId, content, DateTime.Now, true, thread.OwnerId == UserId ? thread.OwnerName : thread.RecipientName);
+            ThreadHub.HubContext.Clients.Group(threadId).messageSent(callbackModel);
             return Json(model);
         }
 
