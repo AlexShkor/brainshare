@@ -4,12 +4,12 @@ namespace BrainShare.Controllers
     {
         public string FacebookAppId
         {
-            get { return "174844976010327"; }
+            get { return "366146963495815"; }
         }
 
         public string FacebookSecretKey
         {
-            get { return "a5c8a5aaf120bc7ada881c20846511dc"; }
+            get { return "dddbde39b505a7186604dbf208a2c715"; }
         }
     }
 }
