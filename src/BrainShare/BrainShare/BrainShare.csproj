@@ -298,10 +298,8 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-<<<<<<< HEAD
     <Content Include="Images\down-disable.png" />
     <Content Include="Images\down.png" />
-=======
     <Content Include="Content\help\accept_crop.png" />
     <Content Include="Content\help\inbox_crop.png" />
     <Content Include="Content\help\seach_mongodb_crop.png" />
@@ -309,7 +307,6 @@
     <Content Include="Content\help\search-results-croped.png" />
     <Content Include="Content\help\search_croped.png" />
     <Content Include="Content\help\take_learning_sql_crop.png" />
->>>>>>> c062e1a1d16928ca56033308460e5bbaa81bb64e
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Images\up-disable.png" />
