@@ -15,6 +15,8 @@ namespace BrainShare.Documents
 
         public string FacebookId { get; set; }
 
+        public string City { get; set; }
+
         public SortedSet<string> Books { get; set; }
         public SortedSet<string> WishList { get; set; }
         public List<ChangeRequest> Recieved { get; set; }
