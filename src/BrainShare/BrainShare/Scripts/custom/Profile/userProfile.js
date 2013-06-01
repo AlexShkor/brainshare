@@ -2,6 +2,24 @@
     var self = this;
     this.user = data;
 
+    this.canEdit = ko.observable(self.user.CanEdit);
+    this.votes = ko.observable(self.user.Votes);
+    this.increaseReputation = function () {
+        var id = { id: self.user.Id };
+        send("/profile/increaseReputation", id, function (response) {
+            self.votes(response.userVotes);
+            self.canEdit(response.canEdit);
+        });
+    };
+
+    this.reduceReputation = function () {
+        var id = { id: self.user.Id };
+        send("/profile/reduceReputation", id, function (response) {
+            self.votes(response.userVotes);
+            self.canEdit(response.canEdit);
+        });
+    };
+
     this.showOwnedBooks = ko.observable(false);
     this.showWishedBooks = ko.observable(false);
 

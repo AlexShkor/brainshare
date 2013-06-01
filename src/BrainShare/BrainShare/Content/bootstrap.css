@@ -6746,3 +6746,7 @@ legend {
 .affix {
   position: fixed;
 }
+
+div.raiting {
+  float: right;
+}

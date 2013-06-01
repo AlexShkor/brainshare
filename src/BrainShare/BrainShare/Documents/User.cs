@@ -13,6 +13,10 @@ namespace BrainShare.Documents
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
+        // Test reputation System
+        public List<string> RaitedUserIds { get; set; }
+        public int Votes { get; set; }
+        
         public string FacebookId { get; set; }
 
         public SortedSet<string> Books { get; set; }
@@ -32,6 +36,11 @@ namespace BrainShare.Documents
             WishList = new SortedSet<string>();
             Inbox = new List<ChangeRequest>();
             Recieved = new List<ChangeRequest>();
+            Votes = 0;
+
+            // Test reputtion system
+            RaitedUserIds = new List<string>();
+            //
         }
 
         public void AddRecievedBook(string bookId, string userId)

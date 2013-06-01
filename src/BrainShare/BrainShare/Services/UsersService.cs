@@ -64,5 +64,33 @@ namespace BrainShare.Services
             user.Books.Remove(bookId);
             Items.Save(user);
         }
+
+        public bool CheckLikedUsers(string whoLikes, string whoLiked)
+        {
+            var user = Items.FindOne(Query<User>.EQ(x => x.Id, whoLikes));
+            return !user.RaitedUserIds.Contains(whoLiked);
+        }
+
+        public void IncreaseReputation(string id, string increaserId)
+        {
+            var user = Items.FindOne(Query<User>.EQ(x => x.Id, id));
+            user.Votes += 1;
+            Items.Save(user);
+
+            var increaser = Items.FindOne(Query<User>.EQ(x => x.Id, increaserId));
+            increaser.RaitedUserIds.Add(id);
+            Items.Save(increaser);
+        }
+
+        public void ReduceReputation(string id, string decreaserId)
+        {
+            var user = Items.FindOne(Query<User>.EQ(x => x.Id, id));
+            user.Votes -= 1;
+            Items.Save(user);
+
+            var decreaser = Items.FindOne(Query<User>.EQ(x => x.Id, decreaserId));
+            decreaser.RaitedUserIds.Add(id);
+            Items.Save(decreaser);
+        }
     }
 }

@@ -38,6 +38,9 @@ namespace BrainShare.Controllers
         {
             var user = _users.GetById(id);
             var model = new UserProfileModel(user, UserId);
+            var canEdit = _users.CheckLikedUsers(UserId, id);
+            model.CanEdit = canEdit;
+
             return View(model);
         }
 
@@ -159,7 +162,7 @@ namespace BrainShare.Controllers
                 return HttpNotFound();
             }
             var model = new MessageViewModel();
-            model.Init(content,DateTime.Now,false);
+            model.Init(content, DateTime.Now, false);
             return Json(model);
         }
 
@@ -167,7 +170,23 @@ namespace BrainShare.Controllers
         public ActionResult GetUserBooks(IEnumerable<string> ids)
         {
             var books = _books.GetByIds(ids);
-            return Json(new {books = books});
+            return Json(new { books = books });
+        }
+
+        [POST]
+        public ActionResult IncreaseReputation(string id)
+        {
+            _users.IncreaseReputation(id, UserId);
+            var userVotes = _users.GetById(id).Votes;
+            return Json(new { canEdit = false, userVotes = userVotes });
+        }
+
+        [POST]
+        public ActionResult ReduceReputation(string id)
+        {
+            _users.ReduceReputation(id, UserId);
+            var userVotes = _users.GetById(id).Votes;
+            return Json(new { canEdit = false, userVotes = userVotes });
         }
     }
 }
