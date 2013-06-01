@@ -2,78 +2,99 @@
 @using Newtonsoft.Json
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>@ViewBag.Title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="@Styles.Url("~/content/css")" rel="stylesheet"/>
-        
-        @* Libs Scripts*@
-        <script src="~/Scripts/jquery-2.0.0.min.js"></script>
-        <script src="~/Scripts/jquery.signalR-1.1.2.min.js"></script>
-        <script src="~/Scripts/knockout-2.2.1.js"></script>
-        <script src="~/Scripts/bootstrap.js"></script>
-        <script src="~/Scripts/knockout-bootstrap.min.js"></script>
-        <script src="/signalr/hubs"></script>
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title | BrainShare</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="@Styles.Url("~/content/css")" rel="stylesheet"/>
 
-        @* Our Scripts*@
-        <script src="~/Scripts/custom/common.js"></script>
-        <script src="~/Scripts/custom/addbook.js"></script>
-        
-        @RenderSection("head", required: false)
-        @* favicons and touch icons go here *@
-    </head>
-    <body>
-        <div class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
-                    <a class="brand" href="/"> BrainShare</a>
-                    <div class="nav-collapse collapse">
-                        
-                        @if (Request.IsAuthenticated)
-                        {
+    @* Libs Scripts*@
+    <script src="~/Scripts/jquery-2.0.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-1.1.2.min.js"></script>
+    <script src="~/Scripts/knockout-2.2.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/knockout-bootstrap.min.js"></script>
+    <script src="/signalr/hubs"></script>
+
+    @* Our Scripts*@
+    <script src="~/Scripts/custom/common.js"></script>
+    <script src="~/Scripts/custom/addbook.js"></script>
+
+    @RenderSection("head", required: false)
+    @* favicons and touch icons go here *@
+</head>
+<body>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="/">BrainShare</a>
+                <div class="nav-collapse collapse">
+
+                    @if (Request.IsAuthenticated)
+                    {
                         <p class="navbar-text pull-right ">
-                            
-                            <a href="/profile/mybooks" class="navbar-link">@ViewBag.UserName</a> (@User.Identity.Name) <a  href="@Url.Action("Logout","User")" >Logout</a>
+
+                            <a href="/profile/mybooks" class="navbar-link">@ViewBag.UserName</a> (@User.Identity.Name) <a  href="@Url.Action("Logout", "User")" >Logout</a>
                         </p>
-                        }
-                        else
-                        {
-                            <ul class="nav pull-right">
-                            <li><a href="@Url.Action("Register","User")">Register</a></li>
-                            <li><a href="@Url.Action("Login","User")">Login</a></li>
-                            <li><a style="color: #4c66a4; font-weight: bold" href="@Url.Action("LoginWithFacebook","User")">Facebook</a></li>
+                    }
+                    else
+                    {
+                        <ul class="nav pull-right">
+                            <li><a href="@Url.Action("Register", "User")">Register</a></li>
+                            <li><a href="@Url.Action("Login", "User")">Login</a></li>
+                            <li><a style="color: #4c66a4; font-weight: bold" href="@Url.Action("LoginWithFacebook", "User")">Facebook</a></li>
                         </ul>
-                        }
-                        <ul class="nav">
-                            <li>
-                                <a href="/">Активность</a>
-                                
-                            </li>
-                            
-                                <li><a style="color: green; font-weight: bold;" href="@Url.Action("Search","Books")">Искать</a></li>
-                                <li><a href="@Url.Action("MyBooks","Profile")">Мои Книги</a></li>
-                                <li><a href="@Url.Action("WishList","Profile")">Я ищу Книги</a></li>
-                                <li><a href="@Url.Action("Inbox","Profile")">Входящие</a></li>
-                                <li><a href="@Url.Action("AllMessages","Profile")">Сообщения</a></li>
-                                <li><a href="@Url.Action("Feedback","Home")">Отзывы</a></li>
-                        </ul>
-                    </div>
+                    }
+                    <ul class="nav">
+                        <li>
+                            <a href="/">Активность</a>
+
+                        </li>
+
+                        <li><a style="color: green; font-weight: bold;" href="@Url.Action("Search", "Books")">Искать</a></li>
+
+                        <li><a href="@Url.Action("Inbox", "Profile")">Входящие</a></li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Профиль<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("AllMessages", "Profile")">Сообщения</a></li>
+                                <li><a href="@Url.Action("Inbox", "Profile")">Входящие</a></li>
+                                <li><a href="@Url.Action("MyBooks", "Profile")">Мои Книги</a></li>
+                                <li><a href="@Url.Action("WishList", "Profile")">Я ищу Книги</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Помощь<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Index", "Help")">Помощь</a></li>
+                                <li><a href="@Url.Action("HowToAddBook", "Help")">Как добавить книгу в коллекцию?</a></li>
+                                <li><a href="@Url.Action("HowToSearchBook", "Help")">Как найти нужную вам книгу?</a></li>
+                                <li><a href="@Url.Action("HowToExchangeBook", "Help")">Как обменяться книгами?</a></li>
+                            </ul>
+                        </li>
+                        
+
+                        <li><a href="@Url.Action("Feedback", "Home")">Отзывы</a></li>
+                    </ul>
                 </div>
             </div>
-        </div>        
-        <div class="container">
-            @RenderBody()   
-            <hr>
-            <footer>
-                <p>&copy; BrainShare @System.DateTime.Now.ToString("yyyy")</p>
-            </footer> 
         </div>
-         @RenderSection("Scripts", required: false)
-    </body>
+    </div>
+    <div class="container">
+        @RenderBody()
+        <hr>
+        <footer>
+            <p>&copy; BrainShare @System.DateTime.Now.ToString("yyyy")</p>
+        </footer>
+    </div>
+    @RenderSection("Scripts", required: false)
+</body>
 </html>

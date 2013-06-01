@@ -40,6 +40,7 @@ namespace BrainShare.Controllers
         {
             var user = _users.GetById(id);
             var model = new UserProfileModel(user, UserId);
+            Title(user.FullName);
             return View(model);
         }
 
@@ -76,6 +77,7 @@ namespace BrainShare.Controllers
 
         public ActionResult MyBooks()
         {
+            Title("Мои Книги");
             var books = _books.GetUserBooks(UserId);
             var model = books.Select(x => new BookViewModel(x)).ToList();
             return View(model);
@@ -83,6 +85,7 @@ namespace BrainShare.Controllers
 
         public ActionResult WishList()
         {
+            Title("Я ищу Книги");
             var books = _books.GetUserWantedBooks(UserId);
             var model = books.Select(x => new BookViewModel(x)).ToList();
             return View(model);
@@ -90,6 +93,7 @@ namespace BrainShare.Controllers
 
         public ActionResult Inbox()
         {
+            Title("Входящие");
             var user = _users.GetById(UserId);
             var books = _books.GetByIds(user.Inbox.Select(x => x.BookId)).ToList();
             var users = _users.GetByIds(user.Inbox.Select(x => x.UserId)).ToList();

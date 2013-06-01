@@ -2,3 +2,11 @@
             padding-top: 60px;
             padding-bottom: 40px;
           }
+
+  .color-black {
+      color: black;
+  }
+
+  .underline {
+      text-decoration: underline;
+  }
