@@ -14,6 +14,7 @@ namespace BrainShare.Controllers
 
         public ActionResult Index()
         {
+            Title("Активность");
             var feeds = _activityFeeds.GetLast100();
             return View(feeds);
         }

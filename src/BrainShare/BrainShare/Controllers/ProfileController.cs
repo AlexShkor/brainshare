@@ -6,14 +6,16 @@ using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using BrainShare.Documents;
+using BrainShare.Hubs;
 using BrainShare.Services;
 using BrainShare.ViewModels;
+using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
 
 
 namespace BrainShare.Controllers
 {
-    [Authorize]
+    [System.Web.Mvc.Authorize]
     [RoutePrefix("profile")]
     public class ProfileController : BaseController
     {
@@ -38,9 +40,13 @@ namespace BrainShare.Controllers
         {
             var user = _users.GetById(id);
             var model = new UserProfileModel(user, UserId);
+<<<<<<< HEAD
             var canEdit = _users.CheckLikedUsers(UserId, id);
             model.CanEdit = canEdit;
 
+=======
+            Title(user.FullName);
+>>>>>>> c062e1a1d16928ca56033308460e5bbaa81bb64e
             return View(model);
         }
 
@@ -77,6 +83,7 @@ namespace BrainShare.Controllers
 
         public ActionResult MyBooks()
         {
+            Title("Мои Книги");
             var books = _books.GetUserBooks(UserId);
             var model = books.Select(x => new BookViewModel(x)).ToList();
             return View(model);
@@ -84,6 +91,7 @@ namespace BrainShare.Controllers
 
         public ActionResult WishList()
         {
+            Title("Я ищу Книги");
             var books = _books.GetUserWantedBooks(UserId);
             var model = books.Select(x => new BookViewModel(x)).ToList();
             return View(model);
@@ -91,6 +99,7 @@ namespace BrainShare.Controllers
 
         public ActionResult Inbox()
         {
+            Title("Входящие");
             var user = _users.GetById(UserId);
             var books = _books.GetByIds(user.Inbox.Select(x => x.BookId)).ToList();
             var users = _users.GetByIds(user.Inbox.Select(x => x.UserId)).ToList();
@@ -162,7 +171,14 @@ namespace BrainShare.Controllers
                 return HttpNotFound();
             }
             var model = new MessageViewModel();
+<<<<<<< HEAD
             model.Init(content, DateTime.Now, false);
+=======
+            model.Init(UserId,content,DateTime.Now,false);
+            var callbackModel = new MessageViewModel();
+            callbackModel.Init(UserId, content, DateTime.Now, true, thread.OwnerId == UserId ? thread.OwnerName : thread.RecipientName);
+            ThreadHub.HubContext.Clients.Group(threadId).messageSent(callbackModel);
+>>>>>>> c062e1a1d16928ca56033308460e5bbaa81bb64e
             return Json(model);
         }
 

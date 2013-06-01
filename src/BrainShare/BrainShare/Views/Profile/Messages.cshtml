@@ -7,11 +7,13 @@
         $(function () {
             var model = new MessagesModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
             ko.applyBindings(model);
+            model.initServerCallback();
         });
     </script>
 }
 
 <div class="container">
+    <h2>Сообщения</h2>
     <div class="span8">
         
         <div>

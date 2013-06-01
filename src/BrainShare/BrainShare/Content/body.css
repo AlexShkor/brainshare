@@ -2,3 +2,19 @@
             padding-top: 60px;
             padding-bottom: 40px;
           }
+
+  .color-black {
+      color: black;
+  }
+  .color-orange {
+      color: orange;
+  }
+
+  .underline {
+      text-decoration: underline;
+  }
+
+
+  .bold {
+       font-weight: bold;
+  }
