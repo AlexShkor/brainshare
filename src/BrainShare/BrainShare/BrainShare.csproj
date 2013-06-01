@@ -237,6 +237,7 @@
     <Compile Include="Authentication\UserIdentity.cs" />
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="ContainerConfigure.cs" />
+    <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Extensions\HtmlHelperExt.cs" />
     <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="Facebook\FacebookFriendsModel.cs" />
@@ -297,6 +298,13 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\help\accept_crop.png" />
+    <Content Include="Content\help\inbox_crop.png" />
+    <Content Include="Content\help\seach_mongodb_crop.png" />
+    <Content Include="Content\help\seach_mongodb_results_crop.png" />
+    <Content Include="Content\help\search-results-croped.png" />
+    <Content Include="Content\help\search_croped.png" />
+    <Content Include="Content\help\take_learning_sql_crop.png" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\site.css" />
@@ -451,6 +459,12 @@
     <Content Include="Views\Profile\AllMessages.cshtml" />
     <Content Include="Views\User\GetFbFriends.cshtml" />
     <Content Include="Views\Home\Feedback.cshtml" />
+    <Content Include="Views\Help\Index.cshtml" />
+    <Content Include="Views\Help\HowToAddBook.cshtml" />
+    <Content Include="Views\Help\HowToSearchBook.cshtml" />
+    <Content Include="Views\Help\HowToExchangeBook.cshtml" />
+    <Content Include="Views\Help\_HelpLayout.cshtml" />
+    <Content Include="Views\Help\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

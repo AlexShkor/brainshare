@@ -150,6 +150,7 @@ namespace BrainShare.Controllers
             model.FromUser = new UserItemViewModel(fromUser);
             var yourBook = _books.GetById(requestedBookId);
             model.YourBook = new BookViewModel(yourBook);
+            Title(string.Format("Запрос от {0} на книгу {1}", fromUser.FullName, yourBook.Title));
             return View(model);
         }
 
