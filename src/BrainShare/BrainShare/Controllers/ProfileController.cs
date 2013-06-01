@@ -40,7 +40,13 @@ namespace BrainShare.Controllers
         {
             var user = _users.GetById(id);
             var model = new UserProfileModel(user, UserId);
+<<<<<<< HEAD
+            var canEdit = _users.CheckLikedUsers(UserId, id);
+            model.CanEdit = canEdit;
+
+=======
             Title(user.FullName);
+>>>>>>> c062e1a1d16928ca56033308460e5bbaa81bb64e
             return View(model);
         }
 
@@ -165,10 +171,14 @@ namespace BrainShare.Controllers
                 return HttpNotFound();
             }
             var model = new MessageViewModel();
+<<<<<<< HEAD
+            model.Init(content, DateTime.Now, false);
+=======
             model.Init(UserId,content,DateTime.Now,false);
             var callbackModel = new MessageViewModel();
             callbackModel.Init(UserId, content, DateTime.Now, true, thread.OwnerId == UserId ? thread.OwnerName : thread.RecipientName);
             ThreadHub.HubContext.Clients.Group(threadId).messageSent(callbackModel);
+>>>>>>> c062e1a1d16928ca56033308460e5bbaa81bb64e
             return Json(model);
         }
 
@@ -176,7 +186,23 @@ namespace BrainShare.Controllers
         public ActionResult GetUserBooks(IEnumerable<string> ids)
         {
             var books = _books.GetByIds(ids);
-            return Json(new {books = books});
+            return Json(new { books = books });
+        }
+
+        [POST]
+        public ActionResult IncreaseReputation(string id)
+        {
+            _users.IncreaseReputation(id, UserId);
+            var userVotes = _users.GetById(id).Votes;
+            return Json(new { canEdit = false, userVotes = userVotes });
+        }
+
+        [POST]
+        public ActionResult ReduceReputation(string id)
+        {
+            _users.ReduceReputation(id, UserId);
+            var userVotes = _users.GetById(id).Votes;
+            return Json(new { canEdit = false, userVotes = userVotes });
         }
     }
 }

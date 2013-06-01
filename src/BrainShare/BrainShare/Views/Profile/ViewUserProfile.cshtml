@@ -11,6 +11,22 @@
 
 <h3>Профиль пользователя <span data-bind="text: user.Name"></span></h3>
 
+
+    <div data-bind="if: canEdit" class="raiting">
+        <p><a href="#" data-bind="click: increaseReputation"><img src="@Url.Content("~/Images/up.png")" /></a></p>
+        <p>Votes: <span data-bind="text: votes"></span></p>
+        <p><a href="#" data-bind="click: reduceReputation"><img src="@Url.Content("~/Images/down.png")" /></a></p>
+    </div>
+ 
+
+    <div data-bind="ifnot: canEdit" class="raiting">
+        <p><img src="@Url.Content("~/Images/up-disable.png")" /></p>
+        <p>Votes: <span data-bind="text: votes"></span></p>
+        <p><img src="@Url.Content("~/Images/down-disable.png")" /></p>
+    </div>
+
+
+
 @if (!Model.IsMe)
 {
     <div>
