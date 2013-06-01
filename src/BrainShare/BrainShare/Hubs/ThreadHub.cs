@@ -4,8 +4,6 @@ namespace BrainShare.Hubs
 {
     public class ThreadHub: Hub
     {
-
-
         public static IHubContext HubContext
         {
             get
