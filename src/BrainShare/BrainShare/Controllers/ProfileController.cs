@@ -162,7 +162,9 @@ namespace BrainShare.Controllers
             }
             var model = new MessageViewModel();
             model.Init(UserId,content,DateTime.Now,false);
-            ThreadHub.HubContext.Clients.Group(threadId).messageSent(model);
+            var callbackModel = new MessageViewModel();
+            callbackModel.Init(UserId, content, DateTime.Now, true);
+            ThreadHub.HubContext.Clients.Group(threadId).messageSent(callbackModel);
             return Json(model);
         }
 
