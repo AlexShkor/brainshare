@@ -7,17 +7,17 @@
     this.canDecrease = ko.observable(self.user.CanDecrease);
     this.summaryVotes = ko.observable(self.user.SummaryVotes);
     this.increaseReputation = function () {
-        var id = { id: self.user.Id };
-        send("/profile/increaseReputation", id, function (response) {
-            self.votes(response.summaryVotes);
+        var parameters = { id: self.user.Id, value: 1 };
+        send("/Profile/AdjustReputation", parameters, function (response) {
+            self.summaryVotes(response.summaryVotes);
             self.canIncrease(response.canIncrease);
             self.canDecrease(response.canDecrease);
         });
     };
-    this.reduceReputation = function () {
-        var id = { id: self.user.Id };
-        send("/profile/reduceReputation", id, function (response) {
-            self.votes(response.summaryVotes);
+    this.decreaseReputation = function () {
+        var parameters = { id: self.user.Id, value: -1 };
+        send("/Profile/AdjustReputation", parameters, function (response) {
+            self.summaryVotes(response.summaryVotes);
             self.canIncrease(response.canIncrease);
             self.canDecrease(response.canDecrease);
         });

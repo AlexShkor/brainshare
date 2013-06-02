@@ -66,35 +66,6 @@ namespace BrainShare.Services
             user.Books.Remove(bookId);
             Items.Save(user);
         }
-        
-        public void SetVote(string userId, string setterId, int value)
-        {
-            if (value < -1 || value > 1)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
 
-            var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
-            user.Votes[setterId] = value;
-            Items.Save(user);
-        }
-
-        public int GetVote(string userId, string setterId )
-        {
-            var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
-            return user.Votes.ContainsKey(setterId) ? user.Votes[setterId] : 0;
-        }
-
-        public int GetSummaryVotes(string userId)
-        {
-            var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
-            return user.Votes.Values.Sum(x => x);
-        }
-
-        public bool CheckSetter(string userId, string setterId)
-        {
-            var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
-            return user.Votes.ContainsKey(setterId);
-        }
     }
 }

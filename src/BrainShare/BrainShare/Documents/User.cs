@@ -13,7 +13,6 @@ namespace BrainShare.Documents
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        // Test reputation System
         public Dictionary<string, int> Votes { get; set; }
 
         public string FacebookId { get; set; }
@@ -44,6 +43,21 @@ namespace BrainShare.Documents
         public void AddRecievedBook(string bookId, string userId)
         {
             Recieved.Add(new ChangeRequest() { BookId = bookId, UserId = userId });
+        }
+
+        public void SetVote(string setterId, int value)
+        {
+            if (value < -1 || value > 1)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            Votes[setterId] = value;
+        }
+
+        public int GetVote(string userId, string setterId )
+        {
+            return Votes.ContainsKey(setterId) ? Votes[setterId] : 0;
         }
     }
 

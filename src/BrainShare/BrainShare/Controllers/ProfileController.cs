@@ -41,9 +41,9 @@ namespace BrainShare.Controllers
             var user = _users.GetById(id);
             var model = new UserProfileModel(user, UserId);
 
-            model.CanIncrease = _users.GetVote(id, UserId) <= 0;
-            model.CanDecrease = _users.GetVote(id, UserId) >= 0;
-            model.SummaryVotes = _users.GetSummaryVotes(id);
+            model.CanIncrease = user.GetVote(id, UserId) <= 0;
+            model.CanDecrease = user.GetVote(id, UserId) >= 0;
+            model.SummaryVotes = user.Votes.Values.Sum(x => x);
 
             Title(user.FullName);
             return View(model);
@@ -184,40 +184,28 @@ namespace BrainShare.Controllers
             return Json(new { books = books });
         }
 
-        [POST]
-        public ActionResult IncreaseReputation(string id)
+        public ActionResult AdjustReputation(string id, int value)
         {
-            if (_users.CheckSetter(id, UserId))
+            var user = _users.GetById(id);
+            if(!user.Votes.ContainsKey(UserId))
             {
-                _users.SetVote(id, UserId, 0);
+                user.Votes.Add(UserId, 0);
+            }
+
+            if (user.Votes[UserId] != 0)
+            {
+                user.SetVote(UserId, 0);
             }
             else
             {
-                _users.SetVote(id, UserId, 1);
+                user.SetVote(UserId, value);
             }
 
-            var summaryVotes = _users.GetSummaryVotes(id);
-            var canIncrease = _users.GetVote(id, UserId) <= 0;
-            var canDecrease = _users.GetVote(id, UserId) >= 0;
+            var summaryVotes = user.Votes.Values.Sum(x => x);
+            var canIncrease = user.GetVote(id, UserId) <= 0;
+            var canDecrease = user.GetVote(id, UserId) >= 0;
 
-            return Json(new { canIncrease = canIncrease, canDecrease = canDecrease, summaryVotes = summaryVotes });
-        }
-
-        [POST]
-        public ActionResult ReduceReputation(string id)
-        {
-            if (_users.CheckSetter(id, UserId))
-            {
-                _users.SetVote(id, UserId, 0);
-            }
-            else
-            {
-                _users.SetVote(id, UserId, -1);
-            }
-
-            var summaryVotes = _users.GetSummaryVotes(id);
-            var canIncrease = _users.GetVote(id, UserId) <= 0;
-            var canDecrease = _users.GetVote(id, UserId) >= 0;
+            _users.Save(user);
 
             return Json(new { canIncrease = canIncrease, canDecrease = canDecrease, summaryVotes = summaryVotes });
         }

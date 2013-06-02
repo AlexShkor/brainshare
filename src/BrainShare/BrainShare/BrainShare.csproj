@@ -298,8 +298,6 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Images\down-disable.png" />
-    <Content Include="Images\down.png" />
     <Content Include="Content\help\accept_crop.png" />
     <Content Include="Content\help\inbox_crop.png" />
     <Content Include="Content\help\seach_mongodb_crop.png" />
@@ -309,8 +307,6 @@
     <Content Include="Content\help\take_learning_sql_crop.png" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
-    <Content Include="Images\up-disable.png" />
-    <Content Include="Images\up.png" />
     <Content Include="Content\site.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -379,6 +375,7 @@
     <Content Include="App_Code\Links.cshtml" />
     <Content Include="App_Code\KO.cshtml" />
     <Content Include="Images\loading.gif" />
+    <Content Include="img\glyphicons-halflings.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\custom\addbook.js" />

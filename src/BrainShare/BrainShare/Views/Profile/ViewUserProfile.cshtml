@@ -11,30 +11,11 @@
 
 <h3>Профиль пользователя <span data-bind="text: user.Name"></span></h3>
 
-<div class="thumbnail pull-left"><img src="@Model.Avatar"/></div>
-<div class="clearfix"></div>
-<div class="raiting">
-    <p data-bind="if: canIncrease"><a href="#" data-bind="click: increaseReputation"><img src="@Url.Content("~/Images/up.png")" /></a></p>
-    <p data-bind="ifnot: canIncrease"><img src="@Url.Content("~/Images/up-disable.png")" /></p>
+<div class="btn-group-vertical raiting">
+    <p><button class="btn" data-bind="click: increaseReputation, enable: canIncrease"><i class="icon-chevron-up"></i></button></p>
     <p>Votes: <span data-bind="text: summaryVotes"></span></p>
-    <p data-bind="if: canDecrease"><a href="#" data-bind="click: reduceReputation"><img src="@Url.Content("~/Images/down.png")" /></a></p>
-    <p data-bind="ifnot: canDecrease"><img src="@Url.Content("~/Images/down-disable.png")" /></p>
+    <p><button class="btn" data-bind="click: decreaseReputation, enable: canDecrease"><i class="icon-chevron-down"></i></button></p>
 </div>
-
-
-    @*<div data-bind="if: canEdit" class="raiting">
-        <p><a href="#" data-bind="click: increaseReputation"><img src="@Url.Content("~/Images/up.png")" /></a></p>
-        <p>Votes: <span data-bind="text: votes"></span></p>
-        <p><a href="#" data-bind="click: reduceReputation"><img src="@Url.Content("~/Images/down.png")" /></a></p>
-    </div>
- 
-
-    <div data-bind="ifnot: canEdit" class="raiting">
-        <p><img src="@Url.Content("~/Images/up-disable.png")" /></p>
-        <p>Votes: <span data-bind="text: votes"></span></p>
-        <p><img src="@Url.Content("~/Images/down-disable.png")" /></p>
-    </div>*@
-
 
 
 @if (!Model.IsMe)
@@ -72,7 +53,7 @@
 }
 @if (Model.Books.Count == 0)
 {
-    <p>У пользователя <span data-bind="text: user.Name"></span> нет книг</p>
+    <p>У пользователя <span data-bind="text: user.Name"></span>нет книг</p>
 }
 
 <br />
@@ -103,5 +84,5 @@
 }
 @if (Model.WishList.Count == 0)
 {
-    <p>Пользователь <span data-bind="text: user.Name"></span> пока не ищет ни одной книги</p>
+    <p>Пользователь <span data-bind="text: user.Name"></span>пока не ищет ни одной книги</p>
 }
