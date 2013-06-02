@@ -40,8 +40,11 @@ namespace BrainShare.Controllers
         {
             var user = _users.GetById(id);
             var model = new UserProfileModel(user, UserId);
-            var canEdit = _users.CheckLikedUsers(UserId, id);
-            model.CanEdit = canEdit;
+
+            model.CanIncrease = _users.GetVote(id, UserId) <= 0;
+            model.CanDecrease = _users.GetVote(id, UserId) >= 0;
+            model.SummaryVotes = _users.GetSummaryVotes(id);
+
             Title(user.FullName);
             return View(model);
         }
@@ -167,7 +170,7 @@ namespace BrainShare.Controllers
                 return HttpNotFound();
             }
             var model = new MessageViewModel();
-            model.Init(UserId,content,DateTime.Now,false);
+            model.Init(UserId, content, DateTime.Now, false);
             var callbackModel = new MessageViewModel();
             callbackModel.Init(UserId, content, DateTime.Now, true, thread.OwnerId == UserId ? thread.OwnerName : thread.RecipientName);
             ThreadHub.HubContext.Clients.Group(threadId).messageSent(callbackModel);
@@ -184,17 +187,39 @@ namespace BrainShare.Controllers
         [POST]
         public ActionResult IncreaseReputation(string id)
         {
-            _users.IncreaseReputation(id, UserId);
-            var userVotes = _users.GetById(id).Votes;
-            return Json(new { canEdit = false, userVotes = userVotes });
+            if (_users.CheckSetter(id, UserId))
+            {
+                _users.SetVote(id, UserId, 0);
+            }
+            else
+            {
+                _users.SetVote(id, UserId, 1);
+            }
+
+            var summaryVotes = _users.GetSummaryVotes(id);
+            var canIncrease = _users.GetVote(id, UserId) <= 0;
+            var canDecrease = _users.GetVote(id, UserId) >= 0;
+
+            return Json(new { canIncrease = canIncrease, canDecrease = canDecrease, summaryVotes = summaryVotes });
         }
 
         [POST]
         public ActionResult ReduceReputation(string id)
         {
-            _users.ReduceReputation(id, UserId);
-            var userVotes = _users.GetById(id).Votes;
-            return Json(new { canEdit = false, userVotes = userVotes });
+            if (_users.CheckSetter(id, UserId))
+            {
+                _users.SetVote(id, UserId, 0);
+            }
+            else
+            {
+                _users.SetVote(id, UserId, -1);
+            }
+
+            var summaryVotes = _users.GetSummaryVotes(id);
+            var canIncrease = _users.GetVote(id, UserId) <= 0;
+            var canDecrease = _users.GetVote(id, UserId) >= 0;
+
+            return Json(new { canIncrease = canIncrease, canDecrease = canDecrease, summaryVotes = summaryVotes });
         }
     }
 }

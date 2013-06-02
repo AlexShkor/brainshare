@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using BrainShare.Documents;
 using BrainShare.Mongo;
 using MongoDB.Driver;
@@ -27,13 +29,13 @@ namespace BrainShare.Services
         {
             return
                 Items.FindOne(Query.And(Query<User>.EQ(x => x.Email, email),
-                                     Query<User>.EQ(x => x.Password, password)));
+                                        Query<User>.EQ(x => x.Password, password)));
         }
 
         public User GetByFacebookId(string facebookId)
         {
             return
-                 Items.FindOne(Query<User>.EQ(x => x.FacebookId, facebookId));
+                Items.FindOne(Query<User>.EQ(x => x.FacebookId, facebookId));
         }
 
         public void AddUser(User user)
@@ -64,33 +66,35 @@ namespace BrainShare.Services
             user.Books.Remove(bookId);
             Items.Save(user);
         }
-
-        public bool CheckLikedUsers(string whoLikes, string whoLiked)
+        
+        public void SetVote(string userId, string setterId, int value)
         {
-            var user = Items.FindOne(Query<User>.EQ(x => x.Id, whoLikes));
-            return !user.RaitedUserIds.Contains(whoLiked);
+            if (value < -1 || value > 1)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
+            user.Votes.Add(setterId, value);
+            Items.Save(user);
         }
 
-        public void IncreaseReputation(string id, string increaserId)
+        public int GetVote(string userId, string setterId )
         {
-            var user = Items.FindOne(Query<User>.EQ(x => x.Id, id));
-            user.Votes += 1;
-            Items.Save(user);
-
-            var increaser = Items.FindOne(Query<User>.EQ(x => x.Id, increaserId));
-            increaser.RaitedUserIds.Add(id);
-            Items.Save(increaser);
+            var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
+            return user.Votes.ContainsKey(setterId) ? user.Votes[setterId] : 0;
         }
 
-        public void ReduceReputation(string id, string decreaserId)
+        public int GetSummaryVotes(string userId)
         {
-            var user = Items.FindOne(Query<User>.EQ(x => x.Id, id));
-            user.Votes -= 1;
-            Items.Save(user);
+            var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
+            return user.Votes.Values.Sum(x => x);
+        }
 
-            var decreaser = Items.FindOne(Query<User>.EQ(x => x.Id, decreaserId));
-            decreaser.RaitedUserIds.Add(id);
-            Items.Save(decreaser);
+        public bool CheckSetter(string userId, string setterId)
+        {
+            var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
+            return user.Votes.ContainsKey(setterId);
         }
     }
 }
