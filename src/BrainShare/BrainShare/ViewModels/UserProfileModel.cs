@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using BrainShare.Documents;
 
@@ -7,6 +8,7 @@ namespace BrainShare.Controllers
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public string Avatar { get; set; }
         public bool IsMe { get; set; }
         public SortedSet<string> Books { get; set; }
         public SortedSet<string> WishList { get; set; }
@@ -21,6 +23,10 @@ namespace BrainShare.Controllers
             Books = user.Books;
             WishList = user.WishList;
             Votes = user.Votes;
+            if (user.FacebookId.HasValue())
+            {
+                Avatar = string.Format("http://graph.facebook.com/{0}/picture?type=normal", user.FacebookId);
+            }
         }
     }
 }
