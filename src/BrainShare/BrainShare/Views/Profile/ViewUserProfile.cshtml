@@ -13,7 +13,16 @@
 
 <div class="thumbnail pull-left"><img src="@Model.Avatar"/></div>
 <div class="clearfix"></div>
-    <div data-bind="if: canEdit" class="raiting">
+<div class="raiting">
+    <p data-bind="if: canIncrease"><a href="#" data-bind="click: increaseReputation"><img src="@Url.Content("~/Images/up.png")" /></a></p>
+    <p data-bind="ifnot: canIncrease"><img src="@Url.Content("~/Images/up-disable.png")" /></p>
+    <p>Votes: <span data-bind="text: summaryVotes"></span></p>
+    <p data-bind="if: canDecrease"><a href="#" data-bind="click: reduceReputation"><img src="@Url.Content("~/Images/down.png")" /></a></p>
+    <p data-bind="ifnot: canDecrease"><img src="@Url.Content("~/Images/down-disable.png")" /></p>
+</div>
+
+
+    @*<div data-bind="if: canEdit" class="raiting">
         <p><a href="#" data-bind="click: increaseReputation"><img src="@Url.Content("~/Images/up.png")" /></a></p>
         <p>Votes: <span data-bind="text: votes"></span></p>
         <p><a href="#" data-bind="click: reduceReputation"><img src="@Url.Content("~/Images/down.png")" /></a></p>
@@ -24,7 +33,7 @@
         <p><img src="@Url.Content("~/Images/up-disable.png")" /></p>
         <p>Votes: <span data-bind="text: votes"></span></p>
         <p><img src="@Url.Content("~/Images/down-disable.png")" /></p>
-    </div>
+    </div>*@
 
 
 

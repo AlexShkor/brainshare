@@ -12,8 +12,11 @@ namespace BrainShare.Controllers
         public bool IsMe { get; set; }
         public SortedSet<string> Books { get; set; }
         public SortedSet<string> WishList { get; set; }
-        public bool CanEdit { get; set; }
-        public int Votes { get; set; }
+        public int SummaryVotes { get; set; }
+
+      
+        public bool CanIncrease { get; set; }
+        public bool CanDecrease { get; set; }
 
         public UserProfileModel(User user, string myId)
         {
@@ -22,7 +25,7 @@ namespace BrainShare.Controllers
             IsMe = user.Id == myId;
             Books = user.Books;
             WishList = user.WishList;
-            Votes = user.Votes;
+            
             if (user.FacebookId.HasValue())
             {
                 Avatar = string.Format("http://graph.facebook.com/{0}/picture?type=normal", user.FacebookId);

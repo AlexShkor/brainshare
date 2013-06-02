@@ -14,9 +14,8 @@ namespace BrainShare.Documents
         public string LastName { get; set; }
 
         // Test reputation System
-        public List<string> RaitedUserIds { get; set; }
-        public int Votes { get; set; }
-        
+        public Dictionary<string, int> Votes { get; set; }
+
         public string FacebookId { get; set; }
 
         public string City { get; set; }
@@ -25,11 +24,12 @@ namespace BrainShare.Documents
         public SortedSet<string> WishList { get; set; }
         public List<ChangeRequest> Recieved { get; set; }
 
+       
         public List<ChangeRequest> Inbox { get; set; }
 
         public string FullName
         {
-            get {return string.Format("{0} {1}", FirstName, LastName); }
+            get { return string.Format("{0} {1}", FirstName, LastName); }
         }
 
         public User()
@@ -38,11 +38,6 @@ namespace BrainShare.Documents
             WishList = new SortedSet<string>();
             Inbox = new List<ChangeRequest>();
             Recieved = new List<ChangeRequest>();
-            Votes = 0;
-
-            // Test reputtion system
-            RaitedUserIds = new List<string>();
-            //
         }
 
         public void AddRecievedBook(string bookId, string userId)
