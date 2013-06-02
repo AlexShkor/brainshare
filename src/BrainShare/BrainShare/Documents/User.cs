@@ -38,6 +38,7 @@ namespace BrainShare.Documents
             WishList = new SortedSet<string>();
             Inbox = new List<ChangeRequest>();
             Recieved = new List<ChangeRequest>();
+            Votes = new Dictionary<string, int>();
         }
 
         public void AddRecievedBook(string bookId, string userId)

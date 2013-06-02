@@ -75,7 +75,7 @@ namespace BrainShare.Services
             }
 
             var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
-            user.Votes.Add(setterId, value);
+            user.Votes[setterId] = value;
             Items.Save(user);
         }
 
