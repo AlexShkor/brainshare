@@ -11,6 +11,7 @@ using BrainShare.ViewModels;
 using Facebook;
 using MongoDB.Bson;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace BrainShare.Controllers
 {
@@ -72,7 +73,7 @@ namespace BrainShare.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                ModelState["Password"].Errors.Add("Such e-mail or password are not registered");
+                ModelState["Password"].Errors.Add("Such e-mail or password is not registered");
             }
             return View(loginView);
         }
@@ -80,6 +81,9 @@ namespace BrainShare.Controllers
         public ActionResult Logout()
         {
             Auth.Logout();
+            FormsAuthentication.SignOut();
+            Session.Abandon();
+            Session.Clear();
             return RedirectToAction("Index", "Home");
         }
 
@@ -157,6 +161,7 @@ namespace BrainShare.Controllers
                 _users.Save(user);
             }
             Auth.LoginUser(user, true);
+            Session["FacebookId"] = user.FacebookId; //
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
@@ -244,13 +249,34 @@ namespace BrainShare.Controllers
 
         public ActionResult GetFbFriends()
         {
-            FacebookFriendsModel friends = new FacebookFriendsModel();
 
-            dynamic fbresult = _fb.Get("me/friends");
-            var fbfriends = fbresult["data"].ToString();
+            //var user1 = _users.GetById("51a9cd852c7e6e15bc73e1c0");
+            //var user3 = _users.GetById(UserId);
 
-            friends.FriendsListing = JsonConvert.DeserializeObject<List<FacebookFriend>>(fbfriends);
-            return View(friends);
+            if (Session["FacebookId"] != null)
+            {
+                dynamic fbresult = _fb.Get("fql", new { q = "SELECT uid, first_name, last_name, pic_square FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me())" });
+
+                var fbfriendsInfo = fbresult["data"].ToString();
+                List<FacebookFriend> fbFriends = JsonConvert.DeserializeObject<List<FacebookFriend>>(fbfriendsInfo);
+
+                var fbIds = fbFriends.Select(x => x.FacebookId);
+
+                var existingFbIds = _users.GetExistingFacebookIds(fbIds);
+
+                var friends = fbFriends.Where(friend => existingFbIds.Contains(friend.FacebookId)).ToList();
+                
+                foreach (var friend in friends)
+                {
+                    friend.Id = _users.GetByFacebookId(friend.FacebookId).Id;
+                }
+
+                var model = new FacebookSelectorViewModel(friends);
+
+                return View(model);
+            }
+
+            return null;
         }
     }
 }

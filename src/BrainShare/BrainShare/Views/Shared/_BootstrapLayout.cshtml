@@ -15,6 +15,7 @@
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/knockout-bootstrap.min.js"></script>
     <script src="/signalr/hubs"></script>
+    <script src="~/Scripts/jquery-ui-1.10.3.js"></script>
 
     @* Our Scripts*@
     <script src="~/Scripts/custom/common.js"></script>
@@ -36,9 +37,8 @@
                 <div class="nav-collapse collapse">
 
                     @if (Request.IsAuthenticated)
-                    {
+                    { 
                         <p class="navbar-text pull-right ">
-
                             <a href="/profile/mybooks" class="navbar-link">@ViewBag.UserName</a> (@User.Identity.Name) <a  href="@Url.Action("Logout", "User")" >Logout</a>
                         </p>
                     }
@@ -53,10 +53,9 @@
                     <ul class="nav">
                         <li>
                             <a href="/">Активность</a>
-
                         </li>
 
-                        <li><a style="color: orange; font-weight: bold"href="@Url.Action("Search", "Books")">Искать</a></li>
+                        <li><a style="color: orange; font-weight: bold" href="@Url.Action("Search", "Books")">Искать</a></li>
 
                         <li><a href="@Url.Action("Inbox", "Profile")">Входящие</a></li>
 
@@ -68,6 +67,13 @@
                                 <li><a href="@Url.Action("Inbox", "Profile")">Входящие</a></li>
                                 <li><a href="@Url.Action("MyBooks", "Profile")">Мои Книги</a></li>
                                 <li><a href="@Url.Action("WishList", "Profile")">Я ищу Книги</a></li>
+
+                                @if (Session["FacebookId"] != null)
+                                {
+                                    <li><a id="selectorToggle" style="color: #4c66a4; font-weight: bold" href="#">Друзья из Фэйсбука</a>
+                                    </li>
+
+                                }
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -80,7 +86,8 @@
                                 <li><a href="@Url.Action("HowToExchangeBook", "Help")">Как обменяться книгами?</a></li>
                             </ul>
                         </li>
-                        
+
+
 
                         <li><a href="@Url.Action("Feedback", "Home")">Отзывы</a></li>
                     </ul>
@@ -89,6 +96,22 @@
         </div>
     </div>
     <div class="container">
+        @if (Session["FacebookId"] != null)
+        {
+            <div id="facebookFriendsSelector" class="ui-widget-content">@{Html.RenderAction("GetFbFriends", "User");}</div>
+            <script type="text/javascript">
+                $(function () {
+                    $("#selectorToggle").click(function () {
+                        $("#facebookFriendsSelector").toggle();
+                    });
+                    $("#TDFriendSelector_buttonOK").click(function () {
+                        $("#facebookFriendsSelector").toggle();
+                    });
+                    $("#facebookFriendsSelector").draggable();
+                });
+            </script>
+        }
+
         @RenderBody()
         <hr>
         <footer>
@@ -96,5 +119,6 @@
         </footer>
     </div>
     @RenderSection("Scripts", required: false)
+
 </body>
 </html>

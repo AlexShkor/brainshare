@@ -59,6 +59,12 @@ namespace BrainShare.Documents
         {
             return Votes.ContainsKey(setterId) ? Votes[setterId] : 0;
         }
+
+        public bool IsFacebookAccount 
+        {
+            get { return !string.IsNullOrWhiteSpace(FacebookId);}
+        }
+        
     }
 
     public class ChangeRequest

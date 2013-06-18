@@ -39,10 +39,12 @@ namespace BrainShare.Controllers
         public ActionResult ViewUserProfile(string id)
         {
             var user = _users.GetById(id);
-            var model = new UserProfileModel(user, UserId);
+            var myfacebookId = Session["FacebookId"] as string;
 
-            model.CanIncrease = user.GetVote(id, UserId) <= 0;
-            model.CanDecrease = user.GetVote(id, UserId) >= 0;
+            var model = myfacebookId != null ? new UserProfileModel(user, _users.GetByFacebookId(myfacebookId).Id) : new UserProfileModel(user, UserId);
+
+            model.CanIncrease = myfacebookId != null ? user.GetVote(id, _users.GetByFacebookId(myfacebookId).Id) <= 0 : user.GetVote(id, UserId) <= 0;
+            model.CanDecrease = myfacebookId != null ? user.GetVote(id, _users.GetByFacebookId(myfacebookId).Id) >= 0 : user.GetVote(id, UserId) >= 0;
             model.SummaryVotes = user.Votes.Values.Sum(x => x);
 
             Title(user.FullName);
@@ -187,7 +189,7 @@ namespace BrainShare.Controllers
         public ActionResult AdjustReputation(string id, int value)
         {
             var user = _users.GetById(id);
-            if(!user.Votes.ContainsKey(UserId))
+            if (!user.Votes.ContainsKey(UserId))
             {
                 user.Votes.Add(UserId, 0);
             }

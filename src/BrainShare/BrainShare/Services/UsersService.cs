@@ -53,6 +53,11 @@ namespace BrainShare.Services
             return Items.Find(Query<User>.In(x => x.Id, ids));
         }
 
+        public IEnumerable<string> GetExistingFacebookIds(IEnumerable<string> ids)
+        {
+            return Items.Find(Query<User>.In(x => x.FacebookId, ids)).Select(x => x.FacebookId);
+        }
+
         public void RemoveFromWishList(string bookId, string userId)
         {
             var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
