@@ -14,7 +14,6 @@ namespace BrainShare.Controllers
         public SortedSet<string> WishList { get; set; }
         public int SummaryVotes { get; set; }
 
-      
         public bool CanIncrease { get; set; }
         public bool CanDecrease { get; set; }
 

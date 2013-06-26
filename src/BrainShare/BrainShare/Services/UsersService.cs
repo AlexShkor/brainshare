@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BrainShare.Documents;
+using BrainShare.Facebook;
 using BrainShare.Mongo;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
@@ -53,9 +54,13 @@ namespace BrainShare.Services
             return Items.Find(Query<User>.In(x => x.Id, ids));
         }
 
-        public IEnumerable<string> GetExistingFacebookIds(IEnumerable<string> ids)
+        public IEnumerable<FacebookFriend> GetExistingUsersIds(IEnumerable<string> ids)
         {
-            return Items.Find(Query<User>.In(x => x.FacebookId, ids)).Select(x => x.FacebookId);
+            return Items.Find(Query<User>.In(x => x.FacebookId, ids)).Select(x => new FacebookFriend()
+                                                                                      {
+                                                                                          Id = x.Id,
+                                                                                          FacebookId = x.FacebookId
+                                                                                      });
         }
 
         public void RemoveFromWishList(string bookId, string userId)

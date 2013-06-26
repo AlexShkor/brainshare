@@ -80,6 +80,7 @@ namespace BrainShare.Controllers
 
         public ActionResult Logout()
         {
+            // does we need?
             Auth.Logout();
             FormsAuthentication.SignOut();
             Session.Abandon();
@@ -146,10 +147,21 @@ namespace BrainShare.Controllers
                 Session.Abandon();
                 Session.Clear();
             }
+
             dynamic fbUser = _fb.Get("me");
             var user = _users.GetByFacebookId((string)fbUser.id);
             if (user == null)
             {
+                // check e-mail
+                var email = fbUser.email;
+                var facebookId = fbUser.id;
+                var emailIs = _users.GetUserByEmail(email) != null;
+
+                if (emailIs)
+                {
+                    return RedirectToAction("BindFacebook", new {email = email, facebookId = facebookId});
+                }
+
                 user = new User
                 {
                     Id = ObjectId.GenerateNewId().ToString(),
@@ -161,7 +173,7 @@ namespace BrainShare.Controllers
                 _users.Save(user);
             }
             Auth.LoginUser(user, true);
-            Session["FacebookId"] = user.FacebookId; //
+           
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
@@ -249,34 +261,54 @@ namespace BrainShare.Controllers
 
         public ActionResult GetFbFriends()
         {
+            
+            var currentUser = _users.GetById(UserId);
 
-            //var user1 = _users.GetById("51a9cd852c7e6e15bc73e1c0");
-            //var user3 = _users.GetById(UserId);
-
-            if (Session["FacebookId"] != null)
+            if (currentUser.IsFacebookAccount)
             {
                 dynamic fbresult = _fb.Get("fql", new { q = "SELECT uid, first_name, last_name, pic_square FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me())" });
-
                 var fbfriendsInfo = fbresult["data"].ToString();
                 List<FacebookFriend> fbFriends = JsonConvert.DeserializeObject<List<FacebookFriend>>(fbfriendsInfo);
 
-                var fbIds = fbFriends.Select(x => x.FacebookId);
+                var fbIds = fbFriends.Select(x => x.FacebookId).ToList();
 
-                var existingFbIds = _users.GetExistingFacebookIds(fbIds);
+                var existingUsersIds = _users.GetExistingUsersIds(fbIds).ToDictionary(x=> x.FacebookId, c=> c);
+                var existingFrends = fbFriends.Where(x => existingUsersIds.ContainsKey(x.FacebookId)).ToList();
 
-                var friends = fbFriends.Where(friend => existingFbIds.Contains(friend.FacebookId)).ToList();
-                
-                foreach (var friend in friends)
+                foreach (var friend in existingFrends)
                 {
-                    friend.Id = _users.GetByFacebookId(friend.FacebookId).Id;
+                    friend.Id = existingUsersIds[friend.FacebookId].Id;
                 }
+                
+                var model = new FacebookSelectorViewModel(existingFrends);
 
-                var model = new FacebookSelectorViewModel(friends);
+                return View(model); 
+            }
+            
+            return null;
+        }
 
-                return View(model);
+        [HttpGet]
+        public ActionResult BindFacebook(string email, string facebookId)
+        {
+            var model = new BindFacebookViewModel() { Email = email, FacebookId = facebookId};
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult BindFacebook(BindFacebookViewModel model)
+        {
+            var user = _users.GetUserByEmail(model.Email);
+
+            if (model.Password == user.Password)
+            {
+                user.FacebookId = model.FacebookId;
+                _users.Save(user);
+
+                return RedirectToAction("LoginWithFacebook");
             }
 
-            return null;
+            return View(model);
         }
     }
 }

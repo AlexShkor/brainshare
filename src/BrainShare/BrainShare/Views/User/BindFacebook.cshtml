@@ -1,0 +1,30 @@
+﻿@model BrainShare.ViewModels.BindFacebookViewModel
+
+
+
+<h5>Пользователь с e-mail @Model.Email уже зарегистрирован, подтвердите пароль что бы продожить</h5>
+
+@using (Html.BeginForm("BindFacebook", "User", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="control-group">
+        <label class="control-label">
+            Confirm Password
+        </label>
+        <div class="controls">
+            @Html.Password("Password", Model.Password)
+
+            @Html.ValidationMessage("Password")
+        </div>
+    </div>
+    
+    @Html.HiddenFor(model => Model.Email);
+    @Html.HiddenFor(model => Model.FacebookId)
+    
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+            Confirm
+        </button>
+        @Html.ActionLink("Cancel", "Index", "Home", null, new { @class = "btn" })
+    </div>
+}
+

@@ -67,13 +67,11 @@
                                 <li><a href="@Url.Action("Inbox", "Profile")">Входящие</a></li>
                                 <li><a href="@Url.Action("MyBooks", "Profile")">Мои Книги</a></li>
                                 <li><a href="@Url.Action("WishList", "Profile")">Я ищу Книги</a></li>
-
-                                @if (Session["FacebookId"] != null)
+                                @if (ViewBag.IsFacebookAccount)
                                 {
-                                    <li><a id="selectorToggle" style="color: #4c66a4; font-weight: bold" href="#">Друзья из Фэйсбука</a>
-                                    </li>
-
+                                    <li><a id="selectorToggle" style="color: #4c66a4; font-weight: bold" href="#">Друзья из Фэйсбука</a></li>
                                 }
+
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -87,8 +85,6 @@
                             </ul>
                         </li>
 
-
-
                         <li><a href="@Url.Action("Feedback", "Home")">Отзывы</a></li>
                     </ul>
                 </div>
@@ -96,22 +92,7 @@
         </div>
     </div>
     <div class="container">
-        @if (Session["FacebookId"] != null)
-        {
-            <div id="facebookFriendsSelector" class="ui-widget-content">@{Html.RenderAction("GetFbFriends", "User");}</div>
-            <script type="text/javascript">
-                $(function () {
-                    $("#selectorToggle").click(function () {
-                        $("#facebookFriendsSelector").toggle();
-                    });
-                    $("#TDFriendSelector_buttonOK").click(function () {
-                        $("#facebookFriendsSelector").toggle();
-                    });
-                    $("#facebookFriendsSelector").draggable();
-                });
-            </script>
-        }
-
+        <div id="fbFriendsSelector" style="position: absolute; left: 70%; top: 20%;"></div>
         @RenderBody()
         <hr>
         <footer>
@@ -119,6 +100,10 @@
         </footer>
     </div>
     @RenderSection("Scripts", required: false)
+    @if (ViewBag.IsFacebookAccount)
+    {
+        <script type="text/javascript" src="@Url.Content("~/Scripts/custom/fbfriendsSelector.js")"></script>
+    }
 
 </body>
 </html>

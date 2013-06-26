@@ -249,6 +249,7 @@
     <Compile Include="ViewModels\AcceptRequestViewModel.cs" />
     <Compile Include="ViewModels\AllThreadsViewModel.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="ViewModels\BindFacebookViewModel.cs" />
     <Compile Include="ViewModels\BookViewModel.cs" />
     <Compile Include="ViewModels\ChangeRequestSentModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -392,6 +393,7 @@
     <Content Include="Scripts\custom\Profile\viewThread.js" />
     <Content Include="Scripts\custom\Profile\wishList.js" />
     <None Include="Scripts\jquery-2.0.1.intellisense.js" />
+    <Content Include="Scripts\custom\fbfriendsSelector.js" />
     <Content Include="Scripts\jquery-2.0.1.js" />
     <Content Include="Scripts\jquery-2.0.1.min.js" />
     <Content Include="Scripts\jquery-2.0.1.min.map" />
@@ -468,6 +470,7 @@
     <Content Include="Views\Help\_HelpLayout.cshtml" />
     <Content Include="Views\Help\_ViewStart.cshtml" />
     <Content Include="Views\User\GetFbFriends.cshtml" />
+    <Content Include="Views\User\BindFacebook.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
