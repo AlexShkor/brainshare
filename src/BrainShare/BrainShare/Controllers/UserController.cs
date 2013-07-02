@@ -91,7 +91,7 @@ namespace BrainShare.Controllers
         [HttpGet]
         public ActionResult Register()
         {
-            return View(new RegisterViewModel());
+            return View(new RegisterViewModel(){City = "Минск"});
         }
 
         [HttpPost]

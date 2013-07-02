@@ -47,15 +47,15 @@
                     else
                     {
                         <ul class="nav pull-right">
-                            @Html.MenuLink("Регистрация", "Register", "User")
-                            @Html.MenuLink("Войти", "Login", "User")
-                            @Html.MenuLink("Facebook", "LoginWithFacebook", "User")
+                            @Html.MenuLink("Регистрация", "Register", "User", null)
+                            @Html.MenuLink("Войти", "Login", "User", null)
+                            @Html.MenuLink("Facebook", "LoginWithFacebook", "User", "facebook-link")
                         </ul>
                     }
 
                     <ul class="nav">
-                        @Html.MenuLink("Активность", "Index", "Home")
-                        @Html.MenuLink("Искать", "Search", "Books")
+                        @Html.MenuLink("Активность", "Index", "Home", null)
+                        @Html.MenuLink("Искать", "Search", "Books", "book-search")
 
                         @{
                             var actionsForProfile = new Dictionary<string, List<string>>();
@@ -76,7 +76,7 @@
                         }
                         @Html.MenuDropdown(actionsForHelp, "Помощь")
 
-                        @Html.MenuLink("Отзывы", "Feedback", "Home")
+                        @Html.MenuLink("Отзывы", "Feedback", "Home", null)
                     </ul>
                 </div>
             </div>
