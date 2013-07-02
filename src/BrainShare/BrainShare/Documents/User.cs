@@ -13,17 +13,22 @@ namespace BrainShare.Documents
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
+        public Dictionary<string, int> Votes { get; set; }
+
         public string FacebookId { get; set; }
+
+        public string City { get; set; }
 
         public SortedSet<string> Books { get; set; }
         public SortedSet<string> WishList { get; set; }
         public List<ChangeRequest> Recieved { get; set; }
 
+       
         public List<ChangeRequest> Inbox { get; set; }
 
         public string FullName
         {
-            get {return string.Format("{0} {1}", FirstName, LastName); }
+            get { return string.Format("{0} {1}", FirstName, LastName); }
         }
 
         public User()
@@ -32,12 +37,34 @@ namespace BrainShare.Documents
             WishList = new SortedSet<string>();
             Inbox = new List<ChangeRequest>();
             Recieved = new List<ChangeRequest>();
+            Votes = new Dictionary<string, int>();
         }
 
         public void AddRecievedBook(string bookId, string userId)
         {
             Recieved.Add(new ChangeRequest() { BookId = bookId, UserId = userId });
         }
+
+        public void SetVote(string setterId, int value)
+        {
+            if (value < -1 || value > 1)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            Votes[setterId] = value;
+        }
+
+        public int GetVote(string userId, string setterId )
+        {
+            return Votes.ContainsKey(setterId) ? Votes[setterId] : 0;
+        }
+
+        public bool IsFacebookAccount 
+        {
+            get { return !string.IsNullOrWhiteSpace(FacebookId);}
+        }
+        
     }
 
     public class ChangeRequest

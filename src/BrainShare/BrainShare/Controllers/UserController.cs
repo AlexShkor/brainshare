@@ -11,6 +11,7 @@ using BrainShare.ViewModels;
 using Facebook;
 using MongoDB.Bson;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace BrainShare.Controllers
 {
@@ -72,14 +73,18 @@ namespace BrainShare.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                ModelState["Password"].Errors.Add("Such e-mail or password are not registered");
+                ModelState["Password"].Errors.Add("Such e-mail or password is not registered");
             }
             return View(loginView);
         }
 
         public ActionResult Logout()
         {
+            // does we need?
             Auth.Logout();
+            FormsAuthentication.SignOut();
+            Session.Abandon();
+            Session.Clear();
             return RedirectToAction("Index", "Home");
         }
 
@@ -101,6 +106,7 @@ namespace BrainShare.Controllers
                                       {
                                           Id = GetIdForUser(),
                                           FirstName = model.FirstName,
+                                          City = model.City,
                                           LastName = model.LastName,
                                           Email = model.Email,
                                           Password = model.Password
@@ -142,10 +148,22 @@ namespace BrainShare.Controllers
                 Session.Abandon();
                 Session.Clear();
             }
+
             dynamic fbUser = _fb.Get("me");
+            
             var user = _users.GetByFacebookId((string)fbUser.id);
             if (user == null)
             {
+                // check e-mail
+                var email = fbUser.email;
+                var facebookId = fbUser.id;
+                var emailIs = _users.GetUserByEmail(email) != null;
+
+                if (emailIs)
+                {
+                    return RedirectToAction("BindFacebook", new {email = email, facebookId = facebookId});
+                }
+
                 user = new User
                 {
                     Id = ObjectId.GenerateNewId().ToString(),
@@ -153,10 +171,13 @@ namespace BrainShare.Controllers
                     FacebookId = fbUser.id,
                     FirstName = fbUser.first_name,
                     LastName = fbUser.last_name,
+                    City = fbUser.location.name.Split(',')[0]
+                    
                 };
                 _users.Save(user);
             }
             Auth.LoginUser(user, true);
+           
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
@@ -244,13 +265,54 @@ namespace BrainShare.Controllers
 
         public ActionResult GetFbFriends()
         {
-            FacebookFriendsModel friends = new FacebookFriendsModel();
+            
+            var currentUser = _users.GetById(UserId);
 
-            dynamic fbresult = _fb.Get("me/friends");
-            var fbfriends = fbresult["data"].ToString();
+            if (currentUser.IsFacebookAccount)
+            {
+                dynamic fbresult = _fb.Get("fql", new { q = "SELECT uid, first_name, last_name, pic_square FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me())" });
+                var fbfriendsInfo = fbresult["data"].ToString();
+                List<FacebookFriend> fbFriends = JsonConvert.DeserializeObject<List<FacebookFriend>>(fbfriendsInfo);
 
-            friends.FriendsListing = JsonConvert.DeserializeObject<List<FacebookFriend>>(fbfriends);
-            return View(friends);
+                var fbIds = fbFriends.Select(x => x.FacebookId).ToList();
+
+                var existingUsersIds = _users.GetExistingUsersIds(fbIds).ToDictionary(x=> x.FacebookId, c=> c);
+                var existingFrends = fbFriends.Where(x => existingUsersIds.ContainsKey(x.FacebookId)).ToList();
+
+                foreach (var friend in existingFrends)
+                {
+                    friend.Id = existingUsersIds[friend.FacebookId].Id;
+                }
+                
+                var model = new FacebookSelectorViewModel(existingFrends);
+
+                return View(model); 
+            }
+            
+            return null;
+        }
+
+        [HttpGet]
+        public ActionResult BindFacebook(string email, string facebookId)
+        {
+            var model = new BindFacebookViewModel() { Email = email, FacebookId = facebookId};
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult BindFacebook(BindFacebookViewModel model)
+        {
+            var user = _users.GetUserByEmail(model.Email);
+
+            if (model.Password == user.Password)
+            {
+                user.FacebookId = model.FacebookId;
+                _users.Save(user);
+
+                return RedirectToAction("LoginWithFacebook");
+            }
+
+            return View(model);
         }
     }
 }

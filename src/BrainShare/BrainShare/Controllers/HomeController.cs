@@ -6,10 +6,13 @@ namespace BrainShare.Controllers
     public class HomeController : BaseController
     {
         private readonly ActivityFeedsService _activityFeeds;
+        private readonly UsersService _users;
 
-        public HomeController(ActivityFeedsService activityFeeds)
+
+        public HomeController(ActivityFeedsService activityFeeds, UsersService users)
         {
             _activityFeeds = activityFeeds;
+            _users = users;
         }
 
         public ActionResult Index()

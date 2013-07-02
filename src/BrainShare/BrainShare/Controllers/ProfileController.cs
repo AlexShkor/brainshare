@@ -39,11 +39,18 @@ namespace BrainShare.Controllers
         public ActionResult ViewUserProfile(string id)
         {
             var user = _users.GetById(id);
+           
             var model = new UserProfileModel(user, UserId);
+
+            model.CanIncrease =  user.GetVote(id, UserId) <= 0;
+            model.CanDecrease =  user.GetVote(id, UserId) >= 0;
+            model.SummaryVotes = user.Votes.Values.Sum(x => x);
+
             Title(user.FullName);
             return View(model);
         }
 
+        [POST][ValidateInput(false)]
         public ActionResult DontHave(BookViewModel book)
         {
             try
@@ -59,7 +66,8 @@ namespace BrainShare.Controllers
             return Json(new { Success = "OK" });
         }
 
-        [HttpPost]
+        [POST]
+        [ValidateInput(false)]
         public ActionResult DontWant(BookViewModel book)
         {
             try
@@ -165,7 +173,7 @@ namespace BrainShare.Controllers
                 return HttpNotFound();
             }
             var model = new MessageViewModel();
-            model.Init(UserId,content,DateTime.Now,false);
+            model.Init(UserId, content, DateTime.Now, false);
             var callbackModel = new MessageViewModel();
             callbackModel.Init(UserId, content, DateTime.Now, true, thread.OwnerId == UserId ? thread.OwnerName : thread.RecipientName);
             ThreadHub.HubContext.Clients.Group(threadId).messageSent(callbackModel);
@@ -176,7 +184,33 @@ namespace BrainShare.Controllers
         public ActionResult GetUserBooks(IEnumerable<string> ids)
         {
             var books = _books.GetByIds(ids);
-            return Json(new {books = books});
+            return Json(new { books = books });
+        }
+
+        public ActionResult AdjustReputation(string id, int value)
+        {
+            var user = _users.GetById(id);
+            if (!user.Votes.ContainsKey(UserId))
+            {
+                user.Votes.Add(UserId, 0);
+            }
+
+            if (user.Votes[UserId] != 0)
+            {
+                user.SetVote(UserId, 0);
+            }
+            else
+            {
+                user.SetVote(UserId, value);
+            }
+
+            var summaryVotes = user.Votes.Values.Sum(x => x);
+            var canIncrease = user.GetVote(id, UserId) <= 0;
+            var canDecrease = user.GetVote(id, UserId) >= 0;
+
+            _users.Save(user);
+
+            return Json(new { canIncrease = canIncrease, canDecrease = canDecrease, summaryVotes = summaryVotes });
         }
     }
 }

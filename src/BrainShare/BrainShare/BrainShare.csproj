@@ -238,9 +238,10 @@
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="ContainerConfigure.cs" />
     <Compile Include="Controllers\HelpController.cs" />
+    <Compile Include="Extensions\BootstrapExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperExt.cs" />
     <Compile Include="Extensions\StringExt.cs" />
-    <Compile Include="Facebook\FacebookFriendsModel.cs" />
+    <Compile Include="Facebook\FacebookSelectorViewModel.cs" />
     <Compile Include="Hubs\ThreadHub.cs" />
     <Compile Include="SessionKeys.cs" />
     <Compile Include="Settings.cs" />
@@ -249,6 +250,7 @@
     <Compile Include="ViewModels\AcceptRequestViewModel.cs" />
     <Compile Include="ViewModels\AllThreadsViewModel.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="ViewModels\BindFacebookViewModel.cs" />
     <Compile Include="ViewModels\BookViewModel.cs" />
     <Compile Include="ViewModels\ChangeRequestSentModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -298,6 +300,7 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrapNavList.css" />
     <Content Include="Content\help\accept_crop.png" />
     <Content Include="Content\help\inbox_crop.png" />
     <Content Include="Content\help\seach_mongodb_crop.png" />
@@ -308,6 +311,8 @@
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\site.css" />
+    <Content Include="Content\fbfriends.css" />
+    <Content Include="Content\tdfriendselector.png" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -375,6 +380,7 @@
     <Content Include="App_Code\Links.cshtml" />
     <Content Include="App_Code\KO.cshtml" />
     <Content Include="Images\loading.gif" />
+    <Content Include="img\glyphicons-halflings.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\custom\addbook.js" />
@@ -389,6 +395,7 @@
     <Content Include="Scripts\custom\Profile\viewThread.js" />
     <Content Include="Scripts\custom\Profile\wishList.js" />
     <None Include="Scripts\jquery-2.0.1.intellisense.js" />
+    <Content Include="Scripts\custom\fbfriendsSelector.js" />
     <Content Include="Scripts\jquery-2.0.1.js" />
     <Content Include="Scripts\jquery-2.0.1.min.js" />
     <Content Include="Scripts\jquery-2.0.1.min.map" />
@@ -457,7 +464,6 @@
     <Content Include="Views\Profile\ViewUserProfile.cshtml" />
     <Content Include="Views\Profile\Messages.cshtml" />
     <Content Include="Views\Profile\AllMessages.cshtml" />
-    <Content Include="Views\User\GetFbFriends.cshtml" />
     <Content Include="Views\Home\Feedback.cshtml" />
     <Content Include="Views\Help\Index.cshtml" />
     <Content Include="Views\Help\HowToAddBook.cshtml" />
@@ -465,6 +471,8 @@
     <Content Include="Views\Help\HowToExchangeBook.cshtml" />
     <Content Include="Views\Help\_HelpLayout.cshtml" />
     <Content Include="Views\Help\_ViewStart.cshtml" />
+    <Content Include="Views\User\GetFbFriends.cshtml" />
+    <Content Include="Views\User\BindFacebook.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

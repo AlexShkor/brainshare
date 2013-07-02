@@ -11,10 +11,17 @@
 
 <h3>Профиль пользователя <span data-bind="text: user.Name"></span></h3>
 
+<div class="btn-group-vertical raiting">
+    <p><button class="btn" data-bind="click: increaseReputation, enable: canIncrease"><i class="icon-chevron-up"></i></button></p>
+    <p>Votes: <span data-bind="text: summaryVotes"></span></p>
+    <p><button class="btn" data-bind="click: decreaseReputation, enable: canDecrease"><i class="icon-chevron-down"></i></button></p>
+</div>
+
+
 @if (!Model.IsMe)
 {
     <div>
-        <a class="btn btn-small" href="#" data-bind="click: sendMessage">Отослать сообщение</a>
+        <a class="btn btn-small" href="#" data-bind="click: sendMessage">Отправить сообщение</a>
     </div>
 }
 
@@ -77,5 +84,5 @@
 }
 @if (Model.WishList.Count == 0)
 {
-    <p>Пользователь <span data-bind="text: user.Name"></span>пока не ищет ниодной книги</p>
+    <p>Пользователь <span data-bind="text: user.Name"></span>пока не ищет ни одной книги</p>
 }

@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using BrainShare.Documents;
+using BrainShare.Facebook;
 using BrainShare.Mongo;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
@@ -27,13 +30,13 @@ namespace BrainShare.Services
         {
             return
                 Items.FindOne(Query.And(Query<User>.EQ(x => x.Email, email),
-                                     Query<User>.EQ(x => x.Password, password)));
+                                        Query<User>.EQ(x => x.Password, password)));
         }
 
         public User GetByFacebookId(string facebookId)
         {
             return
-                 Items.FindOne(Query<User>.EQ(x => x.FacebookId, facebookId));
+                Items.FindOne(Query<User>.EQ(x => x.FacebookId, facebookId));
         }
 
         public void AddUser(User user)
@@ -51,6 +54,15 @@ namespace BrainShare.Services
             return Items.Find(Query<User>.In(x => x.Id, ids));
         }
 
+        public IEnumerable<FacebookFriend> GetExistingUsersIds(IEnumerable<string> ids)
+        {
+            return Items.Find(Query<User>.In(x => x.FacebookId, ids)).Select(x => new FacebookFriend()
+                                                                                      {
+                                                                                          Id = x.Id,
+                                                                                          FacebookId = x.FacebookId
+                                                                                      });
+        }
+
         public void RemoveFromWishList(string bookId, string userId)
         {
             var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
@@ -64,5 +76,6 @@ namespace BrainShare.Services
             user.Books.Remove(bookId);
             Items.Save(user);
         }
+
     }
 }
