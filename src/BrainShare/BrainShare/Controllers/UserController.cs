@@ -106,6 +106,7 @@ namespace BrainShare.Controllers
                                       {
                                           Id = GetIdForUser(),
                                           FirstName = model.FirstName,
+                                          City = model.City,
                                           LastName = model.LastName,
                                           Email = model.Email,
                                           Password = model.Password
@@ -149,6 +150,7 @@ namespace BrainShare.Controllers
             }
 
             dynamic fbUser = _fb.Get("me");
+            
             var user = _users.GetByFacebookId((string)fbUser.id);
             if (user == null)
             {
@@ -169,6 +171,8 @@ namespace BrainShare.Controllers
                     FacebookId = fbUser.id,
                     FirstName = fbUser.first_name,
                     LastName = fbUser.last_name,
+                    City = fbUser.location.name.Split(',')[0]
+                    
                 };
                 _users.Save(user);
             }

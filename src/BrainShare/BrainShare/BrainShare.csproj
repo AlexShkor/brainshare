@@ -238,6 +238,7 @@
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="ContainerConfigure.cs" />
     <Compile Include="Controllers\HelpController.cs" />
+    <Compile Include="Extensions\BootstrapExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperExt.cs" />
     <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="Facebook\FacebookSelectorViewModel.cs" />
@@ -299,6 +300,7 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrapNavList.css" />
     <Content Include="Content\help\accept_crop.png" />
     <Content Include="Content\help\inbox_crop.png" />
     <Content Include="Content\help\seach_mongodb_crop.png" />

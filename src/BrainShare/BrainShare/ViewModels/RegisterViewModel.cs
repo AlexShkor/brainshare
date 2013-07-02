@@ -13,6 +13,10 @@ namespace BrainShare.Controllers
         public string LastName { get; set; }
 
         [Required]
+        [Display(Name = "Город")]
+        public string City { get; set; }
+
+        [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
         public string Email { get; set; }

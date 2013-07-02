@@ -1,4 +1,5 @@
 ﻿@using System.Web.Optimization
+@using BrainShare.Extensions
 @using Newtonsoft.Json
 <!DOCTYPE html>
 <html lang="en">
@@ -7,6 +8,7 @@
     <title>@ViewBag.Title | BrainShare</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="@Styles.Url("~/content/css")" rel="stylesheet"/>
+    <link href="@Url.Content("~/Content/bootstrapNavList.css")" rel="stylesheet"/>
 
     @* Libs Scripts*@
     <script src="~/Scripts/jquery-2.0.1.min.js"></script>
@@ -45,53 +47,46 @@
                     else
                     {
                         <ul class="nav pull-right">
-                            <li><a href="@Url.Action("Register", "User")">Register</a></li>
-                            <li><a href="@Url.Action("Login", "User")">Login</a></li>
-                            <li><a style="color: #4c66a4; font-weight: bold" href="@Url.Action("LoginWithFacebook", "User")">Facebook</a></li>
+                            @Html.MenuLink("Регистрация", "Register", "User")
+                            @Html.MenuLink("Войти", "Login", "User")
+                            @Html.MenuLink("Facebook", "LoginWithFacebook", "User")
                         </ul>
                     }
+
                     <ul class="nav">
-                        <li>
-                            <a href="/">Активность</a>
-                        </li>
+                        @Html.MenuLink("Активность", "Index", "Home")
+                        @Html.MenuLink("Искать", "Search", "Books")
 
-                        <li><a style="color: orange; font-weight: bold" href="@Url.Action("Search", "Books")">Искать</a></li>
+                        @{
+                            var actionsForProfile = new Dictionary<string, List<string>>();
+                            actionsForProfile["Сообщения"] = new List<string>() { "AllMessages", "Profile" };
+                            actionsForProfile["Входящие"] = new List<string>() { "Inbox", "Profile" };
+                            actionsForProfile["Мои Книги"] = new List<string>() { "MyBooks", "Profile" };
+                            actionsForProfile["Я ищу Книги"] = new List<string>() { "WishList", "Profile" };
 
-                        <li><a href="@Url.Action("Inbox", "Profile")">Входящие</a></li>
+                        }
+                        @Html.MenuDropdown(actionsForProfile, "Профиль")
 
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Профиль<b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="@Url.Action("AllMessages", "Profile")">Сообщения</a></li>
-                                <li><a href="@Url.Action("Inbox", "Profile")">Входящие</a></li>
-                                <li><a href="@Url.Action("MyBooks", "Profile")">Мои Книги</a></li>
-                                <li><a href="@Url.Action("WishList", "Profile")">Я ищу Книги</a></li>
-                                @if (ViewBag.IsFacebookAccount)
-                                {
-                                    <li><a id="selectorToggle" style="color: #4c66a4; font-weight: bold" href="#">Друзья из Фэйсбука</a></li>
-                                }
+                        @{
+                            var actionsForHelp = new Dictionary<string, List<string>>();
+                            actionsForHelp["Помощь"] = new List<string>() { "Index", "Help" };
+                            actionsForHelp["Как добавить книгу в коллекцию?"] = new List<string>() { "HowToAddBook", "Help" };
+                            actionsForHelp["Как найти нужную вам книгу?"] = new List<string>() { "HowToSearchBook", "Help" };
+                            actionsForHelp["Как обменяться книгами?"] = new List<string>() { "HowToExchangeBook", "Help" };
+                        }
+                        @Html.MenuDropdown(actionsForHelp, "Помощь")
 
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Помощь<b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="@Url.Action("Index", "Help")">Помощь</a></li>
-                                <li><a href="@Url.Action("HowToAddBook", "Help")">Как добавить книгу в коллекцию?</a></li>
-                                <li><a href="@Url.Action("HowToSearchBook", "Help")">Как найти нужную вам книгу?</a></li>
-                                <li><a href="@Url.Action("HowToExchangeBook", "Help")">Как обменяться книгами?</a></li>
-                            </ul>
-                        </li>
-
-                        <li><a href="@Url.Action("Feedback", "Home")">Отзывы</a></li>
+                        @Html.MenuLink("Отзывы", "Feedback", "Home")
                     </ul>
                 </div>
             </div>
         </div>
     </div>
     <div class="container">
+        @if (ViewBag.IsFacebookAccount)
+        {
+            <a id="selectorToggle" style="color: #4c66a4; font-weight: bold" href="#">Друзья из Фэйсбука</a>
+        }
         <div id="fbFriendsSelector" style="position: absolute; left: 70%; top: 20%;"></div>
         @RenderBody()
         <hr>

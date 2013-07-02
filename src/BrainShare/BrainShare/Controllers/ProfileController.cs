@@ -50,6 +50,7 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
+        [POST][ValidateInput(false)]
         public ActionResult DontHave(BookViewModel book)
         {
             try
@@ -65,7 +66,8 @@ namespace BrainShare.Controllers
             return Json(new { Success = "OK" });
         }
 
-        [HttpPost]
+        [POST]
+        [ValidateInput(false)]
         public ActionResult DontWant(BookViewModel book)
         {
             try
