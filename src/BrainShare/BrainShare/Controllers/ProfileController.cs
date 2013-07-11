@@ -32,7 +32,9 @@ namespace BrainShare.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            var user = _users.GetById(UserId);
+            var model = new MyProfileViewModel(user);
+            return View(model);
         }
 
         [GET("view/{id}")]
@@ -211,6 +213,16 @@ namespace BrainShare.Controllers
             _users.Save(user);
 
             return Json(new { canIncrease = canIncrease, canDecrease = canDecrease, summaryVotes = summaryVotes });
+        }
+    }
+
+    public class MyProfileViewModel 
+    {
+        public string Name { get; set; }
+
+        public MyProfileViewModel(User user)
+        {
+            Name = user.FullName;
         }
     }
 }

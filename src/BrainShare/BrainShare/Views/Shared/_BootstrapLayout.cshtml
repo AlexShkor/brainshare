@@ -41,7 +41,7 @@
                     @if (Request.IsAuthenticated)
                     { 
                         <p class="navbar-text pull-right ">
-                            <a href="/profile/mybooks" class="navbar-link">@ViewBag.UserName</a> (@User.Identity.Name) <a  href="@Url.Action("Logout", "User")" >Logout</a>
+                            <a href="/profile" class="navbar-link">@ViewBag.UserName</a> (@User.Identity.Name) <a  href="@Url.Action("Logout", "User")" >Logout</a>
                         </p>
                     }
                     else
@@ -83,11 +83,7 @@
         </div>
     </div>
     <div class="container">
-        @if (ViewBag.IsFacebookAccount)
-        {
-            <a id="selectorToggle" style="color: #4c66a4; font-weight: bold" href="#">Друзья из Фэйсбука</a>
-        }
-        <div id="fbFriendsSelector" style="position: absolute; left: 70%; top: 20%;"></div>
+
         @RenderBody()
         <hr>
         <footer>
