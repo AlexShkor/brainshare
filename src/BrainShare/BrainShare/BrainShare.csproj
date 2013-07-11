@@ -387,6 +387,7 @@
     <Content Include="Scripts\custom\Books\acceptRequestFrom.js" />
     <Content Include="Scripts\custom\Books\info.js" />
     <Content Include="Scripts\custom\Books\take.js" />
+    <Content Include="Scripts\custom\allbooks.js" />
     <Content Include="Scripts\custom\Profile\allMessages.js" />
     <Content Include="Scripts\custom\common.js" />
     <Content Include="Scripts\custom\Profile\inbox.js" />
@@ -474,6 +475,8 @@
     <Content Include="Views\User\GetFbFriends.cshtml" />
     <Content Include="Views\User\BindFacebook.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Books\Index.cshtml" />
+    <Content Include="Views\Books\_BooksList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

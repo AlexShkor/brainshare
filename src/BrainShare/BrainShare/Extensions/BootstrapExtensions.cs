@@ -9,7 +9,7 @@ namespace BrainShare.Extensions
 {
     public static class BootstrapExtensions
     {
-        public static MvcHtmlString MenuLink(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, string additionalCssClass)
+        public static MvcHtmlString MenuLink(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, string additionalCssClass = null)
         {
             var currentAction = htmlHelper.ViewContext.RouteData.GetRequiredString("action");
             var currentController = htmlHelper.ViewContext.RouteData.GetRequiredString("controller");

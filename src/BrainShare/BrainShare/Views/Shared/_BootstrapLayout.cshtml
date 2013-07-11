@@ -14,6 +14,7 @@
     <script src="~/Scripts/jquery-2.0.1.min.js"></script>
     <script src="~/Scripts/jquery.signalR-1.1.2.min.js"></script>
     <script src="~/Scripts/knockout-2.2.1.js"></script>
+    <script src="~/Scripts/knockout.mapping-latest.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/knockout-bootstrap.min.js"></script>
     <script src="/signalr/hubs"></script>
@@ -22,6 +23,7 @@
     @* Our Scripts*@
     <script src="~/Scripts/custom/common.js"></script>
     <script src="~/Scripts/custom/addbook.js"></script>
+    <script src="~/Scripts/custom/allbooks.js"></script>
 
     @RenderSection("head", required: false)
     @* favicons and touch icons go here *@
@@ -56,6 +58,7 @@
                     <ul class="nav">
                         @Html.MenuLink("Активность", "Index", "Home", null)
                         @Html.MenuLink("Искать", "Search", "Books", "book-search")
+                        @Html.MenuLink("Книги", "Index", "Books", null)
 
                         @{
                             var actionsForProfile = new Dictionary<string, List<string>>();

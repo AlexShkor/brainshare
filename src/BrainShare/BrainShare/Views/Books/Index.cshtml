@@ -1,0 +1,12 @@
+﻿@using Newtonsoft.Json
+
+<script type="text/javascript">
+    $(function () {
+
+        var model = new AllBooksModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+        ko.applyBindings(model);
+    });
+
+</script>
+
+@Html.Partial("_BooksList")
