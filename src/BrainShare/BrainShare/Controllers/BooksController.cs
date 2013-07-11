@@ -30,7 +30,7 @@ namespace BrainShare.Controllers
 
         public ActionResult Index()
         {
-            var books = _books.GetPaged(0, 100);
+            var books = _books.GetPaged(0, 50);
             var user = _users.GetById(UserId);
             var model = new AllBooksViewModel(books, user);
             return View(model);
