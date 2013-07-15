@@ -28,6 +28,14 @@ namespace BrainShare.Controllers
             _feeds = feeds;
         }
 
+        public ActionResult Index()
+        {
+            var books = _books.GetPaged(0, 50);
+            var user = _users.GetById(UserId);
+            var model = new AllBooksViewModel(books, user);
+            return View(model);
+        }
+
         public ActionResult Search()
         {
             var model = new List<string>();
@@ -213,5 +221,18 @@ namespace BrainShare.Controllers
         {
             Task.Factory.StartNew(() => _feeds.Save(feed));
         }
+    }
+
+    public class AllBooksViewModel
+    {
+        public AllBooksViewModel(IEnumerable<Book> books, User user)
+        {
+            Items = books.Select(x => new BookViewModel(x)).ToList();
+            OwnedItems = user.Books.ToList();
+        }
+
+        public List<string> OwnedItems { get; set; }
+
+        public List<BookViewModel> Items { get; set; }
     }
 }

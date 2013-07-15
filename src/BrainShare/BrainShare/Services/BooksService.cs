@@ -32,6 +32,11 @@ namespace BrainShare.Services
             return Items.Find(Query.EQ("Lookers", userId));
         }
 
+        public IEnumerable<Book> GetPaged(int skip, int limit)
+        {
+            return Items.FindAll().SetSkip(skip).SetLimit(limit);
+        }
+
         public void RemoveLooker(string bookId, string lookerId)
         {
             var book = Items.FindOne(Query<Book>.EQ(b => b.Id, bookId));
