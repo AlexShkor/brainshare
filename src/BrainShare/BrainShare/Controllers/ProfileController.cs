@@ -173,13 +173,13 @@ namespace BrainShare.Controllers
                 return HttpNotFound();
             }
             var model = new MessageViewModel();
-            model.Init(UserId, content, DateTime.Now, false);
+            model.Init(UserId, content, DateTime.Now.ToString("o"), false);
             var callbackModel = new MessageViewModel();
-            callbackModel.Init(UserId, content, DateTime.Now, true, thread.OwnerId == UserId ? thread.OwnerName : thread.RecipientName);
+            callbackModel.Init(UserId, content, DateTime.Now.ToString("o"), true, thread.OwnerId == UserId ? thread.OwnerName : thread.RecipientName);
             ThreadHub.HubContext.Clients.Group(threadId).messageSent(callbackModel);
             return Json(model);
         }
-
+        
         [POST("getBooks")]
         public ActionResult GetUserBooks(IEnumerable<string> ids)
         {

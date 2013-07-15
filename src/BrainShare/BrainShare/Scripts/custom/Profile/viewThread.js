@@ -39,6 +39,7 @@
         send("/profile/thread/post", formData, function (message) {
             self.content("");
             self.messages.unshift(message);
+            $("abbr.timeago").timeago();
         });
         return false;
     };
