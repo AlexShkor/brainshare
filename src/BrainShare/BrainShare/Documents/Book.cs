@@ -8,7 +8,8 @@ namespace BrainShare.Documents
         [BsonId]
         public string Id { get; set; }
 
-        public string ISBN { get; set; }
+        public string GoogleBookId { get; set; }
+        public List<string> ISBN { get; set; }
         public string Title { get; set; }
         public string SearchInfo { get; set; }
         public string Language { get; set; }
@@ -24,6 +25,7 @@ namespace BrainShare.Documents
 
         public Book()
         {
+            ISBN = new List<string>();
             Authors = new List<string>();
             Owners = new SortedSet<string>();
             Lookers = new SortedSet<string>();

@@ -18,7 +18,7 @@ namespace BrainShare.Controllers
         public BookViewModel(Book book)
         {
             Id = book.Id;
-            ISBN = book.ISBN;
+            ISBN = string.Join(", ", book.ISBN);
             Title = book.Title;
             SearchInfo = book.SearchInfo;
             PageCount = book.PageCount;

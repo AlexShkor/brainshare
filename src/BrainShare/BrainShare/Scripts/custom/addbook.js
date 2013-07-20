@@ -15,18 +15,6 @@ var AddBookModel = function(ownedItems) {
         { title: "Английский", code: "US" }]
     );
     
-    //this.searchType = ko.observable();
-    //this.searchTypes = ko.observableArray(
-    //   [ 
-    //       { title: "Везде", code: "" },
-    //       { title: "В названии", code: "+intitle" },
-    //       { title: "В авторах", code: "+inauthor" },
-    //       { title: "В издателе", code: "+inpublisher" },
-    //       { title: "В категориях", code: "+subject" },
-    //       { title: "ISBN", code: "+isbn" }
-    //   ]
-    //);
-    
     this.items = ko.observableArray();
     
     this.owned = ko.observableArray(ownedItems);
@@ -94,6 +82,9 @@ var BookViewModel = function(item, parent) {
     this.Image = (item.volumeInfo.imageLinks || {}).thumbnail;
     var isbns = item.volumeInfo.industryIdentifiers;
     if (isbns) {
-        this.ISBN = isbns[0].identifier;
+        this.ISBNS = ko.observableArray();
+        $.each(isbns, function(index, isbn) {
+            self.ISBNS.push(isbn.identifier);
+        });
     }
 };

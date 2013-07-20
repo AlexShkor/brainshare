@@ -242,6 +242,7 @@
     <Compile Include="Extensions\HtmlHelperExt.cs" />
     <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="Facebook\FacebookSelectorViewModel.cs" />
+    <Compile Include="GoogleDto\GoogleBookDto.cs" />
     <Compile Include="Hubs\ThreadHub.cs" />
     <Compile Include="SessionKeys.cs" />
     <Compile Include="Settings.cs" />
