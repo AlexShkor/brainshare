@@ -479,6 +479,8 @@
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Books\Index.cshtml" />
     <Content Include="Views\Books\_BooksList.cshtml" />
+    <Content Include="Views\Shared\_BooksLayout.cshtml" />
+    <Content Include="Views\Books\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
