@@ -22,7 +22,7 @@ namespace BrainShare.Controllers
             Title = book.Title;
             SearchInfo = book.SearchInfo;
             PageCount = book.PageCount;
-            PublishedDate = book.PublishedDate;
+            PublishedDate = book.PublishedDate.ToString("yyyy MMM");
             Publisher = book.Publisher;
             Subtitle = book.Subtitle;
             Image = book.Image;

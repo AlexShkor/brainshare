@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using BrainShare.Documents;
 using MongoDB.Bson;
 
@@ -34,7 +36,7 @@ namespace BrainShare.GoogleDto
                 Language = Language,
                 Title = Title,
                 PageCount = PageCount,
-                PublishedDate = PublishedDate,
+                PublishedDate = DateTime.ParseExact(PublishedDate, "yyyy-MM-dd", CultureInfo.InvariantCulture),
                 Subtitle = Subtitle,
                 SearchInfo = SearchInfo,
                 Publisher = Publisher

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace BrainShare.Documents
@@ -14,7 +15,7 @@ namespace BrainShare.Documents
         public string SearchInfo { get; set; }
         public string Language { get; set; }
         public int PageCount { get; set; }
-        public string PublishedDate { get; set; }
+        public DateTime PublishedDate { get; set; }
         public string Publisher { get; set; }
         public string Subtitle { get; set; }
         public string Image { get; set; }
