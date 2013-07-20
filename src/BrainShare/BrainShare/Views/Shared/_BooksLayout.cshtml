@@ -1,24 +1,28 @@
 ﻿@{
     Layout = "~/Views/Shared/_BootstrapLayout.cshtml";
 }
-<div class="row-fluid">
+ <div class="container-fluid">
 
-    <div class="span3">
-        <div class="well sidebar-nav">
-            <h3>Книги</h3>
-            <ul class="nav nav-list nav-stacked">
-                <li class="nav-header">Книги</li>
-                <li><a href="@Url.Action("Index")">Последнии</a></li>
-                <li><a href="@Url.Action("Search")">Искать</a></li>
-                <li class="nav-header">Мои Книги</li>
-                <li><a href="@Url.Action("MyBooks","Profile")">Мои Книги</a></li>
-                <li><a href="@Url.Action("WishList","Profile")">Мой список поиска</a></li>
-                <li><a href="@Url.Action("Inbox","Profile")">Предложения по обмену</a></li>
-            </ul>
-        </div>
+
+ <div class="row-fluid">
+
+     <div class="span3">
+         <div class="well sidebar-nav">
+             <h3>Книги</h3>
+             <ul class="nav nav-list nav-stacked">
+                 <li class="nav-header">Книги</li>
+                 <li><a href="@Url.Action("Index","Books")">Последнии</a></li>
+                 <li><a href="@Url.Action("Search","Books")">Искать</a></li>
+                 <li class="nav-header">Мои Книги</li>
+                 <li><a href="@Url.Action("MyBooks","Profile")">Мои Книги</a></li>
+                 <li><a href="@Url.Action("WishList","Profile")">Мой список поиска</a></li>
+                 <li><a href="@Url.Action("Inbox","Profile")">Предложения по обмену</a></li>
+             </ul>
+         </div>
+     </div>
+     <div class="span9">
+         @RenderBody()
+     </div>
+ </div>
     </div>
-    <div class="span9">
-        @RenderBody()
-    </div>
-</div>
    @RenderSection("Scripts", required: false)

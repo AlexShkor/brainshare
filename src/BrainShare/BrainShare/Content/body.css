@@ -27,3 +27,8 @@
   .book-item:hover {
       background-color: lightcyan;
   }
+
+  .navbar .brand {
+      font-weight: bold;
+      color: orange;
+  }
