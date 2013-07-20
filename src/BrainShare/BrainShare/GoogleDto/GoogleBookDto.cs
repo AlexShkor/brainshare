@@ -8,7 +8,7 @@ namespace BrainShare.GoogleDto
 {
     public class GoogleBookDto
     {
-            public string Id { get; set; }
+            public string GoogleBookId { get; set; }
 
             public string Title { get; set; }
             public string SearchInfo { get; set; }
@@ -25,10 +25,10 @@ namespace BrainShare.GoogleDto
 
         public Book BuildDocument()
         {
-            return new Book
+            var book = new Book
             {
                 Id = ObjectId.GenerateNewId().ToString(),
-                GoogleBookId = Id,
+                GoogleBookId = GoogleBookId,
                 Authors = Authors,
                 ISBN = ISBNS ?? new List<string>(),
                 Country = Country,
@@ -36,11 +36,21 @@ namespace BrainShare.GoogleDto
                 Language = Language,
                 Title = Title,
                 PageCount = PageCount,
-                PublishedDate = DateTime.ParseExact(PublishedDate, "yyyy-MM-dd", CultureInfo.InvariantCulture),
                 Subtitle = Subtitle,
                 SearchInfo = SearchInfo,
                 Publisher = Publisher
             };
+            var dateParts = PublishedDate.Split('-');
+            try
+            {
+                book.PublishedYear = int.Parse(dateParts[0]);
+                book.PublishedMonth = int.Parse(dateParts[1]);
+                book.PublishedDay = int.Parse(dateParts[2]);
+            }
+            catch 
+            {
+            }
+            return book;
         }
     }
 }

@@ -42,7 +42,7 @@ namespace BrainShare.Controllers
             var model = new List<string>();
             if (UserId != null)
             {
-                model = _users.GetById(UserId).Books.ToList();
+                model = _books.GetUserBooks(UserId).Select(x=> x.GoogleBookId).ToList();
             }
             return View(model);
         }
@@ -60,7 +60,7 @@ namespace BrainShare.Controllers
         [ValidateInput(false)]
         public ActionResult InfoPost(GoogleBookDto dto)
         {
-            var doc = _books.GetByGoogleBookId(dto.Id);
+            var doc = _books.GetByGoogleBookId(dto.GoogleBookId);
             if (doc == null)
             {
                 doc = dto.BuildDocument();
@@ -73,7 +73,7 @@ namespace BrainShare.Controllers
         [ValidateInput(false)]
         public ActionResult Give(GoogleBookDto bookDto)
         {
-            var doc = _books.GetByGoogleBookId(bookDto.Id);
+            var doc = _books.GetByGoogleBookId(bookDto.GoogleBookId);
             if (doc == null)
             {
                 doc = bookDto.BuildDocument();
@@ -98,7 +98,7 @@ namespace BrainShare.Controllers
         [ValidateInput(false)]
         public ActionResult Take(GoogleBookDto bookDto)
         {
-            var doc = _books.GetByGoogleBookId(bookDto.Id);
+            var doc = _books.GetByGoogleBookId(bookDto.GoogleBookId);
             if (doc == null)
             {
                 doc = bookDto.BuildDocument();

@@ -42,8 +42,9 @@ var AddBookModel = function(ownedItems) {
     };
 
     this.give = function (item) {
+        self.owned.push(item.GoogleBookId);
         send("/books/give", item, function (response) {
-            self.owned.push(response.Id); 
+           
         });
     };
 
@@ -68,7 +69,7 @@ var AddBookModel = function(ownedItems) {
 
 var BookViewModel = function(item, parent) {
     var self = this;
-    this.Id = item.id;
+    this.GoogleBookId = item.id;
     this.Country = parent.selectedLanguage();
     this.SearchInfo = (item.searchInfo || { }).textSnippet;
     this.Authors = ko.observableArray(item.volumeInfo.authors);

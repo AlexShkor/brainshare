@@ -5,6 +5,7 @@ namespace BrainShare.Controllers
     public class BookViewModel
     {
         public string Id { get; set; }
+        public string GoogleBookId { get; set; }
         public string ISBN { get; set; }
         public string Title { get; set; }
         public string Authors { get; set; }
@@ -26,6 +27,7 @@ namespace BrainShare.Controllers
             Publisher = book.Publisher;
             Subtitle = book.Subtitle;
             Image = book.Image;
+            GoogleBookId = book.GoogleBookId;
             Authors = string.Join(", ", book.Authors);
         }
 
