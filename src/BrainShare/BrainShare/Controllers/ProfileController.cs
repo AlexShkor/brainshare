@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -214,15 +215,48 @@ namespace BrainShare.Controllers
 
             return Json(new { canIncrease = canIncrease, canDecrease = canDecrease, summaryVotes = summaryVotes });
         }
+
+        [HttpPost]
+        public ActionResult UploadImage(MyProfileViewModel model)
+        {
+            var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
+
+            var path = HttpContext.Server.MapPath("~/Content/me.jpg");
+            var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams()
+            {
+                File = new CloudinaryDotNet.Actions.FileDescription("filename", model.UploadedFile.InputStream),
+
+            };
+
+            var uploadResult = cloudinary.Upload(uploadParams);
+            
+            string url = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(340).Height(200).Crop("fill")).BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
+
+            model.ImageUrl = url;
+
+            return RedirectToAction("Index", model);
+        }
+
     }
 
     public class MyProfileViewModel 
     {
-        public string Name { get; set; }
+        public MyProfileViewModel()
+        {
+            
+        }
 
         public MyProfileViewModel(User user)
         {
             Name = user.FullName;
         }
+
+        public string Name { get; set; }
+        
+        public HttpPostedFileBase UploadedFile { get; set; }
+
+        public string ImageUrl { get; set; }
+
+        public int Id { get; set; }
     }
 }

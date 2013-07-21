@@ -1,24 +1,72 @@
 ﻿@model BrainShare.Controllers.MyProfileViewModel
 
+ 
+@section Scripts{
+   
+    <script src="@Url.Content("~/Scripts/bootstrap.file-input.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.Jcrop.js")" type="text/javascript"></script>
+    
+    <script type="text/javascript">
+        $(function () {
+            $("#myImage").Jcrop();
+        })
+       
+    </script>
+}
+
 <div class="row">
-         
+
     <div id="fbFriendsSelector" style="position: absolute; left: 70%; top: 20%;"></div>
     <div class="clearfix"></div>
-<div class="span8 well">
-    <div class="row">
-        <div class="span1"><a href="http://critterapp.pagodabox.com/others/admin" class="thumbnail"><img src="http://critterapp.pagodabox.com/img/user.jpg" alt=""></a></div>
-        <div class="span5">
-            <p>some text (maybe status)</p>
-            <p><strong>@Model.Name</strong></p>
-            <span class=" badge badge-warning">8 сообщений</span> 
-            <span class=" badge badge-info">15 друзей</span>
+    <div class="span8 well">
+        <div class="row">
+            <div class="span1">
+                <a href="http://critterapp.pagodabox.com/others/admin" class="thumbnail">
+                    <img src="http://critterapp.pagodabox.com/img/user.jpg" alt=""></a>
+            </div>
+            <div class="span5">
+                <p>some text (maybe status)</p>
+                <p><strong>@Model.Name</strong></p>
+                <span class=" badge badge-warning">8 сообщений</span>
+                <span class=" badge badge-info">15 друзей</span>
 
-               @if (ViewBag.IsFacebookAccount)
-        {
-            <a id="selectorToggle" class=" badge badge-info" href="#">Друзья из Фэйсбука</a>
-        }
+                @if (!String.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <div>
+                        <img src="@Model.ImageUrl" alt="img"/>
+                    </div>
+                }
+
+                @if (ViewBag.IsFacebookAccount)
+                {
+                    <a id="selectorToggle" class=" badge badge-info" href="#">Друзья из Фэйсбука</a>
+                }
+                @if (Model.UploadedFile == null)
+                {
+                    <div>
+                        @using (Html.BeginForm("UploadImage", "Profile", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+                        {
+                    
+                            <div class="control-group">
+                                <label class="control-label" for="Email">
+                                    Загрузите файл:</label>
+                                <div class="controls">
+                                    @Html.TextBox("UploadedFile", Model.UploadedFile, new { type = "file" })
+                                    @Html.ValidationMessage("UploadedFile")
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    Upload</button>
+                            </div>
+                        }
+                    </div>
+                }
+                
+                <img src="@Url.Content("~/Content/me.jpg")" alt="ds" id="myImage"/>
+
+            </div>
         </div>
     </div>
-</div>
 
 </div>
