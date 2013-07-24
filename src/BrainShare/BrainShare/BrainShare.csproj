@@ -245,6 +245,7 @@
     <Compile Include="Extensions\HtmlHelperExt.cs" />
     <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="Facebook\FacebookSelectorViewModel.cs" />
+    <Compile Include="GoogleDto\GoogleBookDto.cs" />
     <Compile Include="Hubs\ThreadHub.cs" />
     <Compile Include="SessionKeys.cs" />
     <Compile Include="Settings.cs" />
@@ -313,6 +314,7 @@
     <Content Include="Content\help\take_learning_sql_crop.png" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\Jcrop.gif" />
     <Content Include="Content\jquery.Jcrop.css" />
     <Content Include="Content\site.css" />
     <Content Include="Content\fbfriends.css" />
@@ -490,7 +492,8 @@
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Books\Index.cshtml" />
     <Content Include="Views\Books\_BooksList.cshtml" />
-    <Content Include="Views\Shared\cloudinary_cors.html.cshtml" />
+    <Content Include="Views\Shared\_BooksLayout.cshtml" />
+    <Content Include="Views\Books\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,6 +1,8 @@
 ﻿@using Newtonsoft.Json
 @model BrainShare.Controllers.InboxViewModel
-
+@{
+    Layout = "~/Views/Shared/_BooksLayout.cshtml";
+}
 @section Scripts {
     <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Profile/inbox.js")"></script>
     <script type="text/javascript">

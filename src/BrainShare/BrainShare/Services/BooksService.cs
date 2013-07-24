@@ -50,5 +50,10 @@ namespace BrainShare.Services
             book.Owners.Remove(ownerId);
             Items.Save(book);
         }
+
+        public Book GetByGoogleBookId(string googleBookId)
+        {
+            return Items.FindOne(Query<Book>.EQ(b => b.GoogleBookId, googleBookId));
+        }
     }
 }

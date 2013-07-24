@@ -18,3 +18,17 @@
   .bold {
        font-weight: bold;
   }
+
+  .book-item {
+      width: 180px;
+      cursor: pointer;
+  }
+
+  .book-item:hover {
+      background-color: lightcyan;
+  }
+
+  .navbar .brand {
+      font-weight: bold;
+      color: orange;
+  }

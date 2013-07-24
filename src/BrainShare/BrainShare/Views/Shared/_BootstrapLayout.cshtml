@@ -56,7 +56,7 @@
 
                     <ul class="nav">
                         @Html.MenuLink("Активность", "Index", "Home", null)
-                        @Html.MenuLink("Искать", "Search", "Books", "book-search")
+                        @Html.MenuLink("Искать", "Search", "Books")
                         @Html.MenuLink("Книги", "Index", "Books", null)
 
                         @{
@@ -87,11 +87,12 @@
     <div class="container">
 
         @RenderBody()
-        <hr>
-        <footer>
-            <p>&copy; BrainShare @System.DateTime.Now.ToString("yyyy")</p>
-        </footer>
+      
     </div>
+      <footer >
+          <div class="container"> <p>&copy; BrainShare @System.DateTime.Now.ToString("yyyy")</p></div>
+         
+      </footer>
     @RenderSection("Scripts", required: false)
     @if (ViewBag.IsFacebookAccount)
     {

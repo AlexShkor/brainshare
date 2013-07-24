@@ -7,6 +7,7 @@ using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Documents;
+using BrainShare.GoogleDto;
 using BrainShare.Services;
 using Newtonsoft.Json;
 
@@ -41,7 +42,7 @@ namespace BrainShare.Controllers
             var model = new List<string>();
             if (UserId != null)
             {
-                model = _users.GetById(UserId).Books.ToList();
+                model = _books.GetUserBooks(UserId).Select(x=> x.GoogleBookId).ToList();
             }
             return View(model);
         }
@@ -57,20 +58,31 @@ namespace BrainShare.Controllers
 
         [POST("info")]
         [ValidateInput(false)]
-        public ActionResult InfoPost(Book doc)
+        public ActionResult InfoPost(GoogleBookDto dto)
         {
-            var existing = _books.GetById(doc.Id);
-            if (existing == null)
+            var doc = _books.GetByGoogleBookId(dto.GoogleBookId);
+            if (doc == null)
             {
+                doc = dto.BuildDocument();
                 _books.Save(doc);
             }
-            return Json(new { doc.Id });
+            return Json(new {doc.Id});
         }
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Give(Book doc)
+        public ActionResult Give(GoogleBookDto bookDto)
         {
+            var doc = _books.GetByGoogleBookId(bookDto.GoogleBookId);
+            if (doc == null)
+            {
+                doc = bookDto.BuildDocument();
+            }
+            if (!doc.Owners.Contains(UserId))
+            {
+                doc.Owners.Add(UserId);
+                _books.Save(doc);
+            }
             var user = _users.GetById(UserId);
             if (user.Books.Contains(doc.Id))
             {
@@ -78,25 +90,29 @@ namespace BrainShare.Controllers
             }
             user.Books.Add(doc.Id);
             _users.Save(user);
-            var currentDoc = _books.GetById(doc.Id) ?? doc;
-            currentDoc.Owners.Add(UserId);
-            _books.Save(currentDoc);
             SaveFeedAsync(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
             return Json(new { Id = doc.Id });
         }
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Take(Book doc)
+        public ActionResult Take(GoogleBookDto bookDto)
         {
+            var doc = _books.GetByGoogleBookId(bookDto.GoogleBookId);
+            if (doc == null)
+            {
+                doc = bookDto.BuildDocument();
+            }
+            if (!doc.Lookers.Contains(UserId))
+            {
+                doc.Lookers.Add(UserId);
+                _books.Save(doc);
+            }
             var user = _users.GetById(UserId);
             if (!user.WishList.Contains(doc.Id))
             {
                 user.WishList.Add(doc.Id);
                 _users.Save(user);
-                var currentDoc = _books.GetById(doc.Id) ?? doc;
-                currentDoc.Lookers.Add(UserId);
-                _books.Save(currentDoc);
                 SaveFeedAsync(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
             }
             return Json(new { doc.Id });
@@ -176,6 +192,7 @@ namespace BrainShare.Controllers
                 if (him.Books.Contains(bookId) && him.WishList.Contains(yourBookId))
                 {
                     you.Books.Remove(yourBookId);
+                    you.Books.Add(bookId);
                     you.WishList.Remove(bookId);
                     you.AddRecievedBook(bookId, userId);
                     you.Inbox.RemoveAll(x => x.UserId == userId && x.BookId == yourBookId);
@@ -183,6 +200,7 @@ namespace BrainShare.Controllers
 
 
                     him.Books.Remove(bookId);
+                    him.Books.Add(yourBookId);
                     him.WishList.Remove(yourBookId);
                     him.AddRecievedBook(yourBookId, you.Id);
                     _users.Save(him);
@@ -190,11 +208,13 @@ namespace BrainShare.Controllers
                     var himBook = _books.GetById(bookId);
                     himBook.Lookers.Remove(you.Id);
                     himBook.Owners.Remove(him.Id);
+                    himBook.Owners.Add(you.Id);
                     _books.Save(himBook);
 
 
                     var yourBook = _books.GetById(yourBookId);
                     yourBook.Owners.Remove(you.Id);
+                    yourBook.Owners.Add(him.Id);
                     yourBook.Lookers.Remove(him.Id);
                     _books.Save(yourBook);
 
