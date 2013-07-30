@@ -4,23 +4,45 @@
 @section Scripts{
     <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/info.js")"></script>
     <script>
-        $(function() {
+        $(function () {
             var model = new InfoModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
             ko.applyBindings(model);
         })
     </script>
 }
-
-@Html.Partial("Details")
-
-<div class="row">
+@{
+   
+    ViewBag.Title = Model.Title;
+}
+<div class="span12">
+    <h4>@Model.Title</h4>
     <div>
-        <a href="#"></a>
+        <div class="span3">
+            @Html.Partial("DetailsPartial", Model)
+        </div>
+        <div class="span9">
+            <div class="btn-group">
+                <button type="button" data-bind="click: take" class="btn btn-success">Мне нужна</button>
+                <button type="button" data-bind="click: whoHave" class="btn btn-info">У кого есть</button>
+                <button type="button" data-bind="click: give" class="btn btn-primary">У меня есть</button>
+            </div>
+        </div>
     </div>
-    <hr/>
-    <h4>Предпросмотр</h4>
-    <div >
-        <iframe frameborder="0" scrolling="no" style="border:0px" src="http://books.google.by/books?id=@(Model.GoogleBookId)&lpg=PP1&hl=ru&pg=PT3&output=embed" width="100%" height=800></iframe>
+    <div>
+        <div class="span12">
+            <div>
+                <a href="#"></a>
+            </div>
+            <hr />
+            <h4>Предпросмотр</h4>
+            <div>
+                <iframe frameborder="0" scrolling="no" style="border:0px" src="http://books.google.by/books?id=@(Model.GoogleBookId)&lpg=PP1&hl=ru&pg=PT3&output=embed" width="100%" height=800></iframe>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="span12">
+            @Html.Partial("Disquas")
+        </div>
     </div>
 </div>
-

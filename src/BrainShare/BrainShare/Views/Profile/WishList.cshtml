@@ -18,9 +18,9 @@
 <table class="table table-condensed">
     <thead>
         <tr>
-            <th>Название</th>
-            <th>Автор(ы)</th>
-            <th></th>
+            <th class="span5">Название</th>
+            <th class="span4">Автор(ы)</th>
+            <th class="span3"></th>
         </tr>
     </thead>
     <tbody data-bind="foreach: books">
@@ -29,7 +29,7 @@
             <td data-bind="text: Authors"></td>
             <td>
                 <a class="btn btn-small" href="#" data-bind="click: $root.whoHas">У кого есть?</a>
-                <a class="btn btn-danger" href="#" data-bind="click: $root.dontWant">Больше не ищу</a>
+                <a class="btn btn-small btn-danger" href="#" data-bind="click: $root.dontWant">Удалить</a>
             </td>
         </tr>
     </tbody>
