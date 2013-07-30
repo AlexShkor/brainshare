@@ -57,28 +57,9 @@
 
                     <ul class="nav">
                         @Html.MenuLink("Активность", "Index", "Home", null)
-                        @Html.MenuLink("Искать", "Search", "Books")
                         @Html.MenuLink("Книги", "Index", "Books", null)
-
-                        @{
-                            var actionsForProfile = new Dictionary<string, List<string>>();
-                            actionsForProfile["Сообщения"] = new List<string>() { "AllMessages", "Profile" };
-                            actionsForProfile["Входящие"] = new List<string>() { "Inbox", "Profile" };
-                            actionsForProfile["Мои Книги"] = new List<string>() { "MyBooks", "Profile" };
-                            actionsForProfile["Я ищу Книги"] = new List<string>() { "WishList", "Profile" };
-
-                        }
-                        @Html.MenuDropdown(actionsForProfile, "Профиль")
-
-                        @{
-                            var actionsForHelp = new Dictionary<string, List<string>>();
-                            actionsForHelp["Помощь"] = new List<string>() { "Index", "Help" };
-                            actionsForHelp["Как добавить книгу в коллекцию?"] = new List<string>() { "HowToAddBook", "Help" };
-                            actionsForHelp["Как найти нужную вам книгу?"] = new List<string>() { "HowToSearchBook", "Help" };
-                            actionsForHelp["Как обменяться книгами?"] = new List<string>() { "HowToExchangeBook", "Help" };
-                        }
-                        @Html.MenuDropdown(actionsForHelp, "Помощь")
-
+                        @Html.MenuLink("Мой Аккаунт", "Index", "Profile", null)
+                        @Html.MenuLink("Помощь", "Index", "Help", null)
                         @Html.MenuLink("Отзывы", "Feedback", "Home", null)
                     </ul>
                 </div>

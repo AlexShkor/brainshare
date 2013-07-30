@@ -1,6 +1,8 @@
 ﻿@using Newtonsoft.Json
 @model BrainShare.Controllers.MessagingThreadViewModel
-
+@{
+    Layout = "_ProfileLayout.cshtml";
+}
 @section Scripts{
     <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Profile/viewThread.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.timeago_ru.js")"></script>
@@ -16,7 +18,7 @@
 }
 
 <div class="container">
-    <h2>Сообщения</h2>
+    <h4>Сообщения</h4>
     <div class="span8">
         <div>
             <input type="hidden" name="threadId" id="threadId" data-bind="value: threadId" />

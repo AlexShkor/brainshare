@@ -1,24 +1,29 @@
 ﻿@model BrainShare.Controllers.MyProfileViewModel
+@{
+    Layout = "_ProfileLayout.cshtml";
+}
 
-<div class="row">
-         
-    <div id="fbFriendsSelector" style="position: absolute; left: 70%; top: 20%;"></div>
-    <div class="clearfix"></div>
-<div class="span8 well">
-    <div class="row">
-        <div class="span1"><a href="http://critterapp.pagodabox.com/others/admin" class="thumbnail"><img src="http://critterapp.pagodabox.com/img/user.jpg" alt=""></a></div>
-        <div class="span5">
-            <p>some text (maybe status)</p>
-            <p><strong>@Model.Name</strong></p>
-            <span class=" badge badge-warning">8 сообщений</span> 
-            <span class=" badge badge-info">15 друзей</span>
+<h4>Профиль</h4>
+<div>
+    <div class="span12 well">
+        <div class="row">
+            <div class="span1"><a href="http://critterapp.pagodabox.com/others/admin" class="thumbnail">
+                <img src="http://critterapp.pagodabox.com/img/user.jpg" alt=""></a></div>
+            <div class="span5">
+                <p>some text (maybe status)</p>
+                <p><strong>@Model.Name</strong></p>
+                <span class=" badge badge-warning">8 сообщений</span>
+                <span class=" badge badge-info">15 друзей</span>
 
-               @if (ViewBag.IsFacebookAccount)
-        {
-            <a id="selectorToggle" class=" badge badge-info" href="#">Друзья из Фэйсбука</a>
-        }
+                @if (ViewBag.IsFacebookAccount)
+                {
+                    <a id="selectorToggle" class=" badge badge-info" href="#">Друзья из Фэйсбука</a>
+                }
+            </div>
+
+            <div id="fbFriendsSelector" style="position: absolute; left: 70%; top: 20%;"></div>
+            <div class="clearfix"></div>
         </div>
     </div>
-</div>
 
 </div>
