@@ -494,6 +494,8 @@
     <Content Include="Views\Books\_BooksList.cshtml" />
     <Content Include="Views\Shared\_BooksLayout.cshtml" />
     <Content Include="Views\Books\_ViewStart.cshtml" />
+    <Content Include="Views\Profile\_ProfileLayout.cshtml" />
+    <Content Include="Views\Shared\Disquas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

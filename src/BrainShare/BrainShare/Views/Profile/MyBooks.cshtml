@@ -13,14 +13,14 @@
     </script>
 }
 
-<h2>Мои Книги</h2>
+<h4>Моя книжная полка</h4>
 
 <table class="table table-condensed">
     <thead>
         <tr>
-            <th>Название</th>
-            <th>Автор(ы)    </th>
-            <th></th>
+            <th class="span5">Название</th>
+            <th class="span5">Автор(ы)    </th>
+            <th class="span2"></th>
         </tr>
     </thead>
     <tbody data-bind="foreach: books">
@@ -28,7 +28,7 @@
             <td data-bind="text: Title"></td>
             <td data-bind="text: Authors"></td>
             <td>
-                <a class="btn btn-small" href="#" data-bind="click: $root.dontHave">Уже нет</a>
+                <a class="btn btn-small" href="#" data-bind="click: $root.dontHave">Удалить</a>
             </td>
         </tr>
     </tbody>

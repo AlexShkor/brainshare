@@ -36,7 +36,7 @@ namespace BrainShare.Documents
 
         public DateTime PublishedDate
         {
-            get { return new DateTime(PublishedYear ?? 0, PublishedMonth ?? 0, PublishedDay ?? 0); }
+            get { return new DateTime(PublishedYear ?? 1, PublishedMonth ?? 1, PublishedDay ?? 1); }
         }
     }
 }

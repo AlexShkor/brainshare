@@ -3,6 +3,28 @@
     Layout = "~/Views/Shared/_BootstrapLayout.cshtml";
     ViewBag.Title = "Помощь | " + ViewBag.Subtitle;
 }
-<h2>Помощь</h2>
-<h4>@ViewBag.Subtitle</h4>
-@RenderBody()
+
+<div class="container-fluid">
+
+
+    <div class="row-fluid">
+
+        <div class="span3">
+                  <h4>Помощь</h4>
+               
+            <div class="well sidebar-nav">
+          
+                <ul class="nav nav-list nav-stacked">
+                    <li><a href="@Url.Action("HowToAddBook")">Как добавить книгу в коллекцию?</a></li>
+                    <li><a href="@Url.Action("HowToSearchBook")">Как найти книгу?</a></li>
+                    <li><a href="@Url.Action("HowToExchangeBook")">Как обменяться книгами?</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="span9">
+              <h3>@ViewBag.Subtitle</h3>
+            @RenderBody()
+        </div>
+    </div>
+</div>
+@RenderSection("Scripts", required: false)
