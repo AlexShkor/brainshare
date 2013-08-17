@@ -152,11 +152,14 @@ namespace BrainShare.Controllers
                         BookId = bookId
                     });
                 _users.Save(user);
-                var currentUser = _users.GetById(UserId);
 
-                var mailer = new MailService();
-                var requestEmail = mailer.SendRequestMessage(currentUser, user, book);
-                requestEmail.Deliver();
+                Task.Factory.StartNew(() =>
+                {
+                    var currentUser = _users.GetById(UserId);
+                    var mailer = new MailService();
+                    var requestEmail = mailer.SendRequestMessage(currentUser, user, book);
+                    requestEmail.Deliver();
+                });
             }
             var model = new ChangeRequestSentModel(book, user);
             return View(model);

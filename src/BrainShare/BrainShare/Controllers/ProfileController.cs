@@ -114,7 +114,7 @@ namespace BrainShare.Controllers
             var model = new InboxViewModel();
             model.Items = user.Inbox.OrderBy(x => x.Created).Select(x =>
                                             new InboxItem(x.Created, books.Find(b => b.Id == x.BookId),
-                                                          users.Find(u => u.Id == x.UserId))).ToList();
+                                                          users.Find(u => u.Id == x.UserId), !x.Viewed)).ToList();
             return View(model);
         }
 
@@ -251,7 +251,7 @@ namespace BrainShare.Controllers
         public ActionResult GetNewBooksCount()
         {
             var user = _users.GetById(UserId);
-            return Json(new {Result = user.Inbox.Count(x => x.Viewed)});
+            return Json(new {Result = user.Inbox.Count(x => !x.Viewed)});
         }
 
         [POST("get-new-messages-count")]

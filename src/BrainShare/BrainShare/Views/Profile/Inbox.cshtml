@@ -26,7 +26,10 @@
     <tbody data-bind="foreach: items">
 
         <tr>
-            <td data-bind="text: User.UserName"></td>
+            <td >
+                <span data-bind="text: User.UserName"></span>
+                <span class="badge badge-warning" data-bind="visible: IsNew">new</span>
+            </td>
             <td data-bind="text: Book.Title"></td>
             <td data-bind="text: Created"></td>
             <td>
