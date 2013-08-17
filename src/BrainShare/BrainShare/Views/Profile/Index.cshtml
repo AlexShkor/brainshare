@@ -16,18 +16,15 @@
 
             $('#apply-banner-crop').click(function () {
                 var coords = jcropApi.tellScaled();
-                alert(coords);
+                alert( "" + coords.x + " "+ coords.x2 + " " + coords.y + " " + coords.y2);
             });
-            
+
             $("#file").change(function () {
                 $("#uploadImage").click();
                 alert("hui");
             });
 
         });
-
-       
-        
 
         function updateCoords(coords) {
             alert(coords);
@@ -61,12 +58,11 @@
                     <div>
                         @using (Html.BeginForm("UploadImage", "Profile", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
                         {
-                    
                             <div class="control-group">
                                 <label class="control-label" for="Email">
                                     Загрузите файл:</label>
                                 <div class="controls">
-                                    @Html.TextBox("UploadedFile", Model.UploadedFile, new { type = "file", id="file" })
+                                    @Html.TextBox("UploadedFile", Model.UploadedFile, new { type = "file", id = "file" })
                                     @Html.ValidationMessage("UploadedFile")
                                 </div>
                             </div>

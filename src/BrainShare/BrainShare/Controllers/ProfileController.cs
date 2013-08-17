@@ -230,8 +230,8 @@ namespace BrainShare.Controllers
 
             var uploadResult = cloudinary.Upload(uploadParams);
 
-            //string url = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(340).Height(200).Crop("fill")).BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
-            string url = cloudinary.Api.UrlImgUp.BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
+            string url = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().X(100).Y(150).Width(120).Height(100).Crop("crop")).BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
+            //string url = cloudinary.Api.UrlImgUp.BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
 
             model.ImageUrl = url;
             
