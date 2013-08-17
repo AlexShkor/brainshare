@@ -174,8 +174,14 @@ namespace BrainShare.Controllers
             model.FromUser = new UserItemViewModel(fromUser);
             var yourBook = _books.GetById(requestedBookId);
             model.YourBook = new BookViewModel(yourBook);
+            UpdateRequestViewdAsync(UserId, requestedBookId, userId);
             Title(string.Format("Запрос от {0} на книгу {1}", fromUser.FullName, yourBook.Title));
             return View(model);
+        }
+
+        private void UpdateRequestViewdAsync(string userId, string bookId, string requestFromUserId)
+        {
+            Task.Factory.StartNew(() => _users.UpdateRequestViewed(userId, bookId, requestFromUserId));
         }
 
         [GET("give/{yourBookId}/take/{bookId}/from/{userId}")]

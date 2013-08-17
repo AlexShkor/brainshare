@@ -38,6 +38,7 @@ namespace BrainShare.Documents
             Inbox = new List<ChangeRequest>();
             Recieved = new List<ChangeRequest>();
             Votes = new Dictionary<string, int>();
+            ThreadsWithUnreadMessages = new List<string>();
         }
 
         public void AddRecievedBook(string bookId, string userId)
@@ -64,7 +65,8 @@ namespace BrainShare.Documents
         {
             get { return !string.IsNullOrWhiteSpace(FacebookId);}
         }
-        
+
+        public List<string> ThreadsWithUnreadMessages { get; set; }
     }
 
     public class ChangeRequest
@@ -72,6 +74,7 @@ namespace BrainShare.Documents
         public string UserId { get; set; }
         public string BookId { get; set; }
         public DateTime Created { get; set; }
+        public bool Viewed { get; set; }
 
         public ChangeRequest()
         {

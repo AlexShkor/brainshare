@@ -56,7 +56,7 @@
 
                     <ul class="nav">
                         @Html.MenuLink("Активность", "Index", "Home", null)
-                        @Html.MenuLink("Книги", "Index", "Books", null)
+                        @Html.MenuLink("Книги", "Index", "Books")
                         @Html.MenuLink("Мой Аккаунт", "Index", "Profile", null)
                         @Html.MenuLink("Помощь", "Index", "Help", null)
                         @Html.MenuLink("Отзывы", "Feedback", "Home", null)
@@ -79,6 +79,22 @@
     {
         <script type="text/javascript" src="@Url.Content("~/Scripts/custom/fbfriendsSelector.js")"></script>
     }
+    
+    <script>
+        $(function () {
+            $.post("/profile/get-new-books-count", function(data) {
+                if (data.Result !== undefined) {
+                    $(".navbar-fixed-top a[href='/Books']").append("&nbsp;<span class='badge badge-warning'>" + data.Result + "</span>");
+                    $(".inboxBooks").text(data.Result);
+                }
+            });
 
+            $.post("/profile/get-new-messages-count", function(data) {
+                if (data.Result !== undefined) {
+                    $(".navbar-fixed-top a[href='/Profile']").append("&nbsp;<span class='badge badge-info'>" + data.Result + "</span>");
+                }
+            });
+        });
+    </script>
 </body>
 </html>

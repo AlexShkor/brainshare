@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AttributeRouting;
@@ -12,6 +14,7 @@ using BrainShare.Services;
 using BrainShare.ViewModels;
 using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
+using Thread = BrainShare.Documents.Thread;
 
 
 namespace BrainShare.Controllers
@@ -175,6 +178,7 @@ namespace BrainShare.Controllers
             {
                 return HttpNotFound();
             }
+            UpdateUnreadMessagesAsync(threadId, UserId, thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId);
             var model = new MessageViewModel();
             model.Init(UserId, content, DateTime.Now.ToString("o"), false);
             var callbackModel = new MessageViewModel();
@@ -182,7 +186,12 @@ namespace BrainShare.Controllers
             ThreadHub.HubContext.Clients.Group(threadId).messageSent(callbackModel);
             return Json(model);
         }
-        
+
+        private void UpdateUnreadMessagesAsync(string threadId, string fromUserId, string toUserId)
+        {
+            
+        }
+
         [POST("getBooks")]
         public ActionResult GetUserBooks(IEnumerable<string> ids)
         {
@@ -236,6 +245,20 @@ namespace BrainShare.Controllers
             model.ImageUrl = url;
             
             return View("Index", model);
+        }
+
+        [POST("get-new-books-count")]
+        public ActionResult GetNewBooksCount()
+        {
+            var user = _users.GetById(UserId);
+            return Json(new {Result = user.Inbox.Count(x => x.Viewed)});
+        }
+
+        [POST("get-new-messages-count")]
+        public ActionResult ThreadsWithUnreadMessages()
+        {
+            var user = _users.GetById(UserId);
+            return Json(new {Result = user.ThreadsWithUnreadMessages.Count});
         }
 
     }
