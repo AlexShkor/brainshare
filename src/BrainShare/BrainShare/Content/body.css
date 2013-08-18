@@ -1,34 +1,39 @@
-  body {
-            padding-top: 60px;
-            padding-bottom: 40px;
-          }
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
 
-  .color-black {
-      color: black;
-  }
-  .color-orange {
-      color: orange;
-  }
+.color-black {
+    color: black;
+}
 
-  .underline {
-      text-decoration: underline;
-  }
+.color-orange {
+    color: orange;
+}
+
+.underline {
+    text-decoration: underline;
+}
 
 
-  .bold {
-       font-weight: bold;
-  }
+.bold {
+    font-weight: bold;
+}
 
-  .book-item {
-      width: 180px;
-      cursor: pointer;
-  }
+.book-item {
+    width: 180px;
+    cursor: pointer;
+}
 
-  .book-item:hover {
-      background-color: lightcyan;
-  }
+    .book-item:hover {
+        background-color: lightcyan;
+    }
 
-  .navbar .brand {
-      font-weight: bold;
-      color: orange;
-  }
+.navbar .brand {
+    font-weight: bold;
+    color: orange;
+}
+
+.navbar-inner {
+    height: 55px;
+}

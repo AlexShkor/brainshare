@@ -112,7 +112,7 @@ namespace BrainShare.Controllers
             var books = _books.GetByIds(user.Inbox.Select(x => x.BookId)).ToList();
             var users = _users.GetByIds(user.Inbox.Select(x => x.UserId)).ToList();
             var model = new InboxViewModel();
-            model.Items = user.Inbox.OrderBy(x => x.Created).Select(x =>
+            model.Items = user.Inbox.OrderByDescending(x => x.Created).Select(x =>
                                             new InboxItem(x.Created, books.Find(b => b.Id == x.BookId),
                                                           users.Find(u => u.Id == x.UserId), !x.Viewed)).ToList();
             return View(model);
