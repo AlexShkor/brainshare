@@ -8,6 +8,7 @@ using AttributeRouting.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.GoogleDto;
+using BrainShare.Hubs;
 using BrainShare.Services;
 using Newtonsoft.Json;
 
@@ -91,6 +92,7 @@ namespace BrainShare.Controllers
             user.Books.Add(doc.Id);
             _users.Save(user);
             SaveFeedAsync(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
+            NotificationsHub.SendGenericText(UserId, "Книга добавлена",string.Format("{0} добавлена в вашу книную полку", doc.Title));
             return Json(new { Id = doc.Id });
         }
 
@@ -177,12 +179,12 @@ namespace BrainShare.Controllers
             model.FromUser = new UserItemViewModel(fromUser);
             var yourBook = _books.GetById(requestedBookId);
             model.YourBook = new BookViewModel(yourBook);
-            UpdateRequestViewdAsync(UserId, requestedBookId, userId);
+            UpdateRequestViewedAsync(UserId, requestedBookId, userId);
             Title(string.Format("Запрос от {0} на книгу {1}", fromUser.FullName, yourBook.Title));
             return View(model);
         }
 
-        private void UpdateRequestViewdAsync(string userId, string bookId, string requestFromUserId)
+        private void UpdateRequestViewedAsync(string userId, string bookId, string requestFromUserId)
         {
             Task.Factory.StartNew(() => _users.UpdateRequestViewed(userId, bookId, requestFromUserId));
         }
@@ -229,11 +231,17 @@ namespace BrainShare.Controllers
 
                     SaveFeedAsync(ActivityFeed.BooksExchanged(yourBook, you, himBook, him));
                     SendExchangeMail(yourBook, you, himBook, him);
+                    SendRequestAcceptedNotification(userId, yourBook, himBook , you);
 
                     return RedirectToAction("MyBooks", "Profile");
                 }
             }
             return View("CantExchangeError");
+        }
+
+        private void SendRequestAcceptedNotification(string userId, Book book, Book onBook, User fromUser)
+        {
+            NotificationsHub.HubContext.Clients.Group(userId).requestAccepted(new RequestAcceptedModel(book, onBook, fromUser));
         }
 
         private void SendExchangeMail(Book yourBook, User you, Book hisBook, User he)
@@ -249,6 +257,19 @@ namespace BrainShare.Controllers
         private void SaveFeedAsync(ActivityFeed feed)
         {
             Task.Factory.StartNew(() => _feeds.Save(feed));
+        }
+    }
+
+    public class RequestAcceptedModel
+    {
+        public string Message { get; set; }
+        public string Title { get; set; }
+
+        public RequestAcceptedModel(Book book, Book onBook, User fromUser)
+        {
+            Title = "Запрос на обмен принят";
+            Message = string.Format("Ваз запрос на обмен книги {0} пользователя {2} на вашу книгу {1} был принят.",
+                book.Title, fromUser.FullName, onBook.Title);
         }
     }
 

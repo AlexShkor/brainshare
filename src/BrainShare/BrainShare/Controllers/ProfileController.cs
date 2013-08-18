@@ -178,12 +178,14 @@ namespace BrainShare.Controllers
             {
                 return HttpNotFound();
             }
-            UpdateUnreadMessagesAsync(threadId, UserId, thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId);
+            var sendToUserId = thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId;
+            UpdateUnreadMessagesAsync(threadId, UserId, sendToUserId);
             var model = new MessageViewModel();
             model.Init(UserId, content, DateTime.Now.ToString("o"), false);
             var callbackModel = new MessageViewModel();
             callbackModel.Init(UserId, content, DateTime.Now.ToString("o"), true, thread.OwnerId == UserId ? thread.OwnerName : thread.RecipientName);
             ThreadHub.HubContext.Clients.Group(threadId).messageSent(callbackModel);
+            NotificationsHub.SendGenericText(sendToUserId, User.Identity.Name, content);
             return Json(model);
         }
 
