@@ -23,6 +23,9 @@ namespace BrainShare.Documents
         public SortedSet<string> WishList { get; set; }
         public List<ChangeRequest> Recieved { get; set; }
 
+        public string AvatarUrl { get; set; }
+        public string AvatarId { get; set; }
+
        
         public List<ChangeRequest> Inbox { get; set; }
 

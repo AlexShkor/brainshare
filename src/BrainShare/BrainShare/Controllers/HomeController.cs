@@ -12,7 +12,6 @@ namespace BrainShare.Controllers
         private readonly ActivityFeedsService _activityFeeds;
         private readonly UsersService _users;
 
-
         public HomeController(ActivityFeedsService activityFeeds, UsersService users)
         {
             _activityFeeds = activityFeeds;

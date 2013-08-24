@@ -10,10 +10,10 @@
     <div class="row-fluid">
 
         <div class="span3">
-                  <h4>@ViewBag.UserName</h4>
-               
+            <h4>@ViewBag.UserName</h4>
+
             <div class="well sidebar-nav">
-          
+
                 <ul class="nav nav-list nav-stacked">
                     <li><a href="@Url.Action("Index")">Мой Профиль</a></li>
                     <li><a href="@Url.Action("AllMessages")">Сообщения</a></li>
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="span9">
-              <h3>@ViewBag.Subtitle</h3>
+            <h3>@ViewBag.Subtitle</h3>
             @RenderBody()
         </div>
     </div>

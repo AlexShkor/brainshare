@@ -1,0 +1,49 @@
+﻿body {
+}
+
+#avatarContainer {
+    position: absolute;
+    left: 600px;
+    top: 30px;
+}
+
+#avatarPreviewContainer {
+    position: absolute;
+    left: 100px;
+    top: 30px;
+}
+
+#avatarContainer a {
+    display: block;
+    padding-left: 23%;
+    padding-top: 5%;
+}
+
+#applyCropButtonContainer {
+    position: absolute;
+    position: absolute;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    top: 62px;
+    left: 31px;
+}
+
+    #applyCropButtonContainer button {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+.big-loading {
+    background-image: url("/Content/big-loading.gif");
+    padding: 90px;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 100px;
+    top: 70px;
+}
+
+.error-mesage {
+    color: red;
+}

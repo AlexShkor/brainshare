@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing;
+using System.IO;
+using System.IO.Pipes;
 using System.Linq;
+using System.Net;
+using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,9 +17,12 @@ using BrainShare.Documents;
 using BrainShare.Hubs;
 using BrainShare.Services;
 using BrainShare.ViewModels;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
 using Thread = BrainShare.Documents.Thread;
+using BrainShare.Extensions;
 
 
 namespace BrainShare.Controllers
@@ -38,6 +46,7 @@ namespace BrainShare.Controllers
         {
             var user = _users.GetById(UserId);
             var model = new MyProfileViewModel(user);
+
             return View(model);
         }
 
@@ -45,18 +54,19 @@ namespace BrainShare.Controllers
         public ActionResult ViewUserProfile(string id)
         {
             var user = _users.GetById(id);
-           
+
             var model = new UserProfileModel(user, UserId);
 
-            model.CanIncrease =  user.GetVote(id, UserId) <= 0;
-            model.CanDecrease =  user.GetVote(id, UserId) >= 0;
+            model.CanIncrease = user.GetVote(id, UserId) <= 0;
+            model.CanDecrease = user.GetVote(id, UserId) >= 0;
             model.SummaryVotes = user.Votes.Values.Sum(x => x);
 
             Title(user.FullName);
             return View(model);
         }
 
-        [POST][ValidateInput(false)]
+        [POST]
+        [ValidateInput(false)]
         public ActionResult DontHave(BookViewModel book)
         {
             try
@@ -189,7 +199,7 @@ namespace BrainShare.Controllers
 
         private void UpdateUnreadMessagesAsync(string threadId, string fromUserId, string toUserId)
         {
-            
+
         }
 
         [POST("getBooks")]
@@ -225,62 +235,87 @@ namespace BrainShare.Controllers
             return Json(new { canIncrease = canIncrease, canDecrease = canDecrease, summaryVotes = summaryVotes });
         }
 
-        [HttpPost]
-        public ActionResult UploadImage(MyProfileViewModel model)
+        [POST]
+        public JsonResult UploadImage(HttpPostedFileBase uploadedFile)
         {
+
             var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
 
-            var path = HttpContext.Server.MapPath("~/Content/me.jpg");
-            var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams()
+            var isValidImage = uploadedFile.IsValidImage();
+
+
+            if (isValidImage)
             {
-                File = new CloudinaryDotNet.Actions.FileDescription("filename", model.UploadedFile.InputStream),
+                var user = _users.GetById(UserId);
+                uploadedFile.InputStream.Seek(0, SeekOrigin.Begin);
+                
+                if (user.AvatarId != null)
+                {
+                    cloudinary.Destroy(new DeletionParams(user.AvatarId));
+                }
+                
+                var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams()
+                {
+                    File = new CloudinaryDotNet.Actions.FileDescription("filename", uploadedFile.InputStream),
+                };
 
-            };
+                var uploadResult = cloudinary.Upload(uploadParams);
+                string avatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(520).Height(520).Crop("limit")).BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
 
-            var uploadResult = cloudinary.Upload(uploadParams);
+                user.AvatarId = uploadParams.PublicId;
+                _users.Save(user);
+                
+                return Json(new { avatarUrl = avatarUrl, avatarId = uploadResult.PublicId, avatarFormat = uploadResult.Format });
+            }
 
-            string url = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().X(100).Y(150).Width(120).Height(100).Crop("crop")).BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
-            //string url = cloudinary.Api.UrlImgUp.BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
+            return Json(new { error = "Файл, загруженный вами не является изображением или его размеры слишком малы" });
+        }
 
-            model.ImageUrl = url;
-            
-            return View("Index", model);
+        [POST]
+        public JsonResult ResizeAvatar(string avatarId, string avatarFormat, string x, string y, string width, string height)
+        {
+            var user = _users.GetById(UserId);
+            var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
+            string realAvatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(500).Height(500).Crop("limit").Chain().X(x).Y(y).Width(width).Height(height).Crop("crop")).BuildUrl(String.Format("{0}.{1}", avatarId, avatarFormat));
+            user.AvatarUrl = realAvatarUrl;
+            _users.Save(user);
+
+            return Json(new { url = realAvatarUrl });
         }
 
         [POST("get-new-books-count")]
         public ActionResult GetNewBooksCount()
         {
             var user = _users.GetById(UserId);
-            return Json(new {Result = user.Inbox.Count(x => x.Viewed)});
+            return Json(new { Result = user.Inbox.Count(x => x.Viewed) });
         }
 
         [POST("get-new-messages-count")]
         public ActionResult ThreadsWithUnreadMessages()
         {
             var user = _users.GetById(UserId);
-            return Json(new {Result = user.ThreadsWithUnreadMessages.Count});
+            return Json(new { Result = user.ThreadsWithUnreadMessages.Count });
         }
 
     }
 
-    public class MyProfileViewModel 
+    public class MyProfileViewModel
     {
         public MyProfileViewModel()
         {
-            
+
         }
 
         public MyProfileViewModel(User user)
         {
             Name = user.FullName;
+            AvatarUrl = user.AvatarUrl;
         }
 
         public string Name { get; set; }
-        
+        public string AvatarUrl { get; set; }
+
         public HttpPostedFileBase UploadedFile { get; set; }
-
-        public string ImageUrl { get; set; }
-
         public int Id { get; set; }
     }
 }
