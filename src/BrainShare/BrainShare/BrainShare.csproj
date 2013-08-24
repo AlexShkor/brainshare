@@ -247,7 +247,9 @@
     <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="Facebook\FacebookSelectorViewModel.cs" />
     <Compile Include="GoogleDto\GoogleBookDto.cs" />
+    <Compile Include="Hubs\NotificationsHub.cs" />
     <Compile Include="Hubs\ThreadHub.cs" />
+    <Content Include="Scripts\custom\notifications.js" />
     <Compile Include="SessionKeys.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Facebook\FacebookAuthorizeAttribute.cs" />
@@ -441,6 +443,10 @@
     <Content Include="Scripts\knockout.reactor.js" />
     <Content Include="Scripts\ko.editables.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\pnotify-1.2.0\jquery.pnotify.default.css" />
+    <Content Include="Scripts\pnotify-1.2.0\jquery.pnotify.js" />
+    <Content Include="Scripts\pnotify-1.2.0\jquery.pnotify.min.js" />
+    <Content Include="Scripts\pnotify-1.2.0\use for pines style icons\jquery.pnotify.default.icons.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

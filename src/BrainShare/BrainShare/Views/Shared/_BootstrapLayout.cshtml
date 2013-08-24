@@ -8,7 +8,7 @@
     <title>@ViewBag.Title | BrainShare</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="@Styles.Url("~/content/css")" rel="stylesheet"/>
-   
+    <link href="~/Scripts/pnotify-1.2.0/jquery.pnotify.default.css" rel="stylesheet" />
     @* Libs Scripts*@
     <script src="~/Scripts/jquery-2.0.1.min.js"></script>
     <script src="~/Scripts/jquery.signalR-1.1.2.min.js"></script>
@@ -18,14 +18,21 @@
     <script src="~/Scripts/knockout-bootstrap.min.js"></script>
     <script src="/signalr/hubs"></script>
     <script src="~/Scripts/jquery-ui-1.10.3.js"></script>
-
+    <script src="~/Scripts/pnotify-1.2.0/jquery.pnotify.min.js"></script>
     @* Our Scripts*@
     <script src="~/Scripts/custom/common.js"></script>
     <script src="~/Scripts/custom/addbook.js"></script>
     <script src="~/Scripts/custom/allbooks.js"></script>
-
+    <script src="~/Scripts/custom/notifications.js"></script>
     @RenderSection("head", required: false)
     @* favicons and touch icons go here *@
+    
+    @if (Request.IsAuthenticated)
+    {
+        <script>
+            window.CurrentUserId = "@ViewBag.UserId";
+        </script>
+    }
 </head>
 <body>
     <div class="navbar navbar-fixed-top">
@@ -82,16 +89,17 @@
     
     <script>
         $(function () {
+            $(".navbar-fixed-top a[href='/Books']").append("&nbsp;<span id='booksConter' class='badge badge-warning'>0</span>");
+            $(".navbar-fixed-top a[href='/Profile']").append("&nbsp;<span id='messagesConter' class='badge badge-info'>0</span>");
             $.post("/profile/get-new-books-count", function(data) {
                 if (data.Result !== undefined) {
-                    $(".navbar-fixed-top a[href='/Books']").append("&nbsp;<span class='badge badge-warning'>" + data.Result + "</span>");
-                    $(".inboxBooks").text(data.Result);
+                    $(".inboxBooks, .booksConter").text(data.Result);
                 }
             });
 
             $.post("/profile/get-new-messages-count", function(data) {
                 if (data.Result !== undefined) {
-                    $(".navbar-fixed-top a[href='/Profile']").append("&nbsp;<span class='badge badge-info'>" + data.Result + "</span>");
+                    $(".messagesConter").text(data.Result);
                 }
             });
         });

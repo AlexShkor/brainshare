@@ -122,9 +122,9 @@ namespace BrainShare.Controllers
             var books = _books.GetByIds(user.Inbox.Select(x => x.BookId)).ToList();
             var users = _users.GetByIds(user.Inbox.Select(x => x.UserId)).ToList();
             var model = new InboxViewModel();
-            model.Items = user.Inbox.OrderBy(x => x.Created).Select(x =>
+            model.Items = user.Inbox.OrderByDescending(x => x.Created).Select(x =>
                                             new InboxItem(x.Created, books.Find(b => b.Id == x.BookId),
-                                                          users.Find(u => u.Id == x.UserId))).ToList();
+                                                          users.Find(u => u.Id == x.UserId), !x.Viewed)).ToList();
             return View(model);
         }
 
@@ -188,12 +188,14 @@ namespace BrainShare.Controllers
             {
                 return HttpNotFound();
             }
-            UpdateUnreadMessagesAsync(threadId, UserId, thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId);
+            var sendToUserId = thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId;
+            UpdateUnreadMessagesAsync(threadId, UserId, sendToUserId);
             var model = new MessageViewModel();
             model.Init(UserId, content, DateTime.Now.ToString("o"), false);
             var callbackModel = new MessageViewModel();
             callbackModel.Init(UserId, content, DateTime.Now.ToString("o"), true, thread.OwnerId == UserId ? thread.OwnerName : thread.RecipientName);
             ThreadHub.HubContext.Clients.Group(threadId).messageSent(callbackModel);
+            NotificationsHub.SendGenericText(sendToUserId, User.Identity.Name, content);
             return Json(model);
         }
 
@@ -287,7 +289,7 @@ namespace BrainShare.Controllers
         public ActionResult GetNewBooksCount()
         {
             var user = _users.GetById(UserId);
-            return Json(new { Result = user.Inbox.Count(x => x.Viewed) });
+            return Json(new {Result = user.Inbox.Count(x => !x.Viewed)});
         }
 
         [POST("get-new-messages-count")]

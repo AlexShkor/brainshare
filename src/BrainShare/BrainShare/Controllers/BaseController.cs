@@ -31,6 +31,7 @@ namespace BrainShare.Controllers
             var action = (string)RouteData.Values["action"];
             var controller = (string)RouteData.Values["controller"];
             Title(action.Equals("index",StringComparison.InvariantCultureIgnoreCase) ? controller : action);
+            ViewBag.UserId = UserId;
             ViewBag.UserName = (((UserIdentity) User.Identity).User ?? new User()).FullName;
             ViewBag.IsFacebookAccount = (((UserIdentity) User.Identity).User ?? new User()).IsFacebookAccount;
             base.OnActionExecuting(filterContext);
