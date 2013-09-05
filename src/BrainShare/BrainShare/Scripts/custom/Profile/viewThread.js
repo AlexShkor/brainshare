@@ -53,6 +53,8 @@
                 self.messages.unshift(e);
             }
         };
-        threadHub.server.join(self.threadId);
+        window.hubReady.done(function() {
+            threadHub.server.join(self.threadId);
+        });
     };
 };
