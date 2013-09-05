@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -17,11 +20,11 @@ namespace BrainShare.Extensions
             //  Check the image mime types
             //-------------------------------------------
             if (postedFile.ContentType.ToLower() != "image/jpg" &&
-                        postedFile.ContentType.ToLower() != "image/jpeg" &&
-                        postedFile.ContentType.ToLower() != "image/pjpeg" &&
-                        postedFile.ContentType.ToLower() != "image/gif" &&
-                        postedFile.ContentType.ToLower() != "image/x-png" &&
-                        postedFile.ContentType.ToLower() != "image/png")
+                postedFile.ContentType.ToLower() != "image/jpeg" &&
+                postedFile.ContentType.ToLower() != "image/pjpeg" &&
+                postedFile.ContentType.ToLower() != "image/gif" &&
+                postedFile.ContentType.ToLower() != "image/x-png" &&
+                postedFile.ContentType.ToLower() != "image/png")
             {
                 return false;
             }
@@ -31,19 +34,19 @@ namespace BrainShare.Extensions
             //-------------------------------------------
             try
             {
-              if (Path.GetExtension(postedFile.FileName).ToLower() != ".jpg"
-              && Path.GetExtension(postedFile.FileName).ToLower() != ".png"
-              && Path.GetExtension(postedFile.FileName).ToLower() != ".gif"
-              && Path.GetExtension(postedFile.FileName).ToLower() != ".jpeg")
+                if (Path.GetExtension(postedFile.FileName).ToLower() != ".jpg"
+                    && Path.GetExtension(postedFile.FileName).ToLower() != ".png"
+                    && Path.GetExtension(postedFile.FileName).ToLower() != ".gif"
+                    && Path.GetExtension(postedFile.FileName).ToLower() != ".jpeg")
                 {
                     return false;
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
-          
+
             //-------------------------------------------
             //  Attempt to read the file and check the first bytes
             //-------------------------------------------
@@ -62,8 +65,9 @@ namespace BrainShare.Extensions
                 byte[] buffer = new byte[512];
                 postedFile.InputStream.Read(buffer, 0, 512);
                 string content = System.Text.Encoding.UTF8.GetString(buffer);
-                if (Regex.IsMatch(content, @"<script|<html|<head|<title|<body|<pre|<table|<a\s+href|<img|<plaintext|<cross\-domain\-policy",
-                    RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline))
+                if (Regex.IsMatch(content,
+                                  @"<script|<html|<head|<title|<body|<pre|<table|<a\s+href|<img|<plaintext|<cross\-domain\-policy",
+                                  RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline))
                 {
                     return false;
                 }

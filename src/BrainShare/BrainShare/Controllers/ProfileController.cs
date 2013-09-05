@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
@@ -240,33 +244,40 @@ namespace BrainShare.Controllers
         [POST]
         public JsonResult UploadImage(HttpPostedFileBase uploadedFile)
         {
-
             var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
+            bool isValidImage;
 
-            var isValidImage = uploadedFile.IsValidImage();
-
+            if (uploadedFile != null)
+            {
+                isValidImage = uploadedFile.IsValidImage();
+            }
+            else
+            {
+                // TODO: actions if close button pressed
+                return null;
+            }
 
             if (isValidImage)
             {
                 var user = _users.GetById(UserId);
                 uploadedFile.InputStream.Seek(0, SeekOrigin.Begin);
-                
+
                 if (user.AvatarId != null)
                 {
                     cloudinary.Destroy(new DeletionParams(user.AvatarId));
                 }
-                
+
                 var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams()
-                {
-                    File = new CloudinaryDotNet.Actions.FileDescription("filename", uploadedFile.InputStream),
-                };
+                 {
+                     File = new CloudinaryDotNet.Actions.FileDescription("filename", uploadedFile.InputStream),
+                 };
 
                 var uploadResult = cloudinary.Upload(uploadParams);
                 string avatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(520).Height(520).Crop("limit")).BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
 
                 user.AvatarId = uploadParams.PublicId;
                 _users.Save(user);
-                
+
                 return Json(new { avatarUrl = avatarUrl, avatarId = uploadResult.PublicId, avatarFormat = uploadResult.Format });
             }
 
@@ -289,7 +300,7 @@ namespace BrainShare.Controllers
         public ActionResult GetNewBooksCount()
         {
             var user = _users.GetById(UserId);
-            return Json(new {Result = user.Inbox.Count(x => !x.Viewed)});
+            return Json(new { Result = user.Inbox.Count(x => !x.Viewed) });
         }
 
         [POST("get-new-messages-count")]
@@ -299,7 +310,9 @@ namespace BrainShare.Controllers
             return Json(new { Result = user.ThreadsWithUnreadMessages.Count });
         }
 
+       
     }
+
 
     public class MyProfileViewModel
     {

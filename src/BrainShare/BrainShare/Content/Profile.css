@@ -3,12 +3,11 @@
 
 #avatarContainer {
     position: absolute;
-    left: 600px;
-    top: 30px;
+    left: 80%;
+    top: 12%;
 }
 
 #avatarPreviewContainer {
-    position: absolute;
     left: 100px;
     top: 30px;
 }
@@ -20,19 +19,18 @@
 }
 
 #applyCropButtonContainer {
-    position: absolute;
-    position: absolute;
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    top: 62px;
-    left: 31px;
+    /*-webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);*/
+    position: relative;
 }
 
-    #applyCropButtonContainer button {
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
+    #applyCropButtonContainer a {
+        position: absolute;
+        color: white;
+        top: 15px;
+        left: 20px;
+        z-index: 10;
+        white-space: nowrap;
     }
 
 .big-loading {

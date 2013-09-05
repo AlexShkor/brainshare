@@ -4,6 +4,7 @@
     Layout = "_ProfileLayout.cshtml";
 }
 
+
 @section Scripts{
 
     <script src="@Url.Content("~/Scripts/jquery.Jcrop.js")" type="text/javascript"></script>
@@ -16,59 +17,147 @@
 }
 
 
-
 <div class="container">
 
     @*<div id="fbFriendsSelector" style="position: absolute; left: 70%; top: 20%;"></div>*@
     @*<div class="clearfix"></div>*@
-    <div style="position: relative">
 
-        @* <div class="span1">
+
+    @* <div class="span1">
                     <a href="http://critterapp.pagodabox.com/others/admin" class="thumbnail">
                         <img src="http://critterapp.pagodabox.com/img/user.jpg" alt=""></a>
                 </div>*@
 
-        @* <p>some text (maybe status)</p>*@
-        @*   <p><strong>@Model.Name</strong></p>*@
-        @* <span class=" badge badge-warning">8 сообщений</span>
+    @* <p>some text (maybe status)</p>*@
+    @*   <p><strong>@Model.Name</strong></p>*@
+    @* <span class=" badge badge-warning">8 сообщений</span>
                     <span class=" badge badge-info">15 друзей</span>*@
 
-        @*@if (ViewBag.IsFacebookAccount)
+    @*@if (ViewBag.IsFacebookAccount)
         {
             <a id="selectorToggle" class=" badge badge-info" href="#">Друзья из Фэйсбука</a>
         }*@
 
-
-        <div id="avatarContainer">
-            <div>
-                @if (Model.AvatarUrl != null)
-                {
-                    <img alt="аватар" src="@Model.AvatarUrl"/>
-                }
-
-                @if (Model.AvatarUrl == null)
-                {
-                    <img alt="аватар" src="http://critterapp.pagodabox.com/img/user.jpg" />
-                }
-            </div>
-            <a href="#" data-bind="click: UploadImg">Выбрать аватар</a>
-        </div>
-
+    <div id="avatarContainer">
         <div>
-            <div id="avatarPreviewContainer">
-            </div>
-            <input type="hidden" id="avatarId" />
-            <input type="hidden" id="avatarFormat" />
-            <div id="applyCropButtonContainer">
-                <button class="btn" data-bind="click: ApplyBannerCrop, visible: ShowCropButton">Выбрать</button>
-            </div>
+            @if (Model.AvatarUrl != null)
+            {
+                <img alt="аватар" src="@Model.AvatarUrl"/>
+            }
+
+            @if (Model.AvatarUrl == null)
+            {
+                <img alt="аватар" src="http://critterapp.pagodabox.com/img/user.jpg" />
+            }
         </div>
-        <div data-bind="visible: ShowLoading"><span class="big-loading"></span></div>
+        <a href="#" data-bind="visible: ShowChangeAvatarButton, click: UploadImg">Выбрать аватар</a>
     </div>
+
+    <div id="previewContainer">
+
+        <div id="avatarPreviewContainer"></div>
+        <input type="hidden" id="avatarId" />
+        <input type="hidden" id="avatarFormat" />
+
+    </div>
+    <div id="applyCropButtonContainer">
+
+        <a href="#" data-bind="click: ApplyBannerCrop, visible: ShowCropButton">Выбрать область</a>
+        <a href="#" data-bind="visible: ShowCancelPreviewButton" class="cancel-preview" style="display: none">Отмена</a>
+
+    </div>
+
+    @*<div data-bind="visible: ShowLoading"><span class="big-loading"></span></div>*@
+
 </div>
 
-<p class="error-mesage"></p>
 
+
+
+<style>
+    #progress {
+        position: relative;
+        top: 18px;
+        width: 180px;
+        border: 1px solid #ddd;
+        padding: 1px;
+        border-radius: 8px;
+        display: none;
+    }
+
+    #bar {
+        background-color: #ccff33;
+        width: 0%;
+        height: 15px;
+        border-radius: 8px;
+        -webkit-background-size: 30px 30px;
+        -moz-background-size: 30px 30px;
+        background-size: 30px 30px;
+        background-image: -webkit-gradient(linear, left top, right bottom, color-stop(.25, rgba(255, 255, 255, .15)), color-stop(.25, transparent), color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .15)), color-stop(.75, rgba(255, 255, 255, .15)), color-stop(.75, transparent), to(transparent));
+        background-image: -webkit-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+        background-image: -moz-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+        background-image: -ms-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+        background-image: -o-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+        background-image: linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+        -webkit-animation: animate-stripes 3s linear infinite;
+        -moz-animation: animate-stripes 3s linear infinite;
+    }
+
+    #percent {
+        position: absolute;
+        display: inline-block;
+        bottom: -3%;
+        font-size: 0.8em;
+        color: rgb(140, 141, 136);
+        left: 44%;
+    }
+
+    #avatarPreviewContainer {
+        /*z-index: 10;*/
+        /*position: absolute;
+        left: 38%;
+        top: 12%;*/
+        /*padding: 15px;
+        background-color: white;*/
+    }
+
+    #previewContainer {
+        min-height: 300px;
+        position: absolute;
+        left: 38%;
+        top: 18%;
+        z-index: 10;
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        filter: alpha(opacity=50);
+        -moz-opacity: 0.5;
+        -khtml-opacity: 0.5;
+        opacity: 0.5;
+        z-index: 5;
+    }
+
+    #applyCropButtonContainer {
+        position: absolute;
+        top: 10%;
+        left: 38%;
+    }
+
+    .cancel-preview {
+        color: #E79F9F !important;
+        left: 250px !important;
+    }
+</style>
+
+<p class="error-mesage"></p>
+<div class="overlay"></div>
 <div style="display: none">
     @using (Html.BeginForm("UploadImage", "Profile", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
     {

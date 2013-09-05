@@ -8,7 +8,9 @@
     };
 
     this.ShowCropButton = ko.observable(false);
-    this.ShowLoading = ko.observable(false);
+    //this.ShowLoading = ko.observable(false);
+    this.ShowChangeAvatarButton = ko.observable(true);
+    this.ShowCancelPreviewButton = ko.observable(false);
 
 
     this.ApplyBannerCrop = function () {
@@ -28,7 +30,12 @@
         $("#avatarPreviewContainer").empty();
 
         send("/Profile/ResizeAvatar", data, loadRealAvatar);
+        $("#progress").hide();
+        $(".overlay").attr("style", "display: none");
         self.ShowCropButton(false);
+        self.ShowCancelPreviewButton(false);
+        self.ShowChangeAvatarButton(true);
+        //setTimeout($("#avatarImg").show(), 50000);
 
         function loadRealAvatar(response) {
             debugger;
@@ -44,15 +51,31 @@
 
     var options = {
         beforeSend: function () {
+
+            $("#progress").show();
+            $(".overlay").show();
+            //clear everything
+            $("#bar").width('0%');
+            $("#percent").html("0%");
+
+
             $("#avatarPreviewContainer").empty();
-            self.ShowCropButton(false);
-            self.ShowLoading(true);
+            //self.ShowCropButton(false);
+            //self.ShowLoading(true);
 
         },
         uploadProgress: function (event, position, total, percentComplete) {
 
+            $("#bar").width(percentComplete + '%');
+            $("#percent").html(percentComplete + '%');
+
         },
         success: function (response) {
+
+            $("#bar").width('100%');
+            $("#percent").html('100%');
+            //$(".overlay").show();
+            //self.ShowLoading(true);
 
             if (response.error) {
                 $(".error-mesage").text(response.error);
@@ -60,9 +83,13 @@
                 return;
             }
 
-            self.ShowLoading(false);
+            //self.ShowLoading(false);
+            self.ShowChangeAvatarButton(false);
+            self.ShowCropButton(true);
+            self.ShowCancelPreviewButton(true);
 
             $("#avatarPreviewContainer").append($("<img />").attr("id", "avatarPreview").attr("src", response.avatarUrl));
+
             $("#avatarId").val(response.avatarId);
             $("#avatarFormat").val(response.avatarFormat);
 
@@ -71,11 +98,11 @@
                 setSelect: [15, 15, 215, 215],
             }, function () { jcropApi = this; });
 
-            self.ShowCropButton(true);
+        
         },
 
         complete: function (response) {
-
+            //setTimeout(self.ShowCropButton(true), 10000);
         },
 
         error: function (response) {
@@ -83,5 +110,6 @@
         }
     };
 
+   
     $("#myForm").ajaxForm(options);
 }
