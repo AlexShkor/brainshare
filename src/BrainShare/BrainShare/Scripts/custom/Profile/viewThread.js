@@ -53,9 +53,6 @@
                 self.messages.unshift(e);
             }
         };
-
-        $.connection.hub.start(function () {
-            threadHub.server.join(self.threadId);
-        });
+        threadHub.server.join(self.threadId);
     };
 };
