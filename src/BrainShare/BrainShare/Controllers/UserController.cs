@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
 using BrainShare.Authentication;
@@ -114,16 +115,7 @@ namespace BrainShare.Controllers
 
                     _users.AddUser(newUser);
 
-                    var mailer = new MailService();
-                    var welcomeEmail = mailer.SendWelcomeMessage(newUser);
-                    welcomeEmail.Deliver();
-
-                    var login = new LoginView()
-                                    {
-                                        Email = newUser.Email,
-                                        Password = newUser.Password
-                                    };
-
+                    SendMailAsync(newUser); 
                     return RedirectToAction("Login", "User");
                 }
                 else
@@ -132,6 +124,16 @@ namespace BrainShare.Controllers
                 }
             }
             return View(model);
+        }
+
+        private void SendMailAsync(User newUser)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                var mailer = new MailService();
+                var welcomeEmail = mailer.SendWelcomeMessage(newUser);
+                welcomeEmail.Deliver();
+            });
         }
 
         public static string GetIdForUser()

@@ -116,7 +116,7 @@
 
             $.post("/profile/get-new-messages-count", function (data) {
                 if (data.Result !== undefined) {
-                    $(".messagesConter").text(data.Result);
+                    $("#messagesConter").text(data.Result);
                 }
             });
         });
