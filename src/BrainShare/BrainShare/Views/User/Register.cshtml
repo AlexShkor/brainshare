@@ -41,12 +41,12 @@
                     Введите ваш город
                 </label>
                 <div class="controls">
-                    <input id="geocomplete" name="original_address" type="text"/>
+                    <input id="geocomplete" placeholder="введите город" name="original_address" type="text" value="@Model.original_address"/>
                 </div>
                 <div id="locationValues" class="hide">
-                    <input name="formatted_address" type="hidden">
-                    <input name="country" type="hidden">
-                    <input name="locality" type="hidden">
+                    <input name="formatted_address" type="hidden" value="@Model.formatted_address">
+                    <input name="country" type="hidden" value="@Model.country">
+                    <input name="locality" type="hidden" value="@Model.locality">
                 </div>
              
                 <script>
