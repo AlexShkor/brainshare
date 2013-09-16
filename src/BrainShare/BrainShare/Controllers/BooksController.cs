@@ -88,7 +88,7 @@ namespace BrainShare.Controllers
             var user = _users.GetById(UserId);
             if (user.Books.Contains(doc.Id))
             {
-                return Json(new { Error = "This book already added;" });
+                return Json(new { Error = "Книга уже добавлена." });
             }
             user.Books.Add(doc.Id);
             _users.Save(user);
@@ -132,9 +132,8 @@ namespace BrainShare.Controllers
             if (book != null)
             {
                 model.Book = new BookViewModel(book);
+                model.Owners = book.Owners.Select(x => new UserItemViewModel(x)).ToList();
             }
-            var owners = _users.GetOwners(id);
-            model.Owners = owners.Where(x => x.Id != UserId).Select(x => new UserItemViewModel(x)).ToList();
             return View(model);
         }
 
