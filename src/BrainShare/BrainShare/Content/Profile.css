@@ -1,47 +1,71 @@
-﻿body {
-}
+﻿
 
 #avatarContainer {
-    position: absolute;
-    left: 80%;
-    top: 12%;
 }
 
-#avatarPreviewContainer {
-    left: 100px;
-    top: 30px;
+.avatar-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #ecf0f1;
 }
 
-#avatarContainer a {
-    display: block;
-    padding-left: 23%;
-    padding-top: 5%;
-}
-
-#applyCropButtonContainer {
-    /*-webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);*/
-    position: relative;
-}
-
-    #applyCropButtonContainer a {
-        position: absolute;
-        color: white;
-        top: 15px;
-        left: 20px;
-        z-index: 10;
-        white-space: nowrap;
-    }
-
-.big-loading {
+/*.big-loading {
     background-image: url("/Content/big-loading.gif");
     padding: 90px;
     background-repeat: no-repeat;
     position: absolute;
     left: 100px;
     top: 70px;
-}
+}*/
 
 .error-mesage {
     color: red;
+}
+
+
+
+#progress {
+    position: relative;
+    top: 18px;
+    width: 630px;
+    border: 1px solid #ddd;
+    padding: 1px;
+    border-radius: 8px;
+}
+
+#bar {
+    background-color: #ccff33;
+    width: 0%;
+    height: 15px;
+    border-radius: 8px;
+    -webkit-background-size: 30px 30px;
+    -moz-background-size: 30px 30px;
+    background-size: 30px 30px;
+    background-image: -webkit-gradient(linear, left top, right bottom, color-stop(.25, rgba(255, 255, 255, .15)), color-stop(.25, transparent), color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .15)), color-stop(.75, rgba(255, 255, 255, .15)), color-stop(.75, transparent), to(transparent));
+    background-image: -webkit-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+    background-image: -moz-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+    background-image: -ms-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+    background-image: -o-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+    -webkit-animation: animate-stripes 3s linear infinite;
+    -moz-animation: animate-stripes 3s linear infinite;
+}
+
+#percent {
+    position: absolute;
+    display: inline-block;
+    bottom: -3%;
+    font-size: 0.8em;
+    color: rgb(140, 141, 136);
+    left: 44%;
+}
+
+
+#previewContainer {
+    z-index: 110;
+    position: absolute;
+    top: 10%;
+    left: 35%;
+    padding: 20px;
+    background-color: white;
 }

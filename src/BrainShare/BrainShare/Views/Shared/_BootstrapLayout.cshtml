@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="@Styles.Url("~/content/css")" rel="stylesheet"/>
     <link href="~/Scripts/pnotify-1.2.0/jquery.pnotify.default.css" rel="stylesheet" />
+    <link href="~/Content/imgAreaSelect/imgareaselect-default.css" rel="stylesheet" />
     @* Libs Scripts*@
     <script src="~/Scripts/jquery-2.0.1.min.js"></script>
     <script src="~/Scripts/jquery.signalR-1.1.2.min.js"></script>
@@ -50,7 +51,7 @@
 
                     @if (Request.IsAuthenticated)
                     { 
-                        <p class="navbar-text pull-right ">
+                        <p class="navbar-text pull-right" id="currentUser">
                             <a href="/profile" class="navbar-link">@ViewBag.UserName</a> (@User.Identity.Name) <a  href="@Url.Action("Logout", "User")" >Logout</a>
                         </p>
                        
@@ -64,21 +65,24 @@
                         </ul>
                     }
 
-
-                    <ul class="nav">
+                    <ul class="nav" id="mainNav">
                         @Html.MenuLink("Активность", "Index", "Home", null)
                         @Html.MenuLink("Книги", "Index", "Books")
                         @Html.MenuLink("Мой Аккаунт", "Index", "Profile", null)
                         @Html.MenuLink("Помощь", "Index", "Help", null)
                         @Html.MenuLink("Отзывы", "Feedback", "Home", null)
-
                     </ul>
 
-                    <ul class="nav">
+                    <ul class="nav" id="loadBar" style="display: none">
                         <li>
-                            <div id="progress">
+                            <div id="progress" style="margin-left: 5%">
                                 <div id="bar"></div>
                                 <div id="percent">0 %</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div style="margin-left: 85%; margin-top: 8%;">
+                                <button id="cancelLoading" class="btn btn-mini btn-danger">Отменить</button>
                             </div>
                         </li>
                     </ul>
@@ -94,7 +98,7 @@
 
     <footer style="position: relative">
         <div class="container">
-            <p>&copy; BrainShare @System.DateTime.Now.ToString("yyyy")</p>
+            <p style="text-align: center">&copy; BrainShare @System.DateTime.Now.ToString("yyyy")</p>
         </div>
     </footer>
 

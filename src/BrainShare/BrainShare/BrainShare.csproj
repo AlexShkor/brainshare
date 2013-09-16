@@ -249,6 +249,13 @@
     <Compile Include="GoogleDto\GoogleBookDto.cs" />
     <Compile Include="Hubs\NotificationsHub.cs" />
     <Compile Include="Hubs\ThreadHub.cs" />
+    <Content Include="Content\imgAreaSelect\border-anim-h.gif" />
+    <Content Include="Content\imgAreaSelect\border-anim-v.gif" />
+    <Content Include="Content\imgAreaSelect\border-h.gif" />
+    <Content Include="Content\imgAreaSelect\border-v.gif" />
+    <Content Include="Content\imgAreaSelect\imgareaselect-animated.css" />
+    <Content Include="Content\imgAreaSelect\imgareaselect-default.css" />
+    <Content Include="Content\imgAreaSelect\imgareaselect-deprecated.css" />
     <Content Include="Scripts\custom\notifications.js" />
     <Compile Include="SessionKeys.cs" />
     <Compile Include="Settings.cs" />
@@ -415,6 +422,7 @@
     <Content Include="Scripts\custom\Profile\wishList.js" />
     <None Include="Scripts\jquery-2.0.1.intellisense.js" />
     <Content Include="Scripts\custom\fbfriendsSelector.js" />
+    <Content Include="Scripts\imgAreaSelect\jquery.imgareaselect.pack.js" />
     <Content Include="Scripts\jquery-2.0.1.js" />
     <Content Include="Scripts\jquery-2.0.1.min.js" />
     <Content Include="Scripts\jquery-2.0.1.min.map" />
