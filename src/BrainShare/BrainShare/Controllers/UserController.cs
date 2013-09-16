@@ -168,7 +168,6 @@ namespace BrainShare.Controllers
                 }
 
                 var address = new AddressData((string)fbUser.location.name);
-
                 user = new User
                 {
                     Id = ObjectId.GenerateNewId().ToString(),
@@ -176,7 +175,8 @@ namespace BrainShare.Controllers
                     FacebookId = fbUser.id,
                     FirstName = fbUser.first_name,
                     LastName = fbUser.last_name,
-                    Address = address
+                    Address = address,
+                    AvatarUrl = string.Format("https://graph.facebook.com/{0}/picture?type=large", fbUser.id)
                     
                 };
                 _users.Save(user);
