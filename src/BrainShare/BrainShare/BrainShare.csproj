@@ -241,6 +241,7 @@
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="ContainerConfigure.cs" />
     <Compile Include="Controllers\HelpController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Extensions\BootstrapExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperExt.cs" />
     <Compile Include="Extensions\HttpPostedFileBaseExtensions.cs" />
@@ -256,6 +257,7 @@
     <Content Include="Content\imgAreaSelect\imgareaselect-animated.css" />
     <Content Include="Content\imgAreaSelect\imgareaselect-default.css" />
     <Content Include="Content\imgAreaSelect\imgareaselect-deprecated.css" />
+    <Content Include="Scripts\custom\allusers.js" />
     <Content Include="Scripts\custom\notifications.js" />
     <Compile Include="SessionKeys.cs" />
     <Compile Include="Settings.cs" />
@@ -518,6 +520,7 @@
     <Content Include="Views\Profile\_ProfileLayout.cshtml" />
     <Content Include="Views\Shared\Disquas.cshtml" />
     <Content Include="Views\Shared\_Sidebar.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

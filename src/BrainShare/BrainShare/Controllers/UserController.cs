@@ -111,7 +111,8 @@ namespace BrainShare.Controllers
                                           Address = new AddressData(model),
                                           LastName = model.LastName,
                                           Email = model.Email,
-                                          Password = model.Password
+                                          Password = model.Password,
+                                          Registered = DateTime.Now
                                       };
 
                     _users.AddUser(newUser);
@@ -176,7 +177,8 @@ namespace BrainShare.Controllers
                     FirstName = fbUser.first_name,
                     LastName = fbUser.last_name,
                     Address = address,
-                    AvatarUrl = string.Format("https://graph.facebook.com/{0}/picture?type=large", fbUser.id)
+                    AvatarUrl = string.Format("https://graph.facebook.com/{0}/picture?type=large", fbUser.id),
+                    Registered = DateTime.Now
                     
                 };
                 _users.Save(user);

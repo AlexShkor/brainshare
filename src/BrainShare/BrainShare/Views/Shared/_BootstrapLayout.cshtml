@@ -25,6 +25,7 @@
     <script src="~/Scripts/custom/common.js"></script>
     <script src="~/Scripts/custom/addbook.js"></script>
     <script src="~/Scripts/custom/allbooks.js"></script>
+    <script src="~/Scripts/custom/allusers.js"></script>
     @RenderSection("head", required: false)
     @* favicons and touch icons go here *@
 
@@ -68,6 +69,7 @@
                     <ul class="nav" id="mainNav">
                         @Html.MenuLink("Активность", "Index", "Home", null)
                         @Html.MenuLink("Книги", "Index", "Books")
+                        @Html.MenuLink("Пользователи", "Index", "Users")
                         @Html.MenuLink("Мой Аккаунт", "Index", "Profile", null)
                         @Html.MenuLink("Помощь", "Index", "Help", null)
                         @Html.MenuLink("Отзывы", "Feedback", "Home", null)

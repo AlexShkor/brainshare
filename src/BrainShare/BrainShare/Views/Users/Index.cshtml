@@ -1,0 +1,25 @@
+﻿@using Newtonsoft.Json
+
+<script type="text/javascript">
+    $(function () {
+
+        var model = new AllUsersModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+        ko.applyBindings(model);
+    });
+
+</script>
+<h4>Пользователи</h4>
+    <ul class="thumbnails" data-bind="foreach: items">
+        <li  class="book-item">
+            <div class="thumbnail" data-bind="click: $root.info">
+                <img style="width: 128px;" data-bind="attr: { src: Avatar }" />
+                <div class="caption">
+                    <strong class="color-black" data-bind="text: Username"></strong>
+               <div><span class="label" data-bind="text: BooksCount"></span> книг</div>
+                
+
+                </div>
+                
+            </div>
+        </li>
+    </ul>

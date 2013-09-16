@@ -28,6 +28,8 @@ namespace BrainShare.Documents
         public string AvatarId { get; set; }
 
        
+        public DateTime Registered { get; set; }
+
         public List<ChangeRequest> Inbox { get; set; }
 
         public string FullName
