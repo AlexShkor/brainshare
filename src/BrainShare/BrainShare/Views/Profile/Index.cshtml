@@ -33,7 +33,6 @@
         text-align: center;
         z-index: 100;
     }
-    
 </style>
 
 
@@ -77,7 +76,6 @@
     </div>
 </div>
 
-
 <p class="error-mesage"></p>
 
 <div style="display: none">
@@ -91,11 +89,15 @@
 </div>
 
 
-
-<div id="previewContainer" style="display: none" data-bind="visible: ShowPreviewControls">
+<div id="previewContainer" style="display: none; min-width: 300px" data-bind="visible: ShowPreviewControls">
     <div id="imgPreviewContainer"></div>
     <input type="hidden" id="avatarId" />
     <input type="hidden" id="avatarFormat" />
-    <button class="btn btn-primary" data-bind="click: CropImg">Выбрать</button>
+
+    <div>
+        <button class="btn btn-primary btn-danger" style="float: left; margin-left: 7%; margin-top: 2%">Отмена</button>
+        <button class="btn btn-primary btn-success" style="float: right; margin-right: 7%; margin-top: 2%" data-bind="click: CropImg">Готово</button>
+    </div>
+
 </div>
 

@@ -123,8 +123,6 @@
                 onSelectChange: preview,
             });
 
-
-
             $("#avatarId").val(response.avatarId);
             $("#avatarFormat").val(response.avatarFormat);
 
