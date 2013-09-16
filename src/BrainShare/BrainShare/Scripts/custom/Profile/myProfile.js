@@ -1,41 +1,47 @@
 ﻿function MyProfileViewModel() {
 
     var self = this;
-    var jcropApi;
+    var imgAreaApi;
 
     this.UploadImg = function () {
         $("#file").click();
     };
 
     this.ShowCropButton = ko.observable(false);
-    //this.ShowLoading = ko.observable(false);
     this.ShowChangeAvatarButton = ko.observable(true);
     this.ShowCancelPreviewButton = ko.observable(false);
 
+    this.ShowPreviewControls = ko.observable(false);
+    this.ShowOverlay = ko.observable(false);
 
-    this.ApplyBannerCrop = function () {
-
+    this.CropImg = function () {
         debugger;
-        var coords = jcropApi.tellScaled();
+        var selection = imgAreaApi.getSelection();
 
         var data = {
             AvatarId: $("#avatarId").val(),
             AvatarFormat: $("#avatarFormat").val(),
-            x: coords.x,
-            y: coords.y,
-            width: coords.w,
-            height: coords.h
+            x: selection.x1,
+            y: selection.y1,
+            width: selection.width,
+            height: selection.height
         };
 
-        $("#avatarPreviewContainer").empty();
+        imgAreaApi.remove();
+        $("#imgPreviewContainer").empty();
+
 
         send("/Profile/ResizeAvatar", data, loadRealAvatar);
+
+        self.ShowOverlay(false);
+
         $("#progress").hide();
-        $(".overlay").attr("style", "display: none");
-        self.ShowCropButton(false);
+        $("#mainNav").show();
+        $('#currentUser').show();
+
+        self.ShowPreviewControls(false);
         self.ShowCancelPreviewButton(false);
         self.ShowChangeAvatarButton(true);
-        //setTimeout($("#avatarImg").show(), 50000);
 
         function loadRealAvatar(response) {
             debugger;
@@ -50,20 +56,35 @@
     });
 
     var options = {
-        beforeSend: function () {
+        beforeSend: function (formOptions) {
+            debugger;
 
-            $("#progress").show();
-            $(".overlay").show();
-            //clear everything
+            self.ShowOverlay(true);
+
+            //hide navigation
+            $("#mainNav").hide();
+            $("#currentUser").hide();
+
+            //clear progress bar
             $("#bar").width('0%');
             $("#percent").html("0%");
 
+            //show progress bar
+            $("#loadBar").show();
 
-            $("#avatarPreviewContainer").empty();
-            //self.ShowCropButton(false);
-            //self.ShowLoading(true);
+            // cancel loading if 'Cancel' button pressed
+            $("#cancelLoading").on("click", function () {
+                formOptions.abort();
+            });
 
+            //setTimeout(function() {
+
+            //    $("#cancelLoading").trigger("click");
+            //}, 1);
+
+            $("#imgPreviewContainer").empty();
         },
+
         uploadProgress: function (event, position, total, percentComplete) {
 
             $("#bar").width(percentComplete + '%');
@@ -74,8 +95,9 @@
 
             $("#bar").width('100%');
             $("#percent").html('100%');
-            //$(".overlay").show();
-            //self.ShowLoading(true);
+
+            $("#loadBar").hide();
+            //$("#cancelLoading").hide();
 
             if (response.error) {
                 $(".error-mesage").text(response.error);
@@ -83,26 +105,34 @@
                 return;
             }
 
-            //self.ShowLoading(false);
             self.ShowChangeAvatarButton(false);
             self.ShowCropButton(true);
             self.ShowCancelPreviewButton(true);
 
-            $("#avatarPreviewContainer").append($("<img />").attr("id", "avatarPreview").attr("src", response.avatarUrl));
+            $("#imgPreviewContainer").append($("<img />").attr("id", "avatarPreview").attr("src", response.avatarUrl));
+            imgAreaApi = $('#avatarPreview').imgAreaSelect({
+                aspectRatio: '1:1',
+                handles: true,
+                instance: true,
+                x1: 15,
+                y1: 15,
+                x2: 215,
+                y2: 215,
+                minWidth: 200,
+                minHeight: 200,
+                onSelectChange: preview,
+            });
+
+
 
             $("#avatarId").val(response.avatarId);
             $("#avatarFormat").val(response.avatarFormat);
 
-            $("#avatarPreview").Jcrop({
-                minSize: [200, 200],
-                setSelect: [15, 15, 215, 215],
-            }, function () { jcropApi = this; });
-
-        
+            self.ShowPreviewControls(true);
         },
 
         complete: function (response) {
-            //setTimeout(self.ShowCropButton(true), 10000);
+
         },
 
         error: function (response) {
@@ -110,6 +140,21 @@
         }
     };
 
-   
     $("#myForm").ajaxForm(options);
+
+
+
+    function preview(img, selection) {
+        //var scaleX = 100 / (selection.width || 1);
+        //var scaleY = 100 / (selection.height || 1);
+
+        //$('#ferret + div > img').css({
+        //    width: Math.round(scaleX * 400) + 'px',
+        //    height: Math.round(scaleY * 300) + 'px',
+        //    marginLeft: '-' + Math.round(scaleX * selection.x1) + 'px',
+        //    marginTop: '-' + Math.round(scaleY * selection.y1) + 'px'
+        //});
+    }
+
+
 }

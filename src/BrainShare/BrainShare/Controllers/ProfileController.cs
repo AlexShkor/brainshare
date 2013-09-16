@@ -279,8 +279,9 @@ namespace BrainShare.Controllers
                  };
 
                 var uploadResult = cloudinary.Upload(uploadParams);
-                string avatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(520).Height(520).Crop("limit")).BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
+                string avatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(400).Height(520).Crop("limit")).BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
 
+                var s = uploadResult.Width;
                 user.AvatarId = uploadParams.PublicId;
                 _users.Save(user);
 
@@ -295,7 +296,7 @@ namespace BrainShare.Controllers
         {
             var user = _users.GetById(UserId);
             var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
-            string realAvatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(500).Height(500).Crop("limit").Chain().X(x).Y(y).Width(width).Height(height).Crop("crop")).BuildUrl(String.Format("{0}.{1}", avatarId, avatarFormat));
+            string realAvatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(400).Height(520).Crop("limit").Chain().X(x).Y(y).Width(width).Height(height).Crop("crop")).BuildUrl(String.Format("{0}.{1}", avatarId, avatarFormat));
             user.AvatarUrl = realAvatarUrl;
             _users.Save(user);
 
