@@ -83,5 +83,19 @@ namespace BrainShare.Services
                 (el) => el.And(el.EQ(x => x.BookId, bookId), el.EQ(x => x.UserId, requestFromUserId)))),
                 Update.Set("Inbox.$.Viewed", true));
         }
+
+        public void AddThreadToUnread(string userId, string threadId)
+        {
+            Items.Update(
+                Query<User>.EQ(x => x.Id, userId),
+                Update<User>.AddToSet(x=> x.ThreadsWithUnreadMessages, threadId));
+        }
+
+        public void RemoveThreadFromUnread(string userId, string threadId)
+        {
+            Items.Update(
+                Query<User>.EQ(x => x.Id, userId),
+                Update<User>.Pull(x => x.ThreadsWithUnreadMessages, threadId));
+        }
     }
 }

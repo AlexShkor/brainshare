@@ -6,13 +6,20 @@ namespace BrainShare.Controllers
     {
         public string UserId { get; set; }
         public string UserName { get; set; }
-        public string Email { get; set; }
+        public string City { get; set; }
 
-        public UserItemViewModel(User doc)
+        public UserItemViewModel(UserData data)
         {
-            UserId = doc.Id;
-            Email = doc.Email;
-            UserName = string.Format("{0} {1}", doc.FirstName, doc.LastName);
+            UserId = data.UserId;
+            UserName = data.UserName;
+            City = data.City;
+        }
+
+        public UserItemViewModel(User user)
+        {
+            UserId = user.Id;
+            UserName = user.FullName;
+            City = user.City;
         }
 
         public UserItemViewModel()

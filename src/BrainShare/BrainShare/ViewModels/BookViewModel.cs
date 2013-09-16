@@ -29,6 +29,8 @@ namespace BrainShare.Controllers
             Image = book.Image;
             GoogleBookId = book.GoogleBookId;
             Authors = string.Join(", ", book.Authors);
+
+            
         }
 
         public BookViewModel()

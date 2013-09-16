@@ -176,9 +176,10 @@ namespace BrainShare.Controllers
             var me = _users.GetById(UserId);
             var recipient = _users.GetById(thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId);
             var model = new MessagingThreadViewModel(thread, me, recipient);
-
+            SetThreadIsReadAsync(UserId,threadId);
             return View("Messages", model);
         }
+
 
         [POST("thread/post")]
         public ActionResult PostToThread(string threadId, string content)
@@ -193,7 +194,7 @@ namespace BrainShare.Controllers
                 return HttpNotFound();
             }
             var sendToUserId = thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId;
-            UpdateUnreadMessagesAsync(threadId, UserId, sendToUserId);
+            UpdateUnreadMessagesAsync(threadId, sendToUserId);
             var model = new MessageViewModel();
             model.Init(UserId, content, DateTime.Now.ToString("o"), false);
             var callbackModel = new MessageViewModel();
@@ -203,9 +204,14 @@ namespace BrainShare.Controllers
             return Json(model);
         }
 
-        private void UpdateUnreadMessagesAsync(string threadId, string fromUserId, string toUserId)
+        private void UpdateUnreadMessagesAsync(string threadId, string toUserId)
         {
+            Task.Factory.StartNew(() => _users.AddThreadToUnread(toUserId,threadId));
+        }
 
+        private void SetThreadIsReadAsync(string userId, string threadId)
+        {
+            Task.Factory.StartNew(() => _users.RemoveThreadFromUnread(userId, threadId));
         }
 
         [POST("getBooks")]
