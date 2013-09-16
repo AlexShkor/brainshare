@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Metadata.Edm;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -92,7 +93,7 @@ namespace BrainShare.Controllers
         [HttpGet]
         public ActionResult Register()
         {
-            return View(new RegisterViewModel(){City = "Минск"});
+            return View(new RegisterViewModel());
         }
 
         [HttpPost]
@@ -107,7 +108,7 @@ namespace BrainShare.Controllers
                                       {
                                           Id = GetIdForUser(),
                                           FirstName = model.FirstName,
-                                          City = model.City,
+                                          Address = new AddressData(model),
                                           LastName = model.LastName,
                                           Email = model.Email,
                                           Password = model.Password
@@ -166,6 +167,8 @@ namespace BrainShare.Controllers
                     return RedirectToAction("BindFacebook", new {email = email, facebookId = facebookId});
                 }
 
+                var address = new AddressData((string)fbUser.location.name);
+
                 user = new User
                 {
                     Id = ObjectId.GenerateNewId().ToString(),
@@ -173,7 +176,7 @@ namespace BrainShare.Controllers
                     FacebookId = fbUser.id,
                     FirstName = fbUser.first_name,
                     LastName = fbUser.last_name,
-                    City = fbUser.location.name.Split(',')[0]
+                    Address = address
                     
                 };
                 _users.Save(user);

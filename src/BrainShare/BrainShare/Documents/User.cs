@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BrainShare.Controllers;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace BrainShare.Documents
@@ -17,7 +18,7 @@ namespace BrainShare.Documents
 
         public string FacebookId { get; set; }
 
-        public string City { get; set; }
+        public AddressData Address { get; set; }
 
         public SortedSet<string> Books { get; set; }
         public SortedSet<string> WishList { get; set; }
@@ -42,6 +43,7 @@ namespace BrainShare.Documents
             Recieved = new List<ChangeRequest>();
             Votes = new Dictionary<string, int>();
             ThreadsWithUnreadMessages = new List<string>();
+            Address = new AddressData();
         }
 
         public void AddRecievedBook(string bookId, string userId)
@@ -70,6 +72,47 @@ namespace BrainShare.Documents
         }
 
         public List<string> ThreadsWithUnreadMessages { get; set; }
+    }
+
+    public class AddressData
+    {
+        public string Original { get; set; }
+        public string Formatted { get; set; }
+        public string Country { get; set; }
+        public string Locality { get; set; }
+
+        public bool IsValid { get; set; }
+
+        public AddressData(RegisterViewModel model)
+        {
+            Original = model.original_address;
+            Formatted = model.formatted_address;
+            Country = model.country;
+            Locality = model.locality;
+            IsValid = true;
+        }
+
+        public AddressData()
+        {
+            
+        }
+
+        public AddressData(string fbLocationData)
+        {
+            Original = fbLocationData;
+            Formatted = fbLocationData;
+            try
+            {
+                var arr = fbLocationData.Split(',');
+                Country = arr[1].Trim();
+                Locality = arr[0].Trim();
+                IsValid = true;
+            }
+            catch
+            {
+                IsValid = false;
+            }
+        }
     }
 
     public class ChangeRequest

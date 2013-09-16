@@ -75,7 +75,7 @@ namespace BrainShare.Documents
     {
         public string UserId { get; set; }
         public string UserName { get; set; }
-        public string City { get; set; }
+        public AddressData Address { get; set; }
 
         public UserData()
         {
@@ -86,7 +86,7 @@ namespace BrainShare.Documents
         {
             UserId = user.Id;
             UserName = user.FullName;
-            City = user.City;
+            Address = user.Address;
         }
     }
 }

@@ -12,14 +12,14 @@ namespace BrainShare.Controllers
         {
             UserId = data.UserId;
             UserName = data.UserName;
-            City = data.City;
+            City = data.Address.Locality;
         }
 
         public UserItemViewModel(User user)
         {
             UserId = user.Id;
             UserName = user.FullName;
-            City = user.City;
+            City = user.Address.Locality;
         }
 
         public UserItemViewModel()

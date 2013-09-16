@@ -4,6 +4,8 @@ namespace BrainShare.Controllers
 {
     public class RegisterViewModel
     {
+        private const string LocalityErrorMessage = "Вы допустили ошибку при выборе города";
+
         [Required]
         [Display(Name = "Имя")]
         public string FirstName { get; set; }
@@ -12,9 +14,15 @@ namespace BrainShare.Controllers
         [Display(Name = "Фамилия")]
         public string LastName { get; set; }
 
-        [Required]
-        [Display(Name = "Город")]
-        public string City { get; set; }
+
+        [Required(ErrorMessage = LocalityErrorMessage)]
+        public string original_address { get; set; }
+        [Required(ErrorMessage = LocalityErrorMessage)]
+        public string formatted_address { get; set; }
+        [Required(ErrorMessage = LocalityErrorMessage)]
+        public string country { get; set; }
+        [Required(ErrorMessage = LocalityErrorMessage)]
+        public string locality { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
