@@ -79,9 +79,10 @@ namespace BrainShare.Controllers
             {
                 doc = bookDto.BuildDocument();
             }
-            if (!doc.Owners.Contains(UserId))
+            if (!doc.HasOwner(UserId))
             {
-                doc.Owners.Add(UserId);
+                var owner = _users.GetById(UserId);
+                doc.AddOwner(owner);
                 _books.Save(doc);
             }
             var user = _users.GetById(UserId);
@@ -105,9 +106,10 @@ namespace BrainShare.Controllers
             {
                 doc = bookDto.BuildDocument();
             }
-            if (!doc.Lookers.Contains(UserId))
+            if (!doc.HasLooker(UserId))
             {
-                doc.Lookers.Add(UserId);
+                var looker = _users.GetById(UserId);
+                doc.AddLooker(looker);
                 _books.Save(doc);
             }
             var user = _users.GetById(UserId);
@@ -217,16 +219,16 @@ namespace BrainShare.Controllers
                     _users.Save(him);
 
                     var himBook = _books.GetById(bookId);
-                    himBook.Lookers.Remove(you.Id);
-                    himBook.Owners.Remove(him.Id);
-                    himBook.Owners.Add(you.Id);
+                    himBook.RemoveLooker(you.Id);
+                    himBook.RemoveOwner(him.Id);
+                    himBook.AddOwner(you);
                     _books.Save(himBook);
 
 
                     var yourBook = _books.GetById(yourBookId);
-                    yourBook.Owners.Remove(you.Id);
-                    yourBook.Owners.Add(him.Id);
-                    yourBook.Lookers.Remove(him.Id);
+                    yourBook.RemoveOwner(you.Id);
+                    yourBook.AddOwner(him);
+                    yourBook.RemoveLooker(him.Id);
                     _books.Save(yourBook);
 
                     SaveFeedAsync(ActivityFeed.BooksExchanged(yourBook, you, himBook, him));

@@ -19,7 +19,7 @@ namespace BrainShare.Services
 
         public IEnumerable<Book> GetUserBooks(string userId)
         {
-            return Items.Find(Query.EQ("Owners", userId));
+            return Items.Find(Query.EQ("Owners.UserId", userId));
         }
 
         public IEnumerable<Book> GetByIds(IEnumerable<string> ids)
@@ -29,7 +29,7 @@ namespace BrainShare.Services
 
         public IEnumerable<Book> GetUserWantedBooks(string userId)
         {
-            return Items.Find(Query.EQ("Lookers", userId));
+            return Items.Find(Query.EQ("Lookers.UserId", userId));
         }
 
         public IEnumerable<Book> GetPaged(int skip, int limit)
@@ -40,14 +40,14 @@ namespace BrainShare.Services
         public void RemoveLooker(string bookId, string lookerId)
         {
             var book = Items.FindOne(Query<Book>.EQ(b => b.Id, bookId));
-            book.Lookers.Remove(lookerId);
+            book.Lookers.RemoveAll(x => x.UserId == lookerId);
             Items.Save(book);
         }
 
         public void RemoveOwner(string bookId, string ownerId)
         {
             var book = Items.FindOne(Query<Book>.EQ(b => b.Id, bookId));
-            book.Owners.Remove(ownerId);
+            book.Owners.RemoveAll(x => x.UserId == ownerId);
             Items.Save(book);
         }
 
