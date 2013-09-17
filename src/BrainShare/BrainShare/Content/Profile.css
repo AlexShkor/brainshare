@@ -9,20 +9,9 @@
     background-color: #ecf0f1;
 }
 
-/*.big-loading {
-    background-image: url("/Content/big-loading.gif");
-    padding: 90px;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: 100px;
-    top: 70px;
-}*/
-
 .error-mesage {
     color: red;
 }
-
-
 
 #progress {
     position: relative;

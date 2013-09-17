@@ -35,7 +35,6 @@
 
         self.ShowOverlay(false);
 
-        $("#progress").hide();
         $("#mainNav").show();
         $('#currentUser').show();
 
@@ -50,6 +49,18 @@
         }
     };
 
+    this.CancelImg = function () {
+        imgAreaApi.remove();
+        $("#imgPreviewContainer").empty();
+        self.ShowPreviewControls(false);
+
+        self.ShowOverlay(false);
+        $("#loadBar").hide();
+        $("#mainNav").show();
+        $('#currentUser').show();
+        self.ShowChangeAvatarButton(true);
+    };
+
     $("#file").change(function () {
         $(".error-mesage").empty();
         $("#uploadImage").click();
@@ -61,43 +72,43 @@
 
             self.ShowOverlay(true);
 
-            //hide navigation
+            // hide navigation
             $("#mainNav").hide();
             $("#currentUser").hide();
 
-            //clear progress bar
+            // clear progress bar
             $("#bar").width('0%');
             $("#percent").html("0%");
 
-            //show progress bar
+            // show progress bar
             $("#loadBar").show();
+
+            // empty container from previous page
+            $("#imgPreviewContainer").empty();
 
             // cancel loading if 'Cancel' button pressed
             $("#cancelLoading").on("click", function () {
                 formOptions.abort();
+                self.ShowOverlay(false);
+                $("#loadBar").hide();
+                $("#mainNav").show();
+                $('#currentUser').show();
             });
-
-            //setTimeout(function() {
-
-            //    $("#cancelLoading").trigger("click");
-            //}, 1);
-
-            $("#imgPreviewContainer").empty();
         },
 
         uploadProgress: function (event, position, total, percentComplete) {
 
             $("#bar").width(percentComplete + '%');
             $("#percent").html(percentComplete + '%');
-
         },
+
         success: function (response) {
+            debugger;
 
             $("#bar").width('100%');
             $("#percent").html('100%');
 
             $("#loadBar").hide();
-            //$("#cancelLoading").hide();
 
             if (response.error) {
                 $(".error-mesage").text(response.error);
@@ -110,6 +121,7 @@
             self.ShowCancelPreviewButton(true);
 
             $("#imgPreviewContainer").append($("<img />").attr("id", "avatarPreview").attr("src", response.avatarUrl));
+
             imgAreaApi = $('#avatarPreview').imgAreaSelect({
                 aspectRatio: '1:1',
                 handles: true,
@@ -153,6 +165,4 @@
         //    marginTop: '-' + Math.round(scaleY * selection.y1) + 'px'
         //});
     }
-
-
 }

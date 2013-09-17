@@ -281,7 +281,6 @@ namespace BrainShare.Controllers
                 var uploadResult = cloudinary.Upload(uploadParams);
                 string avatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(500).Height(500).Crop("limit")).BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
 
-                var s = uploadResult.Width;
                 user.AvatarId = uploadParams.PublicId;
                 _users.Save(user);
 
