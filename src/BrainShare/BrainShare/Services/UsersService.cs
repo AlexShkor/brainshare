@@ -63,20 +63,6 @@ namespace BrainShare.Services
                                                                                       });
         }
 
-        public void RemoveFromWishList(string bookId, string userId)
-        {
-            var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
-            user.WishList.Remove(bookId);
-            Items.Save(user);
-        }
-
-        public void RemoveFromBooks(string bookId, string userId)
-        {
-            var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
-            user.Books.Remove(bookId);
-            Items.Save(user);
-        }
-
         public void UpdateRequestViewed(string userId, string bookId, string requestFromUserId)
         {
             Items.Update(Query.And(Query<User>.EQ(x => x.Id, userId), Query<User>.ElemMatch(x => x.Inbox,

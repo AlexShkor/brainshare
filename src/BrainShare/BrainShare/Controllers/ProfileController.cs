@@ -36,14 +36,16 @@ namespace BrainShare.Controllers
     public class ProfileController : BaseController
     {
         private readonly BooksService _books;
+        private readonly WishBooksService _wishBooks;
         private readonly UsersService _users;
         private readonly ThreadsService _threads;
 
-        public ProfileController(BooksService books, UsersService users, ThreadsService threads)
+        public ProfileController(BooksService books, UsersService users, ThreadsService threads, WishBooksService whishBooks)
         {
             _books = books;
             _users = users;
             _threads = threads;
+            _wishBooks = whishBooks;
         }
 
         public ActionResult Index()
@@ -75,8 +77,7 @@ namespace BrainShare.Controllers
         {
             try
             {
-                _users.RemoveFromBooks(book.Id, UserId);
-                _books.RemoveOwner(book.Id, UserId);
+                _books.Remove(book.Id);
             }
             catch (Exception ex)
             {
@@ -92,8 +93,7 @@ namespace BrainShare.Controllers
         {
             try
             {
-                _users.RemoveFromWishList(book.Id, UserId);
-                _books.RemoveLooker(book.Id, UserId);
+                _wishBooks.Remove(book.Id);
             }
             catch (Exception ex)
             {
@@ -114,7 +114,7 @@ namespace BrainShare.Controllers
         public ActionResult WishList()
         {
             Title("Я ищу Книги");
-            var books = _books.GetUserWantedBooks(UserId);
+            var books = _wishBooks.GetUserBooks(UserId);
             var model = books.Select(x => new BookViewModel(x)).ToList();
             return View(model);
         }
@@ -214,11 +214,18 @@ namespace BrainShare.Controllers
             Task.Factory.StartNew(() => _users.RemoveThreadFromUnread(userId, threadId));
         }
 
-        [POST("getBooks")]
-        public ActionResult GetUserBooks(IEnumerable<string> ids)
+        [POST("get-user-books")]
+        public ActionResult GetUserBooks(string userId)
         {
-            var books = _books.GetByIds(ids);
-            return Json(new { books = books });
+            var books = _books.GetUserBooks(userId).Select(x=> new BookViewModel(x));
+            return Json(books);
+        }
+
+        [POST("get-user-wish-books")]
+        public ActionResult GetUserWishBooks(string userId)
+        {
+            var books = _wishBooks.GetUserBooks(userId).Select(x=> new BookViewModel(x));
+            return Json(books);
         }
 
         public ActionResult AdjustReputation(string id, int value)

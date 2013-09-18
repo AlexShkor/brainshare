@@ -44,9 +44,8 @@
 
     this.getOwnedBooks = function () {
         self.listOfOwnedBooks.removeAll();
-        var ids = { ids: self.user.Books };
-        send("/Profile/getBooks", ids, function (response) {
-            $.each(response.books, function (index, book) {
+        send("/profile/get-user-books", { userId: self.user.Id }, function (response) {
+            $.each(response, function (index, book) {
                 self.listOfOwnedBooks.push(book);
             });
         });
@@ -55,9 +54,8 @@
     };
     this.getWishedBooks = function () {
         self.listOfWishedBooks.removeAll();
-        var ids = { ids: self.user.WishList };
-        send("/Profile/getBooks", ids, function (response) {
-            $.each(response.books, function (index, book) {
+        send("/profile/get-user-wish-books", { userId: self.user.Id }, function (response) {
+            $.each(response, function (index, book) {
                 self.listOfWishedBooks.push(book);
             });
         });
@@ -68,19 +66,4 @@
     this.sendMessage = function () {
         window.location = "/profile/message/to/" + self.user.Id;
     };
-};
-
-
-var UserBookViewModel = function (item) {
-    this.SearchInfo = (item.searchInfo || {}).textSnippet;
-    this.Authors = item.volumeInfo.authors;
-    this.Categories = item.volumeInfo.categories;
-    this.Language = item.volumeInfo.language;
-    this.PageCount = item.volumeInfo.pageCount;
-    this.PublishedDate = item.volumeInfo.publishedDate;
-    this.Publisher = item.volumeInfo.publisher;
-    this.Subtitle = item.volumeInfo.subtitle;
-    this.Title = item.volumeInfo.title;
-    this.Image = (item.volumeInfo.imageLinks || {}).thumbnail;
-    this.ISBN = item.volumeInfo.industryIdentifiers[0].identifier;
 };

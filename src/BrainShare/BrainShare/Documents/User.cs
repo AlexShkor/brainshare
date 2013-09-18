@@ -20,8 +20,6 @@ namespace BrainShare.Documents
 
         public AddressData Address { get; set; }
 
-        public SortedSet<string> Books { get; set; }
-        public SortedSet<string> WishList { get; set; }
         public List<ChangeRequest> Recieved { get; set; }
 
         public string AvatarUrl { get; set; }
@@ -39,8 +37,6 @@ namespace BrainShare.Documents
 
         public User()
         {
-            Books = new SortedSet<string>();
-            WishList = new SortedSet<string>();
             Inbox = new List<ChangeRequest>();
             Recieved = new List<ChangeRequest>();
             Votes = new Dictionary<string, int>();

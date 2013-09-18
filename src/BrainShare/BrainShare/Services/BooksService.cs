@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using BrainShare.Documents;
 using BrainShare.Mongo;
+using Elmah.ContentSyndication;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
 namespace BrainShare.Services
 {
-    public class BooksService : DocumentsService<Book>
+    public class BooksService : BaseBooksService
     {
         public BooksService(MongoDocumentsDatabase database) : base(database)
         {
@@ -16,10 +17,37 @@ namespace BrainShare.Services
         {
             get { return Database.Books; }
         }
+    }
+
+    public class WishBooksService : BaseBooksService
+    {
+        public WishBooksService(MongoDocumentsDatabase database)
+            : base(database)
+        {
+        }
+
+        protected override MongoCollection<Book> Items
+        {
+            get { return Database.WishBooks; }
+        }
+
+        public void Delete(string userId, string googleBookId)
+        {
+            Items.Remove(Query.And(Query<Book>.EQ(x => x.UserData.UserId, userId),
+                Query<Book>.EQ(b => b.GoogleBookId, googleBookId)));
+        }
+    }
+
+    public abstract class BaseBooksService : DocumentsService<Book>
+    {
+        protected BaseBooksService(MongoDocumentsDatabase database)
+            : base(database)
+        {
+        }
 
         public IEnumerable<Book> GetUserBooks(string userId)
         {
-            return Items.Find(Query.EQ("Owners.UserId", userId));
+            return Items.Find(Query<Book>.EQ(x=> x.UserData.UserId, userId));
         }
 
         public IEnumerable<Book> GetByIds(IEnumerable<string> ids)
@@ -27,33 +55,26 @@ namespace BrainShare.Services
             return Items.Find(Query<Book>.In(b => b.Id, ids));
         }
 
-        public IEnumerable<Book> GetUserWantedBooks(string userId)
-        {
-            return Items.Find(Query.EQ("Lookers.UserId", userId));
-        }
-
         public IEnumerable<Book> GetPaged(int skip, int limit)
         {
             return Items.FindAll().SetSkip(skip).SetLimit(limit);
         }
 
-        public void RemoveLooker(string bookId, string lookerId)
+        public IEnumerable<Book> GetByGoogleBookId(string googleBookId)
         {
-            var book = Items.FindOne(Query<Book>.EQ(b => b.Id, bookId));
-            book.Lookers.RemoveAll(x => x.UserId == lookerId);
-            Items.Save(book);
+            return Items.Find(Query<Book>.EQ(b => b.GoogleBookId, googleBookId));
         }
 
-        public void RemoveOwner(string bookId, string ownerId)
+        public Book GetUserBook(string googleBookId, string userId)
         {
-            var book = Items.FindOne(Query<Book>.EQ(b => b.Id, bookId));
-            book.Owners.RemoveAll(x => x.UserId == ownerId);
-            Items.Save(book);
+            return
+                Items.FindOne(Query.And(Query<Book>.EQ(x => x.UserData.UserId, userId),
+                    Query<Book>.EQ(b => b.GoogleBookId, googleBookId)));
         }
 
-        public Book GetByGoogleBookId(string googleBookId)
+        public void Remove(string id)
         {
-            return Items.FindOne(Query<Book>.EQ(b => b.GoogleBookId, googleBookId));
+            Items.Remove(Query<Book>.EQ(x => x.Id, id));
         }
     }
 }

@@ -23,70 +23,20 @@ namespace BrainShare.Documents
         public string Subtitle { get; set; }
         public string Image { get; set; }
         public string Country { get; set; }
+
         public List<string> Authors { get; set; }
-        public List<UserData> Owners { get; set; }
-        public List<UserData> Lookers { get; set; }
+        public UserData UserData { get; set; }
 
         public Book()
         {
             ISBN = new List<string>();
             Authors = new List<string>();
-            Owners = new List<UserData>();
-            Lookers = new List<UserData>();
+            UserData = new UserData();
         }
 
         public DateTime PublishedDate
         {
             get { return new DateTime(PublishedYear ?? 1, PublishedMonth ?? 1, PublishedDay ?? 1); }
-        }
-
-        public bool HasOwner(string userId)
-        {
-            return Owners.Any(x => x.UserId == userId);
-        }
-
-        public void AddOwner(User user)
-        {
-            Owners.Add(new UserData(user));
-        }
-
-        public bool HasLooker(string userId)
-        {
-            return Lookers.Any(x => x.UserId == userId);
-        }
-
-        public void AddLooker(User looker)
-        {
-            Lookers.Add(new UserData(looker));
-        }
-
-        public void RemoveLooker(string id)
-        {
-            Lookers.RemoveAll(x => x.UserId == id);
-        }
-
-        public void RemoveOwner(string id)
-        {
-            Owners.RemoveAll(x => x.UserId == id);
-        }
-    }
-
-    public class UserData
-    {
-        public string UserId { get; set; }
-        public string UserName { get; set; }
-        public AddressData Address { get; set; }
-
-        public UserData()
-        {
-            
-        }
-
-        public UserData(User user)
-        {
-            UserId = user.Id;
-            UserName = user.FullName;
-            Address = user.Address;
         }
     }
 }

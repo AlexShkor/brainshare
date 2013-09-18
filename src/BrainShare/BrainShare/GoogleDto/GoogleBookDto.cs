@@ -23,7 +23,7 @@ namespace BrainShare.GoogleDto
             public List<string> ISBNS { get; set; }
 
 
-        public Book BuildDocument()
+        public Book BuildDocument(User user)
         {
             var book = new Book
             {
@@ -50,6 +50,7 @@ namespace BrainShare.GoogleDto
             catch 
             {
             }
+            book.UserData = new UserData(user);
             return book;
         }
     }

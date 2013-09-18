@@ -10,8 +10,6 @@ namespace BrainShare.Controllers
         public string Name { get; set; }
         public string Avatar { get; set; }
         public bool IsMe { get; set; }
-        public SortedSet<string> Books { get; set; }
-        public SortedSet<string> WishList { get; set; }
         public int SummaryVotes { get; set; }
 
         public bool CanIncrease { get; set; }
@@ -22,13 +20,7 @@ namespace BrainShare.Controllers
             Id = user.Id;
             Name = user.FullName;
             IsMe = user.Id == myId;
-            Books = user.Books;
-            WishList = user.WishList;
-            
-            if (user.FacebookId.HasValue())
-            {
-                Avatar = string.Format("http://graph.facebook.com/{0}/picture?type=normal", user.FacebookId);
-            }
+            Avatar = user.AvatarUrl ?? "http://critterapp.pagodabox.com/img/user.jpg";
         }
     }
 }

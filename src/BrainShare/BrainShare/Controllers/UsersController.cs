@@ -19,7 +19,7 @@ namespace BrainShare.Controllers
 
         public ActionResult Index()
         {
-            var model = _users.GetAll().Select(x => new UserViewModel(x)).OrderByDescending(x=> x.BooksCount).ToList();
+            var model = _users.GetAll().Select(x => new UserViewModel(x)).ToList();
             return View(model);
         }
 
@@ -31,7 +31,6 @@ namespace BrainShare.Controllers
         public string Username { get; set; }
         public string Address { get; set; }
         public string Avatar { get; set; }
-        public int BooksCount { get; set; }
         public string Registered { get; set; }
 
         public UserViewModel()
@@ -46,7 +45,6 @@ namespace BrainShare.Controllers
             Address = user.Address.Original;
             Avatar = user.AvatarUrl;
             Registered = user.Registered.ToShortDateString();
-            BooksCount = user.Books.Count;
         }
     }
 }
