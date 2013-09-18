@@ -176,7 +176,7 @@ namespace BrainShare.Controllers
             var me = _users.GetById(UserId);
             var recipient = _users.GetById(thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId);
             var model = new MessagingThreadViewModel(thread, me, recipient);
-            SetThreadIsReadAsync(UserId,threadId);
+            SetThreadIsReadAsync(UserId, threadId);
             return View("Messages", model);
         }
 
@@ -206,7 +206,7 @@ namespace BrainShare.Controllers
 
         private void UpdateUnreadMessagesAsync(string threadId, string toUserId)
         {
-            Task.Factory.StartNew(() => _users.AddThreadToUnread(toUserId,threadId));
+            Task.Factory.StartNew(() => _users.AddThreadToUnread(toUserId, threadId));
         }
 
         private void SetThreadIsReadAsync(string userId, string threadId)
@@ -295,7 +295,9 @@ namespace BrainShare.Controllers
         {
             var user = _users.GetById(UserId);
             var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
-            string realAvatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(500).Height(500).Crop("limit").Chain().X(x).Y(y).Width(width).Height(height).Crop("crop")).BuildUrl(String.Format("{0}.{1}", avatarId, avatarFormat));
+            // string realAvatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(500).Height(500).Crop("limit").Chain().X(x).Y(y).Width(width).Height(height).Crop("crop")).BuildUrl(String.Format("{0}.{1}", avatarId, avatarFormat));
+            string realAvatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(250).Height(250).Crop("fill").Width(500).Height(500).Crop("limit").Chain().X(x).Y(y).Width(width).Height(height).Crop("crop")).BuildUrl(String.Format("{0}.{1}", avatarId, avatarFormat));
+           
             user.AvatarUrl = realAvatarUrl;
             _users.Save(user);
 
@@ -316,7 +318,7 @@ namespace BrainShare.Controllers
             return Json(new { Result = user.ThreadsWithUnreadMessages.Count });
         }
 
-       
+
     }
 
 
