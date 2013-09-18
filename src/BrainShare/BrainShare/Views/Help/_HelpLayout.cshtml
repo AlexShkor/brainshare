@@ -1,4 +1,5 @@
-﻿@model dynamic
+﻿@using BrainShare.Extensions
+@model dynamic
 @{
     Layout = "~/Views/Shared/_BootstrapLayout.cshtml";
     ViewBag.Title = "Помощь | " + ViewBag.Subtitle;
@@ -10,19 +11,21 @@
     <div class="row-fluid">
 
         <div class="span3">
-                  <h4>Помощь</h4>
-               
-            <div class="well sidebar-nav">
-          
+            <h4>Помощь</h4>
+
+            <div class="sidebar-nav">
+
                 <ul class="nav nav-list nav-stacked">
-                    <li><a href="@Url.Action("HowToAddBook")">Как добавить книгу в коллекцию?</a></li>
-                    <li><a href="@Url.Action("HowToSearchBook")">Как найти книгу?</a></li>
-                    <li><a href="@Url.Action("HowToExchangeBook")">Как обменяться книгами?</a></li>
+                    <li class="nav-header">Вопросы</li>
+                    @Html.MenuLink("Как добавить книгу в коллекцию?", "HowToAddBook", "Help", null)
+                    @Html.MenuLink("Как найти книгу?", "HowToSearchBook", "Help", null)
+                    @Html.MenuLink("Как обменяться книгами?", "HowToExchangeBook", "Help", null)
+                    <li class="divider"></li>
                 </ul>
             </div>
         </div>
         <div class="span9">
-              <h3>@ViewBag.Subtitle</h3>
+            <h3>@ViewBag.Subtitle</h3>
             @RenderBody()
         </div>
     </div>
