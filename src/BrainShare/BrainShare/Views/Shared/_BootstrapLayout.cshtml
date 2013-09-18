@@ -53,7 +53,7 @@
                     @if (Request.IsAuthenticated)
                     { 
                         <p class="navbar-text pull-right" id="currentUser">
-                            <a href="/profile" class="navbar-link">@ViewBag.UserName</a> (@User.Identity.Name) <a  href="@Url.Action("Logout", "User")" >Logout</a>
+                            <a href="/profile" class="navbar-link">@ViewBag.UserName</a>&nbsp;<a  href="@Url.Action("Logout", "User")" >Выйти</a>
                         </p>
                        
                     }

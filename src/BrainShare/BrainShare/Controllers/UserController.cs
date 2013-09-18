@@ -177,9 +177,8 @@ namespace BrainShare.Controllers
                     FirstName = fbUser.first_name,
                     LastName = fbUser.last_name,
                     Address = address,
-                    AvatarUrl = string.Format("https://graph.facebook.com/{0}/picture?type=large", fbUser.id),
+                    AvatarUrl = string.Format("https://graph.facebook.com/{0}/picture?width=250&height=250", fbUser.id),
                     Registered = DateTime.Now
-                    
                 };
                 _users.Save(user);
             }
