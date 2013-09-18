@@ -63,12 +63,12 @@
         <div class="avatar-container">
             @if (Model.AvatarUrl != null)
             {
-                <img alt="аватар" class="pics" src="@Model.AvatarUrl"/>
+                <img style="width: 250px; height: 250px" alt="аватар" class="pics" src="@Model.AvatarUrl"/>
             }
 
             @if (Model.AvatarUrl == null)
             {
-                <img alt="аватар" src="http://critterapp.pagodabox.com/img/user.jpg" />
+                <img style="width: 250px; height: 250px" alt="аватар" src="http://critterapp.pagodabox.com/img/user.jpg" />
             }
         </div>
 
