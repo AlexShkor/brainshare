@@ -1,4 +1,5 @@
-﻿@model dynamic
+﻿@using BrainShare.Extensions
+@model dynamic
 
 @{
     Layout = "~/Views/Shared/_BootstrapLayout.cshtml";
@@ -13,10 +14,12 @@
         <div class="span3">
             <h4>@ViewBag.UserName</h4>
 
-            <div class="well sidebar-nav">
+            <div class="sidebar-nav">
                 <ul class="nav nav-list nav-stacked">
-                    <li><a href="@Url.Action("Index")">Мой Профиль</a></li>
-                    <li><a href="@Url.Action("AllMessages")">Сообщения</a></li>
+                    <li class="nav-header">Профиль</li>
+                    @Html.MenuLink("Мой Профиль", "Index", "Profile", null)
+                    @Html.MenuLink("Сообщения", "AllMessages", "Profile", null)
+                    <li class="divider"></li>
                 </ul>
             </div>
 

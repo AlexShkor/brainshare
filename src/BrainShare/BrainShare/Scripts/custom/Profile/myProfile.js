@@ -7,9 +7,7 @@
         $("#file").click();
     };
 
-    this.ShowCropButton = ko.observable(false);
     this.ShowChangeAvatarButton = ko.observable(true);
-    this.ShowCancelPreviewButton = ko.observable(false);
 
     this.ShowPreviewControls = ko.observable(false);
     this.ShowOverlay = ko.observable(false);
@@ -34,18 +32,17 @@
         send("/Profile/ResizeAvatar", data, loadRealAvatar);
 
         self.ShowOverlay(false);
-
         $("#mainNav").show();
         $('#currentUser').show();
 
         self.ShowPreviewControls(false);
-        self.ShowCancelPreviewButton(false);
+
         self.ShowChangeAvatarButton(true);
 
         function loadRealAvatar(response) {
             debugger;
             $("#avatarContainer div").empty();
-            $("#avatarContainer div").append($("<img />").attr("id", "avatarImg").attr("src", response.url));
+            $("#avatarContainer div").append($("<img style='width: 250px; height: 250px;' />").attr("id", "avatarImg").attr("src", response.url));
         }
     };
 
@@ -105,20 +102,31 @@
         success: function (response) {
             debugger;
 
+
             $("#bar").width('100%');
             $("#percent").html('100%');
-
             $("#loadBar").hide();
 
             if (response.error) {
                 $(".error-mesage").text(response.error);
-                self.ShowLoading(false);
+                self.ShowOverlay(false);
+                $("#loadBar").hide();
+                $("#mainNav").show();
+                $('#currentUser').show();
+                self.ShowChangeAvatarButton(true);
+                return;
+            }
+
+            if (!response) {
+                self.ShowOverlay(false);
+                $("#loadBar").hide();
+                $("#mainNav").show();
+                $('#currentUser').show();
+                self.ShowChangeAvatarButton(true);
                 return;
             }
 
             self.ShowChangeAvatarButton(false);
-            self.ShowCropButton(true);
-            self.ShowCancelPreviewButton(true);
 
             $("#imgPreviewContainer").append($("<img />").attr("id", "avatarPreview").attr("src", response.avatarUrl));
 

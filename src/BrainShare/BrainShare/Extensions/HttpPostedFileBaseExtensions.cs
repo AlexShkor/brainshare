@@ -86,7 +86,7 @@ namespace BrainShare.Extensions
             {
                 using (var bitmap = new System.Drawing.Bitmap(postedFile.InputStream))
                 {
-                    if (bitmap.Width < 200 || bitmap.Height < 200)
+                    if (bitmap.Width < 250 || bitmap.Height < 250)
                     {
                         return false;
                     }
