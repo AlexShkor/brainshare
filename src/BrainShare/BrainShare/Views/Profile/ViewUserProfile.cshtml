@@ -8,78 +8,91 @@
         ko.applyBindings(model);
     })
 </script>
-<p data-bind="text: user.Name"></p>
-@*<h5>Профиль пользователя </h5>*@
 
 
 
-<div class="pull-left">
-    <div class="avatar-container">
-        <img style="width: 250px; height: 250px;" alt="аватар" class="pics" data-bind="attr: { src: user.Avatar }" />
+<div class="row">
+    <div class="span3">
+  <h4 class="text-center" data-bind="text: user.Name"></h4>
+        <div class="avatar-container">
+            <img  alt="аватар" class="pics" data-bind="attr: { src: user.Avatar }" />
+        </div>
+             <br/>
+
+        <div style="text-align: center">
+            <div class="btn-group">
+                <button class="btn btn-small"  style="font-weight: bold; font-size: 18px; color: red" data-bind="click: decreaseReputation, enable: canDecrease">-</button>
+                <a class="btn btn-small btn-info"  data-bind="text: summaryVotes"></a>
+                <button class="btn btn-small" style="font-weight: bold; font-size: 18px; color: green" data-bind="click: increaseReputation, enable: canIncrease">+</button>
+            </div>
+        </div>
+        <br/>
+        @if (!Model.IsMe)
+        {
+            <div>
+                <a class="btn btn-small btn-primary" href="#" data-bind="click: sendMessage">Отправить сообщение</a>
+            </div>
+        }
     </div>
-    @if (!Model.IsMe)
-    {
-        <div>
-            <a class="btn btn-small" href="#" data-bind="click: sendMessage">Отправить сообщение</a>
-        </div>
-    }
+<div class="span9">
+    
 
-</div>
+    <div class="tabbable pull-left">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#s1" data-toggle="tab">Книги</a></li>
+            <li><a href="#s2" data-toggle="tab">Ищет</a></li>
+            @* <li><a href="#s3" data-toggle="tab">Информация</a></li>*@
+        </ul>
+        <div class="tab-content">
 
+            <div class="tab-pane active" id="s1">
+                <table class="table table-condensed">
+                    <tbody data-bind="foreach: listOfOwnedBooks">
+                        <tr>
+                            <td>
+                                <img data-bind="attr: { src: Image }" />
+                            </td>
+                            <td data-bind="text: Title"></td>
+                            <td data-bind="text: Authors"></td>
+                            <td data-bind="text: Subtitle"></td>
+                            <td data-bind="text: Publisher"></td>
+                            <td data-bind="text: PublishedDate"></td>
+                            <td data-bind="text: PageCount"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-
-
-
-<div class="tabbable pull-left" style="width: 70%; padding-left: 5%;">
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#s1" data-toggle="tab">Книги пользователя</a></li>
-        <li><a href="#s2" data-toggle="tab">Книги которые ищет пользователь</a></li>
-        @* <li><a href="#s3" data-toggle="tab">Третья секция</a></li>*@
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane active" id="s1">
-
-            <table class="table table-condensed">
-                <tbody data-bind="foreach: listOfOwnedBooks">
-                    <tr>
-                        <td>
-                            <img data-bind="attr: { src: Image }" />
-                        </td>
-                        <td data-bind="text: Title"></td>
-                        <td data-bind="text: Authors"></td>
-                        <td data-bind="text: Subtitle"></td>
-                        <td data-bind="text: Publisher"></td>
-                        <td data-bind="text: PublishedDate"></td>
-                        <td data-bind="text: PageCount"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="tab-pane" id="s2">
-            <table class="table table-condensed">
-                <tbody data-bind="foreach: listOfWishedBooks">
-                    <tr>
-                        <td>
-                            <img data-bind="attr: { src: Image }" />
-                        </td>
-                        <td data-bind="text: Title"></td>
-                        <td data-bind="text: Authors"></td>
-                        <td data-bind="text: Subtitle"></td>
-                        <td data-bind="text: Publisher"></td>
-                        <td data-bind="text: PublishedDate"></td>
-                        <td data-bind="text: PageCount">стр </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+            <div class="tab-pane" id="s2">
+                <table class="table table-condensed">
+                    <tbody data-bind="foreach: listOfWishedBooks">
+                        <tr>
+                            <td>
+                                <img data-bind="attr: { src: Image }" />
+                            </td>
+                            <td data-bind="text: Title"></td>
+                            <td data-bind="text: Authors"></td>
+                            <td data-bind="text: Subtitle"></td>
+                            <td data-bind="text: Publisher"></td>
+                            <td data-bind="text: PublishedDate"></td>
+                            <td data-bind="text: PageCount">стр </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
 
-    @*  <div class="tab-pane" id="s3">
+            @* <div class="tab-pane" id="s3">
             <p>Сейчас вы просматриваете содержимое третьей секции.</p>
         </div>*@
+
+        </div>
+
+    </div>
 </div>
+    </div>
+
+
 
 <!-- /.tabbable -->
 
@@ -91,11 +104,6 @@
 
 
 
-@*<div class="btn-group-vertical pull-left">
-    <button class="btn" data-bind="click: increaseReputation, enable: canIncrease" style="display: block"><i class="icon-chevron-up"></i></button>
-    <span style="display: block">Votes: <span data-bind="text: summaryVotes"></span></span>
-    <button class="btn" data-bind="click: decreaseReputation, enable: canDecrease" style="display: block"><i class="icon-chevron-down"></i></button>
-</div>*@
 
 
 @*<div class="clearfix"></div>*@

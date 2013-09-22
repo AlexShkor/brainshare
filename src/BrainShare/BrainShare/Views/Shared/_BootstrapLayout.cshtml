@@ -10,6 +10,9 @@
     <link href="@Styles.Url("~/content/css")" rel="stylesheet"/>
     <link href="~/Scripts/pnotify-1.2.0/jquery.pnotify.default.css" rel="stylesheet" />
     <link href="~/Content/imgAreaSelect/imgareaselect-default.css" rel="stylesheet" />
+
+   
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     @* Libs Scripts*@
     <script src="~/Scripts/jquery-2.0.1.min.js"></script>
     <script src="~/Scripts/jquery.signalR-1.1.2.min.js"></script>
@@ -104,7 +107,7 @@
         </div>
     </footer>
 
-@*@Html.Partial("_Sidebar")*@
+    @*@Html.Partial("_Sidebar")*@
     @RenderSection("Scripts", required: false)
     @if (ViewBag.IsFacebookAccount)
     {
