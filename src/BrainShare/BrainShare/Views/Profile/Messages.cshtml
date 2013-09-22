@@ -9,26 +9,26 @@
     <script type="text/javascript">
         $(function () {
             var model = new MessagesModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
-            ko.applyBindings(model);
+            ko.applyBindings(model, $("#profileBody")[0]);
             model.initServerCallback();
-
             $("abbr.timeago").timeago();
         });
     </script>
 }
 
 <div class="container">
+
     <h4>Сообщения</h4>
     <div class="span8">
         <div>
             <input type="hidden" name="threadId" id="threadId" data-bind="value: threadId" />
-            <textarea id="content" style="width: 100%; height: 100px;" name="content" data-bind="value: content, event: {keyup: submitOnEnter}"></textarea>
+            <textarea id="content" style="width: 100%; height: 100px;" name="content" data-bind="value: content, event: { keyup: submitOnEnter }"></textarea>
             <button class="btn btn-large btn-primary" data-bind="click: submitMessage, enable: content">Отправить</button>
         </div>
         <hr />
         <div data-bind="foreach: messages">
-            <div data-bind="attr:{class: Class}">
-                <strong>от<span class="label label-inverse" style="margin-left: 5px; margin-right: 5px;" data-bind="text: From"></span><abbr class="timeago" data-bind="attr: {title: Posted}"></abbr></strong>
+            <div data-bind="attr: { class: Class }">
+                <strong>от<span class="label label-inverse" style="margin-left: 5px; margin-right: 5px;" data-bind="text: From"></span><abbr class="timeago" data-bind="    attr: { title: Posted }"></abbr></strong>
                 <p data-bind="text: Content"></p>
             </div>
             <div class="clearfix"></div>
