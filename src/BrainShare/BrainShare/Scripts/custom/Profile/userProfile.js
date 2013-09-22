@@ -22,7 +22,7 @@
             self.canDecrease(response.canDecrease);
         });
     };
-    //
+
 
     this.showOwnedBooks = ko.observable(false);
     this.showWishedBooks = ko.observable(false);
@@ -66,4 +66,7 @@
     this.sendMessage = function () {
         window.location = "/profile/message/to/" + self.user.Id;
     };
+
+    this.getOwnedBooks();
+    this.getWishedBooks();
 };
