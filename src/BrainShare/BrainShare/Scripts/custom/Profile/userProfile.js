@@ -23,50 +23,31 @@
         });
     };
 
-
-    this.showOwnedBooks = ko.observable(false);
-    this.showWishedBooks = ko.observable(false);
-
-    this.showOwnedBooksButton = ko.observable(true);
-    this.showWishedBooksButton = ko.observable(true);
-
-    this.hideOwnedBooks = function () {
-        self.showOwnedBooks(false);
-        self.showOwnedBooksButton(true);
-    };
-    this.hideWishedBooks = function () {
-        self.showWishedBooks(false);
-        self.showWishedBooksButton(true);
-    };
-
     this.listOfOwnedBooks = ko.observableArray();
     this.listOfWishedBooks = ko.observableArray();
 
-    this.getOwnedBooks = function () {
+    function getOwnedBooks() {
         self.listOfOwnedBooks.removeAll();
         send("/profile/get-user-books", { userId: self.user.Id }, function (response) {
             $.each(response, function (index, book) {
                 self.listOfOwnedBooks.push(book);
             });
         });
-        self.showOwnedBooks(true);
-        self.showOwnedBooksButton(false);
     };
-    this.getWishedBooks = function () {
+    
+    function getWishedBooks() {
         self.listOfWishedBooks.removeAll();
         send("/profile/get-user-wish-books", { userId: self.user.Id }, function (response) {
             $.each(response, function (index, book) {
                 self.listOfWishedBooks.push(book);
             });
         });
-        self.showWishedBooks(true);
-        self.showWishedBooksButton(false);
     };
 
     this.sendMessage = function () {
         window.location = "/profile/message/to/" + self.user.Id;
     };
 
-    this.getOwnedBooks();
-    this.getWishedBooks();
+    getOwnedBooks();
+    getWishedBooks();
 };

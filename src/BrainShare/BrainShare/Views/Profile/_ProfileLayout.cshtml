@@ -19,6 +19,10 @@
                     <li class="nav-header">Профиль</li>
                     @Html.MenuLink("Мой Профиль", "Index", "Profile", null)
                     @Html.MenuLink("Сообщения", "AllMessages", "Profile", null)
+                    @if (ViewBag.IsFacebookAccount)
+                    {
+                        <a id="selectorToggle" class=" badge badge-info" href="#">Друзья из Фэйсбука</a>
+                    }
                     <li class="divider"></li>
                 </ul>
             </div>

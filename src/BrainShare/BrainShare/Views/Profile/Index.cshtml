@@ -11,6 +11,11 @@
     <script src="@Url.Content("~/Scripts/custom/Profile/myProfile.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/imgAreaSelect/jquery.imgareaselect.pack.js")" type="text/javascript"></script>
 
+    @if (ViewBag.IsFacebookAccount)
+    {
+        <script type="text/javascript" src="@Url.Content("~/Scripts/custom/fbfriendsSelector.js")"></script>
+    }
+
     <script type="text/javascript">
         var myProfileViewModel = new MyProfileViewModel();
         ko.applyBindings(myProfileViewModel);
@@ -21,19 +26,8 @@
 
 <div>
 
-    @*<div id="fbFriendsSelector" style="position: absolute; left: 70%; top: 20%;"></div>*@
-    @*<div class="clearfix"></div>*@
+    <div id="fbFriendsSelector" style="position: absolute; left: 70%; top: 20%;"></div>
 
-
-    @* <div class="span1">
-                    <a href="http://critterapp.pagodabox.com/others/admin" class="thumbnail">
-                        <img src="http://critterapp.pagodabox.com/img/user.jpg" alt=""></a>
-                </div>*@
-
-    @* <p>some text (maybe status)</p>*@
-    @*   <p><strong>@Model.Name</strong></p>*@
-    @* <span class=" badge badge-warning">8 сообщений</span>
-                    <span class=" badge badge-info">15 друзей</span>*@
 
     @*@if (ViewBag.IsFacebookAccount)
         {

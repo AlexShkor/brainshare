@@ -109,10 +109,7 @@
 
     @*@Html.Partial("_Sidebar")*@
     @RenderSection("Scripts", required: false)
-    @if (ViewBag.IsFacebookAccount)
-    {
-        <script type="text/javascript" src="@Url.Content("~/Scripts/custom/fbfriendsSelector.js")"></script>
-    }
+   
 
     <script>
         $(function () {
