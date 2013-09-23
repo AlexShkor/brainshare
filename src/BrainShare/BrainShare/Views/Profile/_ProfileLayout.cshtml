@@ -18,7 +18,8 @@
                 <ul class="nav nav-list nav-stacked">
                     <li class="nav-header">Профиль</li>
                     @Html.MenuLink("Мой Профиль", "Index", "Profile", null)
-                    @Html.MenuLink("Сообщения", "AllMessages", "Profile", null)
+                    @* @Html.MenuLink("Сообщения", "AllMessages", "Profile", null, "<span id=\"messagesConuter\" class=\"badge badge-info\" style=\"margin-left: 10px\">0</span>")*@
+                    @Html.MenuLink("Сообщения", "AllMessages", "Profile", null, "<span id=\"messagesCounter\" class=\"badge badge-info\" style=\"margin-left: 10px\"></span>")
                     @if (ViewBag.IsFacebookAccount)
                     {
                         <li><a id="fbFriendsSelectorLink" href="#" style="color: #537FF0">Друзья из Фэйсбука
@@ -32,7 +33,6 @@
                     <div id="fbFriendsSelector"></div>
                 }
             </div>
-
         </div>
         <div class="span9" id="profileBody">
             <h3>@ViewBag.Subtitle</h3>

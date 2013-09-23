@@ -217,14 +217,14 @@ namespace BrainShare.Controllers
         [POST("get-user-books")]
         public ActionResult GetUserBooks(string userId)
         {
-            var books = _books.GetUserBooks(userId).Select(x=> new BookViewModel(x));
+            var books = _books.GetUserBooks(userId).Select(x => new BookViewModel(x));
             return Json(books);
         }
 
         [POST("get-user-wish-books")]
         public ActionResult GetUserWishBooks(string userId)
         {
-            var books = _wishBooks.GetUserBooks(userId).Select(x=> new BookViewModel(x));
+            var books = _wishBooks.GetUserBooks(userId).Select(x => new BookViewModel(x));
             return Json(books);
         }
 
@@ -324,8 +324,6 @@ namespace BrainShare.Controllers
             var user = _users.GetById(UserId);
             return Json(new { Result = user.ThreadsWithUnreadMessages.Count });
         }
-
-
     }
 
 
