@@ -15,7 +15,7 @@ namespace BrainShare.Controllers
         {
             Created = created.ToShortDateString();
             Book = new BookViewModel(book);
-            User = new UserItemViewModel(user);
+            User = new UserItemViewModel(book.Id, user);
             IsNew = isNew;
         }
     }

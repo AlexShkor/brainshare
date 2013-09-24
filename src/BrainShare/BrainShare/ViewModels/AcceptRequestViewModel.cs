@@ -7,8 +7,7 @@ namespace BrainShare.Controllers
         public BookViewModel YourBook { get; set; }
         public string FromUserId { get; set; }
         public List<BookViewModel> AllBooks { get; set; }
-        public List<BookViewModel> BooksYouNeed { get; set; }
-
         public UserItemViewModel FromUser { get; set; }
+        public List<string> BooksYouNeedTitles { get; set; }
     }
 }

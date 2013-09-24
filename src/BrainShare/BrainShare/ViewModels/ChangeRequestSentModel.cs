@@ -11,7 +11,7 @@ namespace BrainShare.Controllers
         public ChangeRequestSentModel(Book book, User user)
         {
             Book = new BookViewModel(book);
-            Owner = new UserItemViewModel(user);
+            Owner = new UserItemViewModel(book);
         }
     }
 }

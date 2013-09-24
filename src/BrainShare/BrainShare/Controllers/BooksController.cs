@@ -116,7 +116,7 @@ namespace BrainShare.Controllers
             if (book != null)
             {
                 model.Book = new BookViewModel(book);
-                model.Owners = _books.GetByGoogleBookId(book.GoogleBookId).Select(x => new UserItemViewModel(x.UserData)).ToList();
+                model.Owners = _books.GetByGoogleBookId(book.GoogleBookId).Select(x => new UserItemViewModel(x)).ToList();
             }
             return View(model);
         }
@@ -157,9 +157,9 @@ namespace BrainShare.Controllers
         {
             var model = new AcceptRequestViewModel();
             model.AllBooks = _books.GetUserBooks(userId).Select(x => new BookViewModel(x)).ToList();
-            model.BooksYouNeed = _wishBooks.GetUserBooks(userId).Select(x => new BookViewModel(x)).ToList();
+            model.BooksYouNeedTitles = _wishBooks.GetUserBooks(userId).Select(x => x.Title).ToList();
             var fromUser = _users.GetById(userId);
-            model.FromUser = new UserItemViewModel(fromUser);
+            model.FromUser = new UserItemViewModel(null,fromUser);
             var yourBook = _books.GetById(requestedBookId);
             model.YourBook = new BookViewModel(yourBook);
             UpdateRequestViewedAsync(UserId, requestedBookId, userId);

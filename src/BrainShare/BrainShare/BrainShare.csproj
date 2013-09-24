@@ -239,6 +239,7 @@
     <Compile Include="Authentication\IUserProvider.cs" />
     <Compile Include="Authentication\UserIdentity.cs" />
     <Compile Include="Authentication\UserProvider.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="ContainerConfigure.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -258,6 +259,7 @@
     <Content Include="Content\imgAreaSelect\imgareaselect-animated.css" />
     <Content Include="Content\imgAreaSelect\imgareaselect-default.css" />
     <Content Include="Content\imgAreaSelect\imgareaselect-deprecated.css" />
+    <Content Include="Images\user-default-avatar.jpg" />
     <Content Include="Scripts\custom\allusers.js" />
     <Content Include="Scripts\custom\notifications.js" />
     <Compile Include="SessionKeys.cs" />

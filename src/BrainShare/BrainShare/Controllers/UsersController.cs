@@ -19,7 +19,7 @@ namespace BrainShare.Controllers
 
         public ActionResult Index()
         {
-            var model = _users.GetAll().Select(x => new UserViewModel(x)).ToList();
+            var model = _users.GetAll().Select(x => new UserViewModel(x)).OrderByDescending(x=> x.Rating).ToList();
             return View(model);
         }
 
@@ -33,6 +33,7 @@ namespace BrainShare.Controllers
         public string Avatar { get; set; }
         public string Registered { get; set; }
 
+        public int Rating { get; set; }
         public UserViewModel()
         {
             
@@ -43,8 +44,10 @@ namespace BrainShare.Controllers
             UserId = user.Id;
             Username = user.FullName;
             Address = user.Address.Original;
-            Avatar = user.AvatarUrl;
+            Avatar = user.AvatarUrl ?? Constants.DefaultAvatarUrl;
             Registered = user.Registered.ToShortDateString();
+            Rating = user.GetSummaryVotes();
         }
+
     }
 }

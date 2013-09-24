@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BrainShare.Controllers;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -70,6 +71,11 @@ namespace BrainShare.Documents
         }
 
         public List<string> ThreadsWithUnreadMessages { get; set; }
+
+        public int GetSummaryVotes()
+        {
+            return Votes.Values.Sum(x => x);
+        }
     }
 
     public class AddressData

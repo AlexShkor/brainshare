@@ -37,3 +37,11 @@ body {
 .navbar-inner {
     height: 55px;
 }
+
+.book-image-col {
+    width: 128px;
+}
+
+.book-item .thumbnail {
+    height: 350px;
+}

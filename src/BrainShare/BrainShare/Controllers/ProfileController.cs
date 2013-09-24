@@ -65,7 +65,7 @@ namespace BrainShare.Controllers
 
             model.CanIncrease = user.GetVote(id, UserId) <= 0;
             model.CanDecrease = user.GetVote(id, UserId) >= 0;
-            model.SummaryVotes = user.Votes.Values.Sum(x => x);
+            model.SummaryVotes = user.GetSummaryVotes();
 
             Title(user.FullName);
             return View(model);
@@ -337,7 +337,7 @@ namespace BrainShare.Controllers
         public MyProfileViewModel(User user)
         {
             Name = user.FullName;
-            AvatarUrl = user.AvatarUrl;
+            AvatarUrl = user.AvatarUrl ?? Constants.DefaultAvatarUrl;
         }
 
         public string Name { get; set; }
