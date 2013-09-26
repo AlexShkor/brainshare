@@ -263,8 +263,11 @@
     <Content Include="Scripts\custom\allusers.js" />
     <Content Include="Scripts\custom\notifications.js" />
     <Compile Include="SessionKeys.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="Settings\Settings.cs" />
     <Compile Include="Facebook\FacebookAuthorizeAttribute.cs" />
+    <Compile Include="Settings\SettingsMapper.cs" />
+    <Compile Include="Settings\SettingsPrefixAttribute.cs" />
+    <Compile Include="Settings\SettingsPropertyAttribute.cs" />
     <Compile Include="StructureMapResolver.cs" />
     <Compile Include="ViewModels\AcceptRequestViewModel.cs" />
     <Compile Include="ViewModels\AllThreadsViewModel.cs" />
