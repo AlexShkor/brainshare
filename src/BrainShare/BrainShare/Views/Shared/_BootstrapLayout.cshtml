@@ -72,7 +72,7 @@
                     }
 
                     <ul class="nav" id="mainNav">
-                        @Html.MenuLink("Активность", "Index", "Home")
+                        @Html.MenuLink("Активность", "Activity", "Home")
                         @Html.MenuLink("Книги", "Index", "Books", null)
                         @Html.MenuLink("Мой Аккаунт", "Index", "Profile", null)
                         @Html.MenuLink("Пользователи", "Index", "Users")
@@ -101,11 +101,11 @@
         @RenderBody()
     </div>
 
-    <footer style="position: relative">
+@*    <footer class="footer">
         <div class="container">
             <p style="text-align: center">&copy; BrainShare @System.DateTime.Now.ToString("yyyy")</p>
         </div>
-    </footer>
+    </footer>*@
 
     @*@Html.Partial("_Sidebar")*@
     @RenderSection("Scripts", required: false)

@@ -450,7 +450,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Activity.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Web.config" />
@@ -502,6 +502,7 @@
     <Content Include="Views\Books\FbShareBtn.cshtml" />
     <Content Include="Views\Books\TwShareBtn.cshtml" />
     <Content Include="Views\Books\VkShareBtn.cshtml" />
+    <Content Include="Views\Books\GooglePreview.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
