@@ -28,37 +28,17 @@
             </div>
             <div class="clearfix"></div>
             <div class="well">
-                
-        
-               
                 <div class="span3">
-                    
-                <div id="fb-root"></div>
-                <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/ru_RU/all.js#xfbml=1&appId=174844976010327";
-    fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-                         <div class="fb-like" data-href="http://developers.facebook.com/docs/reference/plugins/like" data-width="100" data-layout="button_count" data-show-faces="false" data-send="false"></div>
+                    @Html.Partial("FbShareBtn")
                 </div>
-                
-                <div class="span3">   <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ru">Твитнуть</a>
-                <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>            </div>
 
-            <div class="span3">
-                    <script type="text/javascript" src="http://vkontakte.ru/js/api/share.js?9" charset="windows-1251"></script>
-                            <script type="text/javascript">
-<!--
-    document.write(VK.Share.button());
-    -->
-                                  </script>
+                <div class="span3">
+                    @Html.Partial("TwShareBtn")
                 </div>
-                
-             
+                <div class="span3">
+                    @Html.Partial("VkShareBtn")
+                </div>
             </div>
-            
         </div>
 
     </div>

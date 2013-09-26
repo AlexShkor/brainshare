@@ -499,6 +499,9 @@
     <Content Include="Views\Shared\Disquas.cshtml" />
     <Content Include="Views\Shared\_Sidebar.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Books\FbShareBtn.cshtml" />
+    <Content Include="Views\Books\TwShareBtn.cshtml" />
+    <Content Include="Views\Books\VkShareBtn.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
