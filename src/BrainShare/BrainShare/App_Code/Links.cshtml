@@ -4,7 +4,7 @@
     <a href="/profile/view/@item.UserId">@item.UserName</a>
 }
 
-@helper BookLink(ActivityFeedItem item)
+@helper BookLink(ActivityFeedItem item, bool isWish = false)
 {
-    <a href="/books/info/@item.BookId">@item.BookTitle</a>
+    <a href="/books/info/@(isWish ? "wish/": "")@item.BookId">@item.BookTitle</a>
 }
