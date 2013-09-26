@@ -55,7 +55,10 @@
                     @if (Request.IsAuthenticated)
                     { 
                         <p class="navbar-text pull-right" id="currentUser">
-                            <a href="/profile" class="navbar-link">@ViewBag.UserName</a>&nbsp;<a  href="@Url.Action("Logout", "User")" >Выйти</a>
+                            <a class="label label-warning" href="/Profile/Inbox"><i class="icon-book icon-large "></i> <strong>0</strong></a>
+                            <a class="label label-info" href="/Profile/AllMessages"><i class="icon-envelope icon-large "></i> <strong>0</strong></a>
+                            <a href="/profile" class="navbar-link">@ViewBag.UserName</a>
+                            <a href="@Url.Action("Logout", "User")" >Выйти</a>
                         </p>
                        
                     }
@@ -73,8 +76,6 @@
                         @Html.MenuLink("Книги", "Index", "Books", null)
                         @Html.MenuLink("Мой Аккаунт", "Index", "Profile", null)
                         @Html.MenuLink("Пользователи", "Index", "Users")
-                        @Html.MenuLink("Помощь", "HowToAddBook", "Help")
-                        @Html.MenuLink("Отзывы", "Feedback", "Home")
                     </ul>
 
                     <ul class="nav" id="loadBar" style="display: none">
