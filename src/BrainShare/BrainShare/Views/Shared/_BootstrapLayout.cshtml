@@ -8,25 +8,39 @@
     <title>@ViewBag.Title | BrainShare</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="@Styles.Url("~/content/css")" rel="stylesheet"/>
-    <link href="@Url.Content("~/Content/bootstrapNavList.css")" rel="stylesheet"/>
+    <link href="~/Scripts/pnotify-1.2.0/jquery.pnotify.default.css" rel="stylesheet" />
+    <link href="~/Content/imgAreaSelect/imgareaselect-default.css" rel="stylesheet" />
 
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     @* Libs Scripts*@
     <script src="~/Scripts/jquery-2.0.1.min.js"></script>
     <script src="~/Scripts/jquery.signalR-1.1.2.min.js"></script>
+    <script src="~/Scripts/custom/notifications.js"></script>
     <script src="~/Scripts/knockout-2.2.1.js"></script>
+    <script src="~/Scripts/knockout.mapping-latest.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/knockout-bootstrap.min.js"></script>
     <script src="/signalr/hubs"></script>
     <script src="~/Scripts/jquery-ui-1.10.3.js"></script>
-
+    <script src="~/Scripts/pnotify-1.2.0/jquery.pnotify.min.js"></script>
     @* Our Scripts*@
     <script src="~/Scripts/custom/common.js"></script>
     <script src="~/Scripts/custom/addbook.js"></script>
-
+    <script src="~/Scripts/custom/allbooks.js"></script>
+    <script src="~/Scripts/custom/allusers.js"></script>
     @RenderSection("head", required: false)
     @* favicons and touch icons go here *@
+
+    @if (Request.IsAuthenticated)
+    {
+        <script>
+            window.CurrentUserId = "@ViewBag.UserId";
+        </script>
+    }
 </head>
 <body>
+
     <div class="navbar navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
@@ -36,69 +50,114 @@
                     <span class="icon-bar"></span>
                 </a>
                 <a class="brand" href="/">BrainShare</a>
+
                 <div class="nav-collapse collapse">
 
                     @if (Request.IsAuthenticated)
                     { 
-                        <p class="navbar-text pull-right ">
-                            <a href="/profile/mybooks" class="navbar-link">@ViewBag.UserName</a> (@User.Identity.Name) <a  href="@Url.Action("Logout", "User")" >Logout</a>
+                        <p class="navbar-text pull-right" id="currentUser">
+                            <a href="/profile" class="navbar-link">@ViewBag.UserName</a>&nbsp;<a  href="@Url.Action("Logout", "User")" >Выйти</a>
                         </p>
+                       
                     }
                     else
                     {
                         <ul class="nav pull-right">
                             @Html.MenuLink("Регистрация", "Register", "User")
                             @Html.MenuLink("Войти", "Login", "User")
-                            @Html.MenuLink("Facebook", "LoginWithFacebook", "User")
+                            @Html.MenuLink("Facebook", "LoginWithFacebook", "User", "facebook-link")
                         </ul>
                     }
 
-                    <ul class="nav">
+                    <ul class="nav" id="mainNav">
                         @Html.MenuLink("Активность", "Index", "Home")
-                        @Html.MenuLink("Искать", "Search", "Books")
-
-                        @{
-                            var actionsForProfile = new Dictionary<string, List<string>>();
-                            actionsForProfile["Сообщения"] = new List<string>() { "AllMessages", "Profile" };
-                            actionsForProfile["Входящие"] = new List<string>() { "Inbox", "Profile" };
-                            actionsForProfile["Мои Книги"] = new List<string>() { "MyBooks", "Profile" };
-                            actionsForProfile["Я ищу Книги"] = new List<string>() { "WishList", "Profile" };
-
-                        }
-                        @Html.MenuDropdown(actionsForProfile, "Профиль")
-
-                        @{
-                            var actionsForHelp = new Dictionary<string, List<string>>();
-                            actionsForHelp["Помощь"] = new List<string>() { "Index", "Help" };
-                            actionsForHelp["Как добавить книгу в коллекцию?"] = new List<string>() { "HowToAddBook", "Help" };
-                            actionsForHelp["Как найти нужную вам книгу?"] = new List<string>() { "HowToSearchBook", "Help" };
-                            actionsForHelp["Как обменяться книгами?"] = new List<string>() { "HowToExchangeBook", "Help" };
-                        }
-                        @Html.MenuDropdown(actionsForHelp, "Помощь")
-
+                        @Html.MenuLink("Книги", "Index", "Books", null)
+                        @Html.MenuLink("Мой Аккаунт", "Index", "Profile", null)
+                        @Html.MenuLink("Пользователи", "Index", "Users")
+                        @Html.MenuLink("Помощь", "HowToAddBook", "Help")
                         @Html.MenuLink("Отзывы", "Feedback", "Home")
                     </ul>
+
+                    <ul class="nav" id="loadBar" style="display: none">
+                        <li>
+                            <div id="progress" style="margin-left: 5%">
+                                <div id="bar"></div>
+                                <div id="percent">0 %</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div style="margin-left: 85%; margin-top: 8%;">
+                                <button id="cancelLoading" class="btn btn-mini btn-danger">Отменить</button>
+                            </div>
+                        </li>
+                    </ul>
+
                 </div>
             </div>
         </div>
     </div>
-    <div class="container">
-        @if (ViewBag.IsFacebookAccount)
-        {
-            <a id="selectorToggle" style="color: #4c66a4; font-weight: bold" href="#">Друзья из Фэйсбука</a>
-        }
-        <div id="fbFriendsSelector" style="position: absolute; left: 70%; top: 20%;"></div>
-        @RenderBody()
-        <hr>
-        <footer>
-            <p>&copy; BrainShare @System.DateTime.Now.ToString("yyyy")</p>
-        </footer>
-    </div>
-    @RenderSection("Scripts", required: false)
-    @if (ViewBag.IsFacebookAccount)
-    {
-        <script type="text/javascript" src="@Url.Content("~/Scripts/custom/fbfriendsSelector.js")"></script>
-    }
 
+    <div class="container">
+        @RenderBody()
+    </div>
+
+    <footer style="position: relative">
+        <div class="container">
+            <p style="text-align: center">&copy; BrainShare @System.DateTime.Now.ToString("yyyy")</p>
+        </div>
+    </footer>
+
+    @*@Html.Partial("_Sidebar")*@
+    @RenderSection("Scripts", required: false)
+
+
+    <script>
+        $(function () {
+            //$(".navbar-fixed-top a[href='/Books']").append("&nbsp;<span id='booksConter' class='badge badge-warning'>0</span>");
+            //$(".navbar-fixed-top a[href='/Profile']").append("&nbsp;<span id='messagesConter' class='badge badge-info'>0</span>");
+
+
+            var localStorageIsAvailable = isLocalStorageAvailable();
+
+            if (localStorageIsAvailable) {
+                debugger;
+                var booksCount = localStorage.getItem('booksCount');
+                var messagesCount = localStorage.getItem('messagesCount');
+                $("#booksCounter").text(booksCount);
+                $("#messagesCounter").text(messagesCount);
+            }
+
+
+            $.post("/profile/get-new-books-count", function (data) {
+
+                if (data.Result !== undefined) {
+                    if (localStorageIsAvailable) {
+                        localStorage.setItem('booksCount', data.Result);
+                    }
+
+                    $("#booksCounter").text(data.Result);
+                }
+            });
+
+            $.post("/profile/get-new-messages-count", function (data) {
+                if (data.Result !== undefined) {
+                    if (localStorageIsAvailable) {
+                        localStorage.setItem('messagesCount', data.Result);
+                    }
+
+                    $("#messagesCounter").text(data.Result);
+                }
+            });
+
+
+            function isLocalStorageAvailable() {
+                try {
+                    return 'localStorage' in window && window['localStorage'] !== null;
+                } catch (e) {
+                    return false;
+                }
+            }
+        });
+    </script>
 </body>
 </html>

@@ -11,7 +11,7 @@ namespace BrainShare.Documents
         public string Id { get; set; }
 
         public string OwnerId { get; set; }
-        public string OwnerName{ get; set; }
+        public string OwnerName { get; set; }
 
         public List<string> Users { get; set; }
 
@@ -59,7 +59,7 @@ namespace BrainShare.Documents
 
         public Message()
         {
-            
+
         }
 
         public Message(string userId, string content)

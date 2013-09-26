@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using BrainShare.Controllers;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace BrainShare.Documents
@@ -17,13 +19,16 @@ namespace BrainShare.Documents
 
         public string FacebookId { get; set; }
 
-        public string City { get; set; }
+        public AddressData Address { get; set; }
 
-        public SortedSet<string> Books { get; set; }
-        public SortedSet<string> WishList { get; set; }
         public List<ChangeRequest> Recieved { get; set; }
 
+        public string AvatarUrl { get; set; }
+        public string AvatarId { get; set; }
+
        
+        public DateTime Registered { get; set; }
+
         public List<ChangeRequest> Inbox { get; set; }
 
         public string FullName
@@ -33,11 +38,11 @@ namespace BrainShare.Documents
 
         public User()
         {
-            Books = new SortedSet<string>();
-            WishList = new SortedSet<string>();
             Inbox = new List<ChangeRequest>();
             Recieved = new List<ChangeRequest>();
             Votes = new Dictionary<string, int>();
+            ThreadsWithUnreadMessages = new List<string>();
+            Address = new AddressData();
         }
 
         public void AddRecievedBook(string bookId, string userId)
@@ -64,7 +69,54 @@ namespace BrainShare.Documents
         {
             get { return !string.IsNullOrWhiteSpace(FacebookId);}
         }
-        
+
+        public List<string> ThreadsWithUnreadMessages { get; set; }
+
+        public int GetSummaryVotes()
+        {
+            return Votes.Values.Sum(x => x);
+        }
+    }
+
+    public class AddressData
+    {
+        public string Original { get; set; }
+        public string Formatted { get; set; }
+        public string Country { get; set; }
+        public string Locality { get; set; }
+
+        public bool IsValid { get; set; }
+
+        public AddressData(RegisterViewModel model)
+        {
+            Original = model.original_address;
+            Formatted = model.formatted_address;
+            Country = model.country;
+            Locality = model.locality;
+            IsValid = true;
+        }
+
+        public AddressData()
+        {
+            
+        }
+
+        public AddressData(string fbLocationData)
+        {
+            Original = fbLocationData;
+            Formatted = fbLocationData;
+            try
+            {
+                var arr = fbLocationData.Split(',');
+                Country = arr[1].Trim();
+                Locality = arr[0].Trim();
+                IsValid = true;
+            }
+            catch
+            {
+                IsValid = false;
+            }
+        }
     }
 
     public class ChangeRequest
@@ -72,6 +124,7 @@ namespace BrainShare.Documents
         public string UserId { get; set; }
         public string BookId { get; set; }
         public DateTime Created { get; set; }
+        public bool Viewed { get; set; }
 
         public ChangeRequest()
         {

@@ -23,15 +23,15 @@ namespace BrainShare.Controllers
         public MessageViewModel(Message message, User recipient)
         {
             var notMe = message.UserId == recipient.Id;
-            Init(message.UserId, message.Content, message.Posted, notMe, recipient.FullName);
+            Init(message.UserId, message.Content, message.Posted.ToString("o"), notMe, recipient.FullName);
         }
 
-        public void  Init(string userId, string content, DateTime posted, bool notMe, string from = null)
+        public void Init(string userId, string content, string posted, bool notMe, string from = null)
         {
             UserId = userId;
-            From = notMe ? from : "Я";
+            From = notMe ? from : "меня";
             Class = notMe ? "span6 alert alert-info" : "span6 alert pull-right alert-success text-right";
-            Posted = posted.ToRelativeDate();
+            Posted = posted;
             Content = content;
         }
     }

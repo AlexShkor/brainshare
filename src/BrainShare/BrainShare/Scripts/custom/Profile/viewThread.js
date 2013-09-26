@@ -39,6 +39,7 @@
         send("/profile/thread/post", formData, function (message) {
             self.content("");
             self.messages.unshift(message);
+            $("abbr.timeago").timeago();
         });
         return false;
     };
@@ -52,8 +53,7 @@
                 self.messages.unshift(e);
             }
         };
-
-        $.connection.hub.start(function () {
+        window.hubReady.done(function() {
             threadHub.server.join(self.threadId);
         });
     };

@@ -11,23 +11,40 @@
     </script>
 }
 
-@if (Model.Book != null)
-{
+
+
+@{
+   
     ViewBag.Title = Model.Book.Title;
-    @Html.Partial("Details", Model.Book)
 }
 
-<div>
-    <h4>Пользователи которые меняют эту книгу</h4>
-    <table class="table table-condensed table-striped">
-        <tbody data-bind="foreach: owners">
-            <tr>
-                <td data-bind="text: UserName"></td>
-                <td>
-                    <a class="btn btn-small" href="#" data-bind="click: $root.seeProfile">Профиль</a>
-                    <a class="btn btn-small" href="#" data-bind="click: $root.sendRequest">Отослать запрос на обмен</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+
+
+<div class="span12">
+    <h4>@Model.Book.Title</h4>
+    <div>
+        <div class="span3">
+            @Html.Partial("DetailsPartial", Model.Book)
+        </div>
+        <div class="span9">
+
+            <span class="label label-info">Пользователи которые меняют эту книгу</span>
+            <table class="table table-condensed table-striped">
+                <tbody data-bind="foreach: owners">
+                    <tr>
+                        <td data-bind="text: UserName"></td>
+                        <td data-bind="text: City"></td>
+                        <td>
+                            <a class="btn btn-small" href="#" data-bind="click: $root.seeProfile">Профиль</a>
+                            <a class="btn btn-small" href="#" data-bind="click: $root.sendRequest">Отправить запрос на обмен</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <div>
+        @Html.Partial("Disquas")
+    </div>
 </div>

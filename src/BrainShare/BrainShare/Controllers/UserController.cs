@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Metadata.Edm;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
 using BrainShare.Authentication;
@@ -106,24 +108,16 @@ namespace BrainShare.Controllers
                                       {
                                           Id = GetIdForUser(),
                                           FirstName = model.FirstName,
-                                          City = model.City,
+                                          Address = new AddressData(model),
                                           LastName = model.LastName,
                                           Email = model.Email,
-                                          Password = model.Password
+                                          Password = model.Password,
+                                          Registered = DateTime.Now
                                       };
 
                     _users.AddUser(newUser);
 
-                    var mailer = new MailService();
-                    var welcomeEmail = mailer.SendWelcomeMessage(newUser);
-                    welcomeEmail.Deliver();
-
-                    var login = new LoginView()
-                                    {
-                                        Email = newUser.Email,
-                                        Password = newUser.Password
-                                    };
-
+                    SendMailAsync(newUser); 
                     return RedirectToAction("Login", "User");
                 }
                 else
@@ -132,6 +126,16 @@ namespace BrainShare.Controllers
                 }
             }
             return View(model);
+        }
+
+        private void SendMailAsync(User newUser)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                var mailer = new MailService();
+                var welcomeEmail = mailer.SendWelcomeMessage(newUser);
+                welcomeEmail.Deliver();
+            });
         }
 
         public static string GetIdForUser()
@@ -164,6 +168,7 @@ namespace BrainShare.Controllers
                     return RedirectToAction("BindFacebook", new {email = email, facebookId = facebookId});
                 }
 
+                var address = new AddressData((string)fbUser.location.name);
                 user = new User
                 {
                     Id = ObjectId.GenerateNewId().ToString(),
@@ -171,8 +176,9 @@ namespace BrainShare.Controllers
                     FacebookId = fbUser.id,
                     FirstName = fbUser.first_name,
                     LastName = fbUser.last_name,
-                    City = fbUser.location.name.Split(',')[0]
-                    
+                    Address = address,
+                    AvatarUrl = string.Format("https://graph.facebook.com/{0}/picture?width=250&height=250", fbUser.id),
+                    Registered = DateTime.Now
                 };
                 _users.Save(user);
             }

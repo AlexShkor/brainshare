@@ -1,0 +1,47 @@
+﻿<style>
+    .books .span3 {
+        margin-left: 0px;
+        margin-right: 20px;
+    }
+</style>
+<div class="row-fluid">
+
+    <div>
+        <table class="table table-condensed">
+            <tbody data-bind="foreach: items">
+                <tr>
+                    <td style="width: 128px;">
+
+                        <img data-bind="attr: { src: Image }" />
+                    </td>
+                    <td>
+                        <strong data-bind="text: Title"></strong>
+                        <br />
+                        <span data-bind="text: Subtitle"></span>
+                    </td>
+                    <td>
+
+                        <span data-bind="foreach: Authors">
+                            <span data-bind="text: $data"></span>
+                        </span>
+                    </td>
+                    <td>
+                        <span data-bind="text: Publisher"></span>
+                        <strong data-bind="text: PublishedDate"></strong>
+                        <span class="label" data-bind="text: PageCount"></span>стр. </td>
+
+                    <td style="width: 140px">
+                        <div class="well well-small">
+                         @*   <a href="#" class="btn btn-info btn-block" data-bind="click: $root.info">Информация</a>*@
+                            <a href="#" class="btn btn-primary btn-block" data-bind="visible: ($root.owned().indexOf(GoogleBookId) == -1), click: $root.give">У меня есть</a>
+                            <a href="#" class="btn btn-success btn-block" data-bind="click: $root.take">Мне нужна</a>
+                        </div>
+
+
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

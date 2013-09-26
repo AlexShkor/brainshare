@@ -9,57 +9,146 @@
     })
 </script>
 
-<h3>Профиль пользователя <span data-bind="text: user.Name"></span></h3>
-
-<div class="btn-group-vertical raiting">
-    <p><button class="btn" data-bind="click: increaseReputation, enable: canIncrease"><i class="icon-chevron-up"></i></button></p>
-    <p>Votes: <span data-bind="text: summaryVotes"></span></p>
-    <p><button class="btn" data-bind="click: decreaseReputation, enable: canDecrease"><i class="icon-chevron-down"></i></button></p>
-</div>
 
 
-@if (!Model.IsMe)
-{
-    <div>
-        <a class="btn btn-small" href="#" data-bind="click: sendMessage">Отправить сообщение</a>
-    </div>
-}
-
-<br />
-
-@if (Model.Books.Count > 0)
-{
-    <div>
-        <button class="btn btn-success" data-bind="click: getOwnedBooks, visible: showOwnedBooksButton">Показать все книги пользователя</button>
-        <div data-bind="visible: showOwnedBooks">
-            <button class="btn btn-danger" data-bind="click: hideOwnedBooks">Cкрыть книги</button>
-            <table class="table table-condensed">
-                <tbody data-bind="foreach: listOfOwnedBooks">
-                    <tr class="success">
-                        <td>
-                            <img data-bind="attr:{src: Image}" />
-                        </td>
-                        <td data-bind="text: Title"></td>
-                        <td data-bind="text: Authors"></td>
-                        <td data-bind="text: Subtitle"></td>
-                        <td data-bind="text: Publisher"></td>
-                        <td data-bind="text: PublishedDate"></td>
-                        <td data-bind="text: PageCount"></td>
-                    </tr>
-                </tbody>
-            </table>
+<div class="row">
+    <div class="span3">
+  <h4 class="text-center" data-bind="text: user.Name"></h4>
+        <div class="avatar-container">
+            <img  alt="аватар" class="pics" data-bind="attr: { src: user.Avatar }" />
         </div>
+             <br/>
+
+        <div style="text-align: center">
+            <div class="btn-group">
+                <button class="btn btn-small"  style="font-weight: bold; font-size: 18px; color: red" data-bind="click: decreaseReputation, enable: canDecrease">-</button>
+                <a class="btn btn-small btn-info"  data-bind="text: summaryVotes"></a>
+                <button class="btn btn-small" style="font-weight: bold; font-size: 18px; color: green" data-bind="click: increaseReputation, enable: canIncrease">+</button>
+            </div>
+        </div>
+        <br/>
+        @if (!Model.IsMe)
+        {
+            <div>
+                <a class="btn btn-small btn-primary" href="#" data-bind="click: sendMessage">Отправить сообщение</a>
+            </div>
+        }
     </div>
-}
-@if (Model.Books.Count == 0)
-{
-    <p>У пользователя <span data-bind="text: user.Name"></span>нет книг</p>
-}
+<div class="span9">
+    
+
+    <div class="tabbable pull-left">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#s1" data-toggle="tab">Книги</a></li>
+            <li><a href="#s2" data-toggle="tab">Ищет</a></li>
+            @* <li><a href="#s3" data-toggle="tab">Информация</a></li>*@
+        </ul>
+        <div class="tab-content">
+
+            <div class="tab-pane active" id="s1">
+                <table class="table table-condensed">
+                    <tbody data-bind="foreach: listOfOwnedBooks">
+                        <tr>
+                            <td class="book-image-col">
+                                <img data-bind="attr: { src: Image }" />
+                            </td>
+                            <td data-bind="text: Title"></td>
+                            <td data-bind="text: Authors"></td>
+                            <td data-bind="text: Subtitle"></td>
+                            <td data-bind="text: Publisher"></td>
+                            <td data-bind="text: PublishedDate"></td>
+                            <td data-bind="text: PageCount"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tab-pane" id="s2">
+                <table class="table table-condensed">
+                    <tbody data-bind="foreach: listOfWishedBooks">
+                        <tr>
+                            <td class="book-image-col">
+                                <img data-bind="attr: { src: Image }" />
+                            </td>
+                            <td data-bind="text: Title"></td>
+                            <td data-bind="text: Authors"></td>
+                            <td data-bind="text: Subtitle"></td>
+                            <td data-bind="text: Publisher"></td>
+                            <td data-bind="text: PublishedDate"></td>
+                            <td data-bind="text: PageCount">стр </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            @* <div class="tab-pane" id="s3">
+            <p>Сейчас вы просматриваете содержимое третьей секции.</p>
+        </div>*@
+
+        </div>
+
+    </div>
+</div>
+    </div>
+
+
+
+<!-- /.tabbable -->
+
+
+
+
+
+
+
+
+
+
+
+@*<div class="clearfix"></div>*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br />
 
-@if (Model.WishList.Count > 0)
-{
+
+@*<div>
+     <button class="btn btn-success" data-bind="click: getOwnedBooks, visible: showOwnedBooksButton">Показать все книги пользователя</button>
+    <div data-bind="visible: showOwnedBooks">
+        <button class="btn btn-danger" data-bind="click: hideOwnedBooks">Cкрыть книги</button>
+        <table class="table table-condensed">
+            <tbody data-bind="foreach: listOfOwnedBooks">
+                <tr class="success">
+                    <td>
+                        <img data-bind="attr: { src: Image }" />
+                    </td>
+                    <td data-bind="text: Title"></td>
+                    <td data-bind="text: Authors"></td>
+                    <td data-bind="text: Subtitle"></td>
+                    <td data-bind="text: Publisher"></td>
+                    <td data-bind="text: PublishedDate"></td>
+                    <td data-bind="text: PageCount"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br />
     <div>
         <button class="btn btn-primary" data-bind="click: getWishedBooks, visible: showWishedBooksButton">Показать книги которые ищет пользователь</button>
         <div data-bind="visible: showWishedBooks">
@@ -68,7 +157,7 @@
                 <tbody data-bind="foreach: listOfWishedBooks">
                     <tr class="success">
                         <td>
-                            <img data-bind="attr:{src: Image}" />
+                            <img data-bind="attr: { src: Image }" />
                         </td>
                         <td data-bind="text: Title"></td>
                         <td data-bind="text: Authors"></td>
@@ -81,8 +170,5 @@
             </table>
         </div>
     </div>
-}
-@if (Model.WishList.Count == 0)
-{
-    <p>Пользователь <span data-bind="text: user.Name"></span>пока не ищет ни одной книги</p>
-}
+</div>
+*@

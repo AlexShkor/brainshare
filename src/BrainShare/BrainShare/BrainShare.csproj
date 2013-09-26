@@ -58,6 +58,9 @@
     <Reference Include="AttributeRouting.Web.Mvc">
       <HintPath>..\packages\AttributeRouting.3.5.6\lib\net40\AttributeRouting.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="CloudinaryDotNet">
+      <HintPath>..\packages\CloudinaryDotNet.1.0.5\lib\net35\CloudinaryDotNet.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetOpenAuth.AspNet, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DotNetOpenAuth.AspNet.4.3.0.13117\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
@@ -236,13 +239,29 @@
     <Compile Include="Authentication\IUserProvider.cs" />
     <Compile Include="Authentication\UserIdentity.cs" />
     <Compile Include="Authentication\UserProvider.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="ContainerConfigure.cs" />
     <Compile Include="Controllers\HelpController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Documents\UserData.cs" />
     <Compile Include="Extensions\BootstrapExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperExt.cs" />
+    <Compile Include="Extensions\HttpPostedFileBaseExtensions.cs" />
     <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="Facebook\FacebookSelectorViewModel.cs" />
+    <Compile Include="GoogleDto\GoogleBookDto.cs" />
+    <Compile Include="Hubs\NotificationsHub.cs" />
     <Compile Include="Hubs\ThreadHub.cs" />
+    <Content Include="Content\imgAreaSelect\border-anim-h.gif" />
+    <Content Include="Content\imgAreaSelect\border-anim-v.gif" />
+    <Content Include="Content\imgAreaSelect\border-h.gif" />
+    <Content Include="Content\imgAreaSelect\border-v.gif" />
+    <Content Include="Content\imgAreaSelect\imgareaselect-animated.css" />
+    <Content Include="Content\imgAreaSelect\imgareaselect-default.css" />
+    <Content Include="Content\imgAreaSelect\imgareaselect-deprecated.css" />
+    <Content Include="Images\user-default-avatar.jpg" />
+    <Content Include="Scripts\custom\allusers.js" />
+    <Content Include="Scripts\custom\notifications.js" />
     <Compile Include="SessionKeys.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Facebook\FacebookAuthorizeAttribute.cs" />
@@ -294,6 +313,7 @@
   <ItemGroup>
     <Content Include="App_Readme\Elmah.MongoDB.txt" />
     <Content Include="App_Readme\Elmah.txt" />
+    <Content Include="Content\big-loading.gif" />
     <Content Include="Content\body.css" />
     <Content Include="Content\bootstrap-mvc-validation.css" />
     <Content Include="Content\bootstrap-responsive.css" />
@@ -310,6 +330,9 @@
     <Content Include="Content\help\take_learning_sql_crop.png" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\Jcrop.gif" />
+    <Content Include="Content\jquery.Jcrop.css" />
+    <Content Include="Content\Profile.css" />
     <Content Include="Content\site.css" />
     <Content Include="Content\fbfriends.css" />
     <Content Include="Content\tdfriendselector.png" />
@@ -375,37 +398,52 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="Content\me.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="App_Code\Links.cshtml" />
     <Content Include="App_Code\KO.cshtml" />
     <Content Include="Images\loading.gif" />
     <Content Include="img\glyphicons-halflings.png" />
+    <Content Include="Scripts\bootstrap.file-input.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\cloudinary\jquery.cloudinary.js" />
+    <Content Include="Scripts\cloudinary\jquery.fileupload.js" />
+    <Content Include="Scripts\cloudinary\jquery.iframe-transport.js" />
+    <Content Include="Scripts\cloudinary\jquery.ui.widget.js" />
     <Content Include="Scripts\custom\addbook.js" />
     <Content Include="Scripts\custom\Books\acceptRequestFrom.js" />
     <Content Include="Scripts\custom\Books\info.js" />
     <Content Include="Scripts\custom\Books\take.js" />
+    <Content Include="Scripts\custom\allbooks.js" />
     <Content Include="Scripts\custom\Profile\allMessages.js" />
     <Content Include="Scripts\custom\common.js" />
     <Content Include="Scripts\custom\Profile\inbox.js" />
     <Content Include="Scripts\custom\Profile\myBooks.js" />
+    <Content Include="Scripts\custom\Profile\myProfile.js" />
     <Content Include="Scripts\custom\Profile\userProfile.js" />
     <Content Include="Scripts\custom\Profile\viewThread.js" />
     <Content Include="Scripts\custom\Profile\wishList.js" />
     <None Include="Scripts\jquery-2.0.1.intellisense.js" />
     <Content Include="Scripts\custom\fbfriendsSelector.js" />
+    <Content Include="Scripts\imgAreaSelect\jquery.imgareaselect.pack.js" />
     <Content Include="Scripts\jquery-2.0.1.js" />
     <Content Include="Scripts\jquery-2.0.1.min.js" />
     <Content Include="Scripts\jquery-2.0.1.min.map" />
     <Content Include="Scripts\jquery-2.0.0.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
+    <Content Include="Scripts\jquery.color.js" />
+    <Content Include="Scripts\jquery.geocomplete.js" />
+    <Content Include="Scripts\jquery.geocomplete.min.js" />
+    <Content Include="Scripts\jquery.Jcrop.js" />
     <Content Include="Scripts\jquery.signalR-1.1.2.js" />
     <Content Include="Scripts\jquery.signalR-1.1.2.min.js" />
+    <Content Include="Scripts\jquery.timeago_ru.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.form.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -420,6 +458,10 @@
     <Content Include="Scripts\knockout.reactor.js" />
     <Content Include="Scripts\ko.editables.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\pnotify-1.2.0\jquery.pnotify.default.css" />
+    <Content Include="Scripts\pnotify-1.2.0\jquery.pnotify.js" />
+    <Content Include="Scripts\pnotify-1.2.0\jquery.pnotify.min.js" />
+    <Content Include="Scripts\pnotify-1.2.0\use for pines style icons\jquery.pnotify.default.icons.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -473,6 +515,15 @@
     <Content Include="Views\Help\_ViewStart.cshtml" />
     <Content Include="Views\User\GetFbFriends.cshtml" />
     <Content Include="Views\User\BindFacebook.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Books\Index.cshtml" />
+    <Content Include="Views\Books\_BooksList.cshtml" />
+    <Content Include="Views\Shared\_BooksLayout.cshtml" />
+    <Content Include="Views\Books\_ViewStart.cshtml" />
+    <Content Include="Views\Profile\_ProfileLayout.cshtml" />
+    <Content Include="Views\Shared\Disquas.cshtml" />
+    <Content Include="Views\Shared\_Sidebar.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

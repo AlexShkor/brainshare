@@ -3,76 +3,103 @@
 @{
     ViewBag.Title = "Register";
 }
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+<script src="~/Scripts/jquery.geocomplete.min.js"></script>
 
 @using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     <fieldset>
-        <legend>Fill the form</legend>
-         <div class="control-group">
-        <div class="controls">
-
+       
+    <legend>Fill the form</legend>
+        <div class="span6">
+            <div class="control-group">
+                <div class="controls">
+                    <a class="btn btn-large btn-primary" href="@Url.Action("LoginWithFacebook","User")">Войти через Facebook</a>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="FirstName">
+                    FirstName
+                </label>
+                <div class="controls">
+                    @Html.TextBox("FirstName", Model.FirstName)
                 
-            <a class="btn btn-large btn-primary" href="@Url.Action("LoginWithFacebook","User")">Войти через Facebook</a>
+                    @Html.ValidationMessage("FirstName")
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="FirstName">
-                FirstName
-            </label>
-            <div class="controls">
-                @Html.TextBox("FirstName", Model.FirstName)
+            <div class="control-group">
+                <label class="control-label" for="LastName">
+                    LastName
+                </label>
+                <div class="controls">
+                    @Html.TextBox("LastName", Model.LastName)
+                    @Html.ValidationMessage("LastName") 
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="City">
+                    Введите ваш город
+                </label>
+                <div class="controls">
+                    <input id="geocomplete" placeholder="введите город" name="original_address" type="text" value="@Model.original_address"/>
+                </div>
+                <div id="locationValues" class="hide">
+                    <input name="formatted_address" type="hidden" value="@Model.formatted_address">
+                    <input name="country" type="hidden" value="@Model.country">
+                    <input name="locality" type="hidden" value="@Model.locality">
+                </div>
+             
+                <script>
+                    $(function () {
+                        $("#geocomplete").geocomplete({
+                            map: '.map_canvas',
+                            details: "#locationValues"
+                        });
+                    });
+                </script>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Email">
+                    Email
+                </label>
+                <div class="controls">
+                    @Html.TextBox("Email", Model.Email)
                 
-                @Html.ValidationMessage("FirstName")
+                    @Html.ValidationMessage("Email")
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="LastName">
-                LastName
-            </label>
-            <div class="controls">
-                @Html.TextBox("LastName", Model.LastName)
-                @Html.ValidationMessage("LastName") 
-            </div>
-        </div>
-         <div class="control-group">
-            <label class="control-label" for="City">
-                City
-            </label>
-            <div class="controls">
-                @Html.TextBox("City", Model.City)
-                @Html.ValidationMessage("City") 
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="Email">
-                Email
-            </label>
-            <div class="controls">
-                @Html.TextBox("Email", Model.Email)
+            <div class="control-group">
+                <label class="control-label" for="FirstName">
+                    Password
+                </label>
+                <div class="controls">
+                    @Html.Password("Password", Model.Password)
                 
-                @Html.ValidationMessage("Email")
+                    @Html.ValidationMessage("Password")
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="FirstName">
-                Password
-            </label>
-            <div class="controls">
-                @Html.Password("Password", Model.Password)
+            <div class="control-group">
+                <label class="control-label" for="FirstName">
+                    Confirm Password
+                </label>
+                <div class="controls">
+                    @Html.Password("ConfirmPassword", Model.ConfirmPassword)
                 
-                @Html.ValidationMessage("Password")
+                    @Html.ValidationMessage("ConfirmPassword")
+                </div>
             </div>
+             
         </div>
-        <div class="control-group">
-            <label class="control-label" for="FirstName">
-                Confirm Password
-            </label>
-            <div class="controls">
-                @Html.Password("ConfirmPassword", Model.ConfirmPassword)
-                
-                @Html.ValidationMessage("ConfirmPassword")
+        <div class="span5">
+            <div class="thumbnail">
+                <div class="map_canvas" style="height: 400px">
+                    
+                </div>
             </div>
+           
+            
         </div>
+        <div class="clearfix"></div>
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">
                 Register

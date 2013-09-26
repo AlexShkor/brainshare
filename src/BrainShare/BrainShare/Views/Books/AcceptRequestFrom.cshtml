@@ -26,35 +26,6 @@
     </div>
 </div>
 <div>
-    @if (Model.BooksYouNeed.Count > 0)
-    {
-        <div>
-            <div>
-                <span>Книги пользователя </span>
-                <span data-bind="text: fromUser.UserName"></span>
-                <span>которые вам нужны</span>
-            </div>
-            <table class="table table-condensed">
-                <tbody data-bind="foreach: booksYouNeed">
-                    <tr class="success">
-                        <td>
-                            <img data-bind="attr:{src: Image}" />
-                        </td>
-                        <td data-bind="text: Title"></td>
-                        <td data-bind="text: Authors"></td>
-                        <td data-bind="text: Subtitle"></td>
-                        <td data-bind="text: Publisher"></td>
-                        <td data-bind="text: PublishedDate"></td>
-                        <td data-bind="text: PageCount"></td>
-                        <td>
-                            <a class="btn btn-small" href="#" data-bind="click: $root.exchange">Поменяться</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    }
-
     <div>
         <div>
             <span>Все книги пользователя </span>
@@ -62,11 +33,11 @@
         </div>
         <table class="table table-condensed">
             <tbody data-bind="foreach: allBooks">
-                <tr>
-                    <td>
-                        <img data-bind="attr:{src: Image}" />
+                <tr data-bind="css: { success: $root.booksYouNeedTitles().indexOf(Title) >= 0 }">
+                    <td class="book-image-col">
+                        <img  data-bind="attr:{src: Image}" />
                     </td>
-                    <td data-bind="text: Title"></td>
+                    <td class="span3"><strong  data-bind="text: Title"></strong></td>
                     <td data-bind="text: Authors"></td>
                     <td data-bind="text: Subtitle"></td>
                     <td data-bind="text: Publisher"></td>

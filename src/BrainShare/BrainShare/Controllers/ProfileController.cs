@@ -1,7 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
+using System.IO.Pipes;
 using System.Linq;
+using System.Net;
+using System.Net.Mime;
+using System.Security.Cryptography;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
@@ -9,8 +21,12 @@ using BrainShare.Documents;
 using BrainShare.Hubs;
 using BrainShare.Services;
 using BrainShare.ViewModels;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
+using Thread = BrainShare.Documents.Thread;
+using BrainShare.Extensions;
 
 
 namespace BrainShare.Controllers
@@ -20,43 +36,48 @@ namespace BrainShare.Controllers
     public class ProfileController : BaseController
     {
         private readonly BooksService _books;
+        private readonly WishBooksService _wishBooks;
         private readonly UsersService _users;
         private readonly ThreadsService _threads;
 
-        public ProfileController(BooksService books, UsersService users, ThreadsService threads)
+        public ProfileController(BooksService books, UsersService users, ThreadsService threads, WishBooksService whishBooks)
         {
             _books = books;
             _users = users;
             _threads = threads;
+            _wishBooks = whishBooks;
         }
 
         public ActionResult Index()
         {
-            return View();
+            var user = _users.GetById(UserId);
+            var model = new MyProfileViewModel(user);
+
+            return View(model);
         }
 
         [GET("view/{id}")]
         public ActionResult ViewUserProfile(string id)
         {
             var user = _users.GetById(id);
-           
+
             var model = new UserProfileModel(user, UserId);
 
-            model.CanIncrease =  user.GetVote(id, UserId) <= 0;
-            model.CanDecrease =  user.GetVote(id, UserId) >= 0;
-            model.SummaryVotes = user.Votes.Values.Sum(x => x);
+            model.CanIncrease = user.GetVote(id, UserId) <= 0;
+            model.CanDecrease = user.GetVote(id, UserId) >= 0;
+            model.SummaryVotes = user.GetSummaryVotes();
 
             Title(user.FullName);
             return View(model);
         }
 
-        [POST][ValidateInput(false)]
+        [POST]
+        [ValidateInput(false)]
         public ActionResult DontHave(BookViewModel book)
         {
             try
             {
-                _users.RemoveFromBooks(book.Id, UserId);
-                _books.RemoveOwner(book.Id, UserId);
+                _books.Remove(book.Id);
             }
             catch (Exception ex)
             {
@@ -72,8 +93,7 @@ namespace BrainShare.Controllers
         {
             try
             {
-                _users.RemoveFromWishList(book.Id, UserId);
-                _books.RemoveLooker(book.Id, UserId);
+                _wishBooks.Remove(book.Id);
             }
             catch (Exception ex)
             {
@@ -94,7 +114,7 @@ namespace BrainShare.Controllers
         public ActionResult WishList()
         {
             Title("Я ищу Книги");
-            var books = _books.GetUserWantedBooks(UserId);
+            var books = _wishBooks.GetUserBooks(UserId);
             var model = books.Select(x => new BookViewModel(x)).ToList();
             return View(model);
         }
@@ -106,9 +126,9 @@ namespace BrainShare.Controllers
             var books = _books.GetByIds(user.Inbox.Select(x => x.BookId)).ToList();
             var users = _users.GetByIds(user.Inbox.Select(x => x.UserId)).ToList();
             var model = new InboxViewModel();
-            model.Items = user.Inbox.OrderBy(x => x.Created).Select(x =>
+            model.Items = user.Inbox.OrderByDescending(x => x.Created).Select(x =>
                                             new InboxItem(x.Created, books.Find(b => b.Id == x.BookId),
-                                                          users.Find(u => u.Id == x.UserId))).ToList();
+                                                          users.Find(u => u.Id == x.UserId), !x.Viewed)).ToList();
             return View(model);
         }
 
@@ -156,9 +176,10 @@ namespace BrainShare.Controllers
             var me = _users.GetById(UserId);
             var recipient = _users.GetById(thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId);
             var model = new MessagingThreadViewModel(thread, me, recipient);
-
+            SetThreadIsReadAsync(UserId, threadId);
             return View("Messages", model);
         }
+
 
         [POST("thread/post")]
         public ActionResult PostToThread(string threadId, string content)
@@ -172,19 +193,39 @@ namespace BrainShare.Controllers
             {
                 return HttpNotFound();
             }
+            var sendToUserId = thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId;
+            UpdateUnreadMessagesAsync(threadId, sendToUserId);
             var model = new MessageViewModel();
-            model.Init(UserId, content, DateTime.Now, false);
+            model.Init(UserId, content, DateTime.Now.ToString("o"), false);
             var callbackModel = new MessageViewModel();
-            callbackModel.Init(UserId, content, DateTime.Now, true, thread.OwnerId == UserId ? thread.OwnerName : thread.RecipientName);
+            callbackModel.Init(UserId, content, DateTime.Now.ToString("o"), true, thread.OwnerId == UserId ? thread.OwnerName : thread.RecipientName);
             ThreadHub.HubContext.Clients.Group(threadId).messageSent(callbackModel);
+            NotificationsHub.SendGenericText(sendToUserId, User.Identity.Name, content);
             return Json(model);
         }
 
-        [POST("getBooks")]
-        public ActionResult GetUserBooks(IEnumerable<string> ids)
+        private void UpdateUnreadMessagesAsync(string threadId, string toUserId)
         {
-            var books = _books.GetByIds(ids);
-            return Json(new { books = books });
+            Task.Factory.StartNew(() => _users.AddThreadToUnread(toUserId, threadId));
+        }
+
+        private void SetThreadIsReadAsync(string userId, string threadId)
+        {
+            Task.Factory.StartNew(() => _users.RemoveThreadFromUnread(userId, threadId));
+        }
+
+        [POST("get-user-books")]
+        public ActionResult GetUserBooks(string userId)
+        {
+            var books = _books.GetUserBooks(userId).Select(x => new BookViewModel(x));
+            return Json(books);
+        }
+
+        [POST("get-user-wish-books")]
+        public ActionResult GetUserWishBooks(string userId)
+        {
+            var books = _wishBooks.GetUserBooks(userId).Select(x => new BookViewModel(x));
+            return Json(books);
         }
 
         public ActionResult AdjustReputation(string id, int value)
@@ -212,5 +253,97 @@ namespace BrainShare.Controllers
 
             return Json(new { canIncrease = canIncrease, canDecrease = canDecrease, summaryVotes = summaryVotes });
         }
+
+        [POST]
+        public JsonResult UploadImage(HttpPostedFileBase uploadedFile)
+        {
+            var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
+            bool isValidImage;
+
+            if (uploadedFile != null)
+            {
+                isValidImage = uploadedFile.IsValidImage();
+            }
+            else
+            {
+                // TODO: actions if close button pressed
+                return null;
+            }
+
+            if (isValidImage)
+            {
+                var user = _users.GetById(UserId);
+                uploadedFile.InputStream.Seek(0, SeekOrigin.Begin);
+
+                if (user.AvatarId != null)
+                {
+                    cloudinary.Destroy(new DeletionParams(user.AvatarId));
+                }
+
+                var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams()
+                 {
+                     File = new CloudinaryDotNet.Actions.FileDescription("filename", uploadedFile.InputStream),
+                 };
+
+                var uploadResult = cloudinary.Upload(uploadParams);
+                string avatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(500).Height(500).Crop("limit")).BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
+
+                user.AvatarId = uploadParams.PublicId;
+                _users.Save(user);
+
+                return Json(new { avatarUrl = avatarUrl, avatarId = uploadResult.PublicId, avatarFormat = uploadResult.Format });
+            }
+
+            return Json(new { error = "Файл загруженный вами не является изображением или его размеры слишком малы" });
+        }
+
+        [POST]
+        public JsonResult ResizeAvatar(string avatarId, string avatarFormat, string x, string y, string width, string height)
+        {
+            var user = _users.GetById(UserId);
+            var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
+            string realAvatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(500).Height(500).Crop("limit").Chain().X(x).Y(y).Width(width).Height(height).Crop("crop")).BuildUrl(String.Format("{0}.{1}", avatarId, avatarFormat));
+            //string realAvatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(250).Height(250).Crop("fill").Width(500).Height(500).Crop("limit").Chain().X(x).Y(y).Width(width).Height(height).Crop("crop")).BuildUrl(String.Format("{0}.{1}", avatarId, avatarFormat));
+
+            user.AvatarUrl = realAvatarUrl;
+            _users.Save(user);
+
+            return Json(new { url = realAvatarUrl });
+        }
+
+        [POST("get-new-books-count")]
+        public ActionResult GetNewBooksCount()
+        {
+            var user = _users.GetById(UserId);
+            return Json(new { Result = user.Inbox.Count(x => !x.Viewed) });
+        }
+
+        [POST("get-new-messages-count")]
+        public ActionResult ThreadsWithUnreadMessages()
+        {
+            var user = _users.GetById(UserId);
+            return Json(new { Result = user.ThreadsWithUnreadMessages.Count });
+        }
+    }
+
+
+    public class MyProfileViewModel
+    {
+        public MyProfileViewModel()
+        {
+
+        }
+
+        public MyProfileViewModel(User user)
+        {
+            Name = user.FullName;
+            AvatarUrl = user.AvatarUrl ?? Constants.DefaultAvatarUrl;
+        }
+
+        public string Name { get; set; }
+        public string AvatarUrl { get; set; }
+
+        public HttpPostedFileBase UploadedFile { get; set; }
+        public int Id { get; set; }
     }
 }

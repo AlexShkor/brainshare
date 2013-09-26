@@ -1,23 +1,32 @@
 ﻿@using Newtonsoft.Json
 @model BrainShare.Controllers.AllThreadsViewModel
-
+@{
+    Layout = "_ProfileLayout.cshtml";
+}
 @section Scripts {
     <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Profile/allMessages.js")"></script>
     <script type="text/javascript">
         $(function () {
             var model = new AllMessagesModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
-            ko.applyBindings(model);
+            ko.applyBindings(model, $("#profileBody")[0]);
         });
     </script>
 }
-      <h2>Сообщения</h2>
-<table class="table table-condensed table-striped">
-    <tbody data-bind="foreach: items">
-        <tr>
-            <td data-bind="text: To"></td>
-            <td>
-                <a class="btn btn-small" href="#" data-bind="click: $root.reply">Ответить</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="span9" style="margin-left: 5%">
+    <h4>Сообщения</h4>
+    <table class="table table-condensed table-striped">
+        <tbody data-bind="foreach: items">
+            <tr>
+                <td class="span7" data-bind="text: To"></td>
+                <td class="span2">
+                    <a class="btn btn-small" href="#" data-bind="click: $root.reply">Ответить</a>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot data-bind="visible: items().length == 0">
+            <tr>
+                <td>У вас нет сообщений.</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

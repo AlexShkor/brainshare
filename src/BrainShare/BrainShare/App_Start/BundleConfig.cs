@@ -21,7 +21,9 @@ namespace BrainShare
                 "~/Content/bootstrap.css",
                 "~/Content/body.css",
                 "~/Content/bootstrap-responsive.css",
-                "~/Content/bootstrap-mvc-validation.css"
+                "~/Content/bootstrap-mvc-validation.css",
+                "~/Content/jquery.Jcrop.css",
+                "~/Content/Profile.css"
                 ));
 
 

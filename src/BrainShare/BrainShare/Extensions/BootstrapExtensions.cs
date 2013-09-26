@@ -9,21 +9,23 @@ namespace BrainShare.Extensions
 {
     public static class BootstrapExtensions
     {
-        public static MvcHtmlString MenuLink(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName)
+        public static MvcHtmlString MenuLink(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, string additionalCssClass = null, string innerHtml = null)
         {
             var currentAction = htmlHelper.ViewContext.RouteData.GetRequiredString("action");
             var currentController = htmlHelper.ViewContext.RouteData.GetRequiredString("controller");
 
+            
+            var innerLink = String.Format("<a href=\"/{0}/{1}\">{2}{3}</a>", controllerName, actionName, linkText, innerHtml);
+            
             var li = new TagBuilder("li")
             {
-                InnerHtml = htmlHelper.ActionLink(linkText, actionName, controllerName).ToHtmlString()
+                InnerHtml = innerLink
+                //InnerHtml = htmlHelper.ActionLink(linkText, actionName, controllerName).ToHtmlString()
             };
 
-            if (controllerName == "Books" && actionName == "Search")
-                li.AddCssClass("book-search");
-
-            if (controllerName == "User" && actionName == "LoginWithFacebook")
-                li.AddCssClass("facebook-link");
+            
+            if (additionalCssClass != null)
+                li.AddCssClass(additionalCssClass);
 
             if (controllerName == currentController && actionName == currentAction)
                 li.AddCssClass("active");
@@ -31,7 +33,7 @@ namespace BrainShare.Extensions
             return new MvcHtmlString(li.ToString());
         }
 
-        public static MvcHtmlString MenuDropdown(this HtmlHelper htmlHelper, Dictionary<string, List<string>> actions, string name )
+        public static MvcHtmlString MenuDropdown(this HtmlHelper htmlHelper, Dictionary<string, List<string>> actions, string name)
         {
             var currentAction = htmlHelper.ViewContext.RouteData.GetRequiredString("action");
             var currentController = htmlHelper.ViewContext.RouteData.GetRequiredString("controller");
@@ -39,7 +41,7 @@ namespace BrainShare.Extensions
             var dropdownLi = new TagBuilder("li");
             dropdownLi.AddCssClass("dropdown");
             dropdownLi.InnerHtml = "<a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">" + name + "<b class=\"caret\"></b></a>";
-            
+
             var innerUl = new TagBuilder("ul");
             innerUl.AddCssClass("dropdown-menu");
 
@@ -67,3 +69,24 @@ namespace BrainShare.Extensions
         }
     }
 }
+
+
+
+//public static MvcHtmlString MenuLink(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, string additionalCssClass = null)
+//        {
+//            var currentAction = htmlHelper.ViewContext.RouteData.GetRequiredString("action");
+//            var currentController = htmlHelper.ViewContext.RouteData.GetRequiredString("controller");
+
+//            var li = new TagBuilder("li")
+//            {
+//                InnerHtml = htmlHelper.ActionLink(linkText, actionName, controllerName).ToHtmlString()
+//            };
+
+//            if (additionalCssClass != null)
+//                li.AddCssClass(additionalCssClass);
+
+//            if (controllerName == currentController && actionName == currentAction)
+//                li.AddCssClass("active");
+
+//            return new MvcHtmlString(li.ToString());
+//        }

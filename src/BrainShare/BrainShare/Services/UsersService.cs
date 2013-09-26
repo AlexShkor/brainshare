@@ -63,19 +63,25 @@ namespace BrainShare.Services
                                                                                       });
         }
 
-        public void RemoveFromWishList(string bookId, string userId)
+        public void UpdateRequestViewed(string userId, string bookId, string requestFromUserId)
         {
-            var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
-            user.WishList.Remove(bookId);
-            Items.Save(user);
+            Items.Update(Query.And(Query<User>.EQ(x => x.Id, userId), Query<User>.ElemMatch(x => x.Inbox,
+                (el) => el.And(el.EQ(x => x.BookId, bookId), el.EQ(x => x.UserId, requestFromUserId)))),
+                Update.Set("Inbox.$.Viewed", true));
         }
 
-        public void RemoveFromBooks(string bookId, string userId)
+        public void AddThreadToUnread(string userId, string threadId)
         {
-            var user = Items.FindOne(Query<User>.EQ(x => x.Id, userId));
-            user.Books.Remove(bookId);
-            Items.Save(user);
+            Items.Update(
+                Query<User>.EQ(x => x.Id, userId),
+                Update<User>.AddToSet(x=> x.ThreadsWithUnreadMessages, threadId));
         }
 
+        public void RemoveThreadFromUnread(string userId, string threadId)
+        {
+            Items.Update(
+                Query<User>.EQ(x => x.Id, userId),
+                Update<User>.Pull(x => x.ThreadsWithUnreadMessages, threadId));
+        }
     }
 }

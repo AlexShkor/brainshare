@@ -26,6 +26,11 @@ namespace System
                 return timeSpan.Days > 30 ? String.Format(TimeAgoPrefix + "{0} месяцев назад", timeSpan.Days / 30) : TimeAgoPrefix + "месяц";
 
             return timeSpan.Days > 365 ? String.Format(TimeAgoPrefix + "{0} лет назад", timeSpan.Days / 365) : TimeAgoPrefix + "в прошлом году";
-        } 
+        }
+
+        public static String GetTimestamp(this DateTime value)
+        {
+            return value.ToString("yyyyMMddHHmmssffff");
+        }
     }
 }
