@@ -29,7 +29,7 @@ namespace BrainShare.GoogleDto
             {
                 Id = ObjectId.GenerateNewId().ToString(),
                 GoogleBookId = GoogleBookId,
-                Authors = Authors,
+                Authors = Authors ?? new List<string>(),
                 ISBN = ISBNS ?? new List<string>(),
                 Country = Country,
                 Image = Image,
