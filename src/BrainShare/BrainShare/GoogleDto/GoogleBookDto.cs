@@ -29,7 +29,7 @@ namespace BrainShare.GoogleDto
             {
                 Id = ObjectId.GenerateNewId().ToString(),
                 GoogleBookId = GoogleBookId,
-                Authors = Authors,
+                Authors = Authors ?? new List<string>(),
                 ISBN = ISBNS ?? new List<string>(),
                 Country = Country,
                 Image = Image,
@@ -40,9 +40,9 @@ namespace BrainShare.GoogleDto
                 SearchInfo = SearchInfo,
                 Publisher = Publisher
             };
-            var dateParts = PublishedDate.Split('-');
             try
             {
+                var dateParts = PublishedDate.Split('-');
                 book.PublishedYear = int.Parse(dateParts[0]);
                 book.PublishedMonth = int.Parse(dateParts[1]);
                 book.PublishedDay = int.Parse(dateParts[2]);

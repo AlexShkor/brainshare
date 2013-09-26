@@ -24,8 +24,6 @@ $(function() {
                 text: e.Message,
             });
         };
-        window.hubReady = $.connection.hub.start(function() {
-            hub.server.join(window.CurrentUserId);
-        });
+        window.hubReady = $.connection.hub.start();
     }
 });

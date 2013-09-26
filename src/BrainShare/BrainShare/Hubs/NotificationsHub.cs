@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.SignalR;
+﻿using System.Threading.Tasks;
+using BrainShare.Authentication;
+using Microsoft.AspNet.SignalR;
 
 namespace BrainShare.Hubs
 {
@@ -12,11 +14,21 @@ namespace BrainShare.Hubs
             }
         }
 
-        public void Join(string userId)
+        public override Task OnConnected()
         {
-            Groups.Add(Context.ConnectionId, userId);
+            return Task.Factory.StartNew(() =>
+            {
+                Groups.Add(Context.ConnectionId, ((UserIdentity) Context.User.Identity).User.Id);
+            });
         }
 
+        public override Task OnDisconnected()
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                Groups.Remove(Context.ConnectionId, ((UserIdentity)Context.User.Identity).User.Id);
+            });
+        }
 
         public static void SendGenericText(string userId, string title, string message)
         {

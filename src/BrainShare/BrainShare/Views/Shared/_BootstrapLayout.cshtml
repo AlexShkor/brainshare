@@ -22,7 +22,6 @@
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/knockout-bootstrap.min.js"></script>
     <script src="/signalr/hubs"></script>
-    <script src="~/Scripts/jquery-ui-1.10.3.js"></script>
     <script src="~/Scripts/pnotify-1.2.0/jquery.pnotify.min.js"></script>
     @* Our Scripts*@
     <script src="~/Scripts/custom/common.js"></script>
@@ -56,7 +55,10 @@
                     @if (Request.IsAuthenticated)
                     { 
                         <p class="navbar-text pull-right" id="currentUser">
-                            <a href="/profile" class="navbar-link">@ViewBag.UserName</a>&nbsp;<a  href="@Url.Action("Logout", "User")" >Выйти</a>
+                            <a class="label label-warning" href="/Profile/Inbox"><i class="icon-book icon-large "></i> <strong>0</strong></a>
+                            <a class="label label-info" href="/Profile/AllMessages"><i class="icon-envelope icon-large "></i> <strong>0</strong></a>
+                            <a href="/profile" class="navbar-link">@ViewBag.UserName</a>
+                            <a href="@Url.Action("Logout", "User")" >Выйти</a>
                         </p>
                        
                     }
@@ -70,12 +72,10 @@
                     }
 
                     <ul class="nav" id="mainNav">
-                        @Html.MenuLink("Активность", "Index", "Home")
+                        @Html.MenuLink("Активность", "Activity", "Home")
                         @Html.MenuLink("Книги", "Index", "Books", null)
                         @Html.MenuLink("Мой Аккаунт", "Index", "Profile", null)
                         @Html.MenuLink("Пользователи", "Index", "Users")
-                        @Html.MenuLink("Помощь", "HowToAddBook", "Help")
-                        @Html.MenuLink("Отзывы", "Feedback", "Home")
                     </ul>
 
                     <ul class="nav" id="loadBar" style="display: none">
@@ -101,11 +101,11 @@
         @RenderBody()
     </div>
 
-    <footer style="position: relative">
+@*    <footer class="footer">
         <div class="container">
             <p style="text-align: center">&copy; BrainShare @System.DateTime.Now.ToString("yyyy")</p>
         </div>
-    </footer>
+    </footer>*@
 
     @*@Html.Partial("_Sidebar")*@
     @RenderSection("Scripts", required: false)

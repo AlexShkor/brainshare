@@ -1,0 +1,14 @@
+﻿@model IEnumerable<BrainShare.Documents.ActivityFeed>
+<h4>Активность</h4>
+<table class="table table-condensed table-striped">
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.Partial(item.ActivityType.ToString(), item)</td>
+           </tr>
+        }
+
+    </tbody>
+</table>
