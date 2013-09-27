@@ -87,7 +87,7 @@ namespace BrainShare.Controllers
                 _books.Save(doc);
 
                 // test
-                PostToFbWall(bookDto, user.FacebookId);
+                //PostToFbWall(bookDto, user.FacebookId);
 
             }
             else
