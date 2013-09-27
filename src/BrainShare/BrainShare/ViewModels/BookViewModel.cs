@@ -15,11 +15,11 @@ namespace BrainShare.Controllers
         public string Publisher { get; set; }
         public string Subtitle { get; set; }
         public string Image { get; set; }
- 		public UserData UserData { get; set; }
         public string Address { get; set; }
         public string UserId { get; set; }
         public string UserName { get; set; }
         public string UserProfile { get; set; }
+        public string AvatarUrl { get; set; }
 
         public BookViewModel(Book book)
         {
@@ -38,7 +38,7 @@ namespace BrainShare.Controllers
             UserId = book.UserData.UserId;
             UserName = book.UserData.UserName;
             UserProfile = "/profile/view/" + book.UserData.UserId;
-			UserData = book.UserData;
+            AvatarUrl = book.UserData.AvatarUrl;
         }
 
         public BookViewModel()
