@@ -1,0 +1,91 @@
+﻿@using Newtonsoft.Json
+@model BrainShare.Controllers.EditBookViewModel
+
+<script type="text/javascript">
+    $(function () {
+
+        var model = new EditBookViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+        ko.applyBindings(model);
+    });
+
+</script>
+
+
+<form class="form-horizontal">
+    <!-- ko with: model-->
+
+    <div class="pull-right">
+        <img data-bind="attr: { src: Image }"></img>
+    </div>
+    <fieldset>
+
+        <legend data-bind="text: Title"></legend>
+        @Html.Partial("KnockoutSummary")
+
+        <div class="control-group">
+            <label class="control-label">Название</label>
+            <div class="controls">
+                <input type="text" data-bind="value: Title" class="input-xlarge">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Описание</label>
+            <div class="controls">
+                <input type="text" data-bind="value: Subtitle" class="input-xlarge">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Издатель</label>
+            <div class="controls">
+                <input type="text" data-bind="value: Publisher" class="input-xlarge">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Дата Издания</label>
+            <div class="controls">
+                <input type="text" data-bind="value: PublishedDate" class="input-xlarge">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Google Book Id</label>
+            <div class="controls">
+                <input type="text" data-bind="value: GoogleBookId" class="input-xlarge">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">ISBN</label>
+            <div class="controls" data-bind="foreach: { data: ISBNs, as: 'isbn' }">
+                <input type="text" data-bind="value: isbn" class="input-xlarge">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Authors</label>
+            <div class="controls" data-bind="foreach: { data: Authors, as: 'author' }">
+                <input type="text" data-bind="value: author" class="input-xlarge">
+            </div>
+        </div>
+        <!-- Select Basic -->
+        <div class="control-group">
+            <label class="control-label" for="selectbasic">Язык</label>
+            <div class="controls">
+                <select data-bind="options: Languages, optionsText: 'NativeName', value: Language, optionsCaption: 'Выберете язык...', optionsValue: 'Symbol'" class="input-xlarge"></select>
+            </div>
+        </div>
+
+        <!-- File Button -->
+        <div class="control-group">
+            <label class="control-label" for="filebutton">Картинка</label>
+            <div class="controls">
+                <input id="filebutton" name="filebutton" class="input-file" type="file">
+            </div>
+        </div>
+        <div class="form-actions">
+            @Html.Partial("SubmitBtn")
+            @Html.Partial("PreviousPageBtn")
+        </div>
+    </fieldset>
+    <!-- /ko -->
+</form>

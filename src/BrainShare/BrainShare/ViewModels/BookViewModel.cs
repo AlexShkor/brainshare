@@ -15,6 +15,10 @@ namespace BrainShare.Controllers
         public string Publisher { get; set; }
         public string Subtitle { get; set; }
         public string Image { get; set; }
+        public string Address { get; set; }
+        public string UserId { get; set; }
+        public string UserName { get; set; }
+        public string UserProfile { get; set; }
 
         public BookViewModel(Book book)
         {
@@ -29,8 +33,10 @@ namespace BrainShare.Controllers
             Image = book.Image;
             GoogleBookId = book.GoogleBookId;
             Authors = string.Join(", ", book.Authors);
-
-            
+            Address = book.UserData.Address.Formatted;
+            UserId = book.UserData.UserId;
+            UserName = book.UserData.UserName;
+            UserProfile = "/profile/view/" + book.UserData.UserId;
         }
 
         public BookViewModel()

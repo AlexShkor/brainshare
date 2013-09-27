@@ -10,6 +10,8 @@ using BrainShare.Documents;
 using BrainShare.GoogleDto;
 using BrainShare.Hubs;
 using BrainShare.Services;
+using BrainShare.Services.Validation;
+using BrainShare.ViewModels.Base;
 using Newtonsoft.Json;
 
 namespace BrainShare.Controllers
@@ -56,6 +58,16 @@ namespace BrainShare.Controllers
             var book = id.HasValue() ? _books.GetById(id) : _wishBooks.GetById(wishBookId);
             var model = new BookViewModel(book);
             return View("Info", model);
+        }
+
+        [GET("edit/{id}")]
+        [GET("edit/wish/{wishBookId}")]
+        public ActionResult Edit(string id, string wishBookId)
+        {
+            var languages = new LanguagesService().GetAllLanguages();
+            var book = id.HasValue() ? _books.GetById(id) : _wishBooks.GetById(wishBookId);
+            var model = new EditBookViewModel(book, languages);
+            return View("Edit", model);
         }
 
 
@@ -231,6 +243,46 @@ namespace BrainShare.Controllers
         private void SaveFeedAsync(ActivityFeed feed)
         {
             Task.Factory.StartNew(() => _feeds.Save(feed));
+        }
+    }
+
+    public class EditBookViewModel: BaseViewModel
+    {
+        
+        public string Id { get; set; }
+        public string GoogleBookId { get; set; }
+        public List<string> ISBNs { get; set; }
+        public string Title { get; set; }
+        public List<string> Authors { get; set; }
+        public string SearchInfo { get; set; }
+        public int? PageCount { get; set; }
+        public string PublishedDate { get; set; }
+        public string Publisher { get; set; }
+        public string Subtitle { get; set; }
+        public string Image { get; set; }
+        public string Language { get; set; }
+        public IEnumerable<LanguageInfo> Languages { get; set; }
+
+        public EditBookViewModel(Book book, IEnumerable<LanguageInfo> languages)
+        {
+            Id = book.Id;
+            ISBNs = book.ISBN;
+            Title = book.Title;
+            SearchInfo = book.SearchInfo;
+            PageCount = book.PageCount;
+            PublishedDate = book.PublishedDate.ToString("yyyy MMM");
+            Publisher = book.Publisher;
+            Subtitle = book.Subtitle;
+            Image = book.Image;
+            GoogleBookId = book.GoogleBookId;
+            Authors = book.Authors;
+            Language = book.Language;
+            Languages = languages;
+        }
+
+        public EditBookViewModel()
+        {
+          
         }
     }
 
