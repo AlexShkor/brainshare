@@ -21,7 +21,8 @@
             @Html.Partial("DetailsPartial", Model)
         </div>
         <div class="span9">
-            <div class="btn-group">
+            <div class="well">Владелец: <a data-bind="attr: { href: book.UserProfile }, text: book.UserName"></a> <strong data-bind="    text: book.Address"></strong></div>
+            <div class="well">
                 <button type="button" data-bind="click: take" class="btn btn-success">Мне нужна</button>
                 <button type="button" data-bind="click: give" class="btn btn-primary">У меня есть</button>
             </div>
@@ -38,7 +39,9 @@
                     @Html.Partial("VkShareBtn")
                 </div>
             </div>
-            
+            <div class="well">
+                <a data-bind="attr: { href: '/books/edit/' + book.Id }">Редактировать</a>
+            </div>
             <span data-bind="text: book.UserData.UserName"></span> <img style="width: 50px; height: 50px;" data-bind="attr: {src: book.UserData.AvatarUrl}"/>
         </div>
 
@@ -52,7 +55,7 @@
             <h4>Предпросмотр</h4>
             <div>
                 @Html.Partial("GooglePreview", Model.GoogleBookId)
-            
+
             </div>
         </div>
     </div>
