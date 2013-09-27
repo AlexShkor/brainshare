@@ -31,15 +31,23 @@
                         <span class="label" data-bind="text: PageCount"></span>стр. </td>
 
                     <td style="width: 140px">
-                        <div class="well well-small">
-                         @*   <a href="#" class="btn btn-info btn-block" data-bind="click: $root.info">Информация</a>*@
-                            <a href="#" class="btn btn-primary btn-block" data-bind="visible: ($root.owned().indexOf(GoogleBookId) == -1), click: $root.give">У меня есть</a>
+
+                        <div class="well well-small" data-bind="attr: { id: 'wishBtns-' + GoogleBookId }">
+                            @*<a href="#" class="btn btn-info btn-block" data-bind="click: $root.info">Информация</a>*@
+                            <a href="#" class="btn btn-primary btn-block" data-bind="visible: ($root.owned().indexOf(GoogleBookId) == -1), click: $root.showConfirmBtns.bind($data, GoogleBookId)">У меня есть</a>
                             <a href="#" class="btn btn-success btn-block" data-bind="click: $root.take">Мне нужна</a>
                         </div>
 
+                        <div style="display: none" class="well well-small" data-bind="attr: { id: 'confirmBtns-' + GoogleBookId }">
+                            <label class="checkbox">
+                                <input type="checkbox" data-bind="attr: { id: 'cb-' + GoogleBookId }">
+                                Рассказать на Фэйсбуке
+                            </label>
+                            <a href="#" class="btn btn-warning btn-block" data-bind="click: $root.give">Добавить</a>
+                            <a href="#" class="btn btn-danger btn-block" data-bind="click: $root.hideConfirmBtns.bind($data, GoogleBookId)">Отмена</a>
+                        </div>
 
                     </td>
-
                 </tr>
             </tbody>
         </table>

@@ -5,6 +5,8 @@
         public string UserId { get; set; }
         public string UserName { get; set; }
         public AddressData Address { get; set; }
+        public string AvatarUrl { get; set; }
+
 
         public UserData()
         {
@@ -16,6 +18,7 @@
             UserId = user.Id;
             UserName = user.FullName;
             Address = user.Address;
+            AvatarUrl = user.AvatarUrl;
         }
     }
 }

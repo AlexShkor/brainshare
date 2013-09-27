@@ -1,5 +1,5 @@
 ﻿
-var AddBookModel = function(ownedItems) {
+var AddBookModel = function (ownedItems) {
     var self = this;
 
     this.postfix = "&key=AIzaSyAFFukdkjHMHh5WmucwuxVGt18XA9LEJ1I&language=ru&country=";
@@ -8,25 +8,25 @@ var AddBookModel = function(ownedItems) {
     this.query = ko.observable();
     this.loading = ko.observable(false);
     this.selectedLanguage = ko.observable("RU");
-   
+
 
     this.availableLanguages = ko.observableArray(
-       [ { title: "Русский", code: "RU" },
+       [{ title: "Русский", code: "RU" },
         { title: "Английский", code: "US" }]
     );
-    
+
     this.items = ko.observableArray();
-    
+
     this.owned = ko.observableArray(ownedItems);
 
     this.search = function () {
         if (self.query()) {
             self.loading(true);
             $.getJSON(self.baseUrl + encodeURIComponent(self.query()) + self.postfix + self.selectedLanguage(),
-                function(response) {
+                function (response) {
                     if (response.items) {
                         self.items.removeAll();
-                        $.each(response.items, function(index, item) {
+                        $.each(response.items, function (index, item) {
                             self.items.push(new BookViewModel(item, self));
                         });
                     }
@@ -35,30 +35,61 @@ var AddBookModel = function(ownedItems) {
         }
     };
 
-    this.languageChanged = function(item) {
-        setTimeout(function() {
+    this.languageChanged = function (item) {
+        setTimeout(function () {
             self.search();
         }, 10);
     };
 
+    this.showConfirmBtns = function (googleBookId) {
+        $("#wishBtns-" + googleBookId).hide();
+        $("#confirmBtns-" + googleBookId).fadeIn();
+    };
+
+    this.hideConfirmBtns = function (googleBookId) {
+        $("#confirmBtns-" + googleBookId).hide();
+        $("#wishBtns-" + googleBookId).fadeIn();
+    };
+
     this.give = function (item) {
+        debugger;
         self.owned.push(item.GoogleBookId);
+        var shareOnFb = $("#cb-" + item.GoogleBookId).prop("checked");
+        item.ShareOnFb = shareOnFb;
+
+        //var data = {
+        //    bookDto: ko.toJS(item),
+        //    shareOnFb: shareOnFb
+        //};
+
+
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/books/give",
+        //    contentType: "application/json; charset=utf-8",
+        //    data: data,
+        //    dataType: "json",
+        //    success: function(response) {
+
+        //    }
+        //});
+
         send("/books/give", item, function (response) {
-           
+
         });
     };
 
 
     this.info = function (item) {
-        var callback = function(response) {
+        var callback = function (response) {
             window.location = "/books/info/" + response.Id;
         };
-        send("/books/info", item, callback );
+        send("/books/info", item, callback);
     };
 
 
     this.take = function (item) {
-        
+
         send("/books/take", item, function (response) {
             window.location = "/books/take/" + response.Id;
         });
@@ -67,11 +98,11 @@ var AddBookModel = function(ownedItems) {
 };
 
 
-var BookViewModel = function(item, parent) {
+var BookViewModel = function (item, parent) {
     var self = this;
     this.GoogleBookId = item.id;
     this.Country = parent.selectedLanguage();
-    this.SearchInfo = (item.searchInfo || { }).textSnippet;
+    this.SearchInfo = (item.searchInfo || {}).textSnippet;
     this.Authors = ko.observableArray(item.volumeInfo.authors);
     this.Categories = ko.observableArray(item.volumeInfo.categories);
     this.Language = item.volumeInfo.language;
@@ -84,7 +115,7 @@ var BookViewModel = function(item, parent) {
     var isbns = item.volumeInfo.industryIdentifiers;
     if (isbns) {
         this.ISBNS = ko.observableArray();
-        $.each(isbns, function(index, isbn) {
+        $.each(isbns, function (index, isbn) {
             self.ISBNS.push(isbn.identifier);
         });
     }

@@ -10,6 +10,7 @@ using BrainShare.Documents;
 using BrainShare.GoogleDto;
 using BrainShare.Hubs;
 using BrainShare.Services;
+using Facebook;
 using BrainShare.Services.Validation;
 using BrainShare.ViewModels.Base;
 using Newtonsoft.Json;
@@ -46,7 +47,7 @@ namespace BrainShare.Controllers
             var model = new List<string>();
             if (UserId != null)
             {
-                model = _books.GetUserBooks(UserId).Select(x=> x.GoogleBookId).ToList();
+                model = _books.GetUserBooks(UserId).Select(x => x.GoogleBookId).ToList();
             }
             return View(model);
         }
@@ -80,7 +81,7 @@ namespace BrainShare.Controllers
             {
                 //no such books on the service
             }
-            return Json(new {doc.Id});
+            return Json(new { doc.Id });
         }
 
         [HttpPost]
@@ -96,12 +97,16 @@ namespace BrainShare.Controllers
                 NotificationsHub.SendGenericText(UserId, "Книга добавлена",
                     string.Format("{0} добавлена в вашу книную полку", doc.Title));
                 _books.Save(doc);
+
+                // test
+                //PostToFbWall(bookDto, user.FacebookId);
+
             }
             else
             {
-                return Json(new {Error = "Книга уже добавлена."});
+                return Json(new { Error = "Книга уже добавлена." });
             }
-            return Json(new {Id = doc.Id});
+            return Json(new { Id = doc.Id });
         }
 
         [HttpPost]
@@ -172,7 +177,7 @@ namespace BrainShare.Controllers
             model.AllBooks = _books.GetUserBooks(userId).Select(x => new BookViewModel(x)).ToList();
             model.BooksYouNeedTitles = _wishBooks.GetUserBooks(userId).Select(x => x.Title).ToList();
             var fromUser = _users.GetById(userId);
-            model.FromUser = new UserItemViewModel(null,fromUser);
+            model.FromUser = new UserItemViewModel(null, fromUser);
             var yourBook = _books.GetById(requestedBookId);
             model.YourBook = new BookViewModel(yourBook);
             UpdateRequestViewedAsync(UserId, requestedBookId, userId);
@@ -190,12 +195,12 @@ namespace BrainShare.Controllers
         {
             if (userId == UserId)
             {
-                return View("CustomError", (object) "Вы не можете бмениваться книгами с самим собой.");
+                return View("CustomError", (object)"Вы не можете бмениваться книгами с самим собой.");
             }
             try
             {
                 var you = _users.GetById(UserId);
-                var him = _users.GetById(userId);
+                var he = _users.GetById(userId);
 
                 var himBook = _books.GetById(bookId);
                 himBook.UserData = new UserData(you);
@@ -203,19 +208,19 @@ namespace BrainShare.Controllers
                 _wishBooks.Delete(you.Id, himBook.GoogleBookId);
 
                 var yourBook = _books.GetById(yourBookId);
-                yourBook.UserData = new UserData(him);
+                yourBook.UserData = new UserData(he);
                 _books.Save(yourBook);
-                _wishBooks.Delete(him.Id, yourBook.GoogleBookId);
+                _wishBooks.Delete(he.Id, yourBook.GoogleBookId);
 
                 you.AddRecievedBook(bookId, userId);
                 you.Inbox.RemoveAll(x => x.UserId == userId && x.BookId == yourBookId);
                 _users.Save(you);
 
-                him.AddRecievedBook(yourBookId, you.Id);
-                _users.Save(him);
+                he.AddRecievedBook(yourBookId, you.Id);
+                _users.Save(he);
 
-                SaveFeedAsync(ActivityFeed.BooksExchanged(yourBook, you, himBook, him));
-                SendExchangeMail(yourBook, you, himBook, him);
+                SaveFeedAsync(ActivityFeed.BooksExchanged(yourBook, you, himBook, he));
+                SendExchangeMail(yourBook, you, himBook, he);
                 SendRequestAcceptedNotification(userId, yourBook, himBook, you);
             }
             catch
@@ -243,6 +248,15 @@ namespace BrainShare.Controllers
         private void SaveFeedAsync(ActivityFeed feed)
         {
             Task.Factory.StartNew(() => _feeds.Save(feed));
+        }
+
+
+        private void PostToFbWall(GoogleBookDto bookDto, string facebookId)
+        {
+            var token = System.Web.HttpContext.Current.Session[SessionKeys.FbAccessToken] as string;
+            var client = new FacebookClient(token);
+
+            client.Post("/" + facebookId + "/feed", new { message = bookDto.Title });
         }
     }
 
