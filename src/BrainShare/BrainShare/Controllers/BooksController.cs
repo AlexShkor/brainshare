@@ -51,9 +51,10 @@ namespace BrainShare.Controllers
         }
 
         [GET("info/{id}")]
-        public ActionResult Info(string id)
+        [GET("info/wish/{wishBookId}")]
+        public ActionResult Info(string id, string wishBookId)
         {
-            var book = _books.GetById(id);
+            var book = id.HasValue() ? _books.GetById(id) : _wishBooks.GetById(wishBookId);
             var model = new BookViewModel(book);
             return View("Info", model);
         }

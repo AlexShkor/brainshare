@@ -51,6 +51,7 @@ namespace BrainShare.Controllers
         public ActionResult Index()
         {
             var user = _users.GetById(UserId);
+            Title(user.FullName + " мой аккаунт");
             var model = new MyProfileViewModel(user);
 
             return View(model);
