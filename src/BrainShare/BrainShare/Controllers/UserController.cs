@@ -117,7 +117,7 @@ namespace BrainShare.Controllers
 
                     _users.AddUser(newUser);
 
-                    SendMailAsync(newUser); 
+                    SendMailAsync(newUser);
                     return RedirectToAction("Login", "User");
                 }
                 else
@@ -154,7 +154,7 @@ namespace BrainShare.Controllers
             }
 
             dynamic fbUser = _fb.Get("me");
-            
+
             var user = _users.GetByFacebookId((string)fbUser.id);
             if (user == null)
             {
@@ -165,7 +165,7 @@ namespace BrainShare.Controllers
 
                 if (emailIs)
                 {
-                    return RedirectToAction("BindFacebook", new {email = email, facebookId = facebookId});
+                    return RedirectToAction("BindFacebook", new { email = email, facebookId = facebookId });
                 }
 
                 var address = new AddressData((string)fbUser.location.name);
@@ -183,7 +183,7 @@ namespace BrainShare.Controllers
                 _users.Save(user);
             }
             Auth.LoginUser(user, true);
-           
+
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
@@ -196,7 +196,7 @@ namespace BrainShare.Controllers
             var csrfToken = Guid.NewGuid().ToString();
             Session[SessionKeys.FbCsrfToken] = csrfToken;
             var state = Convert.ToBase64String(Encoding.UTF8.GetBytes(_fb.SerializeJson(new { returnUrl = returnUrl, csrf = csrfToken })));
-            const string scope = "user_about_me,email";
+            const string scope = "user_about_me,email,publish_actions";
             var fbLoginUrl = _fb.GetLoginUrl(
                 new
                 {
@@ -251,6 +251,10 @@ namespace BrainShare.Controllers
                                               code = code
                                           });
 
+                //var client = new FacebookClient();
+                //dynamic me = client.Get("totten");
+
+               
                 Session[SessionKeys.FbAccessToken] = result.access_token;
                 if (result.ContainsKey("expires"))
                     Session[SessionKeys.FbExpiresIn] = DateTime.Now.AddSeconds(result.expires);
@@ -271,7 +275,7 @@ namespace BrainShare.Controllers
 
         public ActionResult GetFbFriends()
         {
-            
+
             var currentUser = _users.GetById(UserId);
 
             if (currentUser.IsFacebookAccount)
@@ -282,26 +286,26 @@ namespace BrainShare.Controllers
 
                 var fbIds = fbFriends.Select(x => x.FacebookId).ToList();
 
-                var existingUsersIds = _users.GetExistingUsersIds(fbIds).ToDictionary(x=> x.FacebookId, c=> c);
+                var existingUsersIds = _users.GetExistingUsersIds(fbIds).ToDictionary(x => x.FacebookId, c => c);
                 var existingFrends = fbFriends.Where(x => existingUsersIds.ContainsKey(x.FacebookId)).ToList();
 
                 foreach (var friend in existingFrends)
                 {
                     friend.Id = existingUsersIds[friend.FacebookId].Id;
                 }
-                
+
                 var model = new FacebookSelectorViewModel(existingFrends);
 
-                return View(model); 
+                return View(model);
             }
-            
+
             return null;
         }
 
         [HttpGet]
         public ActionResult BindFacebook(string email, string facebookId)
         {
-            var model = new BindFacebookViewModel() { Email = email, FacebookId = facebookId};
+            var model = new BindFacebookViewModel() { Email = email, FacebookId = facebookId };
             return View(model);
         }
 
@@ -320,6 +324,8 @@ namespace BrainShare.Controllers
 
             return View(model);
         }
+
+
     }
 }
 
