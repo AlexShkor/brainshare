@@ -6,36 +6,37 @@
     ViewBag.Title = "Помощь | " + ViewBag.Subtitle;
 }
 
-<div class="container-fluid">
-
-
     <div class="row-fluid">
 
         <div class="span3">
-            <h4>@ViewBag.UserName</h4>
 
             <div class="sidebar-nav">
-                <ul class="nav nav-list nav-stacked">
-                    <li class="nav-header">Профиль</li>
-                    @Html.MenuLink("Мой Профиль", "Index", "Profile", null)
-                    @* @Html.MenuLink("Сообщения", "AllMessages", "Profile", null, "<span id=\"messagesConuter\" class=\"badge badge-info\" style=\"margin-left: 10px\">0</span>")*@
-                    @Html.MenuLink("Сообщения", "AllMessages", "Profile", null, "<span id=\"messagesCounter\" class=\"badge badge-info\" style=\"margin-left: 10px\"></span>")
+                <div class="well">
+                    
+         
+                    <ul class="nav nav-list">
+                        <li><p class="lead text-center">@ViewBag.UserName</p></li>
+                        <li class="nav-header">Профиль</li>
+                        @Html.MenuLink("Мой Профиль", "Index", "Profile", null)
+                        @* @Html.MenuLink("Сообщения", "AllMessages", "Profile", null, "<span id=\"messagesConuter\" class=\"badge badge-info\" style=\"margin-left: 10px\">0</span>")*@
+                        @Html.MenuLink("Сообщения", "AllMessages", "Profile", null, "<span id=\"messagesCounter\" class=\"badge badge-info\" style=\"margin-left: 10px\"></span>")
                 
+
+                        @if (ViewBag.IsFacebookAccount)
+                        {
+                            <li><a id="fbFriendsSelectorLink" href="#" style="color: #537FF0">Друзья из Фэйсбука
+                                    <img style="width: 30px; height: 30px; display: none; padding-left: 15px;" data-bind="visible: ShowFriendsLoading" src="/Images/loading.gif"></a></li>
+                        }
+                        <li class="nav-header">Другое</li>
+                        @Html.MenuLink("Помощь", "HowToAddBook", "Help")
+                        @Html.MenuLink("Отзывы", "Feedback", "Home")
+                    </ul>
 
                     @if (ViewBag.IsFacebookAccount)
                     {
-                        <li><a id="fbFriendsSelectorLink" href="#" style="color: #537FF0">Друзья из Фэйсбука
-                                <img style="width: 30px; height: 30px; display: none; padding-left: 15px;" data-bind="visible: ShowFriendsLoading" src="/Images/loading.gif"></a></li>
+                        <div id="fbFriendsSelector"></div>
                     }
-                  <li class="nav-header">Другое</li>
-                        @Html.MenuLink("Помощь", "HowToAddBook", "Help")
-                    @Html.MenuLink("Отзывы", "Feedback", "Home")
-                </ul>
-
-                @if (ViewBag.IsFacebookAccount)
-                {
-                    <div id="fbFriendsSelector"></div>
-                }
+                </div>
             </div>
         </div>
         <div class="span9" id="profileBody">
