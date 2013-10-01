@@ -100,8 +100,8 @@ namespace BrainShare.Controllers
 
                 // test
                 //PostToFbWall(bookDto, user.FacebookId);
-
             }
+
             else
             {
                 return Json(new { Error = "Книга уже добавлена." });

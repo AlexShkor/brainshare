@@ -3,18 +3,20 @@
 
 
 <div class="thumbnail">
-    <img data-bind="attr:{src: book.Image}" />
-    <div class="caption">
-        <h5 data-bind="text: book.Title"></h5>
-        <p data-bind="text: book.Subtitle"></p>
-        <p>
-            <span data-bind="text: book.Publisher"></span>
-            <strong data-bind="text: book.PublishedDate"></strong>
-            <span class="label" data-bind="text: book.PageCount"></span>
-            стр.
-        </p>
-        <strong data-bind="text: book.Authors"></strong>
-
-        <p data-bind="text: book.Description"></p>
+    <img style="padding-top: 5%" data-bind="attr: { src: book.Image }" />
+    <div style="text-align: center; padding: 10px;">
+        <a class="edit-book-link" data-bind="attr: { href: '/books/edit/' + book.Id }">Редактировать</a>
     </div>
 </div>
+
+<style>
+    .edit-book-link {
+        color: #C9A30D;
+        text-decoration: none;
+    }
+
+        .edit-book-link:hover {
+            color: rgb(247, 211, 27);
+            text-decoration: none;
+        }
+</style>

@@ -41,11 +41,7 @@ var AddBookModel = function (ownedItems) {
         }, 10);
     };
 
-    this.showConfirmBtns = function (googleBookId) {
-        $("#wishBtns-" + googleBookId).hide();
-        $("#confirmBtns-" + googleBookId).fadeIn();
-    };
-
+  
     this.hideConfirmBtns = function (googleBookId) {
         $("#confirmBtns-" + googleBookId).hide();
         $("#wishBtns-" + googleBookId).fadeIn();
