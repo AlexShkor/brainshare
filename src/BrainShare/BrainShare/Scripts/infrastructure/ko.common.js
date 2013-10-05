@@ -20,7 +20,7 @@ var sendModel = function (url, model, successCallback, ignoreList) {
     var mapping = {
         ignore: ignoreList
     };
-    sendJson(url, ko.mapping.toJS(model,ignoreList), function(response) {
+    sendJson(url, ko.mapping.toJS(model,mapping), function(response) {
         var defaultBehaviour = true;
         if (successCallback) {
             var result = successCallback(response);
@@ -32,6 +32,8 @@ var sendModel = function (url, model, successCallback, ignoreList) {
         
             ko.mapping.fromJS(response, mapping, model);
         }
+        model.Loading(false);
+    }, function() {
         model.Loading(false);
     });
 };

@@ -77,7 +77,7 @@ namespace BrainShare.Controllers
             {
                 ModelState.AddModelError("ISBNs","Должен быть указан хотябы один ISBN");
             }
-            if (model.ISBNs.Any(x=> !x.HasValue()))
+            if (model.ISBNs.Any(x=> !x.Value.HasValue()))
             {
                 ModelState.AddModelError("ISBNs","ISBN не может быть пустым");
             }
@@ -85,7 +85,7 @@ namespace BrainShare.Controllers
             {
                 ModelState.AddModelError("ISBNs","Должен быть указан хотябы один автор");
             }
-            if (model.ISBNs.Any(x=> !x.HasValue()))
+            if (model.ISBNs.Any(x=> !x.Value.HasValue()))
             {
                 ModelState.AddModelError("ISBNs","Автор не может быть пустой строкой");
             }

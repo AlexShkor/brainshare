@@ -5,7 +5,7 @@
     this.save = function() {
         sendModel("/books/edit", self.model, function () {
            // window.location = "/books/info"
-        },"Languages");
+        },["Languages"]);
     };
 
     this.addISBN = function() {
