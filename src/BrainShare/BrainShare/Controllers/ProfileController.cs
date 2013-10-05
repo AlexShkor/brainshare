@@ -147,7 +147,8 @@ namespace BrainShare.Controllers
         public ActionResult AllMessages()
         {
             var threads = _threads.GetAllForUser(UserId).Where(x => x.Messages.Any()).OrderByDescending(x => x.Messages.Max(m => m.Posted));
-            var model = new AllThreadsViewModel(threads, UserId);
+            var user = _users.GetById(UserId);
+            var model = new AllThreadsViewModel(threads, UserId, user);
             return View(model);
         }
 

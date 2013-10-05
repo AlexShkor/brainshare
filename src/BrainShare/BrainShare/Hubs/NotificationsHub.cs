@@ -17,16 +17,22 @@ namespace BrainShare.Hubs
         public override Task OnConnected()
         {
             return Task.Factory.StartNew(() =>
-            {
-                Groups.Add(Context.ConnectionId, ((UserIdentity) Context.User.Identity).User.Id);
-            });
+                {
+                    if (Context.User != null)
+                    {
+                        Groups.Add(Context.ConnectionId, ((UserIdentity) Context.User.Identity).User.Id);
+                    }
+                });
         }
 
         public override Task OnDisconnected()
         {
             return Task.Factory.StartNew(() =>
             {
-                Groups.Remove(Context.ConnectionId, ((UserIdentity)Context.User.Identity).User.Id);
+                if (Context.User != null)
+                {
+                    Groups.Remove(Context.ConnectionId, ((UserIdentity) Context.User.Identity).User.Id);
+                }
             });
         }
 

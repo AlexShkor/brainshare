@@ -8,9 +8,9 @@ namespace BrainShare.Controllers
     {
         public List<ThreadItemViewModel> Items { get; set; } 
 
-        public AllThreadsViewModel(IEnumerable<Thread> threads, string me)
+        public AllThreadsViewModel(IEnumerable<Thread> threads, string me, User user)
         {
-            Items = threads.Select(x => new ThreadItemViewModel(x,me)).ToList();
+            Items = threads.Select(x => new ThreadItemViewModel(x,me, user)).ToList();
         }
     }
 }
