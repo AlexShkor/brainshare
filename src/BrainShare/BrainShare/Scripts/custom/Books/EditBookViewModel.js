@@ -3,7 +3,7 @@
     this.model = ko.mapping.fromJS(data);
 
     this.save = function() {
-        sendModel("/books/edit", model, function () {
+        sendModel("/books/edit", self.model, function () {
            // window.location = "/books/info"
         });
     };
