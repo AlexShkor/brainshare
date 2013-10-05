@@ -19,6 +19,7 @@
     <script src="~/Scripts/custom/notifications.js"></script>
     <script src="~/Scripts/knockout-2.2.1.js"></script>
     <script src="~/Scripts/knockout.mapping-latest.js"></script>
+    <script src="~/Scripts/infrastructure/ko.common.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/knockout-bootstrap.min.js"></script>
     <script src="/signalr/hubs"></script>
@@ -28,6 +29,8 @@
     <script src="~/Scripts/custom/addbook.js"></script>
     <script src="~/Scripts/custom/allbooks.js"></script>
     <script src="~/Scripts/custom/allusers.js"></script>
+    
+    <script src="~/Scripts/custom/Books/EditBookViewModel.js"></script>
     @RenderSection("head", required: false)
     @* favicons and touch icons go here *@
 
@@ -101,11 +104,6 @@
         @RenderBody()
     </div>
 
-@*    <footer class="footer">
-        <div class="container">
-            <p style="text-align: center">&copy; BrainShare @System.DateTime.Now.ToString("yyyy")</p>
-        </div>
-    </footer>*@
 
     @*@Html.Partial("_Sidebar")*@
     @RenderSection("Scripts", required: false)
@@ -113,10 +111,7 @@
 
     <script>
         $(function () {
-            //$(".navbar-fixed-top a[href='/Books']").append("&nbsp;<span id='booksConter' class='badge badge-warning'>0</span>");
-            //$(".navbar-fixed-top a[href='/Profile']").append("&nbsp;<span id='messagesConter' class='badge badge-info'>0</span>");
-
-
+            
             var localStorageIsAvailable = isLocalStorageAvailable();
 
             if (localStorageIsAvailable) {

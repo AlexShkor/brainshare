@@ -1,0 +1,14 @@
+﻿@using Newtonsoft.Json
+@model BrainShare.Controllers.EditBookViewModel
+
+<script type="text/javascript">
+    $(function () {
+
+        var model = new EditBookViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)), '/books/edit');
+        ko.applyBindings(model);
+    });
+
+</script>
+
+
+@Html.Partial("BookFormPartial")

@@ -1,0 +1,23 @@
+﻿<!-- ko if: filter.pages().length > 0 -->
+<div class="pagination pagination-centered pagination-small">
+  
+    <ul >
+        <li data-bind="css: { disabled: filter.CurrentPage() == 1 }"><a data-bind="click: goToPrevPage" href="#" title="Previous">&lsaquo;</a></li>
+        <!-- ko foreach: filter.pages -->
+            <!-- ko if: $root.isVisiblePage($data) -->
+            <li data-bind="css: { active: Number() == $root.filter.CurrentPage() }"><a data-bind="text: Number, click: $root.goToPage" href="#"></a></li>
+            <!-- /ko -->
+            <!-- ko if: $root.showThreeDots($data) -->
+            <li class="disabled"><a href="javascript: void(0);">&hellip;</a></li>
+            <!-- /ko -->
+        <!-- /ko -->
+        <li data-bind="css: { disabled: filter.CurrentPage() == filter.TotalPages() }"><a data-bind="click: goToNextPage" href="#" title="Next">&rsaquo;</a></li>
+    </ul>
+  
+        
+</div>
+<!-- /ko -->
+    <img data-bind="visible: filter.Loading" src="/Images/loading.gif"/>
+<!-- ko if: filter.pages().length == 0 -->
+<p class="well">No data.</p>
+<!-- /ko -->

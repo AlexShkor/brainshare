@@ -50,3 +50,6 @@ body {
     background-color: #f5f5f5;
 }
 
+.sidebar-nav .well {
+    padding: 8px 0;
+}

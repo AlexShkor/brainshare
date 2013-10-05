@@ -1,0 +1,19 @@
+﻿@using Newtonsoft.Json
+@model BrainShare.Controllers.EditBookViewModel
+
+<script type="text/javascript">
+    $(function () {
+
+        var model = new EditBookViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)), '/books/add');
+        ko.applyBindings(model);
+    });
+
+</script>
+<div class="well">
+    <div class="btn-group offset2">
+        <button class="btn" data-bind="click: toWish,css: {'btn-success btn-large': model.IsWhishBook}">У меня есть</button>
+        <button class="btn" data-bind="click: toMine, css: {'btn-success btn-large': !model.IsWhishBook()}">Мне нужна</button>
+    </div>
+</div>
+
+@Html.Partial("BookFormPartial")

@@ -10,36 +10,87 @@
         })
     </script>
 }
+
 @{
-   
     ViewBag.Title = Model.Title;
 }
+
 <div class="span12">
-    <h4>@Model.Title</h4>
+    <h4 style="margin-bottom: 3%">@Model.Title</h4>
     <div>
         <div class="span3">
             @Html.Partial("DetailsPartial", Model)
+            <div style="margin-top: 10px">
+                <button type="button" data-bind="click: take" class="btn btn-success btn-block">Мне нужна</button>
+                <button type="button" data-bind="click: give" class="btn btn-primary btn-block">У меня есть</button>
+            </div>
         </div>
         <div class="span9">
-            <div class="btn-group">
-                <button type="button" data-bind="click: take" class="btn btn-success">Мне нужна</button>
-                <button type="button" data-bind="click: give" class="btn btn-primary">У меня есть</button>
+
+            <div class="row-fluid">
+                <div class="span12">
+
+                    <div class="row-fluid">
+                        <div class="span9">
+                            <div>
+                                <strong class="span5">Название:</strong>
+                                <span class="span7" data-bind="text: book.Title"></span>
+                            </div>
+                            <div data-bind="visible: book.Subtitle">
+                                <strong class="span5"></strong>
+                                <span class="span7" data-bind="text: book.Subtitle"></span>
+                            </div>
+                            <div>
+                                <strong class="span5">Авторы:</strong>
+                                <span class="span7" data-bind="text: book.Authors"></span>
+                            </div>
+                            <div>
+                                <strong class="span5">Издательство:</strong>
+                                <span class="span7" data-bind="text: book.Publisher"></span>
+                            </div>
+                            <div>
+                                <strong class="span5">Дата издания:</strong>
+                                <span class="span7" data-bind="text: book.PublishedDate"></span>
+                            </div>
+                            <div>
+                                <strong class="span5">Количество страниц:</strong>
+                                <span class="span7" data-bind="text: book.PageCount"></span>
+                            </div>
+
+                            <div data-bind="visible: book.Description">
+                                <strong class="span5">Описание:</strong>
+                                <span class="span7" data-bind="text: book.Description"></span>
+                            </div>
+                            <div>
+                                <strong class="span5">Местонахождение книги:</strong>
+                                <span class="span7" data-bind="text: book.Address"></span>
+                            </div>
+                        </div>
+                        <div class="span3">
+                            <div style="text-align: center">
+                                <img style="width: 100px; height: 100px;" data-bind="attr: { src: book.AvatarUrl }" />
+                                <a style="padding-top: 10px; display: block; text-decoration: none;" data-bind="attr: { href: book.UserProfile }, text: book.UserName"></a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
+
             <div class="clearfix"></div>
             <div class="well">
-                <div class="span3">
+                <div class="span4">
                     @Html.Partial("FbShareBtn")
                 </div>
 
-                <div class="span3">
+                <div class="span4">
                     @Html.Partial("TwShareBtn")
                 </div>
-                <div class="span3">
+                <div class="span4">
                     @Html.Partial("VkShareBtn")
                 </div>
             </div>
         </div>
-
     </div>
     <div>
         <div class="span12">
@@ -50,7 +101,7 @@
             <h4>Предпросмотр</h4>
             <div>
                 @Html.Partial("GooglePreview", Model.GoogleBookId)
-            
+
             </div>
         </div>
     </div>
