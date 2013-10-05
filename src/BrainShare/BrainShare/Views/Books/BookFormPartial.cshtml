@@ -12,7 +12,7 @@
         <div class="control-group">
             <label class="control-label">Название</label>
             <div class="controls">
-                <input type="text" data-bind="value: Title" class="input-xlarge">
+                <input type="text" data-bind="value: Title" required="required" class="input-xlarge">
             </div>
         </div>
 
@@ -37,6 +37,12 @@
             </div>
         </div>
         <div class="control-group">
+            <label class="control-label">Кол-во страниц</label>
+            <div class="controls">
+                <input type="number" data-bind="value: PageCount" class="input-xlarge">
+            </div>
+        </div>
+        <div class="control-group">
             <label class="control-label">Google Book Id</label>
             <div class="controls">
                 <input type="text" data-bind="value: GoogleBookId" class="input-xlarge">
@@ -47,7 +53,7 @@
             <div data-bind="foreach: { data: ISBNs, as: 'isbn' }">
                 
                 <div class="controls">
-                    <input type="text" data-bind="value: isbn.Value" class="input-xlarge">
+                    <input type="text" data-bind="value: isbn.Value" required="required" class="input-xlarge">
                     <button class="btn btn-mini btn-success" data-bind="click: $root.addISBN"><i class="icon-plus"></i></button>
                     <button class="btn btn-mini btn-danger" data-bind="click: $root.removeISBN"><i class="icon-remove"></i></button>
                 </div>
@@ -59,7 +65,7 @@
             <div data-bind="foreach: { data: Authors, as: 'author' }">
                 
                 <div class="controls">
-                    <input type="text" data-bind="value: author.Value" class="input-xlarge">
+                    <input type="text" data-bind="value: author.Value" required="required" class="input-xlarge">
                     <button class="btn btn-mini btn-success" data-bind="click: $root.addAuthor"><i class="icon-plus"></i></button>
                     <button class="btn btn-mini btn-danger" data-bind="click: $root.removeAuthor"><i class="icon-remove"></i></button>
                 </div>
@@ -70,7 +76,7 @@
         <div class="control-group">
             <label class="control-label" for="selectbasic">Язык</label>
             <div class="controls">
-                <select data-bind="options: Languages, optionsText: 'NativeName', value: Language, optionsCaption: 'Выберете язык...', optionsValue: 'Symbol'" class="input-xlarge"></select>
+                <select required="required" data-bind="options: Languages, optionsText: 'NativeName', value: Language, optionsCaption: 'Выберете язык...', optionsValue: 'Symbol'" class="input-xlarge"></select>
             </div>
         </div>
 

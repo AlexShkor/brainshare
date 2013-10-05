@@ -9,7 +9,6 @@ namespace BrainShare.Controllers
 {
     public class EditBookViewModel : BaseViewModel
     {
-        [Required]
         public string Id { get; set; }
         public string GoogleBookId { get; set; }
         public List<StringItem> ISBNs { get; set; }

@@ -12,6 +12,7 @@ using BrainShare.Hubs;
 using BrainShare.Services;
 using Facebook;
 using BrainShare.Services.Validation;
+using MongoDB.Bson;
 
 namespace BrainShare.Controllers
 {
@@ -124,7 +125,7 @@ namespace BrainShare.Controllers
             AdditionalBookValidate(model);
             if (ModelState.IsValid)
             {
-                var book = new Book() {Id = model.Id};
+                var book = new Book() {Id = model.Id ?? ObjectId.GenerateNewId().ToString()};
                 model.UpdateBook(book);
                 var user = _users.GetById(UserId);
                 book.UserData = new UserData(user);
