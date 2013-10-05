@@ -66,7 +66,7 @@ namespace BrainShare.Controllers
             var languages = new LanguagesService().GetAllLanguages();
             var book = id.HasValue() ? _books.GetById(id) : _wishBooks.GetById(wishBookId);
             var model = new EditBookViewModel(book, languages);
-            model.IsWhishBook = id.HasValue();
+            model.IsWhishBook = wishBookId.HasValue();
             return View("Edit", model);
         }
 
@@ -85,7 +85,7 @@ namespace BrainShare.Controllers
             {
                 ModelState.AddModelError("ISBNs","Должен быть указан хотябы один автор");
             }
-            if (model.ISBNs.Any(x=> !x.Value.HasValue()))
+            if (model.Authors.Any(x => !x.Value.HasValue()))
             {
                 ModelState.AddModelError("ISBNs","Автор не может быть пустой строкой");
             }

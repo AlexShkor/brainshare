@@ -60,7 +60,7 @@
             <div data-bind="foreach: { data: ISBNs, as: 'isbn' }">
                 
                 <div class="controls">
-                    <input type="text" data-bind="value: isbn" class="input-xlarge">
+                    <input type="text" data-bind="value: isbn.Value" class="input-xlarge">
                     <button class="btn btn-mini btn-success" data-bind="click: $root.addISBN"><i class="icon-plus"></i></button>
                     <button class="btn btn-mini btn-danger" data-bind="click: $root.removeISBN"><i class="icon-remove"></i></button>
                 </div>
@@ -72,7 +72,7 @@
             <div data-bind="foreach: { data: Authors, as: 'author' }">
                 
                 <div class="controls">
-                    <input type="text" data-bind="value: author" class="input-xlarge">
+                    <input type="text" data-bind="value: author.Value" class="input-xlarge">
                     <button class="btn btn-mini btn-success" data-bind="click: $root.addAuthor"><i class="icon-plus"></i></button>
                     <button class="btn btn-mini btn-danger" data-bind="click: $root.removeAuthor"><i class="icon-remove"></i></button>
                 </div>
