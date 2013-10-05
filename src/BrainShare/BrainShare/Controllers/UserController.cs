@@ -329,7 +329,7 @@ namespace BrainShare.Controllers
         private string GetApplicationUrl()
         {
 
-            return string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
+            return string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority);
         }
     }
 }
