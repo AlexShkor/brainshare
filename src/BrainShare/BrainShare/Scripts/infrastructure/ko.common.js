@@ -16,13 +16,8 @@ var isFunction = function (functionToCheck) {
 }
 
 var sendModel = function (url, model, successCallback, ignoreList) {
-    var data = {}; 
     model.Loading(true);
-    parseValues(ko.mapping.toJS(model), function(key, value) {
-        data[key] = value;
-    });
-
-    send(url, data, function (response) {
+    sendJson(url, model, function(response) {
         var defaultBehaviour = true;
         if (successCallback) {
             var result = successCallback(response);
@@ -34,7 +29,7 @@ var sendModel = function (url, model, successCallback, ignoreList) {
             var mapping = {
                 ignore: ignoreList
             };
-            ko.mapping.fromJS(response,mapping, model);
+            ko.mapping.fromJS(response, mapping, model);
         }
         model.Loading(false);
     });
