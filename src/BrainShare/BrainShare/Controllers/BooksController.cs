@@ -73,22 +73,7 @@ namespace BrainShare.Controllers
         [POST("edit")]
         public ActionResult Edit(EditBookViewModel model)
         {
-            if (model.ISBNs.Count == 0)
-            {
-                ModelState.AddModelError("ISBNs","Должен быть указан хотябы один ISBN");
-            }
-            if (model.ISBNs.Any(x=> !x.Value.HasValue()))
-            {
-                ModelState.AddModelError("ISBNs","ISBN не может быть пустым");
-            }
-            if (model.Authors.Count == 0)
-            {
-                ModelState.AddModelError("ISBNs","Должен быть указан хотябы один автор");
-            }
-            if (model.Authors.Any(x => !x.Value.HasValue()))
-            {
-                ModelState.AddModelError("ISBNs","Автор не может быть пустой строкой");
-            }
+            AdditionalBookValidate(model);
             if (ModelState.IsValid)
             {
                 var book = !model.IsWhishBook ? _books.GetById(model.Id) : _wishBooks.GetById(model.Id);
@@ -98,6 +83,55 @@ namespace BrainShare.Controllers
                      _wishBooks.Save(book);
                 }
                 else
+                {
+                    _books.Save(book);
+                }
+            }
+            return JsonModel(model);
+        }
+
+        private void AdditionalBookValidate(EditBookViewModel model)
+        {
+            if (model.ISBNs.Count == 0)
+            {
+                ModelState.AddModelError("ISBNs", "Должен быть указан хотябы один ISBN");
+            }
+            if (model.ISBNs.Any(x => !x.Value.HasValue()))
+            {
+                ModelState.AddModelError("ISBNs", "ISBN не может быть пустым");
+            }
+            if (model.Authors.Count == 0)
+            {
+                ModelState.AddModelError("ISBNs", "Должен быть указан хотябы один автор");
+            }
+            if (model.Authors.Any(x => !x.Value.HasValue()))
+            {
+                ModelState.AddModelError("ISBNs", "Автор не может быть пустой строкой");
+            }
+        }
+
+        [GET("add")]
+        public ActionResult Add()
+        {
+            var languages = new LanguagesService().GetAllLanguages();
+            var model = new EditBookViewModel(languages);
+            return View("Add", model);
+        }
+
+        [POST("add")]
+        public ActionResult Add(EditBookViewModel model)
+        {
+            AdditionalBookValidate(model);
+            if (ModelState.IsValid)
+            {
+                var book = new Book() {Id = model.Id};
+                model.UpdateBook(book);
+                var user = _users.GetById(UserId);
+                book.UserData = new UserData(user);
+                if (model.IsWhishBook)
+                {
+                    _wishBooks.Save(book);
+                }else
                 {
                     _books.Save(book);
                 }

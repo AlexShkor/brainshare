@@ -1,0 +1,90 @@
+﻿<form class="form-horizontal" data-bind="submit: $root.save">
+    <!-- ko with: model-->
+
+    <div class="pull-right">
+        <img data-bind="attr: { src: Image }"></img>
+    </div>
+    <fieldset>
+
+        <legend data-bind="text: Title"></legend>
+        @Html.Partial("KnockoutSummary")
+
+        <div class="control-group">
+            <label class="control-label">Название</label>
+            <div class="controls">
+                <input type="text" data-bind="value: Title" class="input-xlarge">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Описание</label>
+            <div class="controls">
+                <input type="text" data-bind="value: Subtitle" class="input-xlarge">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Издатель</label>
+            <div class="controls">
+                <input type="text" data-bind="value: Publisher" class="input-xlarge">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Дата Издания</label>
+            <div class="controls">
+                <input type="text" data-bind="value: PublishedDate" class="input-xlarge">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Google Book Id</label>
+            <div class="controls">
+                <input type="text" data-bind="value: GoogleBookId" class="input-xlarge">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">ISBN</label>
+            <div data-bind="foreach: { data: ISBNs, as: 'isbn' }">
+                
+                <div class="controls">
+                    <input type="text" data-bind="value: isbn.Value" class="input-xlarge">
+                    <button class="btn btn-mini btn-success" data-bind="click: $root.addISBN"><i class="icon-plus"></i></button>
+                    <button class="btn btn-mini btn-danger" data-bind="click: $root.removeISBN"><i class="icon-remove"></i></button>
+                </div>
+
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Автор(ы)</label>
+            <div data-bind="foreach: { data: Authors, as: 'author' }">
+                
+                <div class="controls">
+                    <input type="text" data-bind="value: author.Value" class="input-xlarge">
+                    <button class="btn btn-mini btn-success" data-bind="click: $root.addAuthor"><i class="icon-plus"></i></button>
+                    <button class="btn btn-mini btn-danger" data-bind="click: $root.removeAuthor"><i class="icon-remove"></i></button>
+                </div>
+
+            </div>
+        </div>
+        <!-- Select Basic -->
+        <div class="control-group">
+            <label class="control-label" for="selectbasic">Язык</label>
+            <div class="controls">
+                <select data-bind="options: Languages, optionsText: 'NativeName', value: Language, optionsCaption: 'Выберете язык...', optionsValue: 'Symbol'" class="input-xlarge"></select>
+            </div>
+        </div>
+
+        <!-- File Button -->
+        <div class="control-group">
+            <label class="control-label" for="filebutton">Картинка</label>
+            <div class="controls">
+                <input id="filebutton" name="filebutton" class="input-file" type="file">
+            </div>
+        </div>
+        <div class="form-actions">
+            @Html.Partial("SubmitBtn")
+            @Html.Partial("PreviousPageBtn")
+        </div>
+    </fieldset>
+    <!-- /ko -->
+</form>
