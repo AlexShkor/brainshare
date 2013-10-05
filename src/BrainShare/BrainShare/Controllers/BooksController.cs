@@ -57,6 +57,7 @@ namespace BrainShare.Controllers
         {
             var book = id.HasValue() ? _books.GetById(id) : _wishBooks.GetById(wishBookId);
             var model = new BookViewModel(book);
+            Title(model.Title);
             return View("Info", model);
         }
 
@@ -68,6 +69,7 @@ namespace BrainShare.Controllers
             var book = id.HasValue() ? _books.GetById(id) : _wishBooks.GetById(wishBookId);
             var model = new EditBookViewModel(book, languages);
             model.IsWhishBook = wishBookId.HasValue();
+            Title(model.Title);
             return View("Edit", model);
         }
 
@@ -116,6 +118,7 @@ namespace BrainShare.Controllers
         {
             var languages = new LanguagesService().GetAllLanguages();
             var model = new EditBookViewModel(languages);
+            Title(model.Title);
             return View("Add", model);
         }
 
@@ -203,6 +206,7 @@ namespace BrainShare.Controllers
             if (book != null)
             {
                 model.Book = new BookViewModel(book);
+                Title(model.Book.Title);
                 model.Owners = _books.GetByGoogleBookId(book.GoogleBookId).Select(x => new UserItemViewModel(x)).ToList();
             }
             return View(model);
@@ -236,6 +240,7 @@ namespace BrainShare.Controllers
                 });
             }
             var model = new ChangeRequestSentModel(book, user);
+            Title("Обмен " + model.Book.Title + " от " + user.FullName);
             return View(model);
         }
 
