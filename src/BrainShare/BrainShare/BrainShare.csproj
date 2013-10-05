@@ -260,6 +260,7 @@
     <Content Include="Content\imgAreaSelect\imgareaselect-animated.css" />
     <Content Include="Content\imgAreaSelect\imgareaselect-default.css" />
     <Content Include="Content\imgAreaSelect\imgareaselect-deprecated.css" />
+    <Content Include="Images\book-logo-placeholder.png" />
     <Content Include="Images\user-default-avatar.jpg" />
     <Content Include="Scripts\custom\allusers.js" />
     <Content Include="Scripts\custom\Books\EditBookViewModel.js" />
@@ -514,6 +515,8 @@
     <Content Include="Views\Shared\Pagination.cshtml" />
     <Content Include="Views\Shared\SubmitBtn.cshtml" />
     <Content Include="Views\Shared\PreviousPageBtn.cshtml" />
+    <Content Include="Views\Books\Add.cshtml" />
+    <Content Include="Views\Books\BookFormPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

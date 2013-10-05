@@ -9,7 +9,6 @@ namespace BrainShare.Controllers
 {
     public class EditBookViewModel : BaseViewModel
     {
-        [Required]
         public string Id { get; set; }
         public string GoogleBookId { get; set; }
         public List<StringItem> ISBNs { get; set; }
@@ -46,7 +45,14 @@ namespace BrainShare.Controllers
 
         public EditBookViewModel()
         {
+            ISBNs = new List<StringItem> { new StringItem() };
+            Authors = new List<StringItem> { new StringItem() };
+            Image = "/images/book-logo-placeholder.png";
+        }
 
+        public EditBookViewModel(IEnumerable<LanguageInfo> languages):this()
+        {
+            Languages = languages;
         }
 
         public void UpdateBook(Book book)

@@ -14,30 +14,36 @@
     </script>
 }
 
-<h4>Входящие</h4>
 
-<table class="table table-condensed">
-    <thead>
-        <tr>
-            <th>Пользователь</th>
-            <th>Книга</th>
-            <th>Дата</th>
-        </tr>
-    </thead>
-    <tbody data-bind="foreach: items">
+<div data-bind="visible: items().length > 0">
+    <h4>Входящие</h4>
 
-        <tr>
-            <td >
-                <span data-bind="text: User.UserName"></span>
-                <span class="badge badge-warning" data-bind="visible: IsNew">new</span>
-            </td>
-            <td data-bind="text: Book.Title"></td>
-            <td data-bind="text: Created"></td>
-            <td>
-                <a class="btn btn-small" href="#" data-bind="click: $root.consider">Рассмотреть</a>
-            </td>
-        </tr>
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>Пользователь</th>
+                <th>Книга</th>
+                <th>Дата</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: items">
 
-    </tbody>
-</table>
+            <tr>
+                <td>
+                    <span data-bind="text: User.UserName"></span>
+                    <span class="badge badge-warning" data-bind="visible: IsNew">new</span>
+                </td>
+                <td data-bind="text: Book.Title"></td>
+                <td data-bind="text: Created"></td>
+                <td>
+                    <a class="btn btn-small" href="#" data-bind="click: $root.consider">Рассмотреть</a>
+                </td>
+            </tr>
 
+        </tbody>
+    </table>
+</div>
+<div class="well" data-bind="visible: items().length == 0">
+    <h4>Нету входящих запросов на обмен</h4>
+    <p>Вы можете сами отправить запрос на обмен книгами со страницы <a href="/books">поиска</a>. Ну или сначала написать приватное сообщение <a href="/users">любому пользователю</a>.</p>
+</div>
