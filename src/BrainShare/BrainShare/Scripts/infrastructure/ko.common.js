@@ -17,7 +17,10 @@ var isFunction = function (functionToCheck) {
 
 var sendModel = function (url, model, successCallback, ignoreList) {
     model.Loading(true);
-    sendJson(url, model, function(response) {
+    var mapping = {
+        ignore: ignoreList
+    };
+    sendJson(url, ko.mapping.toJS(model,ignoreList), function(response) {
         var defaultBehaviour = true;
         if (successCallback) {
             var result = successCallback(response);
@@ -26,9 +29,7 @@ var sendModel = function (url, model, successCallback, ignoreList) {
             }
         }
         if (defaultBehaviour) {
-            var mapping = {
-                ignore: ignoreList
-            };
+        
             ko.mapping.fromJS(response, mapping, model);
         }
         model.Loading(false);
