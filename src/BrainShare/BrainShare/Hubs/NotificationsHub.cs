@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using BrainShare.Authentication;
+using BrainShare.Documents;
 using Microsoft.AspNet.SignalR;
 
 namespace BrainShare.Hubs
@@ -17,16 +18,27 @@ namespace BrainShare.Hubs
         public override Task OnConnected()
         {
             return Task.Factory.StartNew(() =>
-            {
-                Groups.Add(Context.ConnectionId, ((UserIdentity) Context.User.Identity).User.Id);
-            });
+                {
+                    if (GetUser() != null)
+                    {
+                        Groups.Add(Context.ConnectionId, GetUser().Id);
+                    }
+                });
+        }
+
+        private User GetUser()
+        {
+            return ((UserIdentity) Context.User.Identity).User;
         }
 
         public override Task OnDisconnected()
         {
             return Task.Factory.StartNew(() =>
             {
-                Groups.Remove(Context.ConnectionId, ((UserIdentity)Context.User.Identity).User.Id);
+                if (GetUser() != null)
+                {
+                    Groups.Remove(Context.ConnectionId, ((UserIdentity) Context.User.Identity).User.Id);
+                }
             });
         }
 

@@ -5,8 +5,6 @@
         <img data-bind="attr: { src: Image }"></img>
     </div>
     <fieldset>
-
-        <legend data-bind="text: Title"></legend>
         @Html.Partial("KnockoutSummary")
 
         <div class="control-group">
@@ -39,7 +37,7 @@
         <div class="control-group">
             <label class="control-label">Кол-во страниц</label>
             <div class="controls">
-                <input type="number" data-bind="value: PageCount" class="input-xlarge">
+                <input type="number" min="0" data-bind="value: PageCount" class="input-xlarge">
             </div>
         </div>
         <div class="control-group">

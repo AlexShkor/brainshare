@@ -58,8 +58,8 @@
                     @if (Request.IsAuthenticated)
                     { 
                         <p class="navbar-text pull-right" id="currentUser">
-                            <a class="label label-warning" href="/Profile/Inbox"><i class="icon-book icon-large "></i> <strong>0</strong></a>
-                            <a class="label label-info" href="/Profile/AllMessages"><i class="icon-envelope icon-large "></i> <strong>0</strong></a>
+                            <a class="label label-warning" href="/Profile/Inbox"><i class="icon-book icon-large "></i> <strong id="navigationBooksCounter">0</strong></a>
+                            <a class="label label-info" href="/Profile/AllMessages"><i class="icon-envelope icon-large "></i> <strong id="navigationMessagesCounter">0</strong></a>
                             <a href="/profile" class="navbar-link">@ViewBag.UserName</a>
                             <a href="@Url.Action("Logout", "User")" >Выйти</a>
                         </p>
@@ -130,7 +130,7 @@
                         localStorage.setItem('booksCount', data.Result);
                     }
 
-                    $("#booksCounter").text(data.Result);
+                    $("#booksCounter, #navigationBooksCounter").text(data.Result);
                 }
             });
 
@@ -140,7 +140,7 @@
                         localStorage.setItem('messagesCount', data.Result);
                     }
 
-                    $("#messagesCounter").text(data.Result);
+                    $("#messagesCounter, #navigationMessagesCounter").text(data.Result);
                 }
             });
 

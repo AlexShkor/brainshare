@@ -17,7 +17,10 @@
     <table class="table table-condensed table-striped">
         <tbody data-bind="foreach: items">
             <tr>
-                <td class="span7" data-bind="text: To"></td>
+                <td class="span7">
+                    <span data-bind="text: To"></span>
+                    <span class="badge badge-info" data-bind="visible: IsNew">new</span>
+                </td>
                 <td class="span2">
                     <a class="btn btn-small" href="#" data-bind="click: $root.reply">Ответить</a>
                 </td>
