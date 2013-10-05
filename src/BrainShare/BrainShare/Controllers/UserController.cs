@@ -254,7 +254,7 @@ namespace BrainShare.Controllers
                 //var client = new FacebookClient();
                 //dynamic me = client.Get("totten");
 
-               
+
                 Session[SessionKeys.FbAccessToken] = result.access_token;
                 if (result.ContainsKey("expires"))
                     Session[SessionKeys.FbExpiresIn] = DateTime.Now.AddSeconds(result.expires);
@@ -295,6 +295,7 @@ namespace BrainShare.Controllers
                 }
 
                 var model = new FacebookSelectorViewModel(existingFrends);
+                model.ApplicationUrl = GetApplicationUrl();
 
                 return View(model);
             }
@@ -325,7 +326,11 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
+        private string GetApplicationUrl()
+        {
 
+            return string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
+        }
     }
 }
 

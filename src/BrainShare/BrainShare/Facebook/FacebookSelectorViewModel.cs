@@ -14,6 +14,8 @@ namespace BrainShare.Facebook
         }
 
         public List<FacebookFriend> FacebookFriends { get; set; }
+
+        public string ApplicationUrl { get; set; }
     }
 
 
