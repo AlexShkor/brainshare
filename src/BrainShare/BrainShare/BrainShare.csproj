@@ -241,6 +241,7 @@
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ContainerConfigure.cs" />
+    <Compile Include="Controllers\EditBookViewModel.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Documents\UserData.cs" />

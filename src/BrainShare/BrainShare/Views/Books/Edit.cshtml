@@ -57,9 +57,9 @@
         </div>
         <div class="control-group">
             <label class="control-label">ISBN</label>
-            <div class="controls" data-bind="foreach: { data: ISBNs, as: 'isbn' }">
+            <div data-bind="foreach: { data: ISBNs, as: 'isbn' }">
                 
-                <div class="input-append">
+                <div class="controls">
                     <input type="text" data-bind="value: isbn" class="input-xlarge">
                     <button class="btn btn-success" data-bind="click: $root.addISBN"><i class="icon-plus"></i></button>
                     <button class="btn btn-danger" data-bind="click: $root.removeISBN"><i class="icon-remove"></i></button>
@@ -68,10 +68,10 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label">Authors</label>
-            <div class="controls" data-bind="foreach: { data: Authors, as: 'author' }">
+            <label class="control-label">Автор(ы)</label>
+            <div data-bind="foreach: { data: Authors, as: 'author' }">
                 
-                <div class="input-append">
+                <div class="controls">
                     <input type="text" data-bind="value: author" class="input-xlarge">
                     <button class="btn btn-success" data-bind="click: $root.addAuthor"><i class="icon-plus"></i></button>
                     <button class="btn btn-danger" data-bind="click: $root.removeAuthor"><i class="icon-remove"></i></button>

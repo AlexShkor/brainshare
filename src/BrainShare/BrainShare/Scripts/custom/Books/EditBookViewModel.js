@@ -7,7 +7,7 @@
     };
 
     this.addISBN = function() {
-        self.model.ISBNSs.push("");
+        self.model.ISBNs.push("");
     };
     this.addAuthor = function() {
         self.model.Authors.push("");
@@ -18,8 +18,8 @@
         }
     };
     this.removeISBN = function (isbn) {
-        if (self.model.ISBNSs().length > 1) {
-            self.model.ISBNSs.remove(isbn);
+        if (self.model.ISBNs().length > 1) {
+            self.model.ISBNs.remove(isbn);
         }
     };
 }; 
