@@ -17,7 +17,7 @@
 <select class="span2" data-bind="event: {change: languageChanged} , options: availableLanguages, optionsText: 'title', optionsValue: 'code', value: selectedLanguage" ></select>
 
     <input type="text" data-bind="value: query" />
-   @* <select class="span2" data-bind="options: searchTypes, optionsText: 'title', optionsValue: 'code', value: searchType" ></select>*@
+    @*<select class="span2" data-bind="options: searchTypes, optionsText: 'title', optionsValue: 'code', value: searchType" ></select>*@
     <button type="submit" class="btn btn-success">Search</button>
     <img style="width: 30px; height: 30px;" data-bind="visible: loading"  src="~/Images/loading.gif" />
 </form>

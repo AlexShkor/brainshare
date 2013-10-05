@@ -51,6 +51,7 @@ namespace BrainShare.Controllers
         public ActionResult Index()
         {
             var user = _users.GetById(UserId);
+            Title(user.FullName + " мой аккаунт");
             var model = new MyProfileViewModel(user);
 
             return View(model);
@@ -65,7 +66,7 @@ namespace BrainShare.Controllers
 
             model.CanIncrease = user.GetVote(id, UserId) <= 0;
             model.CanDecrease = user.GetVote(id, UserId) >= 0;
-            model.SummaryVotes = user.Votes.Values.Sum(x => x);
+            model.SummaryVotes = user.GetSummaryVotes();
 
             Title(user.FullName);
             return View(model);
@@ -217,14 +218,14 @@ namespace BrainShare.Controllers
         [POST("get-user-books")]
         public ActionResult GetUserBooks(string userId)
         {
-            var books = _books.GetUserBooks(userId).Select(x=> new BookViewModel(x));
+            var books = _books.GetUserBooks(userId).Select(x => new BookViewModel(x));
             return Json(books);
         }
 
         [POST("get-user-wish-books")]
         public ActionResult GetUserWishBooks(string userId)
         {
-            var books = _wishBooks.GetUserBooks(userId).Select(x=> new BookViewModel(x));
+            var books = _wishBooks.GetUserBooks(userId).Select(x => new BookViewModel(x));
             return Json(books);
         }
 
@@ -324,8 +325,6 @@ namespace BrainShare.Controllers
             var user = _users.GetById(UserId);
             return Json(new { Result = user.ThreadsWithUnreadMessages.Count });
         }
-
-
     }
 
 
@@ -339,7 +338,7 @@ namespace BrainShare.Controllers
         public MyProfileViewModel(User user)
         {
             Name = user.FullName;
-            AvatarUrl = user.AvatarUrl;
+            AvatarUrl = user.AvatarUrl ?? Constants.DefaultAvatarUrl;
         }
 
         public string Name { get; set; }

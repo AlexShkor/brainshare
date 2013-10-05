@@ -11,14 +11,9 @@
     <script src="@Url.Content("~/Scripts/custom/Profile/myProfile.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/imgAreaSelect/jquery.imgareaselect.pack.js")" type="text/javascript"></script>
 
-    @if (ViewBag.IsFacebookAccount)
-    {
-        <script type="text/javascript" src="@Url.Content("~/Scripts/custom/fbfriendsSelector.js")"></script>
-    }
-
     <script type="text/javascript">
         var myProfileViewModel = new MyProfileViewModel();
-        ko.applyBindings(myProfileViewModel);
+        ko.applyBindings(myProfileViewModel, $("#profileBody")[0]);
     </script>
 }
 
@@ -26,28 +21,12 @@
 
 <div>
 
-    <div id="fbFriendsSelector" style="position: absolute; left: 70%; top: 20%;"></div>
-
-
-    @*@if (ViewBag.IsFacebookAccount)
-        {
-            <a id="selectorToggle" class=" badge badge-info" href="#">Друзья из Фэйсбука</a>
-        }*@
-
     <div id="avatarContainer" class="pull-right" style="text-align: center;">
         <div class="avatar-container">
-            @if (Model.AvatarUrl != null)
-            {
-                <img style="width: 250px; height: 250px" alt="аватар" class="pics" src="@Model.AvatarUrl"/>
-            }
-
-            @if (Model.AvatarUrl == null)
-            {
-                <img style="width: 250px; height: 250px" alt="аватар" src="http://critterapp.pagodabox.com/img/user.jpg" />
-            }
+            <img style="width: 250px; height: 250px" alt="аватар" class="pics" src="@Model.AvatarUrl"/>
         </div>
 
-        <a href="#" data-bind="visible: ShowChangeAvatarButton, click: UploadImg" style="display: block; padding-top: 15px;">Выбрать аватар</a>
+        <a href="#" data-bind="visible: ShowChangeAvatarButton, click: UploadImg" style="display: block;">Выбрать аватар</a>
     </div>
 </div>
 

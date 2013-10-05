@@ -11,17 +11,15 @@
     <div class="row-fluid">
 
         <div class="span3">
-            <h4>Помощь</h4>
-
             <div class="sidebar-nav">
-
-                <ul class="nav nav-list nav-stacked">
-                    <li class="nav-header">Вопросы</li>
-                    @Html.MenuLink("Как добавить книгу в коллекцию?", "HowToAddBook", "Help", null)
-                    @Html.MenuLink("Как найти книгу?", "HowToSearchBook", "Help", null)
-                    @Html.MenuLink("Как обменяться книгами?", "HowToExchangeBook", "Help", null)
-                    <li class="divider"></li>
-                </ul>
+                <div class="well">
+                    <ul class="nav nav-list">
+                        <li class="nav-header">Помощь</li>
+                        @Html.MenuLink("Как добавить книгу в коллекцию?", "HowToAddBook", "Help", null)
+                        @Html.MenuLink("Как найти книгу?", "HowToSearchBook", "Help", null)
+                        @Html.MenuLink("Как обменяться книгами?", "HowToExchangeBook", "Help", null)
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="span9">

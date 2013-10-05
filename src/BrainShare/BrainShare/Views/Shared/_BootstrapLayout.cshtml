@@ -11,7 +11,7 @@
     <link href="~/Scripts/pnotify-1.2.0/jquery.pnotify.default.css" rel="stylesheet" />
     <link href="~/Content/imgAreaSelect/imgareaselect-default.css" rel="stylesheet" />
 
-   
+
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     @* Libs Scripts*@
     <script src="~/Scripts/jquery-2.0.1.min.js"></script>
@@ -19,16 +19,18 @@
     <script src="~/Scripts/custom/notifications.js"></script>
     <script src="~/Scripts/knockout-2.2.1.js"></script>
     <script src="~/Scripts/knockout.mapping-latest.js"></script>
+    <script src="~/Scripts/infrastructure/ko.common.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/knockout-bootstrap.min.js"></script>
     <script src="/signalr/hubs"></script>
-    <script src="~/Scripts/jquery-ui-1.10.3.js"></script>
     <script src="~/Scripts/pnotify-1.2.0/jquery.pnotify.min.js"></script>
     @* Our Scripts*@
     <script src="~/Scripts/custom/common.js"></script>
     <script src="~/Scripts/custom/addbook.js"></script>
     <script src="~/Scripts/custom/allbooks.js"></script>
     <script src="~/Scripts/custom/allusers.js"></script>
+    
+    <script src="~/Scripts/custom/Books/EditBookViewModel.js"></script>
     @RenderSection("head", required: false)
     @* favicons and touch icons go here *@
 
@@ -56,26 +58,27 @@
                     @if (Request.IsAuthenticated)
                     { 
                         <p class="navbar-text pull-right" id="currentUser">
-                            <a href="/profile" class="navbar-link">@ViewBag.UserName</a>&nbsp;<a  href="@Url.Action("Logout", "User")" >Выйти</a>
+                            <a class="label label-warning" href="/Profile/Inbox"><i class="icon-book icon-large "></i> <strong>0</strong></a>
+                            <a class="label label-info" href="/Profile/AllMessages"><i class="icon-envelope icon-large "></i> <strong>0</strong></a>
+                            <a href="/profile" class="navbar-link">@ViewBag.UserName</a>
+                            <a href="@Url.Action("Logout", "User")" >Выйти</a>
                         </p>
                        
                     }
                     else
                     {
                         <ul class="nav pull-right">
-                            @Html.MenuLink("Регистрация", "Register", "User", null)
-                            @Html.MenuLink("Войти", "Login", "User", null)
+                            @Html.MenuLink("Регистрация", "Register", "User")
+                            @Html.MenuLink("Войти", "Login", "User")
                             @Html.MenuLink("Facebook", "LoginWithFacebook", "User", "facebook-link")
                         </ul>
                     }
 
                     <ul class="nav" id="mainNav">
-                        @Html.MenuLink("Активность", "Index", "Home", null)
-                        @Html.MenuLink("Книги", "Index", "Books")
-                        @Html.MenuLink("Пользователи", "Index", "Users")
+                        @Html.MenuLink("Активность", "Activity", "Home")
+                        @Html.MenuLink("Книги", "Index", "Books", null)
                         @Html.MenuLink("Мой Аккаунт", "Index", "Profile", null)
-                        @Html.MenuLink("Помощь", "HowToAddBook", "Help", null)
-                        @Html.MenuLink("Отзывы", "Feedback", "Home", null)
+                        @Html.MenuLink("Пользователи", "Index", "Users")
                     </ul>
 
                     <ul class="nav" id="loadBar" style="display: none">
@@ -101,31 +104,54 @@
         @RenderBody()
     </div>
 
-    <footer style="position: relative">
-        <div class="container">
-            <p style="text-align: center">&copy; BrainShare @System.DateTime.Now.ToString("yyyy")</p>
-        </div>
-    </footer>
 
     @*@Html.Partial("_Sidebar")*@
     @RenderSection("Scripts", required: false)
-   
+
 
     <script>
         $(function () {
-            $(".navbar-fixed-top a[href='/Books']").append("&nbsp;<span id='booksConter' class='badge badge-warning'>0</span>");
-            $(".navbar-fixed-top a[href='/Profile']").append("&nbsp;<span id='messagesConter' class='badge badge-info'>0</span>");
+            
+            var localStorageIsAvailable = isLocalStorageAvailable();
+
+            if (localStorageIsAvailable) {
+                debugger;
+                var booksCount = localStorage.getItem('booksCount');
+                var messagesCount = localStorage.getItem('messagesCount');
+                $("#booksCounter").text(booksCount);
+                $("#messagesCounter").text(messagesCount);
+            }
+
+
             $.post("/profile/get-new-books-count", function (data) {
+
                 if (data.Result !== undefined) {
-                    $(".inboxBooks, .booksConter").text(data.Result);
+                    if (localStorageIsAvailable) {
+                        localStorage.setItem('booksCount', data.Result);
+                    }
+
+                    $("#booksCounter").text(data.Result);
                 }
             });
 
             $.post("/profile/get-new-messages-count", function (data) {
                 if (data.Result !== undefined) {
-                    $("#messagesConter").text(data.Result);
+                    if (localStorageIsAvailable) {
+                        localStorage.setItem('messagesCount', data.Result);
+                    }
+
+                    $("#messagesCounter").text(data.Result);
                 }
             });
+
+
+            function isLocalStorageAvailable() {
+                try {
+                    return 'localStorage' in window && window['localStorage'] !== null;
+                } catch (e) {
+                    return false;
+                }
+            }
         });
     </script>
 </body>

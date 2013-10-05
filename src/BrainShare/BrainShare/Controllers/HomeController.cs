@@ -22,6 +22,13 @@ namespace BrainShare.Controllers
         {
             Title("Активность");
             var feeds = _activityFeeds.GetLast100();
+            return View("Activity",feeds);
+        }
+
+        public ActionResult Activity()
+        {
+            Title("Активность");
+            var feeds = _activityFeeds.GetLast100();
             return View(feeds);
         }
 

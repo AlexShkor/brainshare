@@ -20,7 +20,7 @@ namespace BrainShare.Controllers
             Id = user.Id;
             Name = user.FullName;
             IsMe = user.Id == myId;
-            Avatar = user.AvatarUrl ?? "http://critterapp.pagodabox.com/img/user.jpg";
+            Avatar = user.AvatarUrl ?? Constants.DefaultAvatarUrl;
         }
     }
 }

@@ -7,43 +7,43 @@
 @Styles.Render("~/Content/fbfriends.css")
 
 
-<div id="TDFriendSelector" style="display: block;">
-    <div class="TDFriendSelector_dialog">
-        @*<a href="#" id="TDFriendSelector_buttonClose">x</a>*@
+    <div id="TDFriendSelector" style="display: block;">
+        <div class="TDFriendSelector_dialog">
+            @*<a href="#" id="TDFriendSelector_buttonClose">x</a>*@
 
-        <div class="TDFriendSelector_form">
+            <div class="TDFriendSelector_form">
 
-            <div class="TDFriendSelector_header">
-                <p>View facebook friends</p>
-            </div>
+                <div class="TDFriendSelector_header">
+                    <p>View facebook friends</p>
+                </div>
 
-            <div class="TDFriendSelector_content">
-                <p>Take a look to your friend's profile!</p>
+                <div class="TDFriendSelector_content">
+                    <p>Take a look to your friend's profile!</p>
 
-                <div class="TDFriendSelector_searchContainer TDFriendSelector_clearfix">
+                    <div class="TDFriendSelector_searchContainer TDFriendSelector_clearfix">
 
-                    <div class="TDFriendSelector_selectedCountContainer">
-                        <span>There are @Model.FacebookFriends.Count friends on BrainShare</span>
+                        <div class="TDFriendSelector_selectedCountContainer">
+                            <span>There are @Model.FacebookFriends.Count friends on BrainShare</span>
+                        </div>
+                    </div>
+                    <div class="TDFriendSelector_friendsContainer">
+                        @foreach (var friend in Model.FacebookFriends)
+                        {
+                            <a href="@Url.Action("ViewUserProfile", "Profile", new { id = friend.Id })" class="TDFriendSelector_friend TDFriendSelector_clearfix">
+                                <img src="@friend.AvatarUrl" alt="@friend.FirstName @friend.LastName" class="TDFriendSelector_friendAvatar">
+                                <div class="TDFriendSelector_friendName">
+                                    <span>@friend.FirstName @friend.LastName</span>
+                                </div>
+                            </a>
+                        }
                     </div>
                 </div>
-               <div class="TDFriendSelector_friendsContainer">
-                    @foreach (var friend in Model.FacebookFriends)
-                    {
-                        <a href="@Url.Action("ViewUserProfile", "Profile", new {id = friend.Id})" class="TDFriendSelector_friend TDFriendSelector_clearfix">
-                            <img src="@friend.AvatarUrl" alt="@friend.FirstName @friend.LastName" class="TDFriendSelector_friendAvatar">
-                            <div class="TDFriendSelector_friendName">
-                                <span>@friend.FirstName @friend.LastName</span>
-                            </div>
-                        </a>
-                    }
+
+                <div class="TDFriendSelector_footer TDFriendSelector_clearfix">
+                    <a href="#" id="TDFriendSelector_buttonOK">OK</a>
                 </div>
-            </div>
 
-            <div class="TDFriendSelector_footer TDFriendSelector_clearfix">
-                <a href="#" id="TDFriendSelector_buttonOK">OK</a>
             </div>
-
         </div>
     </div>
-</div>
 

@@ -5,7 +5,7 @@
     this.yourBook = data.YourBook;
     this.fromUserId = data.FromUserId;
     this.allBooks = ko.observableArray(data.AllBooks);
-    this.booksYouNeed = ko.observableArray(data.BooksYouNeed);
+    this.booksYouNeedTitles = ko.observableArray(data.BooksYouNeedTitles);
     this.fromUser = data.FromUser;
 
     this.sendMessage = function() {

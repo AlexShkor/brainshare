@@ -9,21 +9,20 @@
 
         <div class="span3">
 
-            <h4>Книги</h4>
             <div class="sidebar-nav">
-                <ul class="nav nav-list nav-stacked">
-                    <li class="nav-header">Книги</li>
-                    @Html.MenuLink("Последние", "Index", "Books", null)
-                    @Html.MenuLink("Искать", "Search", "Books", null)
-                    <li class="divider"></li>
-
-                    <li class="nav-header">Мои Книги</li>
-                    @Html.MenuLink("Мои Книги", "MyBooks", "Profile", null)
-                    @Html.MenuLink("Мой список поиска", "WishList", "Profile", null)
-                    @Html.MenuLink("Предложения по обмену", "Inbox", "Profile", "hasInboxBadge")
-                    @*<li><a href="@Url.Action("Inbox", "Profile")">Предложения по обмену <span class="inboxBooks badge badge-warning"></span></a></li>*@
-                    <li class="divider"></li>
-                </ul>
+                <div>
+                    <ul class="nav nav-list">
+                        <li class="nav-header">Книги</li>
+                        @Html.MenuLink("Последние", "Index", "Books")
+                        @Html.MenuLink("Искать", "Search", "Books")
+                        <li class="divider"></li>
+                        <li class="nav-header">Мои Книги</li>
+                        @Html.MenuLink("Мои Книги", "MyBooks", "Profile")
+                        @Html.MenuLink("Мой список поиска", "WishList", "Profile")
+                        @Html.MenuLink("Предложения по обмену", "Inbox", "Profile", null, "<span id=\"booksCounter\" class=\"badge badge-warning\" style=\"margin-left: 10px\"></span>")
+                        <li class="divider"></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="span9">
@@ -34,8 +33,3 @@
 
 @RenderSection("Scripts", required: false)
 
-<script type="text/javascript">
-    $(function () {
-        $("li.hasInboxBadge a").append($('<span class="inboxBooks badge badge-warning" style="margin-left: 15px">0</span>'));
-    })
-</script>

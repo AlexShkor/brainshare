@@ -46,10 +46,10 @@
         <div class="tab-content">
 
             <div class="tab-pane active" id="s1">
-                <table class="table table-condensed">
+                <table class="table table-condensed table-hover">
                     <tbody data-bind="foreach: listOfOwnedBooks">
-                        <tr>
-                            <td>
+                        <tr data-bind="click: $root.viewBook">
+                            <td class="book-image-col">
                                 <img data-bind="attr: { src: Image }" />
                             </td>
                             <td data-bind="text: Title"></td>
@@ -66,8 +66,8 @@
             <div class="tab-pane" id="s2">
                 <table class="table table-condensed">
                     <tbody data-bind="foreach: listOfWishedBooks">
-                        <tr>
-                            <td>
+                        <tr data-bind="click: $root.viewWishBook">
+                            <td class="book-image-col">
                                 <img data-bind="attr: { src: Image }" />
                             </td>
                             <td data-bind="text: Title"></td>

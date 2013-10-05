@@ -34,6 +34,22 @@ body {
     color: orange;
 }
 
-.navbar-inner {
-    height: 55px;
+.book-image-col {
+    width: 128px;
+}
+
+.book-item .thumbnail {
+    height: 350px;
+}
+
+.footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 70px;
+    border-top: 1px solid #e5e5e5;
+    background-color: #f5f5f5;
+}
+
+.sidebar-nav .well {
+    padding: 8px 0;
 }

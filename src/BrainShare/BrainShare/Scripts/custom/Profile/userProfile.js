@@ -48,6 +48,14 @@
         window.location = "/profile/message/to/" + self.user.Id;
     };
 
+    this.viewWishBook = function(book) {
+        window.location = "/books/info/wish/" + book.Id;
+    };
+    
+    this.viewBook = function(book) {
+        window.location = "/books/info/" + book.Id;
+    };
+
     getOwnedBooks();
     getWishedBooks();
 };
