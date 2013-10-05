@@ -9,10 +9,14 @@
     };
 
     this.addISBN = function() {
-        self.model.ISBNs.push("");
+        self.model.ISBNs.push({
+            Value: ko.observable()
+        });
     };
     this.addAuthor = function() {
-        self.model.Authors.push("");
+        self.model.Authors.push({
+            Value: ko.observable()
+        });
     };
     this.removeAuthor = function (author) {
         if (self.model.Authors().length > 1) {

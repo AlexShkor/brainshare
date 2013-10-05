@@ -1,9 +1,9 @@
 <p class="alert alert-success" data-bind="visible: SuccessMessage" style="display: none;">
-    <button type="button" class="close" data-bind="clear:  SuccessMessage">×</button>
+    <button type="button" class="close" data-bind="clear:  SuccessMessage"><i class="icon-remove"></i></button>
     <span data-bind="text: SuccessMessage" ></span>
 </p>
 <div class="alert alert-error" data-bind="visible:  Errors().length > 0" style="display: none;">
-    <button type="button" class="close" data-bind="clear:  Errors">×</button>
+    <button type="button" class="close" data-bind="clear:  Errors"><i class="icon-remove"></i></button>
     <ul data-bind="foreach: Errors">
         <li data-bind="text: ErrorMessage"></li>
     </ul>
