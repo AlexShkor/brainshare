@@ -19,8 +19,13 @@ namespace BrainShare.Services
 
         public Thread GetFor(string userId, string recipientId)
         {
-            return Items.FindOne(Query.And(Query<Thread>.EQ(x => x.OwnerId, userId),
-                                        Query<Thread>.EQ(x => x.RecipientId, recipientId)));
+            return Items.FindOne(
+                Query.Or(
+                Query.And(Query<Thread>.EQ(x => x.OwnerId,recipientId  ),
+                                        Query<Thread>.EQ(x => x.RecipientId, userId)),
+                
+                Query.And(Query<Thread>.EQ(x => x.OwnerId, userId),
+                                        Query<Thread>.EQ(x => x.RecipientId, recipientId))));
         }
 
         public void PostToThread(string threadId, string userId, string content)

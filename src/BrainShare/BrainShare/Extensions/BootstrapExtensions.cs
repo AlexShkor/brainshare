@@ -9,13 +9,13 @@ namespace BrainShare.Extensions
 {
     public static class BootstrapExtensions
     {
-        public static MvcHtmlString MenuLink(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, string additionalCssClass = null, string innerHtml = null)
+        public static MvcHtmlString MenuLink(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, string additionalCssClass = null, string innerHtml = null, string title = null)
         {
             var currentAction = htmlHelper.ViewContext.RouteData.GetRequiredString("action");
             var currentController = htmlHelper.ViewContext.RouteData.GetRequiredString("controller");
 
             
-            var innerLink = String.Format("<a href=\"/{0}/{1}\">{2}{3}</a>", controllerName, actionName, linkText, innerHtml);
+            var innerLink = String.Format("<a title=\"{4}\" href=\"/{0}/{1}\">{2}{3}</a>", controllerName, actionName, linkText, innerHtml, title);
             
             var li = new TagBuilder("li")
             {

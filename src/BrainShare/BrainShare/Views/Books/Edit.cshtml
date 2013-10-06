@@ -6,6 +6,11 @@
 
         var model = new EditBookViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)), '/books/edit');
         ko.applyBindings(model);
+        $('#publishedDate').datepicker({
+            format: "yyyy M",
+            minViewMode: 1,
+            language: "ru"
+        });
     });
 
 </script>

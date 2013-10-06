@@ -9,8 +9,14 @@
 
 </script>
 
-<div class="row-fluid">
     <h4>Последнии добавленные</h4>
+@*<form class="form-inline" method="GET" action="/books/index">
+  
+    <input type="text" name="query"/>
+    <input type="submit" class="btn btn-success"  value="Искать"/>
+</form>*@
+
+<div class="row-fluid">
     <ul class="thumbnails" data-bind="foreach: items">
         <li  class="book-item">
             <div class="thumbnail" data-bind="click: $root.info">

@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using BrainShare.Documents;
 using BrainShare.Mongo;
 using Elmah.ContentSyndication;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
@@ -55,9 +57,25 @@ namespace BrainShare.Services
             return Items.Find(Query<Book>.In(b => b.Id, ids));
         }
 
-        public IEnumerable<Book> GetPaged(int skip, int limit)
+        public IEnumerable<Book> GetPaged(string query, int skip, int limit)
         {
-            return Items.FindAll().SetSkip(skip).SetLimit(limit);
+            if (query.HasValue())
+            {
+                return
+                    Items.Find(Query<Book>.Matches(x => x.Title, new BsonRegularExpression(query,"i"))).SetSortOrder(SortBy<Book>.Descending(x=> x.Added)).SetSkip(skip).SetLimit
+                        (limit);
+            }
+            else
+            {
+                return
+                    Items.FindAll().SetSortOrder(SortBy<Book>.Descending(x => x.Added)).SetSkip(skip).SetLimit
+                        (limit);
+            }
+        }
+
+        public IEnumerable<Book> GetLast(int count)
+        {
+            return Items.FindAll().SetSortOrder(SortBy<Book>.Descending(x => x.Added)).SetLimit(count);
         }
 
         public IEnumerable<Book> GetByGoogleBookId(string googleBookId)

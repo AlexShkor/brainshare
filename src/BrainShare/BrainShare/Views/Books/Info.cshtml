@@ -84,7 +84,7 @@
                 </div>
 
                 <div class="span4">
-                    @Html.Partial("TwShareBtn")
+                    @Html.Partial("TwShareBtn",Model.UserName + " ищет книгу \"" + Model.Title + "\" на BrainShare")
                 </div>
                 <div class="span4">
                     @Html.Partial("VkShareBtn")

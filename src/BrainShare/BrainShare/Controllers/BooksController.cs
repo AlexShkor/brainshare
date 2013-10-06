@@ -34,9 +34,9 @@ namespace BrainShare.Controllers
             _wishBooks = wishBooks;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
-            var books = _books.GetPaged(0, 50);
+            var books = _books.GetPaged(search, 0, 50);
             var model = new AllBooksViewModel(books);
             return View(model);
         }
@@ -56,6 +56,10 @@ namespace BrainShare.Controllers
         public ActionResult Info(string id, string wishBookId)
         {
             var book = id.HasValue() ? _books.GetById(id) : _wishBooks.GetById(wishBookId);
+            if (book == null)
+            {
+                return View("NotFound");
+            }
             var model = new BookViewModel(book);
             Title(model.Title);
             return View("Info", model);
@@ -296,12 +300,13 @@ namespace BrainShare.Controllers
                 SaveFeedAsync(ActivityFeed.BooksExchanged(yourBook, you, himBook, he));
                 SendExchangeMail(yourBook, you, himBook, he);
                 SendRequestAcceptedNotification(userId, yourBook, himBook, you);
+
+                return View("ExchangeSucces", he);
             }
             catch
             {
                 return View("CantExchangeError");
             }
-            return RedirectToAction("MyBooks", "Profile");
         }
 
         private void SendRequestAcceptedNotification(string userId, Book book, Book onBook, User fromUser)
@@ -311,12 +316,15 @@ namespace BrainShare.Controllers
 
         private void SendExchangeMail(Book yourBook, User you, Book hisBook, User he)
         {
-            var mailer = new MailService();
-            var emailTofirst = mailer.SendExchangeConfirmMessage(you, yourBook, he, hisBook);
-            emailTofirst.Deliver();
-            var mailer2 = new MailService();
-            var emailToSecond = mailer2.SendExchangeConfirmMessage(he, hisBook, you, yourBook);
-            emailToSecond.Deliver();
+            Task.Factory.StartNew(() =>
+                {
+                    var mailer = new MailService();
+                    var emailTofirst = mailer.SendExchangeConfirmMessage(you, yourBook, he, hisBook);
+                    emailTofirst.Deliver();
+                    var mailer2 = new MailService();
+                    var emailToSecond = mailer2.SendExchangeConfirmMessage(he, hisBook, you, yourBook);
+                    emailToSecond.Deliver();
+                });
         }
 
         private void SaveFeedAsync(ActivityFeed feed)

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Web.Mvc;
+using BrainShare.Documents;
 using BrainShare.Services;
 using CloudinaryDotNet;
 
@@ -11,18 +14,28 @@ namespace BrainShare.Controllers
     {
         private readonly ActivityFeedsService _activityFeeds;
         private readonly UsersService _users;
+        private readonly BooksService _books;
 
-        public HomeController(ActivityFeedsService activityFeeds, UsersService users)
+        public HomeController(ActivityFeedsService activityFeeds, UsersService users, BooksService books)
         {
             _activityFeeds = activityFeeds;
             _users = users;
+            _books = books;
         }
 
         public ActionResult Index()
         {
-            Title("Активность");
-            var feeds = _activityFeeds.GetLast100();
-            return View("Activity",feeds);
+            Title("Книги. Социальный портал по обмену книгами");
+            var last5Users = _users.GetLast(5);
+            var last5Books = _books.GetLast(5);
+            var feeds = _activityFeeds.GetLast(10);
+            var model = new HomeViewModel
+            {
+                Feeds = feeds,
+                Users = last5Users.Select(x => new UserViewModel(x)),
+                Books = last5Books.Select(x => new BookViewModel(x))
+            };
+            return View("Main", model);
         }
 
         public ActionResult Activity()
@@ -50,5 +63,12 @@ namespace BrainShare.Controllers
         {
             return View();
         }
+    }
+
+    public class HomeViewModel
+    {
+        public IEnumerable<ActivityFeed> Feeds { get; set; }
+        public IEnumerable<UserViewModel> Users { get; set; }
+        public IEnumerable<BookViewModel> Books { get; set; }
     }
 }

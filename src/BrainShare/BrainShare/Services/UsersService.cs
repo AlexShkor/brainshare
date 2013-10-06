@@ -83,5 +83,10 @@ namespace BrainShare.Services
                 Query<User>.EQ(x => x.Id, userId),
                 Update<User>.Pull(x => x.ThreadsWithUnreadMessages, threadId));
         }
+
+        public IEnumerable<User> GetLast(int count)
+        {
+            return Items.FindAll().SetSortOrder(SortBy<User>.Descending(x => x.Registered)).SetLimit(count);
+        }
     }
 }

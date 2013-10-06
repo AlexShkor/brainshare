@@ -6,32 +6,43 @@
 @section Scripts{
     <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Profile/wishList.js")"></script>
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             var model = new WishListModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
             ko.applyBindings(model);
         });
     </script>
 }
+<div data-bind="visible: books().length > 0">
+    <h4>Мой список поиска</h4>
 
-<h4>Мой список поиска</h4>
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th class="span5">Название</th>
+                <th class="span4">Автор(ы)</th>
+                <th class="span5"></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: books">
+            <tr>
+                <td><a data-bind="text: Title, attr: {href: '/books/info/wish/' + Id}"></a></td>
+                <td data-bind="text: Authors"></td>
+                <td>
+                    <a class="btn btn-small" data-bind="attr: {href: '/books/edit/wish/' + Id}">Редактировать</a>
+                    <a class="btn btn-small" href="#" data-bind="click: $root.whoHas">У кого есть?</a>
+                    <a class="btn btn-small btn-danger" href="#" data-bind="click: $root.dontWant">Удалить</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
-<table class="table table-condensed">
-    <thead>
-        <tr>
-            <th class="span5">Название</th>
-            <th class="span4">Автор(ы)</th>
-            <th class="span5"></th>
-        </tr>
-    </thead>
-    <tbody data-bind="foreach: books">
-        <tr>
-            <td ><a data-bind="text: Title, attr: {href: '/books/info/wish/' + Id}"></a></td>
-            <td data-bind="text: Authors"></td>
-            <td>
-                  <a class="btn btn-small"  data-bind="attr: {href: '/books/edit/wish/' + Id}">Редактировать</a>
-                <a class="btn btn-small" href="#" data-bind="click: $root.whoHas">У кого есть?</a>
-                <a class="btn btn-small btn-danger" href="#" data-bind="click: $root.dontWant">Удалить</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="well" data-bind="visible: books().length == 0">
+    <h4>Вы не ищите книги :(</h4>
+    <p>
+        Вы можете выбрать нужные вам книги из тех, которые уже <a href="/books/index">есть на
+            сервисе</a>, либо 
+        <a href="/books/search">импортировать</a>  с Google Books или же добавить книгу
+        <a href="/books/add">самостоятельно</a>.
+    </p>
+</div>

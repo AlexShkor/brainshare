@@ -1,0 +1,95 @@
+﻿@model BrainShare.Controllers.HomeViewModel
+
+<style type="text/css">
+
+      /* Main marketing message and sign up button */
+      .jumbotron {
+        margin: 60px 0;
+        text-align: center;
+      }
+      .jumbotron h1 {
+        font-size: 72px;
+        line-height: 1;
+      }
+      .jumbotron .btn {
+        font-size: 21px;
+        padding: 14px 24px;
+      }
+
+      /* Supporting marketing content */
+      .marketing {
+        margin: 60px 0;
+      }
+      .marketing p + h4 {
+        margin-top: 28px;
+      }
+    </style>
+<div class="jumbotron">
+        <h1>BrainShare</h1>
+    <p class="lead">Социальный сервис по обмену книгами. <br/>Регистрируйтесь и добавляйте свои книги на сайт и указывайе книги которые вы ищите.</p>
+    <a class="btn btn-large btn-success" href="/User/LoginWithFacebook">Войти</a>
+</div>
+
+<h4>5 последних Книг</h4>
+<div>
+    <ul class="thumbnails" data-bind="foreach: items">
+        @foreach (var item in Model.Books)
+        {
+          
+            <li class="book-item" onclick="window.location = '/books/info/@item.Id'">
+                <div class="thumbnail" data-bind="click: $root.info">
+                    <img style="width: 128px;" src="@item.Image" data-bind="attr: { src: Image }" />
+                    <div class="caption">
+                        <strong class="color-black" data-bind="text: Title">@item.Title</strong>
+                        <div><span data-bind="text: PublishedDate">@item.PublishedDate</span></div>
+
+                        <div><span class="color-black" data-bind="text: Authors">@item.Authors</span></div>
+
+                        <span class="label" data-bind="    text: PageCount">@item.PageCount</span>стр.
+                    <div>
+                        <strong class="color-black" data-bind="text: Address">@item.Address</strong>
+                    </div>
+                    </div>
+
+                </div>
+            </li>
+      
+        }
+    </ul>
+</div>
+<h4>5 последних Пользователей</h4>
+<table class="table table-condensed table-striped">
+
+    <ul class="thumbnails" data-bind="foreach: items" >
+        @foreach(var item in Model.Users)
+        {
+            <li >
+                <div class="thumbnail" data-bind="click: $root.info" onclick="window.location = '/profile/view/@item.UserId'">
+                    <img style="width: 128px;" src="@item.Avatar" data-bind="attr: { src: Avatar }" />
+                    <div class="caption">
+                        <strong class="color-black" data-bind="text: Username">@item.Username</strong>
+                
+
+                    </div>  
+                        <span class="color-black" data-bind="text: Username">@item.Address</span>
+                
+
+                
+                </div>
+            </li>
+        }
+    </ul>
+</table>
+<h4>Активность</h4>
+<table class="table table-condensed table-striped">
+
+    <tbody>
+        @foreach (var item in Model.Feeds)
+        {
+            <tr>
+                <td>@Html.Partial(item.ActivityType.ToString(), item)</td>
+            </tr>
+        }
+
+    </tbody>
+</table>

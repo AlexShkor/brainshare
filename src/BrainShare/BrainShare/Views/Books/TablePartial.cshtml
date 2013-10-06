@@ -1,24 +1,25 @@
 ﻿@model List<BrainShare.Controllers.BookViewModel>
 
 <table class="table table-condensed">
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                <img src="@item.Image" /> </td>
-                            <td>@item.Title </td>
-                            <td>@item.Authors </td>
-                            <td>@item.Subtitle </td>
-                            <td>@item.Publisher </td>
-                            <td>@item.PublishedDate </td>
-                            <td>@item.PageCount стр</td>
-                            @*<td>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@item.Image" />
+                </td>
+                <td>@item.Title </td>
+                <td>@item.Authors </td>
+                <td>@item.Subtitle </td>
+                <td>@item.Publisher </td>
+                <td>@item.PublishedDate </td>
+                <td>@item.PageCount стр</td>
+                @*<td>
                             <a class="btn btn-small" href="/books/give/@Model.YourBook.Id/take/@item.Id/from/@Model.FromUser.UserId">Поменяться</a>
                                 
                             </td>
                                 *@
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -53,3 +53,10 @@ body {
 .sidebar-nav .well {
     padding: 8px 0;
 }
+
+.datepicker td, .datepicker th {
+    color: #fff;
+}
+.datepicker table tr td span:hover, .datepicker thead tr:first-child th:hover, .datepicker tfoot tr th:hover {
+background: #888;
+}

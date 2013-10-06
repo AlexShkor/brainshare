@@ -13,6 +13,7 @@
     </script>
 }
 
+<div data-bind="visible: books().length > 0">
 <h4>Моя книжная полка</h4>
 
 <table class="table table-condensed">
@@ -34,3 +35,13 @@
         </tr>
     </tbody>
 </table>
+</div>
+    <div class="well" data-bind="visible: books().length == 0">
+    <h4>У вас нет книг :(</h4>
+    <p>
+        Вы можете добавить книгу выбрав из тех, которые уже <a href="/books/index">есть на
+            сервисе</a>, либо 
+        <a href="/books/search">импортировать</a>  с Google Books или же добавить книгу
+        <a href="/books/add">самостоятельно</a>.
+    </p>
+</div>

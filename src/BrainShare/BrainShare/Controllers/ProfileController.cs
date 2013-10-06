@@ -17,6 +17,7 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
+using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Hubs;
 using BrainShare.Services;
@@ -149,6 +150,7 @@ namespace BrainShare.Controllers
             var threads = _threads.GetAllForUser(UserId).Where(x => x.Messages.Any()).OrderByDescending(x => x.Messages.Max(m => m.Posted));
             var user = _users.GetById(UserId);
             var model = new AllThreadsViewModel(threads, UserId, user);
+            Title("Сообщения");
             return View(model);
         }
 
@@ -179,6 +181,7 @@ namespace BrainShare.Controllers
             var recipient = _users.GetById(thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId);
             var model = new MessagingThreadViewModel(thread, me, recipient);
             SetThreadIsReadAsync(UserId, threadId);
+            Title("Сообщения от " + recipient.FullName);
             return View("Messages", model);
         }
 
@@ -202,7 +205,7 @@ namespace BrainShare.Controllers
             var callbackModel = new MessageViewModel();
             callbackModel.Init(UserId, content, DateTime.Now.ToString("o"), true, thread.OwnerId == UserId ? thread.OwnerName : thread.RecipientName);
             ThreadHub.HubContext.Clients.Group(threadId).messageSent(callbackModel);
-            NotificationsHub.SendGenericText(sendToUserId, User.Identity.Name, content);
+            NotificationsHub.SendGenericText(sendToUserId, (( UserIdentity)User.Identity).User.FullName, content);
             return Json(model);
         }
 

@@ -24,6 +24,8 @@ namespace BrainShare.Documents
         public string Image { get; set; }
         public string Country { get; set; }
 
+        public DateTime Added { get; set; }
+
         public List<string> Authors { get; set; }
         public UserData UserData { get; set; }
 
@@ -32,6 +34,7 @@ namespace BrainShare.Documents
             ISBN = new List<string>();
             Authors = new List<string>();
             UserData = new UserData();
+            Added = DateTime.Now;
         }
 
         public DateTime PublishedDate

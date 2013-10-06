@@ -19,7 +19,12 @@ namespace BrainShare.Services
 
         public IEnumerable<ActivityFeed> GetLast100()
         {
-            return Items.FindAll().SetSortOrder(SortBy<ActivityFeed>.Descending(x => x.Created)).SetLimit(100);
+            return GetLast(100);
+        }
+
+        public IEnumerable<ActivityFeed> GetLast(int count)
+        {
+            return Items.FindAll().SetSortOrder(SortBy<ActivityFeed>.Descending(x => x.Created)).SetLimit(count);
         }
     }
 }
