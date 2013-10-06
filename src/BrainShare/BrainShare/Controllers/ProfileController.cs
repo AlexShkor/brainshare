@@ -320,7 +320,8 @@ namespace BrainShare.Controllers
         public ActionResult GetNewBooksCount()
         {
             var user = _users.GetById(UserId);
-            return Json(new { Result = user.Inbox.Count(x => !x.Viewed) });
+            //replaces with all book requests, not only new
+            return Json(new { Result = user.Inbox.Count });
         }
 
         [POST("get-new-messages-count")]
