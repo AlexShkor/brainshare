@@ -295,7 +295,7 @@ namespace BrainShare.Controllers
                 }
 
                 var model = new FacebookSelectorViewModel(existingFrends);
-                model.ApplicationUrl = GetApplicationUrl();
+                //model.ApplicationUrl = GetApplicationUrl();
 
                 return View(model);
             }
@@ -328,7 +328,7 @@ namespace BrainShare.Controllers
 
         private string GetApplicationUrl()
         {
-
+            
             return string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority);
         }
     }

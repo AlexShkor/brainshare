@@ -22,8 +22,10 @@
 
                     @if (ViewBag.IsFacebookAccount)
                     {
-                        <li><a id="fbFriendsSelectorLink" href="#" style="color: #537FF0">Друзья из Фэйсбука
-                                    <img style="width: 30px; height: 30px; display: none; padding-left: 15px;" data-bind="visible: ShowFriendsLoading" src="/Images/loading.gif"></a></li>
+                        @*<li><a id="fbFriendsSelectorLink" href="#" style="color: #537FF0">Друзья из Фэйсбука
+                                <img style="width: 30px; height: 30px; display: none; padding-left: 15px;" data-bind="visible: ShowFriendsLoading" src="/Images/loading.gif"></a></li>*@
+                        
+                        @Html.MenuLink("Друзья из Фэйсбука", "GetFbFriends", "User")
                     }
                     <li class="divider"></li>
                     <li class="nav-header">Другое</li>

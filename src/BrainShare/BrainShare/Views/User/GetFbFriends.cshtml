@@ -1,7 +1,7 @@
 ﻿@model BrainShare.Facebook.FacebookSelectorViewModel
 
 @{
-    Layout = null;
+    Layout = "~/Views/Profile/_ProfileLayout.cshtml";
 }
 
 <div id="fb-root"></div>
@@ -22,10 +22,9 @@
         <div class="TDFriendSelector_form">
 
             <div class="TDFriendSelector_header">
-                <div style="color: white;">Друзья из фэйсбука  <a style="float: right;" href="#" id="TDFriendSelector_buttonOK">x</a></div>
-
+                <div style="color: white;">Друзья из фэйсбука</div>
             </div>
-
+            @* <a style="float: right;" href="#" id="TDFriendSelector_buttonOK">x</a>*@
             <div class="TDFriendSelector_content">
                 @* <p>Take a look to your friend's profile!</p>*@
 
@@ -41,7 +40,7 @@
                         <a href="@Url.Action("ViewUserProfile", "Profile", new { id = friend.Id })" class="TDFriendSelector_friend TDFriendSelector_clearfix">
                             <img src="@friend.AvatarUrl" alt="@friend.FirstName @friend.LastName" class="TDFriendSelector_friendAvatar">
                             <div class="TDFriendSelector_friendName">
-                                <span>@friend.FirstName @friend.LastName</span>
+                                <span style="color: black">@friend.FirstName @friend.LastName</span>
                             </div>
                         </a>
                     }
@@ -50,10 +49,10 @@
 
             <div class="TDFriendSelector_footer TDFriendSelector_clearfix">
                 <div style="float: left;">Пригласите друзей на BrainShare!</div>
-                <div style="float: right">
+                <div style="float: left; padding-left: 20px;">
                     @* <div class="fb-send" data-href="@Model.ApplicationUrl" data-width="60" data-height="20" data-colorscheme="light"></div>*@
-                     <div class="fb-send" data-href="@Model.ApplicationUrl" data-width="60" data-height="20" data-colorscheme="light"></div>
-                   @* <div class="fb-send" data-href="http://developers.facebook.com/docs/plugins/" data-width="60" data-height="20" data-colorscheme="light"></div>*@
+                    @*   <div class="fb-send" data-href="/" data-width="60" data-height="20" data-colorscheme="light"></div>*@
+                    <div class="fb-send" data-href="http://developers.facebook.com/docs/plugins/" data-width="60" data-height="20" data-colorscheme="light"></div>
                 </div>
             </div>
 
