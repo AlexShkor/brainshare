@@ -12,7 +12,7 @@
 
 <h4>Импортировать книг с сервиса Goggle Books</h4>
 
-<form class="form-inline" data-bind="submit: search">
+<form class="form-inline" data-bind="submit: submit">
   
 <select class="span2" data-bind="event: {change: languageChanged} , options: availableLanguages, optionsText: 'title', optionsValue: 'code', value: selectedLanguage" ></select>
 
@@ -23,3 +23,11 @@
 </form>
 
 @Html.Partial("_BooksList")
+
+<div class="pagination" data-bind="visible: pages().length > 0">
+  <ul data-bind="foreach: pages" >
+      <li data-bind="css: {active: StartIndex() == $root.startIndex()}">
+          <a href="#" data-bind="text: Number, click: $root.goToPage"></a>
+      </li>
+  </ul>
+</div>

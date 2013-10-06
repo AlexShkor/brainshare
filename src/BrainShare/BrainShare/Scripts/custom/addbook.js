@@ -2,7 +2,7 @@
 var AddBookModel = function (ownedItems) {
     var self = this;
 
-    this.postfix = "&key=AIzaSyAFFukdkjHMHh5WmucwuxVGt18XA9LEJ1I&language=ru&country=";
+    this.postfix = "&key=AIzaSyAFFukdkjHMHh5WmucwuxVGt18XA9LEJ1I&maxResults=20&country=";
     this.baseUrl = "https://www.googleapis.com/books/v1/volumes?q=";
 
     this.query = ko.observable();
@@ -17,12 +17,23 @@ var AddBookModel = function (ownedItems) {
 
     this.items = ko.observableArray();
 
+    this.totalItems = ko.observable(null);
+
+    this.pages = ko.observableArray();
+
     this.owned = ko.observableArray(ownedItems);
+
+    this.startIndex = ko.observable(0);
+
+    this.submit = function() {
+        this.startIndex(0);
+        self.search();
+    };
 
     this.search = function () {
         if (self.query()) {
             self.loading(true);
-            $.getJSON(self.baseUrl + encodeURIComponent(self.query()) + self.postfix + self.selectedLanguage(),
+            $.getJSON(self.baseUrl + encodeURIComponent(self.query()) + self.postfix + self.selectedLanguage() + "&startIndex=" +self.startIndex(),
                 function (response) {
                     if (response.items) {
                         self.items.removeAll();
@@ -31,7 +42,32 @@ var AddBookModel = function (ownedItems) {
                         });
                     }
                     self.loading(false);
+                    self.pages.removeAll();
+                    for (var i = 0; i < response.totalItems/20; i++) {
+                        self.pages.push({
+                            Number: ko.observable(i + 1),
+                            StartIndex: ko.observable(i*20)
+                        });
+                    }
                 });
+            
+            //$.ajax({
+            //    dataType: "jsonp",
+            //    url: self.baseUrl + encodeURIComponent(self.query()) + self.postfix,
+            //    crossDomain: true,
+            //    success: function (data) {
+            //        if (response.items) {
+            //            self.items.removeAll();
+            //            $.each(response.items, function (index, item) {
+            //                self.items.push(new BookViewModel(item, self));
+            //            });
+            //        }
+            //        self.loading(false);
+            //    },
+            //    error: function () {
+            //        console.log(arguments)
+            //    }
+            //});
         }
     };
 
@@ -45,6 +81,11 @@ var AddBookModel = function (ownedItems) {
     this.hideConfirmBtns = function (googleBookId) {
         $("#confirmBtns-" + googleBookId).hide();
         $("#wishBtns-" + googleBookId).fadeIn();
+    };
+
+    this.goToPage = function(page) {
+        self.startIndex(page.StartIndex());
+        self.search();
     };
 
     this.give = function (item) {
