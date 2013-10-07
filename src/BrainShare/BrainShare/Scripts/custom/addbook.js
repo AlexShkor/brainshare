@@ -2,17 +2,19 @@
 var AddBookModel = function (ownedItems) {
     var self = this;
 
-    this.postfix = "&key=AIzaSyAFFukdkjHMHh5WmucwuxVGt18XA9LEJ1I&maxResults=20&country=";
+    this.postfix = "&key=AIzaSyAFFukdkjHMHh5WmucwuxVGt18XA9LEJ1I&maxResults=20&country=ru";
     this.baseUrl = "https://www.googleapis.com/books/v1/volumes?q=";
 
     this.query = ko.observable();
     this.loading = ko.observable(false);
-    this.selectedLanguage = ko.observable("RU");
+    this.selectedLanguage = ko.observable(null);
 
 
     this.availableLanguages = ko.observableArray(
-       [{ title: "Русский", code: "RU" },
-        { title: "Английский", code: "US" }]
+       [
+           { title: "Любой", code: null },
+           { title: "Русский", code: "ru" },
+        { title: "Английский", code: "en" }]
     );
 
     this.items = ko.observableArray();
@@ -33,7 +35,7 @@ var AddBookModel = function (ownedItems) {
     this.search = function () {
         if (self.query()) {
             self.loading(true);
-            $.getJSON(self.baseUrl + encodeURIComponent(self.query()) + self.postfix + self.selectedLanguage() + "&startIndex=" +self.startIndex(),
+            $.getJSON(self.baseUrl + encodeURIComponent(self.query()) + self.postfix + (self.selectedLanguage() ? "&langRestrict=" + self.selectedLanguage() : "") + "&startIndex=" + self.startIndex(),
                 function (response) {
                     if (response.items) {
                         self.items.removeAll();
