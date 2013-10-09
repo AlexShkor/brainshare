@@ -9,7 +9,7 @@
 
 </script>
 
-    <h4>Последнии добавленные</h4>
+<h4>Последнии добавленные</h4>
 @*<form class="form-inline" method="GET" action="/books/index">
   
     <input type="text" name="query"/>
@@ -18,21 +18,19 @@
 
 <div class="row-fluid">
     <ul class="thumbnails" data-bind="foreach: items">
-        <li  class="book-item">
+        <li class="book-item">
             <div class="thumbnail" data-bind="click: $root.info">
-                <img style="width: 128px;" data-bind="attr: { src: Image }" />
-                <div class="caption">
-                    <strong class="color-black" data-bind="text: Title"></strong>
-                    <div> <span data-bind="text: PublishedDate"></span></div>
-                   
-                    <div> <span class="color-black" data-bind="text: Authors"></span></div>
-               
-                <span class="label" data-bind="    text: PageCount"></span>стр.
+                <img style="width: 128px; max-height: 185px;" data-bind="attr: { src: Image }" />
+
+                <div class="caption" style="max-height: 170px; overflow: hidden;">
+                    <strong style="display: block;" class="color-black" data-bind="text: $root.CutString(Title(), 30)"></strong>
+                    <span style="display: block;" data-bind="text: $root.CutString(PublishedDate(), 30)"></span>
+                    <span style="display: block;" class="color-black" data-bind="text: $root.CutString(Authors(), 30)"></span>
                     <div>
-                        <strong class="color-black"  data-bind="text: Address"></strong>
+                        <span class="label" data-bind="text: PageCount"></span> стр.
                     </div>
+                    <strong style="display: block;" class="color-black" data-bind="text: $root.CutString(Address(), 30)"></strong>
                 </div>
-                
             </div>
         </li>
     </ul>

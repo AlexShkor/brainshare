@@ -14,7 +14,7 @@ var AddBookModel = function (ownedItems) {
        [
            { title: "Любой", code: null },
            { title: "Русский", code: "ru" },
-        { title: "Английский", code: "en" }]
+           { title: "Английский", code: "en" }]
     );
 
     this.items = ko.observableArray();

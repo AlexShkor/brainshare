@@ -5,26 +5,23 @@
 }
 
 <div class="container-fluid">
-
-
+    
     <div class="row-fluid">
-
         <div class="span3">
             <div class="sidebar-nav">
-                <div class="well">
-                    <ul class="nav nav-list">
-                        <li class="nav-header">Помощь</li>
-                        @Html.MenuLink("Как добавить книгу в коллекцию?", "HowToAddBook", "Help", null)
-                        @Html.MenuLink("Как найти книгу?", "HowToSearchBook", "Help", null)
-                        @Html.MenuLink("Как обменяться книгами?", "HowToExchangeBook", "Help", null)
-                    </ul>
-                </div>
+                <ul class="nav nav-list">
+                    <li class="nav-header">Помощь</li>
+                    @Html.MenuLink("Как добавить книгу в коллекцию?", "HowToAddBook", "Help", null)
+                    @Html.MenuLink("Как найти книгу?", "HowToSearchBook", "Help", null)
+                    @Html.MenuLink("Как обменяться книгами?", "HowToExchangeBook", "Help", null)
+                    <li class="divider"></li>
+                </ul>
             </div>
         </div>
-        <div class="span9">
-            <h3>@ViewBag.Subtitle</h3>
-            @RenderBody()
-        </div>
+    <div class="span9">
+        <h3>@ViewBag.Subtitle</h3>
+        @RenderBody()
     </div>
+</div>
 </div>
 @RenderSection("Scripts", required: false)

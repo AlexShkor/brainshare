@@ -11,9 +11,9 @@
 };
 
 var isFunction = function (functionToCheck) {
-    var getType = {};
+    var getType = { };
     return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
-}
+};
 
 var sendModel = function (url, model, successCallback, ignoreList) {
     model.Loading(true);
@@ -29,7 +29,6 @@ var sendModel = function (url, model, successCallback, ignoreList) {
             }
         }
         if (defaultBehaviour) {
-        
             ko.mapping.fromJS(response, mapping, model);
         }
         model.Loading(false);

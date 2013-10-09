@@ -24,8 +24,7 @@ namespace BrainShare.Controllers
         private readonly BooksService _books;
         private readonly WishBooksService _wishBooks;
         private readonly ActivityFeedsService _feeds;
-
-
+        
         public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds, WishBooksService wishBooks)
         {
             _users = users;
@@ -333,13 +332,13 @@ namespace BrainShare.Controllers
         }
 
 
-        private void PostToFbWall(GoogleBookDto bookDto, string facebookId)
-        {
-            var token = System.Web.HttpContext.Current.Session[SessionKeys.FbAccessToken] as string;
-            var client = new FacebookClient(token);
+        //private void PostToFbWall(GoogleBookDto bookDto, string facebookId)
+        //{
+        //    var token = System.Web.HttpContext.Current.Session[SessionKeys.FbAccessToken] as string;
+        //    var client = new FacebookClient(token);
 
-            client.Post("/" + facebookId + "/feed", new { message = bookDto.Title });
-        }
+        //    client.Post("/" + facebookId + "/feed", new { message = bookDto.Title });
+        //}
     }
 
     public class RequestAcceptedModel

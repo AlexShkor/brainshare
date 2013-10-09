@@ -35,4 +35,8 @@
     this.toWish = function() {
         self.model.IsWhishBook(true);
     };
+    
+    this.UploadImg = function () {
+        $("#bookImg").click();
+    };
 }; 

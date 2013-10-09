@@ -18,7 +18,6 @@ namespace BrainShare.Controllers
             }
         }
 
-
         protected void Title(string title)
         {
             ViewBag.Title = title;
