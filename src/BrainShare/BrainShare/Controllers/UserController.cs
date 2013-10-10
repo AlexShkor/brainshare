@@ -271,7 +271,6 @@ namespace BrainShare.Controllers
 
         public ActionResult GetFbFriends()
         {
-
             var currentUser = _users.GetById(UserId);
 
             if (currentUser.IsFacebookAccount)

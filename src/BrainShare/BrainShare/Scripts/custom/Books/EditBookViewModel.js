@@ -40,6 +40,8 @@
         $("#bookImgFile").click();
     };
 
+    this.ImageIsLoading = ko.observable(false);
+
     $("#bookImgFile").change(function () {
         $(".error-mesage").empty();
         $("#uploadBookImage").click();
@@ -48,7 +50,8 @@
     var options = {
         beforeSend: function (formOptions) {
             debugger;
-
+            self.ImageIsLoading(true);
+            //$("#bookImgBar").show();
             //self.ShowOverlay(true);
 
             // hide navigation
@@ -77,20 +80,21 @@
 
         uploadProgress: function (event, position, total, percentComplete) {
 
-            //$("#bar").width(percentComplete + '%');
-            //$("#percent").html(percentComplete + '%');
+            $("#bookImgBar").width(percentComplete + '%');
+            //$("#bookImgBarPercent").html(percentComplete + '%');
         },
 
         success: function (response) {
             debugger;
 
+            $("#bookImgBar").width('100%');
+            //$("#bookImgBarPercent").html('100%');
+            self.ImageIsLoading(false);
 
-            //$("#bar").width('100%');
-            //$("#percent").html('100%');
             //$("#loadBar").hide();
 
             if (response.error) {
-                //$(".error-mesage").text(response.error);
+                $(".error-mesage").text(response.error);
                 //self.ShowOverlay(false);
                 //$("#loadBar").hide();
                 //$("#mainNav").show();
@@ -112,7 +116,6 @@
 
             //$("#imgPreviewContainer").append($("<img />").attr("id", "avatarPreview").attr("src", response.avatarUrl));
 
-            var t = $("#bookImgContainer");
             //$("#bookImgContainer").attr("src", response.bookImgUrl);
             self.model.Image(response.bookImgUrl);
             //$("#bookImgContainer").append($('<img style="width: 130px; height: 180px;" />').attr("id", "avatarPreview").attr("src", response.bookImgUrl));
