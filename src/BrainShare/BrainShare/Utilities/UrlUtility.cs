@@ -7,14 +7,19 @@ namespace BrainShare.Utilities
 {
     public static class UrlUtility
     {
+        
         public static string ApplicationBaseUrl
         {
             get
             {
-                var request = HttpContext.Current.Request;
-                var appUrl = HttpRuntime.AppDomainAppVirtualPath;
-                var baseUrl = string.Format("{0}://{1}{2}", request.Url.Scheme, request.Url.Authority, appUrl);
-                return baseUrl;
+                var httpContext = HttpContext.Current;
+                var url = httpContext.Request.Url.AbsoluteUri.Replace(httpContext.Request.Url.PathAndQuery, "");
+                if (httpContext.Request.Url.Host != "localhost")
+                {
+                    url = url.Replace(":" + httpContext.Request.Url.Port, "");
+                }
+
+                return url;
             }
         }
     }
