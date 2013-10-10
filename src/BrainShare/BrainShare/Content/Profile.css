@@ -18,7 +18,7 @@
     border-radius: 8px;
 }
 
-#bar {
+.custom-progress-bar {
     background-color: #ccff33;
     width: 0%;
     height: 15px;
@@ -36,7 +36,7 @@
     -moz-animation: animate-stripes 3s linear infinite;
 }
 
-#percent {
+.custom-progress-bar-percent {
     position: absolute;
     display: inline-block;
     bottom: -3%;
