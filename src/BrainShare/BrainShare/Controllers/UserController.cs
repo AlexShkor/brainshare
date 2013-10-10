@@ -27,18 +27,13 @@ namespace BrainShare.Controllers
 
         private readonly FacebookClient _fb;
 
-        //public string FacebookCallbackUri
-        //{
-        //    get
-        //    {
-        //        var url = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, "");
-        //        if (Request.Url.Host != "localhost")
-        //        {
-        //            url = url.Replace(":" + Request.Url.Port, "");
-        //        }
-        //        return url + Url.Action("FacebookCallback");
-        //    }
-        //}
+        public string FacebookCallbackUri
+        {
+            get
+            {
+               return UrlUtility.ApplicationBaseUrl + Url.Action("FacebookCallback");
+            }
+        }
 
 
         public UserController(IAuthentication auth, UsersService users, FacebookClientFactory fbFactory, Settings settings)
@@ -203,7 +198,7 @@ namespace BrainShare.Controllers
                 {
                     client_id = _settings.FacebookAppId,
                     client_secret = _settings.FacebookSecretKey,
-                    redirect_uri = UrlUtility.ApplicationBaseUrl,
+                    redirect_uri = FacebookCallbackUri,
                     response_type = "code",
                     scope = scope,
                     state = state
@@ -248,7 +243,7 @@ namespace BrainShare.Controllers
                                           {
                                               client_id = _settings.FacebookAppId,
                                               client_secret = _settings.FacebookSecretKey,
-                                              redirect_uri = UrlUtility.ApplicationBaseUrl,
+                                              redirect_uri = FacebookCallbackUri,
                                               code = code
                                           });
 
