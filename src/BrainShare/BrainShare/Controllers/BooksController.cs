@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Documents;
+using BrainShare.Extensions;
 using BrainShare.GoogleDto;
 using BrainShare.Hubs;
 using BrainShare.Services;
+using CloudinaryDotNet.Actions;
 using Facebook;
 using BrainShare.Services.Validation;
 using MongoDB.Bson;
@@ -332,6 +337,51 @@ namespace BrainShare.Controllers
         }
 
 
+
+        public JsonResult UploadBookImage(HttpPostedFileBase bookImgfile)
+        {
+
+            var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
+            bool isValidImage;
+
+            if (bookImgfile != null)
+            {
+                isValidImage = bookImgfile.IsValidImage(128, 180);
+            }
+            else
+            {
+                // TODO: actions if close button pressed
+                return null;
+            }
+
+            if (isValidImage)
+            {
+                //var user = _users.GetById(UserId);
+                bookImgfile.InputStream.Seek(0, SeekOrigin.Begin);
+
+                //if (user.AvatarId != null)
+                //{
+                //    cloudinary.Destroy(new DeletionParams(user.AvatarId));
+                //}
+
+                var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams()
+                {
+                    File = new CloudinaryDotNet.Actions.FileDescription("filename", bookImgfile.InputStream),
+                };
+
+                var uploadResult = cloudinary.Upload(uploadParams);
+                string bookImgUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(128).Height(180).Crop("fill")).BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
+
+                //user.AvatarId = uploadParams.PublicId;
+                //_users.Save(user);
+
+                return Json(new { bookImgUrl = bookImgUrl, bookImgId = uploadResult.PublicId, bookImgFormat = uploadResult.Format });
+            }
+
+            return Json(new { error = "Файл загруженный вами не является изображением или его размеры слишком малы" });
+
+        }
+
         //private void PostToFbWall(GoogleBookDto bookDto, string facebookId)
         //{
         //    var token = System.Web.HttpContext.Current.Session[SessionKeys.FbAccessToken] as string;
@@ -352,6 +402,7 @@ namespace BrainShare.Controllers
             Message = string.Format("Ваз запрос на обмен книги {0} пользователя {2} на вашу книгу {1} был принят.",
                 book.Title, fromUser.FullName, onBook.Title);
         }
+        
     }
 
     public class AllBooksViewModel
@@ -363,4 +414,6 @@ namespace BrainShare.Controllers
 
         public List<BookViewModel> Items { get; set; }
     }
+
+
 }

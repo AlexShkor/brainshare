@@ -273,6 +273,7 @@
     <Compile Include="Settings\SettingsPrefixAttribute.cs" />
     <Compile Include="Settings\SettingsPropertyAttribute.cs" />
     <Compile Include="StructureMapResolver.cs" />
+    <Compile Include="Utilities\UrlUtility.cs" />
     <Compile Include="ViewModels\AcceptRequestViewModel.cs" />
     <Compile Include="ViewModels\AllThreadsViewModel.cs" />
     <Compile Include="Controllers\BaseController.cs" />

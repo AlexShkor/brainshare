@@ -1,9 +1,9 @@
 ﻿<!-- ko with: model-->
 
-<div class="pull-right text-center">
+<div class="pull-right text-center" id="bookImgContainer"> 
     <label class="control-label text-center" style="padding-bottom: 0.5em;">Картинка</label>
     <img data-bind="attr: { src: Image }"></img>
-    <div>
+    <div style="padding-top: 1em;">
         <a href="#"  data-bind="click: $root.UploadImg">Загрузить картинку</a>
     </div>
 
@@ -11,14 +11,16 @@
     <div class="control-group">
 
         <div style="display: none">
-            @using (Html.BeginForm("UploadImage", "Profile", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
+            @using (Html.BeginForm("UploadBookImage", "Books", FormMethod.Post, new { enctype = "multipart/form-data", id = "bookImgForm" }))
             {
-                <input type="file" name="bookImg" id="bookImg" />
-                <button type="submit" id="uploadImage" class="btn btn-primary">Upload</button>
+                <input type="file" name="bookImgFile" id="bookImgFile" />
+                <button type="submit" id="uploadBookImage" class="btn btn-primary">Upload</button>
             }
         </div>
+        <input type="hidden" id="bookImgId"/>
+        <input type="hidden" id="bookImgFormat"/>
 
-        @* <div style="display: none;" class="controls">
+        @*<div style="display: none;" class="controls">
             <input id="filebutton" name="filebutton" class="input-file" type="file">
         </div>*@
 

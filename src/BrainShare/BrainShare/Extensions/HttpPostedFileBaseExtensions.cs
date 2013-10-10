@@ -14,7 +14,7 @@ namespace BrainShare.Extensions
     {
         public const int ImageMinimumBytes = 512;
 
-        public static bool IsValidImage(this HttpPostedFileBase postedFile)
+        public static bool IsValidImage(this HttpPostedFileBase postedFile, int minWidth, int minHeight)
         {
             //-------------------------------------------
             //  Check the image mime types
@@ -86,7 +86,7 @@ namespace BrainShare.Extensions
             {
                 using (var bitmap = new System.Drawing.Bitmap(postedFile.InputStream))
                 {
-                    if (bitmap.Width < 250 || bitmap.Height < 250)
+                    if (bitmap.Width < minWidth || bitmap.Height < minHeight)
                     {
                         return false;
                     }

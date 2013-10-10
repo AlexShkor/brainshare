@@ -1,6 +1,7 @@
 ﻿@using Newtonsoft.Json
 @model BrainShare.Controllers.EditBookViewModel
 
+<script src="@Url.Content("~/Scripts/jquery.form.js")" type="text/javascript"></script>
 <script type="text/javascript">
     $(function () {
 
@@ -12,8 +13,8 @@
             language: "ru"
         });
     });
-
 </script>
+
 <div class="well">
     <div class="btn-group offset2">
         <button class="btn"  data-bind="click: toMine, css: {'btn-success btn-large': !model.IsWhishBook()}">У меня есть</button>

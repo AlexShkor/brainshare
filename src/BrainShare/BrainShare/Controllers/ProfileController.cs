@@ -267,7 +267,7 @@ namespace BrainShare.Controllers
 
             if (uploadedFile != null)
             {
-                isValidImage = uploadedFile.IsValidImage();
+                isValidImage = uploadedFile.IsValidImage(250, 250);
             }
             else
             {
