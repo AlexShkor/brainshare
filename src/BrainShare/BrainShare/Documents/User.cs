@@ -25,8 +25,6 @@ namespace BrainShare.Documents
         public List<ChangeRequest> Recieved { get; set; }
 
         public string AvatarUrl { get; set; }
-        public string AvatarId { get; set; }
-
        
         public DateTime Registered { get; set; }
 

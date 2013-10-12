@@ -20,10 +20,19 @@
     <div>
         <div class="span3">
             @Html.Partial("DetailsPartial", Model)
-            <div style="margin-top: 10px">
-                <button type="button" data-bind="click: take" class="btn btn-success btn-block">Мне нужна</button>
-                <button type="button" data-bind="click: give" class="btn btn-primary btn-block">У меня есть</button>
-            </div>
+
+            @if (Model.UserId != Model.CurrentUserId)
+            {
+                <div style="margin-top: 10px">
+                    <button type="button" data-bind="click: take" class="btn btn-success btn-block">Мне нужна</button>
+                    <button type="button" data-bind="click: give" class="btn btn-primary btn-block">У меня есть</button>
+                </div>
+            }
+            else
+            {
+                <div style="margin-top: 30px" class="text-center"><i class="icon-check icon-3x" style="color: green;" title="Книга у вас в коллекции"></i></div>
+            }
+
         </div>
         <div class="span9">
 
@@ -37,7 +46,7 @@
                                 <span class="span7" data-bind="text: book.Title"></span>
                             </div>
                             <div data-bind="visible: book.Subtitle">
-                                <strong class="span5"></strong>
+                                <strong class="span5">Подзаголовок:</strong>
                                 <span class="span7" data-bind="text: book.Subtitle"></span>
                             </div>
                             <div>
@@ -68,8 +77,8 @@
                         </div>
                         <div class="span3">
                             <div style="text-align: center">
-                                <img style="width: 100px; height: 100px;" data-bind="attr: { src: book.AvatarUrl }" />
-                                <a style="padding-top: 10px; display: block; text-decoration: none;" data-bind="attr: { href: book.UserProfile }, text: book.UserName"></a>
+                                <img style="width: 130px; height: 130px;" data-bind="attr: { src: book.AvatarUrl != null ? book.AvatarUrl : '/images/user-default-avatar.jpg' }" />
+                                <a style="padding-top: 10px; padding-bottom: 10px; display: block; text-decoration: none;" data-bind="attr: { href: book.UserProfile }, text: book.UserName"></a>
                             </div>
 
                         </div>
@@ -84,7 +93,7 @@
                 </div>
 
                 <div class="span4">
-                    @Html.Partial("TwShareBtn",Model.UserName + " ищет книгу \"" + Model.Title + "\" на BrainShare")
+                    @Html.Partial("TwShareBtn", Model.UserName + " ищет книгу \"" + Model.Title + "\" на BrainShare")
                 </div>
                 <div class="span4">
                     @Html.Partial("VkShareBtn")
@@ -100,8 +109,10 @@
             <hr />
             <h4>Предпросмотр</h4>
             <div>
-                @Html.Partial("GooglePreview", Model.GoogleBookId)
-
+                @if (Model.GoogleBookId != null)
+                {
+                    @Html.Partial("GooglePreview", Model.GoogleBookId)
+                }
             </div>
         </div>
     </div>

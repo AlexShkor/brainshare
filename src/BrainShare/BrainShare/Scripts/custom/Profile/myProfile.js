@@ -140,7 +140,6 @@
                 y2: 215,
                 minWidth: 200,
                 minHeight: 200,
-                onSelectChange: preview,
             });
 
             $("#avatarId").val(response.avatarId);
@@ -160,17 +159,4 @@
 
     $("#myForm").ajaxForm(options);
 
-
-
-    function preview(img, selection) {
-        //var scaleX = 100 / (selection.width || 1);
-        //var scaleY = 100 / (selection.height || 1);
-
-        //$('#ferret + div > img').css({
-        //    width: Math.round(scaleX * 400) + 'px',
-        //    height: Math.round(scaleY * 300) + 'px',
-        //    marginLeft: '-' + Math.round(scaleX * selection.x1) + 'px',
-        //    marginTop: '-' + Math.round(scaleY * selection.y1) + 'px'
-        //});
-    }
 }

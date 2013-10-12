@@ -1,3 +1,5 @@
+using System;
+using System.Globalization;
 using BrainShare.Documents;
 
 namespace BrainShare.Controllers
@@ -21,6 +23,8 @@ namespace BrainShare.Controllers
         public string UserProfile { get; set; }
         public string AvatarUrl { get; set; }
 
+        public string CurrentUserId { get; set; }
+
         public BookViewModel(Book book)
         {
             Id = book.Id;
@@ -28,7 +32,7 @@ namespace BrainShare.Controllers
             Title = book.Title;
             SearchInfo = book.SearchInfo;
             PageCount = book.PageCount;
-            PublishedDate = book.PublishedDate.ToString("yyyy MMM");
+            PublishedDate = book.PublishedDate.ToString(EditBookViewModel.DateFormat, EditBookViewModel.Culture);
             Publisher = book.Publisher;
             Subtitle = book.Subtitle;
             Image = book.Image;
@@ -43,7 +47,7 @@ namespace BrainShare.Controllers
 
         public BookViewModel()
         {
-          
+
         }
     }
 }

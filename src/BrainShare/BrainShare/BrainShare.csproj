@@ -244,6 +244,7 @@
     <Compile Include="Controllers\EditBookViewModel.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Documents\CloudinaryImage.cs" />
     <Compile Include="Documents\UserData.cs" />
     <Compile Include="Extensions\BootstrapExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperExt.cs" />
@@ -265,6 +266,7 @@
     <Content Include="Scripts\custom\allusers.js" />
     <Content Include="Scripts\custom\Books\EditBookViewModel.js" />
     <Content Include="Scripts\custom\notifications.js" />
+    <Compile Include="Services\CloudinaryImagesService.cs" />
     <Compile Include="Services\Validation\LanguagesService.cs" />
     <Compile Include="SessionKeys.cs" />
     <Compile Include="Settings\Settings.cs" />
@@ -408,7 +410,6 @@
     <Content Include="Scripts\custom\Profile\viewThread.js" />
     <Content Include="Scripts\custom\Profile\wishList.js" />
     <None Include="Scripts\jquery-2.0.1.intellisense.js" />
-    <Content Include="Scripts\custom\fbfriendsSelector.js" />
     <Content Include="Scripts\datepicker\css\datepicker.css" />
     <Content Include="Scripts\datepicker\js\bootstrap-datepicker.js" />
     <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.ar.js" />

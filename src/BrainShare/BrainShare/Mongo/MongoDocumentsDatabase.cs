@@ -49,5 +49,6 @@ namespace BrainShare.Mongo
         public MongoCollection<Book> WishBooks { get { return Database.GetCollection<Book>("wish_books"); } }
         public MongoCollection<ActivityFeed> ActivityFeeds { get { return Database.GetCollection<ActivityFeed>("feeds"); } }
         public MongoCollection<Thread> Threads { get { return Database.GetCollection<Thread>("threads"); } }
+        public MongoCollection<CloudinaryImage> CloudinaryImages { get { return Database.GetCollection<CloudinaryImage>("cloudinary_images"); } }
     }
 }

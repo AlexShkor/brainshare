@@ -1,4 +1,4 @@
-<button type="submit" class="btn btn-success" data-bind="enable: !$root.ImageIsLoading(), text: SubmitBtnText">Save</button>
+<button type="submit" class="btn btn-success" data-bind="enable: !Loading() && !$root.ImageIsLoading(), text: SubmitBtnText">Save</button>
 <img  data-bind="  visible: Loading" src="/Images/loading.gif" alt="" class="inline-icon" />
 
 @*<button type="submit" class="btn btn-success" data-bind="enable: !Loading() && !$root.ImageIsLoading, text: SubmitBtnText">Save</button>*@

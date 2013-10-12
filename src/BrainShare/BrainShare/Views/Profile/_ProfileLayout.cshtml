@@ -29,11 +29,6 @@
                     @Html.MenuLink("Отзывы", "Feedback", "Home")
                     <li class="divider"></li>
                 </ul>
-
-                @if (ViewBag.IsFacebookAccount)
-                {
-                    <div id="fbFriendsSelector"></div>
-                }
             </div>
         </div>
     </div>
@@ -43,12 +38,3 @@
     </div>
 </div>
 @RenderSection("Scripts", required: false)
-
-@if (ViewBag.IsFacebookAccount)
-{
-    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/fbfriendsSelector.js")"></script>
-    <script type="text/javascript">
-        var facebookSelectorModel = new FacebookSelectorModel();
-        ko.applyBindings(facebookSelectorModel, $("#fbFriendsSelectorLink")[0]);
-    </script>
-}

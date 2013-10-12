@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.IO;
-using System.IO.Pipes;
 using System.Linq;
-using System.Net;
-using System.Net.Mime;
-using System.Security.Cryptography;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
@@ -21,11 +12,7 @@ using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Hubs;
 using BrainShare.Services;
-using BrainShare.ViewModels;
-using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using Microsoft.AspNet.SignalR;
-using Newtonsoft.Json;
+using MongoDB.Bson;
 using Thread = BrainShare.Documents.Thread;
 using BrainShare.Extensions;
 
@@ -40,13 +27,15 @@ namespace BrainShare.Controllers
         private readonly WishBooksService _wishBooks;
         private readonly UsersService _users;
         private readonly ThreadsService _threads;
+        private readonly CloudinaryImagesService _cloudinaryImages;
 
-        public ProfileController(BooksService books, UsersService users, ThreadsService threads, WishBooksService whishBooks)
+        public ProfileController(BooksService books, UsersService users, ThreadsService threads, WishBooksService whishBooks, CloudinaryImagesService cloudinaryImages)
         {
             _books = books;
             _users = users;
             _threads = threads;
             _wishBooks = whishBooks;
+            _cloudinaryImages = cloudinaryImages;
         }
 
         public ActionResult Index()
@@ -61,8 +50,12 @@ namespace BrainShare.Controllers
         [GET("view/{id}")]
         public ActionResult ViewUserProfile(string id)
         {
+            if (id == UserId)
+            {
+                return RedirectToAction("Index", "Profile");
+            }
+            
             var user = _users.GetById(id);
-
             var model = new UserProfileModel(user, UserId);
 
             model.CanIncrease = user.GetVote(id, UserId) <= 0;
@@ -205,7 +198,7 @@ namespace BrainShare.Controllers
             var callbackModel = new MessageViewModel();
             callbackModel.Init(UserId, content, DateTime.Now.ToString("o"), true, thread.OwnerId == UserId ? thread.OwnerName : thread.RecipientName);
             ThreadHub.HubContext.Clients.Group(threadId).messageSent(callbackModel);
-            NotificationsHub.SendGenericText(sendToUserId, (( UserIdentity)User.Identity).User.FullName, content);
+            NotificationsHub.SendGenericText(sendToUserId, ((UserIdentity)User.Identity).User.FullName, content);
             return Json(model);
         }
 
@@ -259,6 +252,23 @@ namespace BrainShare.Controllers
             return Json(new { canIncrease = canIncrease, canDecrease = canDecrease, summaryVotes = summaryVotes });
         }
 
+
+        [POST("get-new-books-count")]
+        public ActionResult GetNewBooksCount()
+        {
+            var user = _users.GetById(UserId);
+            //replaces with all book requests, not only new
+            return Json(new { Result = user.Inbox.Count });
+        }
+
+        [POST("get-new-messages-count")]
+        public ActionResult ThreadsWithUnreadMessages()
+        {
+            var user = _users.GetById(UserId);
+            return Json(new { Result = user.ThreadsWithUnreadMessages.Count });
+        }
+
+
         [POST]
         public JsonResult UploadImage(HttpPostedFileBase uploadedFile)
         {
@@ -277,24 +287,15 @@ namespace BrainShare.Controllers
 
             if (isValidImage)
             {
-                var user = _users.GetById(UserId);
                 uploadedFile.InputStream.Seek(0, SeekOrigin.Begin);
 
-                if (user.AvatarId != null)
-                {
-                    cloudinary.Destroy(new DeletionParams(user.AvatarId));
-                }
-
                 var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams()
-                 {
-                     File = new CloudinaryDotNet.Actions.FileDescription("filename", uploadedFile.InputStream),
-                 };
+                {
+                    File = new CloudinaryDotNet.Actions.FileDescription("filename", uploadedFile.InputStream),
+                };
 
                 var uploadResult = cloudinary.Upload(uploadParams);
                 string avatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(500).Height(500).Crop("limit")).BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
-
-                user.AvatarId = uploadParams.PublicId;
-                _users.Save(user);
 
                 return Json(new { avatarUrl = avatarUrl, avatarId = uploadResult.PublicId, avatarFormat = uploadResult.Format });
             }
@@ -308,27 +309,12 @@ namespace BrainShare.Controllers
             var user = _users.GetById(UserId);
             var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
             string realAvatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(500).Height(500).Crop("limit").Chain().X(x).Y(y).Width(width).Height(height).Crop("crop")).BuildUrl(String.Format("{0}.{1}", avatarId, avatarFormat));
-            //string realAvatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(250).Height(250).Crop("fill").Width(500).Height(500).Crop("limit").Chain().X(x).Y(y).Width(width).Height(height).Crop("crop")).BuildUrl(String.Format("{0}.{1}", avatarId, avatarFormat));
 
+            _cloudinaryImages.AddImage(new CloudinaryImage() { Id = ObjectId.GenerateNewId().ToString(), ImageId = avatarId, ImageUrl = realAvatarUrl });
             user.AvatarUrl = realAvatarUrl;
             _users.Save(user);
 
             return Json(new { url = realAvatarUrl });
-        }
-
-        [POST("get-new-books-count")]
-        public ActionResult GetNewBooksCount()
-        {
-            var user = _users.GetById(UserId);
-            //replaces with all book requests, not only new
-            return Json(new { Result = user.Inbox.Count });
-        }
-
-        [POST("get-new-messages-count")]
-        public ActionResult ThreadsWithUnreadMessages()
-        {
-            var user = _users.GetById(UserId);
-            return Json(new { Result = user.ThreadsWithUnreadMessages.Count });
         }
     }
 

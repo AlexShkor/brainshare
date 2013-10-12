@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,14 +9,11 @@ using System.Web;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
-using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Extensions;
 using BrainShare.GoogleDto;
 using BrainShare.Hubs;
 using BrainShare.Services;
-using CloudinaryDotNet.Actions;
-using Facebook;
 using BrainShare.Services.Validation;
 using MongoDB.Bson;
 
@@ -29,13 +27,15 @@ namespace BrainShare.Controllers
         private readonly BooksService _books;
         private readonly WishBooksService _wishBooks;
         private readonly ActivityFeedsService _feeds;
-        
-        public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds, WishBooksService wishBooks)
+        private readonly CloudinaryImagesService _cloudinaryImages;
+
+        public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages)
         {
             _users = users;
             _books = books;
             _feeds = feeds;
             _wishBooks = wishBooks;
+            _cloudinaryImages = cloudinaryImages;
         }
 
         public ActionResult Index(string search)
@@ -65,6 +65,7 @@ namespace BrainShare.Controllers
                 return View("NotFound");
             }
             var model = new BookViewModel(book);
+            model.CurrentUserId = UserId;
             Title(model.Title);
             return View("Info", model);
         }
@@ -89,15 +90,17 @@ namespace BrainShare.Controllers
             {
                 var book = !model.IsWhishBook ? _books.GetById(model.Id) : _wishBooks.GetById(model.Id);
                 model.UpdateBook(book);
+
                 if (model.IsWhishBook)
                 {
-                     _wishBooks.Save(book);
+                    _wishBooks.Save(book);
                 }
                 else
                 {
                     _books.Save(book);
                 }
             }
+
             return JsonModel(model);
         }
 
@@ -113,13 +116,25 @@ namespace BrainShare.Controllers
             }
             if (model.Authors.Count == 0)
             {
-                ModelState.AddModelError("ISBNs", "Должен быть указан хотябы один автор");
+                ModelState.AddModelError("Authors", "Должен быть указан хотябы один автор");
             }
             if (model.Authors.Any(x => !x.Value.HasValue()))
             {
-                ModelState.AddModelError("ISBNs", "Автор не может быть пустой строкой");
+                ModelState.AddModelError("Authors", "Автор не может быть пустой строкой");
+            }
+
+            DateTime dt;
+            var parsed = DateTime.TryParseExact(model.PublishedDate,
+                                   EditBookViewModel.DateFormat,
+                                   EditBookViewModel.Culture,
+                                   DateTimeStyles.None,
+                                   out dt);
+            if (!parsed)
+            {
+                ModelState.AddModelError("PublishedDate", "У даты неправильный формат");
             }
         }
+
 
         [GET("add")]
         public ActionResult Add()
@@ -136,18 +151,22 @@ namespace BrainShare.Controllers
             AdditionalBookValidate(model);
             if (ModelState.IsValid)
             {
-                var book = new Book() {Id = model.Id ?? ObjectId.GenerateNewId().ToString()};
+                var book = new Book() { Id = model.Id ?? ObjectId.GenerateNewId().ToString() };
                 model.UpdateBook(book);
+                model.Id = book.Id;
+
                 var user = _users.GetById(UserId);
                 book.UserData = new UserData(user);
                 if (model.IsWhishBook)
                 {
                     _wishBooks.Save(book);
-                }else
+                }
+                else
                 {
                     _books.Save(book);
                 }
             }
+
             return JsonModel(model);
         }
 
@@ -177,9 +196,6 @@ namespace BrainShare.Controllers
                 NotificationsHub.SendGenericText(UserId, "Книга добавлена",
                     string.Format("{0} добавлена в вашу книную полку", doc.Title));
                 _books.Save(doc);
-
-                // test
-                //PostToFbWall(bookDto, user.FacebookId);
             }
 
             else
@@ -277,7 +293,7 @@ namespace BrainShare.Controllers
         {
             if (userId == UserId)
             {
-                return View("CustomError", (object)"Вы не можете бмениваться книгами с самим собой.");
+                return View("CustomError", (object)"Вы не можете обмениваться книгами с самим собой.");
             }
             try
             {
@@ -336,12 +352,8 @@ namespace BrainShare.Controllers
             Task.Factory.StartNew(() => _feeds.Save(feed));
         }
 
-
-
         public JsonResult UploadBookImage(HttpPostedFileBase bookImgfile)
         {
-
-            var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
             bool isValidImage;
 
             if (bookImgfile != null)
@@ -356,14 +368,8 @@ namespace BrainShare.Controllers
 
             if (isValidImage)
             {
-                //var user = _users.GetById(UserId);
+                var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
                 bookImgfile.InputStream.Seek(0, SeekOrigin.Begin);
-
-                //if (user.AvatarId != null)
-                //{
-                //    cloudinary.Destroy(new DeletionParams(user.AvatarId));
-                //}
-
                 var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams()
                 {
                     File = new CloudinaryDotNet.Actions.FileDescription("filename", bookImgfile.InputStream),
@@ -372,23 +378,11 @@ namespace BrainShare.Controllers
                 var uploadResult = cloudinary.Upload(uploadParams);
                 string bookImgUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(128).Height(180).Crop("fill")).BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
 
-                //user.AvatarId = uploadParams.PublicId;
-                //_users.Save(user);
-
-                return Json(new { bookImgUrl = bookImgUrl, bookImgId = uploadResult.PublicId, bookImgFormat = uploadResult.Format });
+                _cloudinaryImages.AddImage(new CloudinaryImage() { Id = ObjectId.GenerateNewId().ToString(), ImageUrl = bookImgUrl, ImageId = uploadResult.PublicId });
+                return Json(new { bookImgUrl = bookImgUrl, bookImgId = uploadResult.PublicId });
             }
-
             return Json(new { error = "Файл загруженный вами не является изображением или его размеры слишком малы" });
-
         }
-
-        //private void PostToFbWall(GoogleBookDto bookDto, string facebookId)
-        //{
-        //    var token = System.Web.HttpContext.Current.Session[SessionKeys.FbAccessToken] as string;
-        //    var client = new FacebookClient(token);
-
-        //    client.Post("/" + facebookId + "/feed", new { message = bookDto.Title });
-        //}
     }
 
     public class RequestAcceptedModel
@@ -402,7 +396,7 @@ namespace BrainShare.Controllers
             Message = string.Format("Ваз запрос на обмен книги {0} пользователя {2} на вашу книгу {1} был принят.",
                 book.Title, fromUser.FullName, onBook.Title);
         }
-        
+
     }
 
     public class AllBooksViewModel
@@ -411,9 +405,6 @@ namespace BrainShare.Controllers
         {
             Items = books.Select(x => new BookViewModel(x)).ToList();
         }
-
         public List<BookViewModel> Items { get; set; }
     }
-
-
 }

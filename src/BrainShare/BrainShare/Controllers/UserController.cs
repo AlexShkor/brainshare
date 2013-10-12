@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Metadata.Edm;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using AttributeRouting.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Documents;
+using BrainShare.Extensions;
 using BrainShare.Facebook;
 using BrainShare.Services;
 using BrainShare.Utilities;
@@ -34,7 +39,6 @@ namespace BrainShare.Controllers
                return UrlUtility.ApplicationBaseUrl + Url.Action("FacebookCallback");
             }
         }
-
 
         public UserController(IAuthentication auth, UsersService users, FacebookClientFactory fbFactory, Settings settings)
         {
@@ -319,12 +323,6 @@ namespace BrainShare.Controllers
             }
 
             return View(model);
-        }
-
-        private string GetApplicationUrl()
-        {
-            
-            return string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority);
         }
     }
 }
