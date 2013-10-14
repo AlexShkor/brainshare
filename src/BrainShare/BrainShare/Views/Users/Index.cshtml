@@ -9,16 +9,14 @@
 
 </script>
 <h4>Пользователи</h4>
-    <ul class="thumbnails" data-bind="foreach: items">
-        <li >
-            <div class="thumbnail" data-bind="click: $root.info">
-                <img style="width: 128px;" data-bind="attr: { src: Avatar }" />
-                <div class="caption">
-                    <strong class="color-black" data-bind="text: Username"></strong>
-                
-
-                </div>
-                
+<ul class="thumbnails" data-bind="foreach: items">
+    <li class="user-icon">
+        <div class="thumbnail" data-bind="click: $root.info">
+            <img style="width: 128px;" data-bind="attr: { src: Avatar }" />
+            <div class="caption text-center">
+                <strong style="display: block;" class="color-black" data-bind="text: Username"></strong>
+                <span class="color-black" data-bind="text: Address"></span>
             </div>
-        </li>
-    </ul>
+        </div>
+    </li>
+</ul>

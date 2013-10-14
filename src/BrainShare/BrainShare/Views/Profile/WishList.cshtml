@@ -3,6 +3,7 @@
 @{
     Layout = "~/Views/Shared/_BooksLayout.cshtml";
 }
+
 @section Scripts{
     <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Profile/wishList.js")"></script>
     <script type="text/javascript">
@@ -12,6 +13,7 @@
         });
     </script>
 }
+
 <div data-bind="visible: books().length > 0">
     <h4>Мой список поиска</h4>
 
@@ -42,7 +44,7 @@
     <p>
         Вы можете выбрать нужные вам книги из тех, которые уже <a href="/books/index">есть на
             сервисе</a>, либо 
-        <a href="/books/search">импортировать</a>  с Google Books или же добавить книгу
+        <a href="/books/search">импортировать</a> их с Google Books или же добавить книгу
         <a href="/books/add">самостоятельно</a>.
     </p>
 </div>

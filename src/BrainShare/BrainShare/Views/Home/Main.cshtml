@@ -27,16 +27,19 @@
         }
 </style>
 
-
-<div class="jumbotron">
-    <h1>BrainShare</h1>
-    <p class="lead">
-        Социальный сервис по обмену книгами.
+@if (!Request.IsAuthenticated)
+{
+    <div class="jumbotron">
+        <h1>BrainShare</h1>
+        <p class="lead">
+            Социальный сервис по обмену книгами.
         <br />
-        Регистрируйтесь и добавляйте свои книги на сайт и указывайе книги которые вы ищите.
-    </p>
-    <a class="btn btn-large btn-success" href="/User/LoginWithFacebook">Войти</a>
-</div>
+            Регистрируйтесь и добавляйте свои книги на сайт и указывайе книги которые вы ищите.
+        </p>
+        <a class="btn btn-large btn-success" href="/User/LoginWithFacebook">Войти</a>
+    </div>
+}
+
 
 <h4>5 последних Книг</h4>
 <div>
@@ -64,21 +67,16 @@
 <h4>5 последних Пользователей</h4>
 <table class="table table-condensed table-striped">
 
-    <ul class="thumbnails" data-bind="foreach: items">
+    <ul class="thumbnails">
         @foreach (var item in Model.Users)
         {
-            <li>
-                <div class="thumbnail" data-bind="click: $root.info" onclick="window.location = '/profile/view/@item.UserId'">
-                    <img style="width: 128px;" src="@item.Avatar" data-bind="attr: { src: Avatar }" />
-                    <div class="caption">
-                        <strong class="color-black" data-bind="text: Username">@item.Username</strong>
-
-
+            <li class="user-icon">
+                <div class="thumbnail" onclick="window.location = '/profile/view/@item.UserId'">
+                    <img style="width: 128px;" src="@item.Avatar" />
+                    <div class="caption text-center">
+                        <strong style="display: block" class="color-black">@item.Username</strong>
+                        <span class="color-black">@item.Address</span>
                     </div>
-                    <span class="color-black" data-bind="text: Username">@item.Address</span>
-
-
-
                 </div>
             </li>
         }

@@ -29,6 +29,14 @@ body {
         background-color: lightcyan;
     }
 
+.user-icon {
+    cursor: pointer;
+}
+
+    .user-icon:hover {
+        background-color: #D5FCDE;
+    }
+
 .navbar .brand {
     font-weight: bold;
     color: orange;
@@ -57,6 +65,7 @@ body {
 .datepicker td, .datepicker th {
     color: #fff;
 }
+
 .datepicker table tr td span:hover, .datepicker thead tr:first-child th:hover, .datepicker tfoot tr th:hover {
-background: #888;
+    background: #888;
 }

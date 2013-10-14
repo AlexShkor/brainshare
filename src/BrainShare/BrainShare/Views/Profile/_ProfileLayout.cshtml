@@ -18,11 +18,7 @@
                     <li class="nav-header">Профиль</li>
                     @Html.MenuLink("Мой Профиль", "Index", "Profile", null)
                     @Html.MenuLink("Сообщения", "AllMessages", "Profile", null, "<span id=\"messagesCounter\" class=\"badge badge-info\" style=\"margin-left: 10px\"></span>")
-
-                    @if (ViewBag.IsFacebookAccount)
-                    {
-                        @Html.MenuLink("Друзья", "GetFbFriends", "User")
-                    }
+                    @Html.MenuLink("Друзья", "GetFbFriends", "User")
                     <li class="divider"></li>
                     <li class="nav-header">Другое</li>
                     @Html.MenuLink("Помощь", "HowToAddBook", "Help")

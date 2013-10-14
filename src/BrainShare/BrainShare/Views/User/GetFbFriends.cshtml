@@ -14,49 +14,57 @@
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
-@Styles.Render("~/Content/fbfriends.css")
-
-<div id="TDFriendSelector" style="display: block;">
-    <div class="TDFriendSelector_dialog">
 
 
-        <div class="TDFriendSelector_form">
+@if (ViewBag.IsFacebookAccount)
+{
+    
+    @Styles.Render("~/Content/fbfriends.css")
 
-            <div class="TDFriendSelector_header">
-                <div style="color: white;">Друзья из фэйсбука</div>
-            </div>
-            @* <a style="float: right;" href="#" id="TDFriendSelector_buttonOK">x</a>*@
-            <div class="TDFriendSelector_content">
-                @* <p>Take a look to your friend's profile!</p>*@
+    <div id="TDFriendSelector" style="display: block;">
+        <div class="TDFriendSelector_dialog">
+            <div class="TDFriendSelector_form">
+                <div class="TDFriendSelector_header">
+                    <div style="color: white;">Друзья из Facebook</div>
+                </div>
+                <div class="TDFriendSelector_content">
 
-                <div class="TDFriendSelector_searchContainer TDFriendSelector_clearfix">
+                    <div class="TDFriendSelector_searchContainer TDFriendSelector_clearfix">
 
-                    <div class="TDFriendSelector_selectedCountContainer">
-                        <span>Зарегистрированные на BrainShare (@Model.FacebookFriends.Count)</span>
+                        <div class="TDFriendSelector_selectedCountContainer">
+                            <span>Зарегистрированные на BrainShare (@Model.FacebookFriends.Count)</span>
+                        </div>
+                    </div>
+                    <div class="TDFriendSelector_friendsContainer">
+                        @foreach (var friend in Model.FacebookFriends)
+                        {
+                            <a href="@Url.Action("ViewUserProfile", "Profile", new { id = friend.Id })" class="TDFriendSelector_friend TDFriendSelector_clearfix">
+                                <img src="@friend.AvatarUrl" alt="@friend.FirstName @friend.LastName" class="TDFriendSelector_friendAvatar">
+                                <div class="TDFriendSelector_friendName">
+                                    <span style="color: black">@friend.FirstName @friend.LastName</span>
+                                </div>
+                            </a>
+                        }
                     </div>
                 </div>
-                <div class="TDFriendSelector_friendsContainer">
-                    @foreach (var friend in Model.FacebookFriends)
-                    {
-                        <a href="@Url.Action("ViewUserProfile", "Profile", new { id = friend.Id })" class="TDFriendSelector_friend TDFriendSelector_clearfix">
-                            <img src="@friend.AvatarUrl" alt="@friend.FirstName @friend.LastName" class="TDFriendSelector_friendAvatar">
-                            <div class="TDFriendSelector_friendName">
-                                <span style="color: black">@friend.FirstName @friend.LastName</span>
-                            </div>
-                        </a>
-                    }
+
+                <div class="TDFriendSelector_footer TDFriendSelector_clearfix">
+                    <div style="float: left;">Пригласите друзей на BrainShare!</div>
+                    <div style="float: left; padding-left: 20px;">
+                        <div class="fb-send" data-href="@UrlUtility.ApplicationBaseUrl" data-width="100" data-height="50" data-colorscheme="light"></div>
+                    </div>
                 </div>
             </div>
-
-            <div class="TDFriendSelector_footer TDFriendSelector_clearfix">
-                <div style="float: left;">Пригласите друзей на BrainShare!</div>
-                <div style="float: left; padding-left: 20px;">
-                    
-                   @* <div class="fb-send" data-href="http://developers.facebook.com/docs/plugins/" data-width="60" data-height="20" data-colorscheme="light"></div>*@
-                    <div class="fb-send" data-href="@UrlUtility.ApplicationBaseUrl" data-width="60" data-height="20" data-colorscheme="light"></div>
-                </div>
-            </div>
-
         </div>
     </div>
-</div>
+}
+else
+{
+    <div class="well">
+        <h4>Пройдите авторизацию через фэйсбук</h4>
+        <p>
+            Чтобы просмотреть своих друзей зарегистрированных на BrainShare или пригласить их на наш сервис пройдите авторизацию через <a style="color: rgb(6, 6, 192); padding-left: 7px" href="/User/LoginWithFacebook">Facebook</a>
+        </p>
+    </div>
+}
+

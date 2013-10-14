@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <title>@ViewBag.Title | BrainShare</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link href="~/Scripts/datepicker/css/datepicker.css" rel="stylesheet" />
     <link href="@Styles.Url("~/content/css")" rel="stylesheet"/>
     <link href="~/Scripts/pnotify-1.2.0/jquery.pnotify.default.css" rel="stylesheet" />
@@ -32,7 +32,7 @@
     <script src="~/Scripts/custom/addbook.js"></script>
     <script src="~/Scripts/custom/allbooks.js"></script>
     <script src="~/Scripts/custom/allusers.js"></script>
-    
+
     <script src="~/Scripts/custom/Books/EditBookViewModel.js"></script>
     @RenderSection("head", required: false)
     @* favicons and touch icons go here *@
@@ -61,12 +61,11 @@
                     @if (Request.IsAuthenticated)
                     { 
                         <p class="navbar-text pull-right" id="currentUser">
-                            <a class="label label-warning" href="/Profile/Inbox"><i class="icon-book icon-large "></i> <strong id="navigationBooksCounter">0</strong></a>
-                            <a class="label label-info" href="/Profile/AllMessages"><i class="icon-envelope icon-large "></i> <strong id="navigationMessagesCounter">0</strong></a>
-                            <a href="/profile" class="navbar-link">@ViewBag.UserName</a>
+                            <a class="label label-warning" href="/Profile/Inbox"><i class="icon-book icon-large "></i><strong style="padding-left: 5px;" id="navigationBooksCounter">0</strong></a>
+                            <a class="label label-info" href="/Profile/AllMessages"><i class="icon-envelope icon-large "></i><strong style="padding-left: 5px;" id="navigationMessagesCounter">0</strong></a>
+                            <a href="/profile" class="navbar-link" style="padding-left: 10px; padding-right: 10px;">@ViewBag.UserName</a>
                             <a href="@Url.Action("Logout", "User")" >Выйти</a>
                         </p>
-                       
                     }
                     else
                     {
@@ -114,7 +113,7 @@
 
     <script>
         $(function () {
-            
+
             var localStorageIsAvailable = isLocalStorageAvailable();
 
             if (localStorageIsAvailable) {
@@ -146,7 +145,7 @@
                     $("#messagesCounter, #navigationMessagesCounter").text(data.Result);
                 }
             });
-            
+
             function isLocalStorageAvailable() {
                 try {
                     return 'localStorage' in window && window['localStorage'] !== null;

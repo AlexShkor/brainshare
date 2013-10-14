@@ -33,7 +33,7 @@ namespace BrainShare.Controllers
             {
                 Feeds = feeds,
                 Users = last5Users.Select(x => new UserViewModel(x)),
-                Books = last5Books.Select(x => new BookViewModel(x))
+                Books = last5Books.Select(x => new BookViewModel(x)),
             };
             return View("Main", model);
         }

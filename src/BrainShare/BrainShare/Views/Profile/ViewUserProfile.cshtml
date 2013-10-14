@@ -9,24 +9,29 @@
     })
 </script>
 
+<style>
+    .table-hover tbody tr:hover > td, .table-hover tbody tr:hover > th {
+        background-color: lightcyan!important;
+    }
+</style>
 
 
 <div class="row">
     <div class="span3">
-  <h4 class="text-center" data-bind="text: user.Name"></h4>
+        <h4 class="text-center" data-bind="text: user.Name"></h4>
         <div class="avatar-container">
-            <img  alt="аватар" class="pics" data-bind="attr: { src: user.Avatar }" />
+            <img alt="аватар" class="pics" data-bind="attr: { src: user.Avatar }" />
         </div>
-             <br/>
+        <br />
 
         <div style="text-align: center">
             <div class="btn-group">
-                <button class="btn btn-small"  style="font-weight: bold; font-size: 18px; color: red" data-bind="click: decreaseReputation, enable: canDecrease">-</button>
-                <a class="btn btn-small btn-info"  data-bind="text: summaryVotes"></a>
+                <button class="btn btn-small" style="font-weight: bold; font-size: 18px; color: red" data-bind="click: decreaseReputation, enable: canDecrease">-</button>
+                <a class="btn btn-small btn-info" data-bind="text: summaryVotes"></a>
                 <button class="btn btn-small" style="font-weight: bold; font-size: 18px; color: green" data-bind="click: increaseReputation, enable: canIncrease">+</button>
             </div>
         </div>
-        <br/>
+        <br />
         @if (!Model.IsMe)
         {
             <div>
@@ -34,63 +39,63 @@
             </div>
         }
     </div>
-<div class="span9">
-    
-
-    <div class="tabbable pull-left">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#s1" data-toggle="tab">Книги</a></li>
-            <li><a href="#s2" data-toggle="tab">Ищет</a></li>
-            @* <li><a href="#s3" data-toggle="tab">Информация</a></li>*@
-        </ul>
-        <div class="tab-content">
-
-            <div class="tab-pane active" id="s1">
-                <table class="table table-condensed table-hover">
-                    <tbody data-bind="foreach: listOfOwnedBooks">
-                        <tr data-bind="click: $root.viewBook">
-                            <td class="book-image-col">
-                                <img data-bind="attr: { src: Image }" />
-                            </td>
-                            <td data-bind="text: Title"></td>
-                            <td data-bind="text: Authors"></td>
-                            <td data-bind="text: Subtitle"></td>
-                            <td data-bind="text: Publisher"></td>
-                            <td data-bind="text: PublishedDate"></td>
-                            <td data-bind="text: PageCount"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="tab-pane" id="s2">
-                <table class="table table-condensed">
-                    <tbody data-bind="foreach: listOfWishedBooks">
-                        <tr data-bind="click: $root.viewWishBook">
-                            <td class="book-image-col">
-                                <img data-bind="attr: { src: Image }" />
-                            </td>
-                            <td data-bind="text: Title"></td>
-                            <td data-bind="text: Authors"></td>
-                            <td data-bind="text: Subtitle"></td>
-                            <td data-bind="text: Publisher"></td>
-                            <td data-bind="text: PublishedDate"></td>
-                            <td data-bind="text: PageCount">стр </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <div class="span9">
 
 
-            @* <div class="tab-pane" id="s3">
+        <div class="tabbable pull-left">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#s1" data-toggle="tab">Книги</a></li>
+                <li><a href="#s2" data-toggle="tab">Ищет</a></li>
+                @* <li><a href="#s3" data-toggle="tab">Информация</a></li>*@
+            </ul>
+            <div class="tab-content">
+
+                <div class="tab-pane active" id="s1">
+                    <table class="table table-condensed table-hover">
+                        <tbody data-bind="foreach: listOfOwnedBooks">
+                            <tr data-bind="click: $root.viewBook" style="cursor: pointer;">
+                                <td class="book-image-col">
+                                    <img data-bind="attr: { src: Image }" />
+                                </td>
+                                <td data-bind="text: Title"></td>
+                                <td data-bind="text: Authors"></td>
+                                <td data-bind="text: Subtitle"></td>
+                                <td data-bind="text: Publisher"></td>
+                                <td data-bind="text: PublishedDate"></td>
+                                <td data-bind="text: PageCount"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane" id="s2">
+                    <table class="table table-condensed table-hover">
+                        <tbody data-bind="foreach: listOfWishedBooks">
+                            <tr data-bind="click: $root.viewWishBook" style="cursor: pointer">
+                                <td class="book-image-col">
+                                    <img data-bind="attr: { src: Image }" />
+                                </td>
+                                <td data-bind="text: Title"></td>
+                                <td data-bind="text: Authors"></td>
+                                <td data-bind="text: Subtitle"></td>
+                                <td data-bind="text: Publisher"></td>
+                                <td data-bind="text: PublishedDate"></td>
+                                <td data-bind="text: PageCount">стр </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                @* <div class="tab-pane" id="s3">
             <p>Сейчас вы просматриваете содержимое третьей секции.</p>
         </div>*@
 
-        </div>
+            </div>
 
+        </div>
     </div>
 </div>
-    </div>
 
 
 
