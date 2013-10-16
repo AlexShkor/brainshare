@@ -11,11 +11,11 @@
 <h4>Пользователи</h4>
 <ul class="thumbnails" data-bind="foreach: items">
     <li class="user-icon">
-        <div class="thumbnail" data-bind="click: $root.info">
+        <div class="thumbnail" data-bind="click: $root.info" style="width: 140px; height: 200px; overflow: hidden;">
             <img style="width: 128px;" data-bind="attr: { src: Avatar }" />
             <div class="caption text-center">
-                <strong style="display: block;" class="color-black" data-bind="text: Username"></strong>
-                <span class="color-black" data-bind="text: Address"></span>
+                <strong style="display: block;" class="color-black" data-bind="text: $root.CutString(Username(), 20)"></strong>
+                <span style="display: block" class="color-black" data-bind="text: $root.CutString(Address(), 20)"></span>
             </div>
         </div>
     </li>

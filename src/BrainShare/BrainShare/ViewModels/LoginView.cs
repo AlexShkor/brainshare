@@ -8,13 +8,12 @@ namespace BrainShare.ViewModels
 {
     public class LoginView
     {
-        [Required(ErrorMessage = "Enter your email")]
+        [Required(ErrorMessage = "Введите e-mail")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Enter your пароль")]
+        [Required(ErrorMessage = "Введите пароль")]
         public string Password { get; set; }
 
         public bool IsPersistent { get; set; }
-
     }
 }

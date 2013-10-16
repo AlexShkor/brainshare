@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BrainShare.ViewModels;
 
 namespace BrainShare.Controllers
 {

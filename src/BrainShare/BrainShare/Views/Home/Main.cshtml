@@ -71,11 +71,11 @@
         @foreach (var item in Model.Users)
         {
             <li class="user-icon">
-                <div class="thumbnail" onclick="window.location = '/profile/view/@item.UserId'">
+                <div class="thumbnail" onclick="window.location = '/profile/view/@item.UserId'" style="width: 140px; height: 200px; overflow: hidden;">
                     <img style="width: 128px;" src="@item.Avatar" />
                     <div class="caption text-center">
-                        <strong style="display: block" class="color-black">@item.Username</strong>
-                        <span class="color-black">@item.Address</span>
+                        <strong style="display: block" class="color-black">@item.Username.CutString(20)</strong>
+                        <span class="color-black">@item.Address.CutString(20)</span>
                     </div>
                 </div>
             </li>

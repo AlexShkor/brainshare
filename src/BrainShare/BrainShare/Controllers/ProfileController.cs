@@ -12,6 +12,7 @@ using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Hubs;
 using BrainShare.Services;
+using BrainShare.ViewModels;
 using MongoDB.Bson;
 using Thread = BrainShare.Documents.Thread;
 using BrainShare.Extensions;
@@ -267,7 +268,6 @@ namespace BrainShare.Controllers
             var user = _users.GetById(UserId);
             return Json(new { Result = user.ThreadsWithUnreadMessages.Count });
         }
-
 
         [POST]
         public JsonResult UploadImage(HttpPostedFileBase uploadedFile)

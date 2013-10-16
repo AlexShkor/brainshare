@@ -69,3 +69,13 @@ body {
 .datepicker table tr td span:hover, .datepicker thead tr:first-child th:hover, .datepicker tfoot tr th:hover {
     background: #888;
 }
+
+.field-validation-error {
+    margin-left: 1em;
+    color: coral;
+}
+
+.validation-summary-errors {
+    color: coral;
+    padding-bottom: 10px;
+}

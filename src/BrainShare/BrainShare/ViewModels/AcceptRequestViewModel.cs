@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using BrainShare.Controllers;
 
-namespace BrainShare.Controllers
+namespace BrainShare.ViewModels
 {
     public class AcceptRequestViewModel
     {

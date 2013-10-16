@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web.Mvc;
 using BrainShare.Documents;
 using BrainShare.Services;
+using BrainShare.ViewModels;
 using CloudinaryDotNet;
 
 namespace BrainShare.Controllers

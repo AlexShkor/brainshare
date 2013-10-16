@@ -19,10 +19,9 @@ namespace BrainShare.Controllers
 
         public ActionResult Index()
         {
-            var model = _users.GetAll().Select(x => new UserViewModel(x)).OrderByDescending(x=> x.Rating).ToList();
+            var model = _users.GetAll().Select(x => new UserViewModel(x)).OrderByDescending(x => x.Rating).ToList();
             return View(model);
         }
-
     }
 
     public class UserViewModel
@@ -36,7 +35,7 @@ namespace BrainShare.Controllers
         public int Rating { get; set; }
         public UserViewModel()
         {
-            
+
         }
 
         public UserViewModel(User user)
@@ -48,6 +47,5 @@ namespace BrainShare.Controllers
             Registered = user.Registered.ToShortDateString();
             Rating = user.GetSummaryVotes();
         }
-
     }
 }

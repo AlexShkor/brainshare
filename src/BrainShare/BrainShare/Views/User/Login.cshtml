@@ -11,34 +11,39 @@
     <fieldset>
         <legend>Вход</legend>
         <div class="control-group">
-        <div class="controls">
-
-                
-            <a class="btn btn-large btn-primary" href="@Url.Action("LoginWithFacebook","User")">Войти через Facebook</a>
+            <div class="controls">
+                <a class="btn btn-large btn-primary" href="@Url.Action("LoginWithFacebook", "User")">Войти через Facebook</a>
             </div>
         </div>
+
         <div class="control-group">
-            
-                        <label class="control-label" for="Email">
-                Email</label>
+            <label class="control-label" for="Email">
+                Email
+            </label>
             <div class="controls">
-                @Html.TextBox("Email", Model.Email, new { @class = "input-xlarge" })
-                <p class="help-block">Введите Email</p>
+                @Html.TextBox("Email", Model.Email, new { @class = "input-xlarge", id = "Email" })
                 @Html.ValidationMessage("Email")
             </div>
-
         </div>
+
         <div class="control-group">
             <label class="control-label" for="Password">
                 Пароль</label>
             <div class="controls">
-                @Html.Password("Password", Model.Password, new { @class = "input-xlarge" })
+                @Html.Password("Password", Model.Password, new { @class = "input-xlarge", id = "Password" })
                 @Html.ValidationMessage("Password")
             </div>
         </div>
+
         <div class="form-actions">
+            
             <button type="submit" class="btn btn-primary">
-                Войти</button>
+                Войти
+            </button>
+           
+            @Html.ActionLink("Отмена", "Index", "Home", null, new { @class = "btn btn-danger" })
+      
         </div>
+
     </fieldset>
 }

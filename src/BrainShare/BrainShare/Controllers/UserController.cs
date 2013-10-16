@@ -75,7 +75,7 @@ namespace BrainShare.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                ModelState["Password"].Errors.Add("Such e-mail or password is not registered");
+                ModelState["Password"].Errors.Add("Такой e-mail или пароль не зарегистрирован");
             }
             return View(loginView);
         }
@@ -125,6 +125,9 @@ namespace BrainShare.Controllers
                     ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
                 }
             }
+            ModelState.Remove("formatted_address");
+            ModelState.Remove("country");
+            //ModelState.Remove("locality");
             return View(model);
         }
 
@@ -174,12 +177,14 @@ namespace BrainShare.Controllers
                     Id = ObjectId.GenerateNewId().ToString(),
                     Email = fbUser.email,
                     FacebookId = fbUser.id,
+                    //FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string,
                     FirstName = fbUser.first_name,
                     LastName = fbUser.last_name,
                     Address = address,
                     AvatarUrl = string.Format("https://graph.facebook.com/{0}/picture?width=250&height=250", fbUser.id),
-                    Registered = DateTime.Now
+                    Registered = DateTime.Now,
                 };
+
                 _users.Save(user);
             }
             Auth.LoginUser(user, true);
@@ -306,6 +311,7 @@ namespace BrainShare.Controllers
         [HttpPost]
         public ActionResult BindFacebook(BindFacebookViewModel model)
         {
+
             var user = _users.GetUserByEmail(model.Email);
 
             if (model.Password == user.Password)
@@ -316,6 +322,7 @@ namespace BrainShare.Controllers
                 return RedirectToAction("LoginWithFacebook");
             }
 
+            ModelState.AddModelError("Password", "Пароль неправильный");
             return View(model);
         }
     }

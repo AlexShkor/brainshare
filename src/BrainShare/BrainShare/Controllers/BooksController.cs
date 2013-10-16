@@ -15,6 +15,7 @@ using BrainShare.GoogleDto;
 using BrainShare.Hubs;
 using BrainShare.Services;
 using BrainShare.Services.Validation;
+using BrainShare.ViewModels;
 using MongoDB.Bson;
 
 namespace BrainShare.Controllers

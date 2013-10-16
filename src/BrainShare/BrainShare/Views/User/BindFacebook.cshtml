@@ -2,18 +2,15 @@
 
 
 
-<h5>Пользователь с e-mail @Model.Email уже зарегистрирован, подтвердите пароль что бы продожить</h5>
+<h5>Пользователь с e-mail <span style="color: rgb(167, 154, 84); padding-left: 5px; padding-right: 5px;">'@Model.Email'</span> уже зарегистрирован, подтвердите пароль этого аккаунта что бы продожить</h5>
 
 @using (Html.BeginForm("BindFacebook", "User", FormMethod.Post, new { @class = "form-horizontal" }))
 {
-    <div class="control-group">
-        <label class="control-label">
-            Confirm Password
-        </label>
+    <div style="padding-top: 10px;" class="control-group">
+        @Html.LabelFor(m => m.Password, "Подтвердите пароль", new { @class = "control-label" })
         <div class="controls">
-            @Html.Password("Password", Model.Password)
-
-            @Html.ValidationMessage("Password")
+            @Html.Password("Password", Model.Password, new { style = "margin-right: 0.5em;", required = "required" })
+            @Html.ValidationMessage("Password", new { style = "color: coral;" })
         </div>
     </div>
     
@@ -22,9 +19,9 @@
     
     <div class="form-actions">
         <button type="submit" class="btn btn-primary">
-            Confirm
+            Готово
         </button>
-        @Html.ActionLink("Cancel", "Index", "Home", null, new { @class = "btn" })
+        @Html.ActionLink("Отмена", "Index", "Home", null, new { @class = "btn btn-danger" })
     </div>
 }
 

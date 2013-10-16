@@ -1,8 +1,7 @@
-using System;
-using System.Globalization;
+using BrainShare.Controllers;
 using BrainShare.Documents;
 
-namespace BrainShare.Controllers
+namespace BrainShare.ViewModels
 {
     public class BookViewModel
     {

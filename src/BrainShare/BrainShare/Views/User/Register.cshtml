@@ -9,46 +9,47 @@
 @using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     <fieldset>
+
+        <legend>Заполните форму для регистрации</legend>
+            @Html.ValidationSummary()
        
-    <legend>Fill the form</legend>
         <div class="span6">
             <div class="control-group">
                 <div class="controls">
-                    <a class="btn btn-large btn-primary" href="@Url.Action("LoginWithFacebook","User")">Войти через Facebook</a>
+                    <a class="btn btn-large btn-primary" href="@Url.Action("LoginWithFacebook", "User")">Войти через Facebook</a>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="FirstName">
-                    FirstName
+                    Имя
                 </label>
                 <div class="controls">
                     @Html.TextBox("FirstName", Model.FirstName)
-                
-                    @Html.ValidationMessage("FirstName")
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="LastName">
-                    LastName
+                    Фамилия
                 </label>
                 <div class="controls">
                     @Html.TextBox("LastName", Model.LastName)
-                    @Html.ValidationMessage("LastName") 
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="City">
-                    Введите ваш город
+                <label class="control-label" for="geocomplete">
+                    Город
                 </label>
                 <div class="controls">
                     <input id="geocomplete" placeholder="введите город" name="original_address" type="text" value="@Model.original_address"/>
+                </div>
+                <div>
                 </div>
                 <div id="locationValues" class="hide">
                     <input name="formatted_address" type="hidden" value="@Model.formatted_address">
                     <input name="country" type="hidden" value="@Model.country">
                     <input name="locality" type="hidden" value="@Model.locality">
                 </div>
-             
+
                 <script>
                     $(function () {
                         $("#geocomplete").geocomplete({
@@ -60,51 +61,42 @@
             </div>
             <div class="control-group">
                 <label class="control-label" for="Email">
-                    Email
+                    e-mail
                 </label>
                 <div class="controls">
-                    @Html.TextBox("Email", Model.Email)
-                
-                    @Html.ValidationMessage("Email")
+                    @Html.TextBox("Email", Model.Email, new { id = "Email" })
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="FirstName">
-                    Password
+                <label class="control-label" for="Password">
+                    Пароль
                 </label>
                 <div class="controls">
-                    @Html.Password("Password", Model.Password)
-                
-                    @Html.ValidationMessage("Password")
+                    @Html.Password("Password", Model.Password, new { id = "Password" })
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="FirstName">
-                    Confirm Password
+                <label class="control-label" for="ConfirmPassword">
+                    Подтвердите пароль
                 </label>
                 <div class="controls">
-                    @Html.Password("ConfirmPassword", Model.ConfirmPassword)
-                
-                    @Html.ValidationMessage("ConfirmPassword")
+                    @Html.Password("ConfirmPassword", Model.ConfirmPassword, new { id = "ConfirmPassword" })
                 </div>
             </div>
-             
         </div>
         <div class="span5">
             <div class="thumbnail">
                 <div class="map_canvas" style="height: 400px">
-                    
                 </div>
             </div>
-           
-            
         </div>
+
         <div class="clearfix"></div>
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">
-                Register
+                Готово
             </button>
-            @Html.ActionLink("Cancel", "Index", "Home", null, new { @class = "btn" })
+            @Html.ActionLink("Отмена", "Index", "Home", null, new { @class = "btn btn-danger" })
         </div>
     </fieldset>
 }

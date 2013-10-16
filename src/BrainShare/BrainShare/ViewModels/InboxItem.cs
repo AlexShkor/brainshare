@@ -1,5 +1,6 @@
 using System;
 using BrainShare.Documents;
+using BrainShare.ViewModels;
 
 namespace BrainShare.Controllers
 {
