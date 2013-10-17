@@ -181,6 +181,11 @@ namespace BrainShare.Controllers
 
                 _users.Save(user);
             }
+            else
+            {
+                user.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
+                _users.Save(user);
+            }
 
             if (Request.IsAuthenticated)
             {
