@@ -19,8 +19,8 @@ namespace BrainShare.Documents
         public Dictionary<string, int> Votes { get; set; }
 
         public string FacebookId { get; set; }
-        //public string FacebookAccessToken { get; set; }
-
+        public string FacebookAccessToken { get; set; }
+        
         public AddressData Address { get; set; }
 
         public List<ChangeRequest> Recieved { get; set; }

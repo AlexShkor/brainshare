@@ -149,13 +149,7 @@ namespace BrainShare.Controllers
         [FacebookAuthorize]
         public ActionResult ProcessFacebook(string returnUrl)
         {
-            if (Request.IsAuthenticated)
-            {
-                FormsAuthentication.SignOut();
-                Session.Abandon();
-                Session.Clear();
-            }
-
+            _fb.AccessToken = Session[SessionKeys.FbAccessToken] as string;
             dynamic fbUser = _fb.Get("me");
 
             var user = _users.GetByFacebookId((string)fbUser.id);
@@ -177,7 +171,7 @@ namespace BrainShare.Controllers
                     Id = ObjectId.GenerateNewId().ToString(),
                     Email = fbUser.email,
                     FacebookId = fbUser.id,
-                    //FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string,
+                    FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string,
                     FirstName = fbUser.first_name,
                     LastName = fbUser.last_name,
                     Address = address,
@@ -187,6 +181,14 @@ namespace BrainShare.Controllers
 
                 _users.Save(user);
             }
+
+            if (Request.IsAuthenticated)
+            {
+                FormsAuthentication.SignOut();
+                Session.Abandon();
+                Session.Clear();
+            }
+
             Auth.LoginUser(user, true);
 
             if (Url.IsLocalUrl(returnUrl))
@@ -280,6 +282,7 @@ namespace BrainShare.Controllers
 
             if (currentUser.IsFacebookAccount)
             {
+                _fb.AccessToken = currentUser.FacebookAccessToken;
                 dynamic fbresult = _fb.Get("fql", new { q = "SELECT uid, first_name, last_name, pic_square FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me())" });
                 var fbfriendsInfo = fbresult["data"].ToString();
                 List<FacebookFriend> fbFriends = JsonConvert.DeserializeObject<List<FacebookFriend>>(fbfriendsInfo);
@@ -311,12 +314,12 @@ namespace BrainShare.Controllers
         [HttpPost]
         public ActionResult BindFacebook(BindFacebookViewModel model)
         {
-
             var user = _users.GetUserByEmail(model.Email);
 
             if (model.Password == user.Password)
             {
                 user.FacebookId = model.FacebookId;
+                user.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
                 _users.Save(user);
 
                 return RedirectToAction("LoginWithFacebook");

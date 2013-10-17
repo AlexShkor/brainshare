@@ -1,6 +1,6 @@
 using System.Web.Mvc;
 
-namespace BrainShare.Controllers
+namespace BrainShare.Facebook
 {
     public class FacebookAuthorizeAttribute : AuthorizeAttribute
     {
