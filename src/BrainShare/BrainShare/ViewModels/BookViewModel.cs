@@ -31,7 +31,7 @@ namespace BrainShare.ViewModels
             Title = book.Title;
             SearchInfo = book.SearchInfo;
             PageCount = book.PageCount;
-            PublishedDate = book.PublishedDate.ToString(EditBookViewModel.DateFormat, EditBookViewModel.Culture);
+            PublishedDate = book.PublishedYear != null ? book.PublishedDate.ToString(EditBookViewModel.DateFormat, EditBookViewModel.Culture) : null;
             Publisher = book.Publisher;
             Subtitle = book.Subtitle;
             Image = book.Image;

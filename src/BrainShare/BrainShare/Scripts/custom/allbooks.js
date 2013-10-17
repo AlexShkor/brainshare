@@ -10,11 +10,10 @@ var AllBooksModel = function (data) {
     };
 
     this.CutString = function (string, limit) {
-        if (string.length > limit) {
+        if (string != null && string.length > limit) {
             var cutString = string.substring(0, limit);
             return cutString + "...";
         }
         return string;
     };
-
 };
