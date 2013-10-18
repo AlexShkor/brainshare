@@ -568,6 +568,7 @@
     <Content Include="Views\Books\NotFound.cshtml" />
     <Content Include="Views\Home\Main.cshtml" />
     <Content Include="Views\Books\ExchangeSucces.cshtml" />
+    <Content Include="Views\Books\ChooseAddMethod.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
