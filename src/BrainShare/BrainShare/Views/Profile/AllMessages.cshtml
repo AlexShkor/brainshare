@@ -18,7 +18,7 @@
         <tbody data-bind="foreach: items">
             <tr>
                 <td class="span7">
-                    <span data-bind="text: To"></span>
+                    <a href="#" data-bind="text: To, attr: { href: LinkToProfile }"></a>
                     <span class="badge badge-info" data-bind="visible: IsNew">new</span>
                 </td>
                 <td class="span2">

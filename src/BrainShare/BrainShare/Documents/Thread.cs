@@ -47,6 +47,11 @@ namespace BrainShare.Documents
         {
             return OwnerId == me ? RecipientName : OwnerName;
         }
+
+        public string GetSecondUserId(string me)
+        {
+            return OwnerId == me ? RecipientId : OwnerId;
+        }
     }
 
     public class Message
