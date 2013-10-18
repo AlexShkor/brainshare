@@ -136,6 +136,11 @@ namespace BrainShare.Controllers
             }
         }
 
+        [GET("choose-add-method")]
+        public ActionResult ChooseAddMethod()
+        {
+            return View();
+        }
 
         [GET("add")]
         public ActionResult Add()

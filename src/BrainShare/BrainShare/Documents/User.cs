@@ -117,6 +117,11 @@ namespace BrainShare.Documents
                 IsValid = false;
             }
         }
+
+        public string GetCityAndCountry()
+        {
+            return string.Format("{0}, {1}", Locality, Country);
+        }
     }
 
     public class ChangeRequest

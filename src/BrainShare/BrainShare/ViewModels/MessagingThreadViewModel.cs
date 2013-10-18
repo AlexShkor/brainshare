@@ -10,6 +10,7 @@ namespace BrainShare.Controllers
         public string UserId { get; set; }
         public string RecipientId { get; set; }
         public string RecipientName { get; set; }
+        public string RecipientAddress{ get; set; }
 
         public List<MessageViewModel> Messages { get; set; }
 
@@ -19,6 +20,7 @@ namespace BrainShare.Controllers
             UserId = me.Id;
             RecipientId = recipient.Id;
             RecipientName = recipient.FullName;
+            RecipientAddress = recipient.Address.GetCityAndCountry();
             Messages = thread.Messages.OrderByDescending(x=> x.Posted).Select(x => new MessageViewModel(x, recipient)).ToList();
         }
     }

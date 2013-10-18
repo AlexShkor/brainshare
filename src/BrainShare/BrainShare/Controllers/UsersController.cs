@@ -42,7 +42,7 @@ namespace BrainShare.Controllers
         {
             UserId = user.Id;
             Username = user.FullName;
-            Address = user.Address.Original;
+            Address = user.Address.GetCityAndCountry();
             Avatar = user.AvatarUrl ?? Constants.DefaultAvatarUrl;
             Registered = user.Registered.ToShortDateString();
             Rating = user.GetSummaryVotes();
