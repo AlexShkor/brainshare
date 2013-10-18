@@ -13,7 +13,7 @@ namespace System
 
         public static string CutString(this String value, int limit)
         {
-            if (value.Length > limit)
+            if (value != null && value.Length > limit)
             {
                 var cutString = value.Substring(0, limit);
                 return cutString + "...";

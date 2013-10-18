@@ -93,9 +93,7 @@ var AddBookModel = function (ownedItems) {
     this.give = function (item) {
         debugger;
         self.owned.push(item.GoogleBookId);
-        var shareOnFb = $("#cb-" + item.GoogleBookId).prop("checked");
-        item.ShareOnFb = shareOnFb;
-
+       
         //var data = {
         //    bookDto: ko.toJS(item),
         //    shareOnFb: shareOnFb

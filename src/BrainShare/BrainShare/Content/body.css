@@ -47,7 +47,8 @@ body {
 }
 
 .book-item .thumbnail {
-    height: 350px;
+    height: 365px;
+    overflow: hidden;
 }
 
 .footer {
