@@ -17,11 +17,11 @@ namespace BrainShare.Controllers
 
         [Required(ErrorMessage = "Укажите город")]
         public string original_address { get; set; }
-        //[Required(ErrorMessage = LocalityErrorMessage)]
+        [Required(ErrorMessage = LocalityErrorMessage)]
         public string formatted_address { get; set; }
-        //[Required(ErrorMessage = LocalityErrorMessage)]
+        [Required(ErrorMessage = LocalityErrorMessage)]
         public string country { get; set; }
-        //[Required(ErrorMessage = LocalityErrorMessage)]
+        [Required(ErrorMessage = LocalityErrorMessage)]
         public string locality { get; set; }
 
         [Required(ErrorMessage = "Введите e-mail адресс")]
