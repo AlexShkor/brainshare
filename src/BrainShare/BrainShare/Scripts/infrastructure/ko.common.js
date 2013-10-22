@@ -1,13 +1,5 @@
-﻿var send = function (url, data, successCallback, isGet) {
-    var type = isGet ? 'GET' : 'POST';
-
-    $.ajax({
-        url: url,
-        type: type,
-        traditional: true,
-        data: data,
-        success: successCallback
-    });
+﻿var send = function (url, data, successCallback) {
+    sendJson(url, data, successCallback);
 };
 
 var isFunction = function (functionToCheck) {
