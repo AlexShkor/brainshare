@@ -570,6 +570,7 @@
     <Content Include="Views\Home\Main.cshtml" />
     <Content Include="Views\Books\ExchangeSucces.cshtml" />
     <Content Include="Views\Books\ChooseAddMethod.cshtml" />
+    <Content Include="Views\User\UserWithFbIdAlreadyExist.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
