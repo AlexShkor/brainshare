@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using BrainShare.ViewModels;
 
-namespace BrainShare.Controllers
+namespace BrainShare.ViewModels
 {
     public class TakeBookViewModel
     {

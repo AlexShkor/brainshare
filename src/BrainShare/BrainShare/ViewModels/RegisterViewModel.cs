@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BrainShare.Controllers
+namespace BrainShare.ViewModels
 {
     public class RegisterViewModel
     {

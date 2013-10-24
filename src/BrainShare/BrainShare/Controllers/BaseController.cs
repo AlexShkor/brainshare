@@ -47,6 +47,14 @@ namespace BrainShare.Controllers
             });
         }
 
+        public JsonResult Listing(object items, object filter)
+        {
+            return Json(new {
+                                Items = items,
+                                Filter = filter
+                            }, JsonRequestBehavior.AllowGet);
+        }
+
 
         protected JsonResult JsonModel<T>(T model) where T : BaseViewModel
         {
