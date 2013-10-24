@@ -264,16 +264,15 @@ namespace BrainShare.Controllers
             }
         }
 
-        //[FacebookAuthorize]
         private ActionResult ProcessFacebook(FacebookCallbackMode mode, string returnUrl = null)
         {
             _fb.AccessToken = Session[SessionKeys.FbAccessToken] as string;
             dynamic fbUser = _fb.Get("me");
-            var facebookId = fbUser.id;
+            var facebookId = (string) fbUser.id;
 
             if (mode == FacebookCallbackMode.AuthorizeWithFacebook)
             {
-                var userByFacebookId = _users.GetByFacebookId((string)fbUser.id);
+                var userByFacebookId = _users.GetByFacebookId(facebookId);
                 if (userByFacebookId == null)
                 {
                     var address = new AddressData((string)fbUser.location.name);
@@ -315,20 +314,27 @@ namespace BrainShare.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-
+             
             if (mode == FacebookCallbackMode.UpdateFacebookFields)
             {
-                var currentUser = _users.GetById(UserId);
-                currentUser.FacebookId = facebookId;
-                currentUser.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
-                _users.Save(currentUser);
-
-                if (Url.IsLocalUrl(returnUrl))
+                var userByFacebookId =  _users.GetByFacebookId(facebookId);
+                
+                if (userByFacebookId == null || userByFacebookId.Id == UserId)
                 {
-                    return Redirect(returnUrl);
+                    var currentUser = _users.GetById(UserId);
+                    currentUser.FacebookId = facebookId;
+                    currentUser.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
+                    _users.Save(currentUser);
+
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    return RedirectToAction("Index", "Home");
                 }
 
-                return RedirectToAction("Index", "Home");
+                return View("UserWithFbIdAlreadyExist");
             }
 
             return RedirectToAction("Index", "Home");
