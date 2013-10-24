@@ -43,7 +43,10 @@ namespace BrainShare.Services
 
         protected override IEnumerable<IMongoQuery> BuildFilterQuery(BooksFilter filter)
         {
-            throw new NotImplementedException();
+            if (filter.Title.HasValue())
+            {
+                yield return Query<Book>.Matches(x => x.Title, new BsonRegularExpression(filter.Title,"i"));
+            }
         }
 
         public IEnumerable<Book> GetLast(int count)

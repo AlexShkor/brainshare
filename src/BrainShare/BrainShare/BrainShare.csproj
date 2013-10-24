@@ -241,9 +241,15 @@
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ContainerConfigure.cs" />
-    <Compile Include="Controllers\EditBookViewModel.cs" />
+    <Compile Include="ViewModels\AllBooksViewModel.cs" />
+    <Compile Include="ViewModels\BooksFilterModel.cs" />
+    <Compile Include="ViewModels\EditBookViewModel.cs" />
     <Compile Include="Controllers\HelpController.cs" />
+    <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\MyProfileViewModel.cs" />
+    <Compile Include="ViewModels\RequestAcceptedModel.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Documents\CloudinaryImage.cs" />
     <Compile Include="Documents\UserData.cs" />
     <Compile Include="Extensions\BootstrapExtensions.cs" />
@@ -286,7 +292,7 @@
     <Compile Include="ViewModels\AllThreadsViewModel.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
-    <Compile Include="ViewModels\Base\Class1.cs" />
+    <Compile Include="ViewModels\Base\BaseFilterModel.cs" />
     <Compile Include="ViewModels\Base\ValidationError.cs" />
     <Compile Include="ViewModels\BindFacebookViewModel.cs" />
     <Compile Include="ViewModels\BookViewModel.cs" />
@@ -500,6 +506,8 @@
     <Content Include="Scripts\pnotify-1.2.0\jquery.pnotify.js" />
     <Content Include="Scripts\pnotify-1.2.0\jquery.pnotify.min.js" />
     <Content Include="Scripts\pnotify-1.2.0\use for pines style icons\jquery.pnotify.default.icons.css" />
+    <Content Include="Scripts\sammy-0.7.4.js" />
+    <Content Include="Scripts\sammy-0.7.4.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

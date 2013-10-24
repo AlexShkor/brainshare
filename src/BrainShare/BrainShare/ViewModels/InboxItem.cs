@@ -1,8 +1,7 @@
 using System;
 using BrainShare.Documents;
-using BrainShare.ViewModels;
 
-namespace BrainShare.Controllers
+namespace BrainShare.ViewModels
 {
     public class InboxItem
     {

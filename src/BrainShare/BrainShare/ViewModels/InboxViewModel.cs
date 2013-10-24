@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace BrainShare.Controllers
+namespace BrainShare.ViewModels
 {
     public class InboxViewModel
     {
