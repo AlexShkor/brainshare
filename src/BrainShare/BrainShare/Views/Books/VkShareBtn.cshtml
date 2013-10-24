@@ -1,6 +1,7 @@
-﻿<script type="text/javascript" src="http://vkontakte.ru/js/api/share.js?9" charset="windows-1251"></script>
+﻿@using BrainShare.Utilities
+<script type="text/javascript" src="http://vkontakte.ru/js/api/share.js?9" charset="windows-1251"></script>
 <script type="text/javascript">
 <!--
-    document.write(VK.Share.button());
+    document.write(VK.Share.button({url: "@UrlUtility.CurrentUrl"}));
     -->
 </script>
