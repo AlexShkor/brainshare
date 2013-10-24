@@ -89,11 +89,11 @@
             <div class="clearfix"></div>
             <div class="well">
                 <div class="span4">
-                    @Html.Partial("FbShareBtn")
+                    @Html.Partial("FbShareBtn", Model.SharingText)
                 </div>
 
                 <div class="span4">
-                    @Html.Partial("TwShareBtn", Model.UserName + " ищет книгу \"" + Model.Title + "\" на BrainShare")
+                    @Html.Partial("TwShareBtn", Model.SharingText)
                 </div>
                 <div class="span4">
                     @Html.Partial("VkShareBtn")
