@@ -6,14 +6,22 @@ namespace BrainShare.Mongo
 {
     public class BaseFilter
     {
+        public PagingInfo PagingInfo { get; set; }
 
-        public BaseFilter()
+        public BaseFilter(bool pagingRequired = false)
         {
+            if (pagingRequired)
+                PagingInfo = new PagingInfo();
             ExcludeFields = new List<string>();
             Ordering = new List<FilterOrder>();
         }
 
         public List<FilterOrder> Ordering { get; set; }
+
+        public bool IsPagingEnabled
+        {
+            get { return PagingInfo != null; }
+        }
 
         public List<string> ExcludeFields { get; set; }
 

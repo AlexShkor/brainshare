@@ -267,8 +267,13 @@
     <Content Include="Scripts\custom\allusers.js" />
     <Content Include="Scripts\custom\Books\EditBookViewModel.js" />
     <Content Include="Scripts\custom\notifications.js" />
+    <Compile Include="Mongo\PagingInfo.cs" />
+    <Compile Include="Mongo\DocumentsServiceFiltered.cs" />
+    <Compile Include="Services\BaseBooksService.cs" />
+    <Compile Include="Services\BooksFilter.cs" />
     <Compile Include="Services\CloudinaryImagesService.cs" />
     <Compile Include="Services\Validation\LanguagesService.cs" />
+    <Compile Include="Services\WishBooksService.cs" />
     <Compile Include="SessionKeys.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="Facebook\FacebookAuthorizeAttribute.cs" />
@@ -281,6 +286,7 @@
     <Compile Include="ViewModels\AllThreadsViewModel.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
+    <Compile Include="ViewModels\Base\Class1.cs" />
     <Compile Include="ViewModels\Base\ValidationError.cs" />
     <Compile Include="ViewModels\BindFacebookViewModel.cs" />
     <Compile Include="ViewModels\BookViewModel.cs" />
@@ -458,6 +464,7 @@
     <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.zh-CN.js" />
     <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.zh-TW.js" />
     <Content Include="Scripts\imgAreaSelect\jquery.imgareaselect.pack.js" />
+    <Content Include="Scripts\infrastructure\filtering.js" />
     <Content Include="Scripts\infrastructure\ko.common.js" />
     <Content Include="Scripts\jquery-2.0.1.js" />
     <Content Include="Scripts\jquery-2.0.1.min.js" />
