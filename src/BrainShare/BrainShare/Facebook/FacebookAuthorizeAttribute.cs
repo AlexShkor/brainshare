@@ -14,7 +14,10 @@ namespace BrainShare.Facebook
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            filterContext.Result = new RedirectResult("/user/loginwithfacebook");
+            //var mode = int.Parse(filterContext.Controller.ValueProvider.GetValue("mode").AttemptedValue);
+            //var returnUrl = filterContext.Controller.ValueProvider.GetValue("returnUrl").AttemptedValue;
+            //filterContext.Result = new RedirectResult("/user/GetFacebookToken?returnUrl=" + returnUrl + "?mode=" + mode);
+            filterContext.Result = new RedirectResult("/user/GetFacebookToken?mode=" + FacebookCallbackMode.AuthorizeWithFacebook);
         }
     }
 }
