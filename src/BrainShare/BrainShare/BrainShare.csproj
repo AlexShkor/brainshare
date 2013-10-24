@@ -251,6 +251,7 @@
     <Compile Include="Extensions\HttpPostedFileBaseExtensions.cs" />
     <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="Facebook\FacebookSelectorViewModel.cs" />
+    <Compile Include="Facebook\GetFacebookTokenMode.cs" />
     <Compile Include="GoogleDto\GoogleBookDto.cs" />
     <Compile Include="Hubs\NotificationsHub.cs" />
     <Compile Include="Hubs\ThreadHub.cs" />
