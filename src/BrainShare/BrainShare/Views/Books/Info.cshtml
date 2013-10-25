@@ -1,6 +1,17 @@
-﻿@using Newtonsoft.Json
+﻿@using BrainShare.Utilities
+@using Newtonsoft.Json
 @model BrainShare.ViewModels.BookViewModel
-
+@section Meta{
+    <meta property="og:image" content="@Model.Image" />
+    <meta property="og:site_name" content="BrainShare" />
+    <meta property="og:title" content="@Model.Title" />
+    <meta property="og:url" content="@UrlUtility.CurrentUrl" />
+    <meta property="og:description" content="@Model.SharingText" />
+    <meta property="og:type" content="website/book" />
+}
+@section Schemas{
+    xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"
+}
 @section Scripts{
     <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/info.js")"></script>
     <script>
@@ -93,7 +104,7 @@
                 </div>
 
                 <div class="span4">
-                    @Html.Partial("TwShareBtn", Model.UserName + " ищет книгу \"" + Model.Title + "\" на BrainShare")
+                    @Html.Partial("TwShareBtn", Model.SharingText)
                 </div>
                 <div class="span4">
                     @Html.Partial("VkShareBtn")
