@@ -1,16 +1,6 @@
 ﻿@using BrainShare.Utilities
 @model BrainShare.ViewModels.BookViewModel
-@section head{
-    <meta property="og:image" content="@Model.Image" />
-    <meta property="og:site_name" content="BrainShare" />
-    <meta property="og:title" content="@Model.Title" />
-    <meta property="og:url" content="@UrlUtility.CurrentUrl" />
-    <meta property="og:description" content="@Model.SharingText" />
-    <meta property="og:type" content="website/book" />
-}
-@section schemas{
-    xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"
-}
+
 <div id="fb-root"></div>
 <script>(function (d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
