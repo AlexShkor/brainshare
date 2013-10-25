@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
 using BrainShare.Documents;
 
-namespace BrainShare.Controllers
+namespace BrainShare.ViewModels
 {
     public class UserProfileModel
     {

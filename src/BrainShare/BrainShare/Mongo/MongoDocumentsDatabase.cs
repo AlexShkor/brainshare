@@ -28,6 +28,12 @@ namespace BrainShare.Mongo
             _server = new MongoClient(connectionString).GetServer();
         }
 
+        public void EnsureIndexes()
+        {
+            Books.EnsureIndex("Title");
+            WishBooks.EnsureIndex("Title");
+        }
+
         /// <summary>
         /// MongoDB Server
         /// </summary>

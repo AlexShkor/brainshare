@@ -2,6 +2,14 @@
 @{
     Layout = "~/Views/Shared/_BootstrapLayout.cshtml";
 }
+@section Meta
+{
+    @RenderSection("Meta",false)
+}
+@section Schemas
+{
+    @RenderSection("Schemas",false)
+}
 <div class="container-fluid">
 
 

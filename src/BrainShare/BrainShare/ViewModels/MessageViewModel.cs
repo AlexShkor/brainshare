@@ -1,7 +1,6 @@
-﻿using System;
-using BrainShare.Documents;
+﻿using BrainShare.Documents;
 
-namespace BrainShare.Controllers
+namespace BrainShare.ViewModels
 {
     public class MessageViewModel
     {

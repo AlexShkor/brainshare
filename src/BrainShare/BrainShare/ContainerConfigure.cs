@@ -12,6 +12,7 @@ namespace BrainShare
         {
             var settings = SettingsMapper.Map<Settings>();
             var database = new MongoDocumentsDatabase(settings.MongoConnectionString);
+            database.EnsureIndexes();
             container.Configure(c =>
                 {
                     c.For<MongoDocumentsDatabase>().Singleton().Use(database);

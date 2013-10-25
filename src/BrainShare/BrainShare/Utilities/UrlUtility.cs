@@ -22,5 +22,10 @@ namespace BrainShare.Utilities
                 return url;
             }
         }
+
+        public static string CurrentUrl
+        {
+            get { return ApplicationBaseUrl + HttpContext.Current.Request.Url.PathAndQuery; }
+        }
     }
 }
