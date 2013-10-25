@@ -7,7 +7,7 @@ using BrainShare.Documents;
 using BrainShare.Services.Validation;
 using BrainShare.ViewModels.Base;
 
-namespace BrainShare.Controllers
+namespace BrainShare.ViewModels
 {
     public class EditBookViewModel : BaseViewModel
     {

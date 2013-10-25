@@ -39,11 +39,17 @@ namespace BrainShare.Controllers
             _cloudinaryImages = cloudinaryImages;
         }
 
-        public ActionResult Index(string search)
+        public ActionResult Index()
         {
-            var books = _books.GetPaged(search, 0, 50);
-            var model = new AllBooksViewModel(books);
-            return View(model);
+            return View(new BooksFilterModel());
+        }
+
+        public ActionResult Filter(BooksFilterModel model)
+        {
+            var filter = model.ToFilter();
+            var items = _books.GetByFilter(filter).Select(x=> new BookViewModel(x));
+            model.UpdatePagingInfo(filter.PagingInfo);
+            return Listing(items,model);
         }
 
         public ActionResult Search()
@@ -389,28 +395,5 @@ namespace BrainShare.Controllers
             }
             return Json(new { error = "Файл загруженный вами не является изображением или его размеры слишком малы" });
         }
-    }
-
-    public class RequestAcceptedModel
-    {
-        public string Message { get; set; }
-        public string Title { get; set; }
-
-        public RequestAcceptedModel(Book book, Book onBook, User fromUser)
-        {
-            Title = "Запрос на обмен принят";
-            Message = string.Format("Ваз запрос на обмен книги {0} пользователя {2} на вашу книгу {1} был принят.",
-                book.Title, fromUser.FullName, onBook.Title);
-        }
-
-    }
-
-    public class AllBooksViewModel
-    {
-        public AllBooksViewModel(IEnumerable<Book> books)
-        {
-            Items = books.Select(x => new BookViewModel(x)).ToList();
-        }
-        public List<BookViewModel> Items { get; set; }
     }
 }

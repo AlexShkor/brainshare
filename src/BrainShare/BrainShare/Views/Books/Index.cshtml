@@ -10,11 +10,12 @@
 </script>
 
 <h4>Последнии добавленные</h4>
-@*<form class="form-inline" method="GET" action="/books/index">
+<form class="form-inline" action="/books" method="POST" data-bind="submit: search">
   
-    <input type="text" name="query"/>
-    <input type="submit" class="btn btn-success"  value="Искать"/>
-</form>*@
+    <input type="text" data-bind="value: filter.Search" />
+    <button type="submit" class="btn btn-success">Искать</button>
+    <img style="width: 30px; height: 30px;" data-bind="visible: filter.Loading"  src="~/Images/loading.gif" />
+</form>
 
 <div class="row-fluid">
     <ul class="thumbnails" data-bind="foreach: items">
@@ -35,3 +36,4 @@
         </li>
     </ul>
 </div>
+@Html.Partial("Pagination")
