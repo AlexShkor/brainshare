@@ -5,6 +5,7 @@
     this.yourBook = data.YourBook;
     this.fromUserId = data.FromUserId;
     this.allBooks = ko.observableArray(data.AllBooks);
+    debugger 
     this.booksYouNeedTitles = ko.observableArray(data.BooksYouNeedTitles);
     this.fromUser = data.FromUser;
 
@@ -20,6 +21,13 @@
         window.location = "/books/give/" + self.yourBook.Id + "/take/" + book.Id + "/from/" + self.fromUser.UserId;
     };
     
+    this.viewBook = function (book) {
+        window.location = "/books/info/" + book.Id;
+    };
+    
+    this.viewUser = function () {
+        window.location = "/Profile/ViewUserProfile/" + data.FromUser.UserId;
+    };
 
     // ViewModel for PartialView
     this.book = self.yourBook;

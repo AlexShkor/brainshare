@@ -1,8 +1,8 @@
 ﻿@model BrainShare.ViewModels.ChangeRequestSentModel
 
-<p>Вы отправили запрос на книгу "@Model.Book.Title" пользователю @Model.Owner.UserName. 
-    После его подтверждения обмен будет произведён.</p>
+<div class="well" style="margin-top: 1em;">Вы отправили запрос на книгу <span class="color-black">"@Model.Book.Title"</span> пользователю <a style="padding-left: 0.2em;" href="/Profile/ViewUserProfile?id=@Model.Owner.UserId" >@Model.Owner.UserName</a>. 
+    После его подтверждения обмен будет произведён.</div>
 
-@*<p>Что бы продолжить ваш обзор нажмите @Html.ActionLink("сюда","Index", "Home")</p>*@
+
 
 
