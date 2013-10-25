@@ -11,40 +11,35 @@
     </script>
 }
 
-<div class="row">
-    <div class="span6">
-        <h4>Входящий запрос на вашу книгу</h4>
+<div class="row" style="padding-left: 1em; padding-top: 1em">
+    <div class="span3">
+
         @Html.Partial("DetailsPartial", Model.YourBook)
     </div>
-    <div class="span6">
-        <span>От пользователя</span>
-        <h4 data-bind="text: fromUser.UserName"></h4>
-        <a class="btn btn-info" href="#" data-bind="click: sendMessage">Отправить сообщение</a>
-        @*   <p data-bind="text: fromUser.Email"></p>*@
-        <p></p>
-        <a class="btn btn-danger" href="#" data-bind="click: reject">Отказать</a>
+    <div class="span9" style="padding-left: 2em;">
+        <h5 style="padding-bottom: 1em;">Входящий запрос на вашу книгу от пользователя <a style="padding-left: 0.5em" href="#" data-bind="click: viewUser, text: fromUser.UserName"></a></h5>
+        <button style="width: 195px" class="btn btn-info" data-bind="click: sendMessage">Отправить сообщение</button>
+        <button style="width: 195px; margin-left: 1.5em;" class="btn btn-danger" data-bind="click: reject">Отказать</button>
     </div>
 </div>
-<div>
+
+<div class="row" style="padding-left: 1em">
     <div>
-        <div>
-            <span>Все книги пользователя </span>
-            <span data-bind="text: fromUser.UserName"></span>
+        <div style="padding-top: 1em; padding-bottom: 1em;" class="text-center">
+            <h5>Все книги пользователя</h5>
         </div>
-        <table class="table table-condensed">
+        <table class="table table-condensed table-hover">
             <tbody data-bind="foreach: allBooks">
-                <tr data-bind="css: { success: $root.booksYouNeedTitles().indexOf(Title) >= 0 }">
-                    <td class="book-image-col">
-                        <img  data-bind="attr:{src: Image}" />
+                <tr data-bind="css: { success: $root.booksYouNeedTitles().indexOf(Title) >= 0 }, click: $root.viewBook">
+
+                    <td style="width: 25%" class="book-image-col">
+                        <img data-bind="attr: { src: Image }" />
                     </td>
-                    <td class="span3"><strong  data-bind="text: Title"></strong></td>
-                    <td data-bind="text: Authors"></td>
-                    <td data-bind="text: Subtitle"></td>
-                    <td data-bind="text: Publisher"></td>
-                    <td data-bind="text: PublishedDate"></td>
-                    <td data-bind="text: PageCount">стр </td>
-                    <td>
-                        <a class="btn btn-small" href="#" data-bind="click: $root.exchange">Поменяться</a>
+                    <td style="width: 25%"><strong data-bind="text: Title"></strong></td>
+                    <td style="width: 25%" data-bind="text: Authors"></td>
+                    <td style="width: 15%" data-bind="text: Publisher"></td>
+                    <td style="width: 20%">
+                        <a style="margin-top: 1em" class="btn btn-success" href="#" data-bind="click: $root.exchange">Поменяться</a>
                     </td>
                 </tr>
             </tbody>

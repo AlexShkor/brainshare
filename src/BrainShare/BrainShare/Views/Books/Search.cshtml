@@ -10,7 +10,7 @@
 
 </script>
 
-<h4>Искать на Goggle Books</h4>
+<h4 style="padding-bottom: 0.5em;">Искать на Goggle Books</h4>
 
 <form class="form-inline" data-bind="submit: submit">
   
@@ -18,7 +18,7 @@
 
     <input type="text" data-bind="value: query" />
     @*<select class="span2" data-bind="options: searchTypes, optionsText: 'title', optionsValue: 'code', value: searchType" ></select>*@
-    <button type="submit" class="btn btn-success">Искать</button>
+    <button type="submit" class="btn btn-success" style="margin-left: 0.5em;">Искать</button>
     <img style="width: 30px; height: 30px;" data-bind="visible: loading"  src="~/Images/loading.gif" />
 </form>
 

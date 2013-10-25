@@ -9,24 +9,13 @@
     })
 </script>
 
-<style>
-    .table-hover tbody tr:hover > td, .table-hover tbody tr:hover > th {
-        background-color: lightcyan!important;
-    }
-</style>
 
 <div>
     <div style="padding-top: 1.5em" class="row">
         <div style="padding-top: 0" class="avatar-container span4">
             <img alt="аватар" data-bind="attr: { src: user.Avatar }" />
-            @if (!Model.IsMe)
-            {
-                <div style="padding-top: 1em">
-                    <a href="#" data-bind="click: sendMessage">Отправить сообщение</a>
-                </div>
-            }
         </div>
-       
+
         <div class="form-horizontal span6">
             <div>
                 <div class="control-group">
@@ -57,6 +46,14 @@
                         </div>
                     </div>
                 }
+
+                @if (!Model.IsMe)
+                {
+                    <div class="control-group">
+                        <button class="btn btn-info" data-bind="click: sendMessage">Отправить сообщение</button>
+                    </div>
+                }
+
             </div>
         </div>
 
@@ -72,7 +69,7 @@
     </div>
 
 
-    <div class="row">
+    <div class="row" style="padding-top: 2em">
 
         <div class="tabbable">
             <div style="padding-left: 5em">
@@ -85,7 +82,7 @@
                     <div class="tab-pane active" id="s1">
                         <table class="table table-condensed table-hover">
                             <tbody data-bind="foreach: listOfOwnedBooks">
-                                <tr data-bind="click: $root.viewBook" style="cursor: pointer;">
+                                <tr data-bind="click: $root.viewBook">
                                     <td class="book-image-col">
                                         <img data-bind="attr: { src: Image }" />
                                     </td>
@@ -103,7 +100,7 @@
                     <div class="tab-pane" id="s2">
                         <table class="table table-condensed table-hover">
                             <tbody data-bind="foreach: listOfWishedBooks">
-                                <tr data-bind="click: $root.viewWishBook" style="cursor: pointer">
+                                <tr data-bind="click: $root.viewWishBook">
                                     <td class="book-image-col">
                                         <img data-bind="attr: { src: Image }" />
                                     </td>

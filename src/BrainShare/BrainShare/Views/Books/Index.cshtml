@@ -9,15 +9,15 @@
 
 </script>
 
-<h4>Последнии добавленные</h4>
+<h4 style="padding-bottom: 0.5em">Последние добавленные</h4>
 <form class="form-inline" action="/books" method="POST" data-bind="submit: search">
-  
     <input type="text" data-bind="value: filter.Search" />
-    <button type="submit" class="btn btn-success">Искать</button>
+    <button type="submit" class="btn btn-success" style="margin-left: 0.5em;">Искать</button>
     <img style="width: 30px; height: 30px;" data-bind="visible: filter.Loading"  src="~/Images/loading.gif" />
 </form>
 
 <div class="row-fluid">
+    
     <ul class="thumbnails" data-bind="foreach: items">
         <li class="book-item">
             <div class="thumbnail" data-bind="click: $root.info">
