@@ -241,6 +241,9 @@
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ContainerConfigure.cs" />
+    <Compile Include="Documents\ExchangeHistory.cs" />
+    <Compile Include="Documents\ExchangeEntry.cs" />
+    <Compile Include="Domain\ExchangeService.cs" />
     <Compile Include="ViewModels\AllBooksViewModel.cs" />
     <Compile Include="ViewModels\BooksFilterModel.cs" />
     <Compile Include="ViewModels\EditBookViewModel.cs" />
@@ -536,7 +539,7 @@
     <Content Include="Views\Profile\MyBooks.cshtml" />
     <Content Include="Views\Books\TakeFromUser.cshtml" />
     <Content Include="Views\Profile\Inbox.cshtml" />
-    <Content Include="Views\Books\AcceptRequestFrom.cshtml" />
+    <Content Include="Views\Books\ViewRequestFrom.cshtml" />
     <Content Include="Views\Books\DetailsPartial.cshtml" />
     <Content Include="Views\Books\TablePartial.cshtml" />
     <Content Include="Views\Books\Exchange.cshtml" />

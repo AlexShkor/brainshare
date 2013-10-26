@@ -281,7 +281,7 @@ namespace BrainShare.Controllers
         }
 
         [GET("accept/{requestedBookId}/from/{userId}")]
-        public ActionResult AcceptRequestFrom(string requestedBookId, string userId)
+        public ActionResult ViewRequestFrom(string requestedBookId, string userId)
         {
             var model = new AcceptRequestViewModel();
             model.AllBooks = _books.GetUserBooks(userId).Select(x => new BookViewModel(x)).ToList();
