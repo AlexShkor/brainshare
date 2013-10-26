@@ -1,0 +1,116 @@
+﻿@using Newtonsoft.Json
+@model BrainShare.ViewModels.EditProfileViewModel
+
+@{
+    ViewBag.Title = "Редактировать информацию";
+}
+
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+<script src="~/Scripts/jquery.geocomplete.min.js"></script>
+
+<form class="form-horizontal" data-bind="submit: save">
+    <div></div>
+    @* @Html.ValidationSummary()*@
+
+    <!-- ko with: model-->
+    @Html.Partial("KnockoutSummary")
+    <!-- /ko -->
+    <div class="span6">
+        <div class="control-group">
+            <label class="control-label" for="FirstName">
+                Имя
+            </label>
+            <div class="controls">
+                @Html.TextBox("FirstName", Model.FirstName, new { id = "FirstName" })
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="LastName">
+                Фамилия
+            </label>
+            <div class="controls">
+                @Html.TextBox("LastName", Model.LastName)
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="geocomplete">
+                Город
+            </label>
+            <div class="controls">
+                <input id="geocomplete" placeholder="введите город" name="original_address" type="text" data-bind="event: {change: AddressInputChanged}" value="@Model.original_address"/>
+            </div>
+            <div>
+            </div>
+            <div id="locationValues" class="hide">
+                <input name="formatted_address" type="hidden" value="@Model.formatted_address">
+                <input name="country" type="hidden" value="@Model.country">
+                <input name="locality" type="hidden" value="@Model.locality">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="Info">
+                Информация
+            </label>
+            <div class="controls">
+                @Html.TextArea("Info", Model.Info, new { style = "width: 300px; height: 100px;" })
+            </div>
+        </div>
+
+    </div>
+    <div class="span5">
+        <div class="thumbnail">
+            <div class="map_canvas" style="height: 400px">
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+            Готово
+        </button>
+        @Html.ActionLink("Отмена", "Index", "Profile", null, new { @class = "btn btn-danger" })
+    </div>
+</form>
+
+
+<script type="text/javascript">
+    
+    function EditProfileModel (data, submitUrl) {
+        var self = this;
+
+        this.model = ko.mapping.fromJS(data);
+        this.save = function () {
+            sendModel(submitUrl, self.model, function (model) {
+                debugger;
+                if (model.Errors.length == 0) {
+                    window.location.href = "/Profile/Index";
+                }
+            });
+        };
+        
+        this.AddressInputChanged = function() {
+            self.model.original_address(null);
+            self.model.formatted_address(null);
+            self.model.country(null);
+            self.model.locality(null);
+         
+        }
+    }
+    
+
+    $(function () {
+
+        var model = new EditProfileModel(@Html.Raw(JsonConvert.SerializeObject(Model)), "/Profile/EditProfile");
+        ko.applyBindings(model);
+
+        $("#geocomplete").geocomplete({
+            map: '.map_canvas',
+            details: "#locationValues",
+            location: '@Html.Raw(Model.formatted_address)'
+        });
+    });
+
+</script>
+
+
