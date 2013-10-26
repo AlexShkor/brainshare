@@ -8,7 +8,7 @@ namespace BrainShare.ViewModels
 
         public UserItemViewModel Owner { get; set; }
 
-        public ChangeRequestSentModel(Book book, User user)
+        public ChangeRequestSentModel(Book book)
         {
             Book = new BookViewModel(book);
             Owner = new UserItemViewModel(book);

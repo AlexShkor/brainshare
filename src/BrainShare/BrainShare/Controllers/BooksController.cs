@@ -29,14 +29,16 @@ namespace BrainShare.Controllers
         private readonly WishBooksService _wishBooks;
         private readonly ActivityFeedsService _feeds;
         private readonly CloudinaryImagesService _cloudinaryImages;
+        private readonly ExchangeHistoryService _exchangeHistory;
 
-        public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages)
+        public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages, ExchangeHistoryService exchangeHistory)
         {
             _users = users;
             _books = books;
             _feeds = feeds;
             _wishBooks = wishBooks;
             _cloudinaryImages = cloudinaryImages;
+            _exchangeHistory = exchangeHistory;
         }
 
         public ActionResult Index()
@@ -197,7 +199,9 @@ namespace BrainShare.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Give(GoogleBookDto bookDto)
+        [POST("my/add/from-google")]
+        [POST("give")]
+        public ActionResult AddToMyBooks(GoogleBookDto bookDto)
         {
             var doc = _books.GetUserBook(bookDto.GoogleBookId, UserId);
             if (doc == null)
@@ -219,7 +223,9 @@ namespace BrainShare.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Take(GoogleBookDto bookDto)
+        [POST("wish/add/from-google")]
+        [POST("take")]
+        public ActionResult AddToWishBooks(GoogleBookDto bookDto)
         {
             var doc = _wishBooks.GetUserBook(bookDto.GoogleBookId, UserId);
             if (doc == null)
@@ -249,7 +255,7 @@ namespace BrainShare.Controllers
         }
 
         [GET("take/{bookId}/from/{userId}")]
-        public ActionResult TakeFromUser(string bookId, string userId)
+        public ActionResult SendExchangeRequest(string bookId, string userId)
         {
             if (userId == UserId)
             {
@@ -258,12 +264,14 @@ namespace BrainShare.Controllers
             var user = _users.GetById(userId);
 
             var book = _books.GetById(bookId);
-            if (!user.Inbox.Any(x => x.BookId == bookId && x.UserId == UserId))
+            if (!user.Inbox.Any(x => x.BookId == bookId && x.User.UserId == UserId))
             {
+                var me = _users.GetById(UserId);
                 user.Inbox.Add(new ChangeRequest
                     {
-                        UserId = UserId,
-                        BookId = bookId
+                        User = new UserData(me),
+                        BookId = bookId,
+                        BookTitle = book.Title
                     });
                 _users.Save(user);
 
@@ -275,19 +283,19 @@ namespace BrainShare.Controllers
                     requestEmail.Deliver();
                 });
             }
-            var model = new ChangeRequestSentModel(book, user);
+            var model = new ChangeRequestSentModel(book);
             Title("Обмен " + model.Book.Title + " от " + user.FullName);
             return View(model);
         }
 
-        [GET("accept/{requestedBookId}/from/{userId}")]
-        public ActionResult AcceptRequestFrom(string requestedBookId, string userId)
+        [GET("consider/{requestedBookId}/from/{userId}")]
+        public ActionResult ConsiderRequestFrom(string requestedBookId, string userId)
         {
             var model = new AcceptRequestViewModel();
             model.AllBooks = _books.GetUserBooks(userId).Select(x => new BookViewModel(x)).ToList();
             model.BooksYouNeedTitles = _wishBooks.GetUserBooks(userId).Select(x => x.Title).ToList();
             var fromUser = _users.GetById(userId);
-            model.FromUser = new UserItemViewModel(null, fromUser);
+            model.FromUser = new UserItemViewModel(fromUser);
             var yourBook = _books.GetById(requestedBookId);
             model.YourBook = new BookViewModel(yourBook);
             UpdateRequestViewedAsync(UserId, requestedBookId, userId);
@@ -300,7 +308,7 @@ namespace BrainShare.Controllers
             Task.Factory.StartNew(() => _users.UpdateRequestViewed(userId, bookId, requestFromUserId));
         }
 
-        [GET("give/{yourBookId}/take/{bookId}/from/{userId}")]
+        [POST("exchange")]
         public ActionResult Exchange(string userId, string bookId, string yourBookId)
         {
             if (userId == UserId)
@@ -312,26 +320,25 @@ namespace BrainShare.Controllers
                 var you = _users.GetById(UserId);
                 var he = _users.GetById(userId);
 
-                var himBook = _books.GetById(bookId);
-                himBook.UserData = new UserData(you);
-                _books.Save(himBook);
-                _wishBooks.Delete(you.Id, himBook.GoogleBookId);
+                var hisBook = _books.GetById(bookId);
+                hisBook.UserData = new UserData(you);
 
                 var yourBook = _books.GetById(yourBookId);
                 yourBook.UserData = new UserData(he);
+    
+                you.Inbox.RemoveAll(x => x.User.UserId == userId && x.BookId == yourBookId);
+          
+                _books.Save(hisBook);
                 _books.Save(yourBook);
-                _wishBooks.Delete(he.Id, yourBook.GoogleBookId);
-
-                you.AddRecievedBook(bookId, userId);
-                you.Inbox.RemoveAll(x => x.UserId == userId && x.BookId == yourBookId);
                 _users.Save(you);
-
-                he.AddRecievedBook(yourBookId, you.Id);
                 _users.Save(he);
 
-                SaveFeedAsync(ActivityFeed.BooksExchanged(yourBook, you, himBook, he));
-                SendExchangeMail(yourBook, you, himBook, he);
-                SendRequestAcceptedNotification(userId, yourBook, himBook, you);
+                 _exchangeHistory.SaveExchange(userId, new ExchangeEntry(he, hisBook),
+                                                                    new ExchangeEntry(you, yourBook));
+
+                SaveFeedAsync(ActivityFeed.BooksExchanged(yourBook, you, hisBook, he));
+                SendExchangeMail(yourBook, you, hisBook, he);
+                SendRequestAcceptedNotification(userId, yourBook, hisBook, you);
 
                 return View("ExchangeSucces", he);
             }

@@ -146,12 +146,9 @@ namespace BrainShare.Controllers
         {
             Title("Входящие");
             var user = _users.GetById(UserId);
-            var books = _books.GetByIds(user.Inbox.Select(x => x.BookId)).ToList();
-            var users = _users.GetByIds(user.Inbox.Select(x => x.UserId)).ToList();
             var model = new InboxViewModel();
             model.Items = user.Inbox.OrderByDescending(x => x.Created).Select(x =>
-                                            new InboxItem(x.Created, books.Find(b => b.Id == x.BookId),
-                                                          users.Find(u => u.Id == x.UserId), !x.Viewed)).ToList();
+                                            new InboxItem(x)).ToList();
             return View(model);
         }
 
@@ -159,7 +156,7 @@ namespace BrainShare.Controllers
         public ActionResult Reject(string bookId, string userId)
         {
             var user = _users.GetById(UserId);
-            user.Inbox.RemoveAll(x => x.BookId == bookId && x.UserId == userId);
+            user.Inbox.RemoveAll(x => x.BookId == bookId && x.User.UserId == userId);
             _users.Save(user);
             return RedirectToAction("Inbox");
         }

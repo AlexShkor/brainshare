@@ -1,7 +1,8 @@
 using System.Web.Routing;
 using AttributeRouting.Web.Mvc;
+using BrainShare;
 
-[assembly: WebActivator.PreApplicationStartMethod(typeof(BrainShare.AttributeRoutingConfig), "Start")]
+[assembly: WebActivator.PreApplicationStartMethod(typeof(AttributeRoutingConfig), "Start")]
 
 namespace BrainShare 
 {

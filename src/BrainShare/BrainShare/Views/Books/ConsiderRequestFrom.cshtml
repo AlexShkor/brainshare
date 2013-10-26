@@ -5,7 +5,7 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/acceptRequestFrom.js")"></script>
     <script type="text/javascript">
         $(function () {
-            var model = new AcceptRequestModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+            var model = new ConsiderRequestModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
             ko.applyBindings(model);
         });
     </script>
@@ -30,12 +30,12 @@
         </div>
         <table class="table table-condensed table-hover">
             <tbody data-bind="foreach: allBooks">
-                <tr data-bind="css: { success: $root.booksYouNeedTitles().indexOf(Title) >= 0 }, click: $root.viewBook">
+                <tr data-bind="css: { success: $root.booksYouNeedTitles().indexOf(Title) >= 0 }">
 
                     <td style="width: 25%" class="book-image-col">
                         <img data-bind="attr: { src: Image }" />
                     </td>
-                    <td style="width: 25%"><strong data-bind="text: Title"></strong></td>
+                    <td style="width: 25%"><a href="#" data-bind="text: Title, click: $root.viewBook"></a></td>
                     <td style="width: 25%" data-bind="text: Authors"></td>
                     <td style="width: 15%" data-bind="text: Publisher"></td>
                     <td style="width: 20%">
@@ -46,3 +46,4 @@
         </table>
     </div>
 </div>
+ hre
