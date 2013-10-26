@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace BrainShare.App_Start
+namespace BrainShare
 {
     public static class WebApiConfig
     {

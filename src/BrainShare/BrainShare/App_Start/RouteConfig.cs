@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace BrainShare.App_Start
+namespace BrainShare
 {
     public class RouteConfig
     {
