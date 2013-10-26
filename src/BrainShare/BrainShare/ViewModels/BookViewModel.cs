@@ -43,7 +43,7 @@ namespace BrainShare.ViewModels
             Image = book.Image;
             GoogleBookId = book.GoogleBookId;
             Authors = string.Join(", ", book.Authors);
-            Address = book.UserData.Address.Formatted;
+            Address = book.UserData.Address.Locality;
             UserId = book.UserData.UserId;
             UserName = book.UserData.UserName;
             UserProfile = "/profile/view/" + book.UserData.UserId;
