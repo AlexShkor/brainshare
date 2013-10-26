@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -13,6 +14,8 @@ namespace BrainShare.Documents
         public List<ExchangeEntry> Entries { get; set; }
 
         public bool Present { get; set; }
+
+        public DateTime Date { get; set; }
 
         public ExchangeHistory()
         {

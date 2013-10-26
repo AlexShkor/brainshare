@@ -348,6 +348,13 @@ namespace BrainShare.Controllers
             }
         }
 
+        [GET("view-exchange-history")]
+        public  ActionResult ViewExchangeHistory()
+        {
+            var items = _exchangeHistory.GetFor(UserId);
+            return View(items);
+        }
+
         private void SendRequestAcceptedNotification(string userId, Book book, Book onBook, User fromUser)
         {
             NotificationsHub.HubContext.Clients.Group(userId).requestAccepted(new RequestAcceptedModel(book, onBook, fromUser));

@@ -597,6 +597,7 @@
     <Content Include="Views\Books\ChooseAddMethod.cshtml" />
     <Content Include="Views\User\UserWithFbIdAlreadyExist.cshtml" />
     <Content Include="Views\Profile\EditProfile.cshtml" />
+    <Content Include="Views\Books\ViewExchangeHistory.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

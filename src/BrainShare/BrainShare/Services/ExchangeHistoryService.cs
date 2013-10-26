@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BrainShare.Documents;
 using BrainShare.Mongo;
 using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 
 namespace BrainShare.Services
 {
@@ -23,8 +25,19 @@ namespace BrainShare.Services
                          Id = GenerateId(),
                          Entries = new List<ExchangeEntry>{firstUser,secondUser},
                          Initiator = initiatorId,
-                         Present = false
+                         Present = false,
+                         Date = DateTime.Now
                      });
+        }
+
+        public IEnumerable<ExchangeHistory> GetFor(string userId)
+        {
+            return
+                Items.Find(
+                    Query.Or(
+                        Query<ExchangeHistory>.ElemMatch(x => x.Entries,
+                                                         builder => builder.EQ(entry => entry.User.UserId, userId)),
+                        Query<ExchangeHistory>.EQ(x => x.Initiator, userId))).SetSortOrder(SortBy<ExchangeHistory>.Descending(x=> x.Date));
         }
     }
 }
