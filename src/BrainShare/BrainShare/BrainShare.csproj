@@ -539,7 +539,7 @@
     <Content Include="Views\Profile\MyBooks.cshtml" />
     <Content Include="Views\Books\TakeFromUser.cshtml" />
     <Content Include="Views\Profile\Inbox.cshtml" />
-    <Content Include="Views\Books\ViewRequestFrom.cshtml" />
+    <Content Include="Views\Books\ConsiderRequestFrom.cshtml" />
     <Content Include="Views\Books\DetailsPartial.cshtml" />
     <Content Include="Views\Books\TablePartial.cshtml" />
     <Content Include="Views\Books\Exchange.cshtml" />
