@@ -5,6 +5,6 @@
     this.items = ko.observableArray(data.Items);
 
     this.consider = function (item) {
-        window.location = "/books/consider/" + item.Book.Id + "/from/" + item.User.UserId;
+        window.location = "/books/consider/" + item.BookId + "/from/" + item.User.UserId;
     };
 };

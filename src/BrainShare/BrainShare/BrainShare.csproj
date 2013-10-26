@@ -244,6 +244,7 @@
     <Compile Include="Documents\ExchangeHistory.cs" />
     <Compile Include="Documents\ExchangeEntry.cs" />
     <Compile Include="Domain\ExchangeService.cs" />
+    <Compile Include="Services\ExchangeHistoryService.cs" />
     <Compile Include="ViewModels\AllBooksViewModel.cs" />
     <Compile Include="ViewModels\BooksFilterModel.cs" />
     <Compile Include="ViewModels\EditBookViewModel.cs" />
@@ -537,7 +538,7 @@
     <Content Include="Views\Books\Take.cshtml" />
     <Content Include="Views\Books\Details.cshtml" />
     <Content Include="Views\Profile\MyBooks.cshtml" />
-    <Content Include="Views\Books\TakeFromUser.cshtml" />
+    <Content Include="Views\Books\SendExchangeRequest.cshtml" />
     <Content Include="Views\Profile\Inbox.cshtml" />
     <Content Include="Views\Books\ConsiderRequestFrom.cshtml" />
     <Content Include="Views\Books\DetailsPartial.cshtml" />

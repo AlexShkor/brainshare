@@ -7,6 +7,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace BrainShare.Documents
 {
+    [BsonIgnoreExtraElements]
     public class User
     {
         [BsonId]
@@ -24,8 +25,6 @@ namespace BrainShare.Documents
         
         public AddressData Address { get; set; }
 
-        public List<ChangeRequest> Recieved { get; set; }
-
         public string AvatarUrl { get; set; }
        
         public DateTime Registered { get; set; }
@@ -40,15 +39,9 @@ namespace BrainShare.Documents
         public User()
         {
             Inbox = new List<ChangeRequest>();
-            Recieved = new List<ChangeRequest>();
             Votes = new Dictionary<string, int>();
             ThreadsWithUnreadMessages = new List<string>();
             Address = new AddressData();
-        }
-
-        public void AddRecievedBook(string bookId, string userId)
-        {
-            Recieved.Add(new ChangeRequest() { BookId = bookId, UserId = userId });
         }
 
         public void SetVote(string setterId, int value)
@@ -125,10 +118,12 @@ namespace BrainShare.Documents
         }
     }
 
+    [BsonIgnoreExtraElements]
     public class ChangeRequest
     {
-        public string UserId { get; set; }
+        public UserData User { get; set; }
         public string BookId { get; set; }
+        public string BookTitle { get; set; }
         public DateTime Created { get; set; }
         public bool Viewed { get; set; }
 
