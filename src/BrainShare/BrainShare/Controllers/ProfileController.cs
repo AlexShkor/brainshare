@@ -48,6 +48,14 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
+        //[HttpGet]
+        //public ActionResult EditUser()
+        //{
+        //    var user = _users.GetById(UserId);
+        //    return View(user);
+        //}
+
+
         [GET("view/{id}")]
         public ActionResult ViewUserProfile(string id)
         {
