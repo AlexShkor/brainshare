@@ -25,8 +25,6 @@ namespace BrainShare.ViewModels
         public string Info { get; set; }
         public int SummaryVotes { get; set; }
 
-
         public HttpPostedFileBase UploadedFile { get; set; }
-        public int Id { get; set; }
     }
 }

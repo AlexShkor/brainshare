@@ -48,13 +48,32 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
-        //[HttpGet]
-        //public ActionResult EditUser()
-        //{
-        //    var user = _users.GetById(UserId);
-        //    return View(user);
-        //}
+        [HttpGet]
+        public ActionResult EditProfile()
+        {
+            var user = _users.GetById(UserId);
+            var model = new EditProfileViewModel(user);
+            return View(model);
+        }
 
+        [HttpPost]
+        public ActionResult EditProfile(EditProfileViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _users.GetById(UserId);
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Info = model.Info;
+                user.Address.Original = model.original_address;
+                user.Address.Formatted = model.formatted_address;
+                user.Address.Country = model.country;
+                user.Address.Locality = model.locality;
+                _users.Save(user);
+            }
+
+            return JsonModel(model);
+        }
 
         [GET("view/{id}")]
         public ActionResult ViewUserProfile(string id)
@@ -63,7 +82,7 @@ namespace BrainShare.Controllers
             {
                 return RedirectToAction("Index", "Profile");
             }
-            
+
             var user = _users.GetById(id);
             var model = new UserProfileModel(user, UserId);
 

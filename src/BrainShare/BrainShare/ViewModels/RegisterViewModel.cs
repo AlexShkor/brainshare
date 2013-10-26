@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace BrainShare.ViewModels
 {
     public class RegisterViewModel
     {
         private const string LocalityErrorMessage = "Пожалуйста, выберите город из списка";
+        private const string EmptyErrorMessage = " "; // white space is important!
 
         [Required(ErrorMessage = "Введите имя")]
         [Display(Name = "Имя")]
@@ -17,9 +19,9 @@ namespace BrainShare.ViewModels
 
         [Required(ErrorMessage = "Укажите город")]
         public string original_address { get; set; }
-        [Required(ErrorMessage = LocalityErrorMessage)]
+        [Required(ErrorMessage = EmptyErrorMessage)]
         public string formatted_address { get; set; }
-        [Required(ErrorMessage = LocalityErrorMessage)]
+        [Required(ErrorMessage = EmptyErrorMessage)]
         public string country { get; set; }
         [Required(ErrorMessage = LocalityErrorMessage)]
         public string locality { get; set; }

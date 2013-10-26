@@ -245,6 +245,7 @@
     <Compile Include="ViewModels\BooksFilterModel.cs" />
     <Compile Include="ViewModels\EditBookViewModel.cs" />
     <Compile Include="Controllers\HelpController.cs" />
+    <Compile Include="ViewModels\EditProfileViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\MyProfileViewModel.cs" />
     <Compile Include="ViewModels\RequestAcceptedModel.cs" />
@@ -587,6 +588,7 @@
     <Content Include="Views\Books\ExchangeSucces.cshtml" />
     <Content Include="Views\Books\ChooseAddMethod.cshtml" />
     <Content Include="Views\User\UserWithFbIdAlreadyExist.cshtml" />
+    <Content Include="Views\Profile\EditProfile.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

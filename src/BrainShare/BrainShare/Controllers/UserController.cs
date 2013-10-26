@@ -123,9 +123,6 @@ namespace BrainShare.Controllers
                     ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
                 }
             }
-            ModelState.Remove("formatted_address");
-            ModelState.Remove("country");
-            //ModelState.Remove("locality");
             return View(model);
         }
 
@@ -268,7 +265,7 @@ namespace BrainShare.Controllers
         {
             _fb.AccessToken = Session[SessionKeys.FbAccessToken] as string;
             dynamic fbUser = _fb.Get("me");
-            var facebookId = (string) fbUser.id;
+            var facebookId = (string)fbUser.id;
 
             if (mode == FacebookCallbackMode.AuthorizeWithFacebook)
             {
@@ -314,11 +311,11 @@ namespace BrainShare.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-             
+
             if (mode == FacebookCallbackMode.UpdateFacebookFields)
             {
-                var userByFacebookId =  _users.GetByFacebookId(facebookId);
-                
+                var userByFacebookId = _users.GetByFacebookId(facebookId);
+
                 if (userByFacebookId == null || userByFacebookId.Id == UserId)
                 {
                     var currentUser = _users.GetById(UserId);
