@@ -51,7 +51,7 @@ namespace BrainShare.ViewModels
         {
             ISBNs = new List<StringItem> { new StringItem() };
             Authors = new List<StringItem> { new StringItem() };
-            Image = "/images/book-logo-placeholder.png";
+            Image = Constants.DefaultBookImage;
         }
 
         public EditBookViewModel(IEnumerable<LanguageInfo> languages)

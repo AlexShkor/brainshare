@@ -69,5 +69,10 @@ namespace BrainShare.Documents
         {
             return Votes.Values.Sum(x => x);
         }
+
+        public void RemoveInboxItem(string userId, string yourBookId)
+        {
+            Inbox.RemoveAll(x => x.User.UserId == userId && x.BookId == yourBookId);
+        }
     }
 }

@@ -49,9 +49,9 @@ namespace BrainShare.Controllers
         public ActionResult Filter(BooksFilterModel model)
         {
             var filter = model.ToFilter();
-            var items = _books.GetByFilter(filter).Select(x=> new BookViewModel(x));
+            var items = _books.GetByFilter(filter).Select(x => new BookViewModel(x));
             model.UpdatePagingInfo(filter.PagingInfo);
-            return Listing(items,model);
+            return Listing(items, model);
         }
 
         public ActionResult Search()
@@ -285,13 +285,13 @@ namespace BrainShare.Controllers
             }
             var model = new ChangeRequestSentModel(book);
             Title("Обмен " + model.Book.Title + " от " + user.FullName);
-            return View(model);
+            return View("ResulsViews/SendExchangeRequest",model);
         }
 
         [GET("consider/{requestedBookId}/from/{userId}")]
         public ActionResult ConsiderRequestFrom(string requestedBookId, string userId)
         {
-            var model = new AcceptRequestViewModel();
+            var model = new ConsiderRequestViewModel();
             model.AllBooks = _books.GetUserBooks(userId).Select(x => new BookViewModel(x)).ToList();
             model.BooksYouNeedTitles = _wishBooks.GetUserBooks(userId).Select(x => x.Title).ToList();
             var fromUser = _users.GetById(userId);
@@ -313,7 +313,10 @@ namespace BrainShare.Controllers
         {
             if (userId == UserId)
             {
-                return View("CustomError", (object)"Вы не можете обмениваться книгами с самим собой.");
+                return Json(new
+                {
+                    Error = "Вы не можете обмениваться книгами с самим собой."
+                });
             }
             try
             {
@@ -325,31 +328,79 @@ namespace BrainShare.Controllers
 
                 var yourBook = _books.GetById(yourBookId);
                 yourBook.UserData = new UserData(he);
-    
-                you.Inbox.RemoveAll(x => x.User.UserId == userId && x.BookId == yourBookId);
-          
+
+                you.RemoveInboxItem(userId, yourBookId);
+                _users.Save(you);
+
                 _books.Save(hisBook);
                 _books.Save(yourBook);
-                _users.Save(you);
-                _users.Save(he);
 
-                 _exchangeHistory.SaveExchange(userId, new ExchangeEntry(he, hisBook),
-                                                                    new ExchangeEntry(you, yourBook));
+                _exchangeHistory.SaveExchange(userId, new ExchangeEntry(he, hisBook),
+                                                                   new ExchangeEntry(you, yourBook));
 
                 SaveFeedAsync(ActivityFeed.BooksExchanged(yourBook, you, hisBook, he));
                 SendExchangeMail(yourBook, you, hisBook, he);
                 SendRequestAcceptedNotification(userId, yourBook, hisBook, you);
 
-                return View("ExchangeSucces", he);
+                return Json(new
+                {
+                    Success = true
+                });
             }
             catch
             {
-                return View("CantExchangeError");
+                return Json(new
+                {
+                    Error = "По каким-то причинам вы не можете произвести обмен."
+                });
+            }
+        }
+
+        [POST("make-gift")]
+        public ActionResult MakeGift(string userId, string bookId)
+        {
+            if (userId == UserId)
+            {
+                return Json(new
+                                {
+                                    Error = "Вы не можете обмениваться книгами с самим собой."
+                                });
+            }
+            try
+            {
+                var me = _users.GetById(UserId);
+
+                var user = _users.GetById(userId);
+                var book = _books.GetById(bookId);
+                book.UserData = new UserData(user);
+
+                me.RemoveInboxItem(userId, bookId);
+                _users.Save(me);
+
+                _books.Save(book);
+
+                _exchangeHistory.SaveGift(userId, new ExchangeEntry(me, book));
+
+                SaveFeedAsync(ActivityFeed.BooksGifted(me, book, user));
+                SendBookGiftedMail(me, book, user);
+                SendRequestAcceptedAsGiftNotification(userId, book, me);
+
+                return Json(new
+                {
+                    Success = true
+                });
+            }
+            catch
+            {
+                return Json(new
+                                {
+                                    Error = "По каким-то причинам вы не можете произвести обмен."
+                                });
             }
         }
 
         [GET("view-exchange-history")]
-        public  ActionResult ViewExchangeHistory()
+        public ActionResult ViewExchangeHistory()
         {
             var items = _exchangeHistory.GetFor(UserId);
             return View(items);
@@ -358,6 +409,11 @@ namespace BrainShare.Controllers
         private void SendRequestAcceptedNotification(string userId, Book book, Book onBook, User fromUser)
         {
             NotificationsHub.HubContext.Clients.Group(userId).requestAccepted(new RequestAcceptedModel(book, onBook, fromUser));
+        }
+
+        private void SendRequestAcceptedAsGiftNotification(string userId, Book book, User fromUser)
+        {
+            NotificationsHub.HubContext.Clients.Group(userId).requestAccepted(new RequestAcceptedModel(book, fromUser));
         }
 
         private void SendExchangeMail(Book yourBook, User you, Book hisBook, User he)
@@ -371,6 +427,16 @@ namespace BrainShare.Controllers
                     var emailToSecond = mailer2.SendExchangeConfirmMessage(he, hisBook, you, yourBook);
                     emailToSecond.Deliver();
                 });
+        }
+
+
+
+        private void SendBookGiftedMail(User me, Book book, User user)
+        {
+            Task.Factory.StartNew(() =>
+                                      {
+                                          var mailer = new MailService();
+                                      });
         }
 
         private void SaveFeedAsync(ActivityFeed feed)

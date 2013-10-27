@@ -300,7 +300,7 @@
     <Compile Include="Settings\SettingsPropertyAttribute.cs" />
     <Compile Include="StructureMapResolver.cs" />
     <Compile Include="Utilities\UrlUtility.cs" />
-    <Compile Include="ViewModels\AcceptRequestViewModel.cs" />
+    <Compile Include="ViewModels\ConsiderRequestViewModel.cs" />
     <Compile Include="ViewModels\AllThreadsViewModel.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
@@ -543,14 +543,13 @@
     <Content Include="Views\Books\Take.cshtml" />
     <Content Include="Views\Books\Details.cshtml" />
     <Content Include="Views\Profile\MyBooks.cshtml" />
-    <Content Include="Views\Books\SendExchangeRequest.cshtml" />
+    <Content Include="Views\Books\ResulsViews\SendExchangeRequest.cshtml" />
     <Content Include="Views\Profile\Inbox.cshtml" />
     <Content Include="Views\Books\ConsiderRequestFrom.cshtml" />
     <Content Include="Views\Books\DetailsPartial.cshtml" />
     <Content Include="Views\Books\TablePartial.cshtml" />
-    <Content Include="Views\Books\Exchange.cshtml" />
     <Content Include="Views\Profile\WishList.cshtml" />
-    <Content Include="Views\Books\CantExchangeError.cshtml" />
+    <Content Include="Views\Books\ResulsViews\CantExchangeError.cshtml" />
     <Content Include="Views\Shared\CustomError.cshtml" />
     <Content Include="Views\Home\BookAdded.cshtml" />
     <Content Include="Views\Home\BookWanted.cshtml" />
@@ -580,9 +579,9 @@
     <Content Include="Views\Shared\Disquas.cshtml" />
     <Content Include="Views\Shared\_Sidebar.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\Books\FbShareBtn.cshtml" />
-    <Content Include="Views\Books\TwShareBtn.cshtml" />
-    <Content Include="Views\Books\VkShareBtn.cshtml" />
+    <Content Include="Views\Books\ShareButtons\FbShareBtn.cshtml" />
+    <Content Include="Views\Books\ShareButtons\TwShareBtn.cshtml" />
+    <Content Include="Views\Books\ShareButtons\VkShareBtn.cshtml" />
     <Content Include="Views\Books\GooglePreview.cshtml" />
     <Content Include="Views\Books\Edit.cshtml" />
     <Content Include="Views\Shared\KnockoutSummary.cshtml" />
@@ -593,11 +592,12 @@
     <Content Include="Views\Books\BookFormPartial.cshtml" />
     <Content Include="Views\Books\NotFound.cshtml" />
     <Content Include="Views\Home\Main.cshtml" />
-    <Content Include="Views\Books\ExchangeSucces.cshtml" />
+    <Content Include="Views\Books\ResulsViews\ExchangeSucces.cshtml" />
     <Content Include="Views\Books\ChooseAddMethod.cshtml" />
     <Content Include="Views\User\UserWithFbIdAlreadyExist.cshtml" />
     <Content Include="Views\Profile\EditProfile.cshtml" />
     <Content Include="Views\Books\ViewExchangeHistory.cshtml" />
+    <Content Include="Views\Home\BooksGifted.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
