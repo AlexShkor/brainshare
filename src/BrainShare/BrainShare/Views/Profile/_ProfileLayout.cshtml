@@ -16,11 +16,13 @@
                     @Html.MenuLink("Мой Профиль", "Index", "Profile", null)
                     @Html.MenuLink("Сообщения", "AllMessages", "Profile", null, "<span id=\"messagesCounter\" class=\"badge badge-info\" style=\"margin-left: 10px\"></span>")
                     @Html.MenuLink("Друзья", "GetFbFriends", "User")
+                    @Html.MenuLink("Настройки", "EditProfile", "Profile")
                     <li class="divider"></li>
                     <li class="nav-header">Другое</li>
                     @Html.MenuLink("Помощь", "HowToAddBook", "Help")
                     @Html.MenuLink("Отзывы", "Feedback", "Home")
                     <li class="divider"></li>
+                   
                 </ul>
             </div>
         </div>

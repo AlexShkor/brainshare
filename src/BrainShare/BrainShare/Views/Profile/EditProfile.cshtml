@@ -8,20 +8,18 @@
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
 <script src="~/Scripts/jquery.geocomplete.min.js"></script>
 
-<form class="form-horizontal" data-bind="submit: save">
-    <div></div>
-    @* @Html.ValidationSummary()*@
+<!-- ko with: model-->
+<form style="padding-top: 1em;" class="form-horizontal" data-bind="submit: $root.save">
 
-    <!-- ko with: model-->
     @Html.Partial("KnockoutSummary")
-    <!-- /ko -->
+
     <div class="span6">
         <div class="control-group">
             <label class="control-label" for="FirstName">
                 Имя
             </label>
             <div class="controls">
-                @Html.TextBox("FirstName", Model.FirstName, new { id = "FirstName" })
+                <input type="text" data-bind="value: FirstName" id="FirstName">
             </div>
         </div>
         <div class="control-group">
@@ -29,30 +27,35 @@
                 Фамилия
             </label>
             <div class="controls">
-                @Html.TextBox("LastName", Model.LastName)
+
+                <input type="text" data-bind="value: LastName" id="LastName">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="geocomplete">
-                Город
+                Город:
             </label>
             <div class="controls">
-                <input id="geocomplete" placeholder="введите город" name="original_address" type="text" data-bind="event: {change: AddressInputChanged}" value="@Model.original_address"/>
-            </div>
-            <div>
-            </div>
-            <div id="locationValues" class="hide">
-                <input name="formatted_address" type="hidden" value="@Model.formatted_address">
-                <input name="country" type="hidden" value="@Model.country">
-                <input name="locality" type="hidden" value="@Model.locality">
+                <span style="min-width: 300px; text-align: left" class="control-label" data-bind="text: formatted_address, visible: !$root.ShowLocationInput()"></span>
+                <a style="text-align: left; cursor: pointer" href="#" class="text-success control-label" data-bind="click: $root.EditLocation, visible: !$root.ShowLocationInput()">Изменить</a>
+                <input style="margin-top: 0.5em;" id="geocomplete" placeholder="введите город" name="original_address" type="text" data-bind="value: original_address, visible: $root.ShowLocationInput" />
+
+                <div id="locationValues" class="hide">
+                    <input id="formatted_address" name="formatted_address" type="hidden" data-bind="value: formatted_address">
+                    <input id="country" name="country" type="hidden" data-bind="value: country">
+                    <input id="locality" name="locality" type="hidden" data-bind="value: locality">
+                </div>
             </div>
         </div>
+
+
         <div class="control-group">
             <label class="control-label" for="Info">
                 Информация
             </label>
             <div class="controls">
-                @Html.TextArea("Info", Model.Info, new { style = "width: 300px; height: 100px;" })
+
+                <textarea style="width: 300px; height: 100px;" data-bind="value: Info" id="Info"></textarea>
             </div>
         </div>
 
@@ -72,15 +75,25 @@
         @Html.ActionLink("Отмена", "Index", "Profile", null, new { @class = "btn btn-danger" })
     </div>
 </form>
-
+<!-- /ko -->
 
 <script type="text/javascript">
     
     function EditProfileModel (data, submitUrl) {
         var self = this;
-
+        
         this.model = ko.mapping.fromJS(data);
         this.save = function () {
+            
+            var formatted_address = $("#formatted_address").val();
+            var country = $("#country").val();
+            var locality = $("#locality").val();
+
+            self.model.formatted_address(formatted_address);
+            self.model.country(country);
+            self.model.locality(locality);
+
+
             sendModel(submitUrl, self.model, function (model) {
                 debugger;
                 if (model.Errors.length == 0) {
@@ -88,14 +101,22 @@
                 }
             });
         };
-        
+
+        this.ShowLocationInput = ko.observable(false);
+
         this.AddressInputChanged = function() {
+          
+
+        };
+
+        this.EditLocation = function() {
+            self.ShowLocationInput(true);
+
             self.model.original_address(null);
             self.model.formatted_address(null);
             self.model.country(null);
             self.model.locality(null);
-         
-        }
+        };
     }
     
 
