@@ -40,7 +40,7 @@ namespace BrainShare.ViewModels
             PublishedDate = book.PublishedYear != null ? book.PublishedDate.ToString(EditBookViewModel.DateFormat, EditBookViewModel.Culture) : null;
             Publisher = book.Publisher;
             Subtitle = book.Subtitle;
-            Image = book.Image;
+            Image = book.Image ?? Constants.DefaultBookImage;
             GoogleBookId = book.GoogleBookId;
             Authors = string.Join(", ", book.Authors);
             Address = book.UserData.Address.Locality;
