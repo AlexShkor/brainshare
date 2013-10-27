@@ -72,6 +72,7 @@ namespace BrainShare.Controllers
                 _users.Save(user);
             }
 
+            model.Errors.RemoveAll(x => x.ErrorMessage != " ");
             return JsonModel(model);
         }
 
