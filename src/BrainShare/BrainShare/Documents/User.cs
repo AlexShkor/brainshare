@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using BrainShare.Controllers;
-using BrainShare.ViewModels;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace BrainShare.Documents
 {
+    [BsonIgnoreExtraElements]
     public class User
     {
         [BsonId]
@@ -24,8 +24,6 @@ namespace BrainShare.Documents
         
         public AddressData Address { get; set; }
 
-        public List<ChangeRequest> Recieved { get; set; }
-
         public string AvatarUrl { get; set; }
        
         public DateTime Registered { get; set; }
@@ -40,15 +38,9 @@ namespace BrainShare.Documents
         public User()
         {
             Inbox = new List<ChangeRequest>();
-            Recieved = new List<ChangeRequest>();
             Votes = new Dictionary<string, int>();
             ThreadsWithUnreadMessages = new List<string>();
             Address = new AddressData();
-        }
-
-        public void AddRecievedBook(string bookId, string userId)
-        {
-            Recieved.Add(new ChangeRequest() { BookId = bookId, UserId = userId });
         }
 
         public void SetVote(string setterId, int value)
@@ -77,64 +69,10 @@ namespace BrainShare.Documents
         {
             return Votes.Values.Sum(x => x);
         }
-    }
 
-    public class AddressData
-    {
-        public string Original { get; set; }
-        public string Formatted { get; set; }
-        public string Country { get; set; }
-        public string Locality { get; set; }
-
-        public bool IsValid { get; set; }
-
-        public AddressData(RegisterViewModel model)
+        public void RemoveInboxItem(string userId, string yourBookId)
         {
-            Original = model.original_address;
-            Formatted = model.formatted_address;
-            Country = model.country;
-            Locality = model.locality;
-            IsValid = true;
-        }
-
-        public AddressData()
-        {
-            
-        }
-
-        public AddressData(string fbLocationData)
-        {
-            Original = fbLocationData;
-            Formatted = fbLocationData;
-            try
-            {
-                var arr = fbLocationData.Split(',');
-                Country = arr[1].Trim();
-                Locality = arr[0].Trim();
-                IsValid = true;
-            }
-            catch
-            {
-                IsValid = false;
-            }
-        }
-
-        public string GetCityAndCountry()
-        {
-            return string.Format("{0}, {1}", Locality, Country);
-        }
-    }
-
-    public class ChangeRequest
-    {
-        public string UserId { get; set; }
-        public string BookId { get; set; }
-        public DateTime Created { get; set; }
-        public bool Viewed { get; set; }
-
-        public ChangeRequest()
-        {
-            Created = DateTime.Now;
+            Inbox.RemoveAll(x => x.User.UserId == userId && x.BookId == yourBookId);
         }
     }
 }

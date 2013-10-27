@@ -20,7 +20,7 @@ namespace BrainShare.ViewModels
             UserId = me.Id;
             RecipientId = recipient.Id;
             RecipientName = recipient.FullName;
-            RecipientAddress = recipient.Address.GetCityAndCountry();
+            RecipientAddress = recipient.Address.Locality;
             Messages = thread.Messages.OrderByDescending(x=> x.Posted).Select(x => new MessageViewModel(x, recipient)).ToList();
         }
     }

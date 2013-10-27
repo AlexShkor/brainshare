@@ -12,7 +12,7 @@
 }
 
 @{
-   ViewBag.Title = Model.Book.Title;
+    ViewBag.Title = Model.Book.Title;
 }
 
 
@@ -26,6 +26,7 @@
         <div class="span9">
 
             <div class="well" data-bind="visible: owners().length != 0">Пользователи которые меняют эту книгу</div>
+            <div data-bind="visible: owners().length == 0" class="well">К сожалению, пока ещё ни у кого нет этой книги</div>
             <table class="table table-condensed table-striped">
                 <tbody data-bind="foreach: owners">
                     <tr>
@@ -40,9 +41,6 @@
                     </tr>
                 </tbody>
             </table>
-
-            <div data-bind="visible: owners().length == 0" class="well">К сожалению, пока ещё никто не меняет эту книгу</div>
-
         </div>
     </div>
     <div style="margin-top: 1em;">

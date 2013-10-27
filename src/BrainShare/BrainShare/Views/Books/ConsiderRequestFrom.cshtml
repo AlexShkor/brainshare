@@ -1,15 +1,23 @@
 ﻿@using Newtonsoft.Json
-@model BrainShare.ViewModels.AcceptRequestViewModel
+@model BrainShare.ViewModels.ConsiderRequestViewModel
 
 @section Scripts{
     <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/acceptRequestFrom.js")"></script>
     <script type="text/javascript">
         $(function () {
-            var model = new AcceptRequestModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+            var model = new ConsiderRequestModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
             ko.applyBindings(model);
         });
     </script>
 }
+
+<div id="exchangeError" data-bind="visible: exchangeError" style="display: none">
+    @Html.Partial("ResulsViews/CantExchangeError")
+</div>
+
+<div id="exchangeSuccess" data-bind="visible: exchangeSuccess" style="display: none">
+    @Html.Partial("ResulsViews/ExchangeSucces",Model.FromUser)
+</div>
 
 <div class="row" style="padding-left: 1em; padding-top: 1em">
     <div class="span3">
@@ -18,8 +26,12 @@
     </div>
     <div class="span9" style="padding-left: 2em;">
         <h5 style="padding-bottom: 1em;">Входящий запрос на вашу книгу от пользователя <a style="padding-left: 0.5em" href="#" data-bind="click: viewUser, text: fromUser.UserName"></a></h5>
-        <button style="width: 195px" class="btn btn-info" data-bind="click: sendMessage">Отправить сообщение</button>
-        <button style="width: 195px; margin-left: 1.5em;" class="btn btn-danger" data-bind="click: reject">Отказать</button>
+        <div class="span4">
+              <button class="btn btn-block btn-info" data-bind="click: sendMessage">Отправить сообщение</button>
+        <button  class="btn btn-block btn-danger" data-bind="click: reject, enable: !requestSent()">Отказать</button>
+        <button  class="btn btn-block btn-warning" data-bind="click: gift, enable: !requestSent()"><i class="icon-gift"></i> Подарить</button>
+        </div>
+      
     </div>
 </div>
 
@@ -30,19 +42,21 @@
         </div>
         <table class="table table-condensed table-hover">
             <tbody data-bind="foreach: allBooks">
-                <tr data-bind="css: { success: $root.booksYouNeedTitles().indexOf(Title) >= 0 }, click: $root.viewBook">
+                <tr data-bind="css: { success: $root.booksYouNeedTitles().indexOf(Title) >= 0 }">
 
                     <td style="width: 25%" class="book-image-col">
                         <img data-bind="attr: { src: Image }" />
                     </td>
-                    <td style="width: 25%"><strong data-bind="text: Title"></strong></td>
+                    <td style="width: 25%"><a href="#" data-bind="text: Title, click: $root.viewBook"></a></td>
                     <td style="width: 25%" data-bind="text: Authors"></td>
                     <td style="width: 15%" data-bind="text: Publisher"></td>
                     <td style="width: 20%">
-                        <a style="margin-top: 1em" class="btn btn-success" href="#" data-bind="click: $root.exchange">Поменяться</a>
+                        <a style="margin-top: 1em" class="btn btn-success" href="#" data-bind="click: $root.exchange, visible: !$root.requestSent()">Поменяться</a>
+                        <img src="/Images/loading.gif" data-bind="visible: $root.loading() && Id == $root.sentBookId()"/>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
+hre

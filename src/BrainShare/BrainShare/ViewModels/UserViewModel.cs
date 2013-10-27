@@ -20,7 +20,7 @@ namespace BrainShare.ViewModels
         {
             UserId = user.Id;
             Username = user.FullName;
-            Address = user.Address.GetCityAndCountry();
+            Address = user.Address.Locality;
             Avatar = user.AvatarUrl ?? Constants.DefaultAvatarUrl;
             Registered = user.Registered.ToShortDateString();
             Rating = user.GetSummaryVotes();

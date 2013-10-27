@@ -12,9 +12,6 @@
         <div class="sidebar-nav">
             <div>
                 <ul class="nav nav-list">
-                    <li>
-                        <p class="lead text-center">@ViewBag.UserName</p>
-                    </li>
                     <li class="nav-header">Профиль</li>
                     @Html.MenuLink("Мой Профиль", "Index", "Profile", null)
                     @Html.MenuLink("Сообщения", "AllMessages", "Profile", null, "<span id=\"messagesCounter\" class=\"badge badge-info\" style=\"margin-left: 10px\"></span>")

@@ -66,7 +66,7 @@ namespace BrainShare.Services
         public void UpdateRequestViewed(string userId, string bookId, string requestFromUserId)
         {
             Items.Update(Query.And(Query<User>.EQ(x => x.Id, userId), Query<User>.ElemMatch(x => x.Inbox,
-                (el) => el.And(el.EQ(x => x.BookId, bookId), el.EQ(x => x.UserId, requestFromUserId)))),
+                (el) => el.And(el.EQ(x => x.BookId, bookId), el.EQ(x => x.User.UserId, requestFromUserId)))),
                 Update.Set("Inbox.$.Viewed", true));
         }
 

@@ -48,6 +48,33 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public ActionResult EditProfile()
+        {
+            var user = _users.GetById(UserId);
+            var model = new EditProfileViewModel(user);
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(EditProfileViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _users.GetById(UserId);
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Info = model.Info;
+                user.Address.Original = model.original_address;
+                user.Address.Formatted = model.formatted_address;
+                user.Address.Country = model.country;
+                user.Address.Locality = model.locality;
+                _users.Save(user);
+            }
+
+            return JsonModel(model);
+        }
+
         [GET("view/{id}")]
         public ActionResult ViewUserProfile(string id)
         {
@@ -55,7 +82,7 @@ namespace BrainShare.Controllers
             {
                 return RedirectToAction("Index", "Profile");
             }
-            
+
             var user = _users.GetById(id);
             var model = new UserProfileModel(user, UserId);
 
@@ -119,12 +146,9 @@ namespace BrainShare.Controllers
         {
             Title("Входящие");
             var user = _users.GetById(UserId);
-            var books = _books.GetByIds(user.Inbox.Select(x => x.BookId)).ToList();
-            var users = _users.GetByIds(user.Inbox.Select(x => x.UserId)).ToList();
             var model = new InboxViewModel();
             model.Items = user.Inbox.OrderByDescending(x => x.Created).Select(x =>
-                                            new InboxItem(x.Created, books.Find(b => b.Id == x.BookId),
-                                                          users.Find(u => u.Id == x.UserId), !x.Viewed)).ToList();
+                                            new InboxItem(x)).ToList();
             return View(model);
         }
 
@@ -132,7 +156,7 @@ namespace BrainShare.Controllers
         public ActionResult Reject(string bookId, string userId)
         {
             var user = _users.GetById(UserId);
-            user.Inbox.RemoveAll(x => x.BookId == bookId && x.UserId == userId);
+            user.Inbox.RemoveAll(x => x.BookId == bookId && x.User.UserId == userId);
             _users.Save(user);
             return RedirectToAction("Inbox");
         }

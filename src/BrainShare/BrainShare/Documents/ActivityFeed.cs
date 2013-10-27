@@ -62,20 +62,30 @@ namespace BrainShare.Documents
             });
             return result;
         }
-    }
 
-    public class ActivityFeedItem
-    {
-        public string BookId { get; set; }
-        public string BookTitle { get; set; }
-        public string UserId { get; set; }
-        public string UserName { get; set; }
-    }
-
-    public enum ActivityTypeEnum
-    {
-        BookAdded,
-        BookWanted,
-        BooksExchanged
+        public static ActivityFeed BooksGifted(User me, Book book, User user)
+        {
+            return new ActivityFeed
+                       {
+                           ActivityType = ActivityTypeEnum.BooksGifted,
+                           Id = ObjectId.GenerateNewId().ToString(),
+                           Items = new List<ActivityFeedItem>
+                                       {
+                                           new ActivityFeedItem
+                                               {
+                                                   BookId = book.Id,
+                                                   UserId = me.Id,
+                                                   BookTitle = book.Title,
+                                                   UserName = me.FullName
+                                               },
+                                               new ActivityFeedItem
+                                                   {
+                                                       UserId = user.Id,
+                                                       UserName = user.FullName
+                                                   }
+                                       },
+                           Created = DateTime.Now
+                       };
+        }
     }
 }
