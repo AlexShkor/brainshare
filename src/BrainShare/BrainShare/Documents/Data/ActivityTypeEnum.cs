@@ -4,6 +4,7 @@ namespace BrainShare.Documents
     {
         BookAdded,
         BookWanted,
-        BooksExchanged
+        BooksExchanged,
+        BooksGifted
     }
 }
