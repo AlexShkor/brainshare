@@ -1,8 +1,7 @@
 ﻿
 .avatar-container {
     text-align: center;
-    padding: 20px;
-    /*background-color: #ecf0f1;*/
+    padding-bottom: 20px;
 }
 
 .error-mesage {
@@ -68,3 +67,26 @@
     text-align: center;
     z-index: 100;
 }
+
+button.vote {
+    outline-color: transparent;
+    display: block;
+    border: none;
+    background-color: transparent;
+}
+
+.vote.up:hover {
+    color: rgb(117, 211, 117);
+}
+
+    .vote.up:hover:disabled {
+        color: rgb(109, 109, 109);
+    }
+
+.vote.down:hover {
+    color: rgb(250, 104, 104);
+}
+
+    .vote.down:hover:disabled {
+        color: rgb(109, 109, 109);
+    }

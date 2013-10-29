@@ -1,5 +1,5 @@
 ﻿@using Newtonsoft.Json
-@model BrainShare.Controllers.InboxViewModel
+@model BrainShare.ViewModels.InboxViewModel
 @{
     Layout = "~/Views/Shared/_BooksLayout.cshtml";
 }
@@ -23,6 +23,7 @@
             <tr>
                 <th>Пользователь</th>
                 <th>Книга</th>
+                <th>Город</th>
                 <th>Дата</th>
             </tr>
         </thead>
@@ -30,13 +31,14 @@
 
             <tr>
                 <td>
-                    <span data-bind="text: User.UserName"></span>
+                    <a data-bind="attr: { href: User.UserProfile }, text: User.UserName"></a>
                     <span class="badge badge-warning" data-bind="visible: IsNew">new</span>
                 </td>
-                <td data-bind="text: Book.Title"></td>
+                <td data-bind="text: BookTitle"></td>
+                <td data-bind="text: User.City"></td>
                 <td data-bind="text: Created"></td>
                 <td>
-                    <a class="btn btn-small" href="#" data-bind="click: $root.consider">Рассмотреть</a>
+                    <a class="btn btn-small btn-primary" href="#" data-bind="click: $root.consider">Рассмотреть</a>
                 </td>
             </tr>
 

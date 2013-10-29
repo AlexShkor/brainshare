@@ -1,5 +1,5 @@
 ﻿@using Newtonsoft.Json
-@model BrainShare.Controllers.UserProfileModel
+@model BrainShare.ViewModels.UserProfileModel
 
 <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Profile/userProfile.js")"></script>
 <script type="text/javascript">
@@ -9,171 +9,114 @@
     })
 </script>
 
-<style>
-    .table-hover tbody tr:hover > td, .table-hover tbody tr:hover > th {
-        background-color: lightcyan!important;
-    }
-</style>
 
-
-<div class="row">
-    <div class="span3">
-        <h4 class="text-center" data-bind="text: user.Name"></h4>
-        <div class="avatar-container">
-            <img alt="аватар" class="pics" data-bind="attr: { src: user.Avatar }" />
+<div>
+    <div style="padding-top: 1.5em" class="row">
+        <div style="padding-top: 0" class="avatar-container span4">
+            <img alt="аватар" data-bind="attr: { src: user.Avatar }" />
         </div>
-        <br />
 
-        <div style="text-align: center">
-            <div class="btn-group">
-                <button class="btn btn-small" style="font-weight: bold; font-size: 18px; color: red" data-bind="click: decreaseReputation, enable: canDecrease">-</button>
-                <a class="btn btn-small btn-info" data-bind="text: summaryVotes"></a>
-                <button class="btn btn-small" style="font-weight: bold; font-size: 18px; color: green" data-bind="click: increaseReputation, enable: canIncrease">+</button>
-            </div>
-        </div>
-        <br />
-        @if (!Model.IsMe)
-        {
+        <div class="form-horizontal span6">
             <div>
-                <a class="btn btn-small btn-primary" href="#" data-bind="click: sendMessage">Отправить сообщение</a>
+                <div class="control-group">
+                    <div>
+                        <span class="color-black">Полное имя:</span>
+                    </div>
+                    <div>
+                        <span>@Model.Name</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div>
+                        <span class="color-black">Город:</span>
+                    </div>
+                    <div>
+                        <span>@Model.Address.Locality</span>
+                    </div>
+                </div>
+
+                @if (Model.Info != null)
+                {
+                    <div class="control-group">
+                        <div>
+                            <span class="color-black">Информация о пользователе:</span>
+                        </div>
+                        <div>
+                            <span>@Model.Info</span>
+                        </div>
+                    </div>
+                }
+
+                @if (!Model.IsMe)
+                {
+                    <div class="control-group">
+                        <button class="btn btn-info" data-bind="click: sendMessage">Отправить сообщение</button>
+                    </div>
+                }
+
             </div>
-        }
+        </div>
+
+        <div class="pull-left">
+            <button data-bind="click: increaseReputation, enable: canIncrease" class="vote up">
+                <i class="icon-chevron-up icon-3x"></i>
+            </button>
+            <span data-bind="text: summaryVotes" style="display: block; text-align: center; font-size: 1.5em">0</span>
+            <button data-bind="click: decreaseReputation, enable: canDecrease" class="vote down">
+                <i class="icon-chevron-down icon-3x"></i>
+            </button>
+        </div>
     </div>
-    <div class="span9">
 
 
-        <div class="tabbable pull-left">
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#s1" data-toggle="tab">Книги</a></li>
-                <li><a href="#s2" data-toggle="tab">Ищет</a></li>
-                @* <li><a href="#s3" data-toggle="tab">Информация</a></li>*@
-            </ul>
-            <div class="tab-content">
+    <div class="row" style="padding-top: 2em">
 
-                <div class="tab-pane active" id="s1">
-                    <table class="table table-condensed table-hover">
-                        <tbody data-bind="foreach: listOfOwnedBooks">
-                            <tr data-bind="click: $root.viewBook" style="cursor: pointer;">
-                                <td class="book-image-col">
-                                    <img data-bind="attr: { src: Image }" />
-                                </td>
-                                <td data-bind="text: Title"></td>
-                                <td data-bind="text: Authors"></td>
-                                <td data-bind="text: Subtitle"></td>
-                                <td data-bind="text: Publisher"></td>
-                                <td data-bind="text: PublishedDate"></td>
-                                <td data-bind="text: PageCount"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <div class="tabbable">
+            <div style="padding-left: 5em">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#s1" data-toggle="tab"><b>Книги </b><span class="badge" data-bind="text: listOfOwnedBooks().length"></span></a></li>
+                    <li><a href="#s2" data-toggle="tab"><b>Ищет </b><span class="badge" data-bind="text: listOfWishedBooks().length"></span></a></li>
+                </ul>
+                <div class="tab-content">
+
+                    <div class="tab-pane active" id="s1">
+                        <table class="table table-condensed table-hover">
+                            <tbody data-bind="foreach: listOfOwnedBooks">
+                                <tr data-bind="click: $root.viewBook">
+                                    <td class="book-image-col">
+                                        <img data-bind="attr: { src: Image }" />
+                                    </td>
+                                    <td data-bind="text: Title"></td>
+                                    <td data-bind="text: Authors"></td>
+                                    <td data-bind="text: Subtitle"></td>
+                                    <td data-bind="text: Publisher"></td>
+                                    <td data-bind="text: PublishedDate"></td>
+                                    <td data-bind="text: PageCount"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="tab-pane" id="s2">
+                        <table class="table table-condensed table-hover">
+                            <tbody data-bind="foreach: listOfWishedBooks">
+                                <tr data-bind="click: $root.viewWishBook">
+                                    <td class="book-image-col">
+                                        <img data-bind="attr: { src: Image }" />
+                                    </td>
+                                    <td data-bind="text: Title"></td>
+                                    <td data-bind="text: Authors"></td>
+                                    <td data-bind="text: Subtitle"></td>
+                                    <td data-bind="text: Publisher"></td>
+                                    <td data-bind="text: PublishedDate"></td>
+                                    <td data-bind="text: PageCount">стр </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
-                <div class="tab-pane" id="s2">
-                    <table class="table table-condensed table-hover">
-                        <tbody data-bind="foreach: listOfWishedBooks">
-                            <tr data-bind="click: $root.viewWishBook" style="cursor: pointer">
-                                <td class="book-image-col">
-                                    <img data-bind="attr: { src: Image }" />
-                                </td>
-                                <td data-bind="text: Title"></td>
-                                <td data-bind="text: Authors"></td>
-                                <td data-bind="text: Subtitle"></td>
-                                <td data-bind="text: Publisher"></td>
-                                <td data-bind="text: PublishedDate"></td>
-                                <td data-bind="text: PageCount">стр </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-
-                @* <div class="tab-pane" id="s3">
-            <p>Сейчас вы просматриваете содержимое третьей секции.</p>
-        </div>*@
-
             </div>
-
         </div>
     </div>
 </div>
 
-
-
-<!-- /.tabbable -->
-
-
-
-
-
-
-
-
-
-
-
-@*<div class="clearfix"></div>*@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<br />
-
-
-@*<div>
-     <button class="btn btn-success" data-bind="click: getOwnedBooks, visible: showOwnedBooksButton">Показать все книги пользователя</button>
-    <div data-bind="visible: showOwnedBooks">
-        <button class="btn btn-danger" data-bind="click: hideOwnedBooks">Cкрыть книги</button>
-        <table class="table table-condensed">
-            <tbody data-bind="foreach: listOfOwnedBooks">
-                <tr class="success">
-                    <td>
-                        <img data-bind="attr: { src: Image }" />
-                    </td>
-                    <td data-bind="text: Title"></td>
-                    <td data-bind="text: Authors"></td>
-                    <td data-bind="text: Subtitle"></td>
-                    <td data-bind="text: Publisher"></td>
-                    <td data-bind="text: PublishedDate"></td>
-                    <td data-bind="text: PageCount"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <br />
-    <div>
-        <button class="btn btn-primary" data-bind="click: getWishedBooks, visible: showWishedBooksButton">Показать книги которые ищет пользователь</button>
-        <div data-bind="visible: showWishedBooks">
-            <button class="btn btn-danger" data-bind="click: hideWishedBooks">Cкрыть книги</button>
-            <table class="table table-condensed">
-                <tbody data-bind="foreach: listOfWishedBooks">
-                    <tr class="success">
-                        <td>
-                            <img data-bind="attr: { src: Image }" />
-                        </td>
-                        <td data-bind="text: Title"></td>
-                        <td data-bind="text: Authors"></td>
-                        <td data-bind="text: Subtitle"></td>
-                        <td data-bind="text: Publisher"></td>
-                        <td data-bind="text: PublishedDate"></td>
-                        <td data-bind="text: PageCount">стр </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-*@

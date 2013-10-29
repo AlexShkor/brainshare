@@ -1,7 +1,6 @@
 using BrainShare.Documents;
-using BrainShare.ViewModels;
 
-namespace BrainShare.Controllers
+namespace BrainShare.ViewModels
 {
     public class ChangeRequestSentModel
     {
@@ -9,7 +8,7 @@ namespace BrainShare.Controllers
 
         public UserItemViewModel Owner { get; set; }
 
-        public ChangeRequestSentModel(Book book, User user)
+        public ChangeRequestSentModel(Book book)
         {
             Book = new BookViewModel(book);
             Owner = new UserItemViewModel(book);

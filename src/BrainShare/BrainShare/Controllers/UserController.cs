@@ -23,13 +23,11 @@ using System.Linq;
 
 namespace BrainShare.Controllers
 {
-
     public class UserController : BaseController
     {
         private readonly UsersService _users;
         private readonly Settings _settings;
         public IAuthentication Auth { get; set; }
-
         private readonly FacebookClient _fb;
 
         public string FacebookCallbackUri
@@ -125,9 +123,6 @@ namespace BrainShare.Controllers
                     ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
                 }
             }
-            ModelState.Remove("formatted_address");
-            ModelState.Remove("country");
-            //ModelState.Remove("locality");
             return View(model);
         }
 
@@ -146,68 +141,52 @@ namespace BrainShare.Controllers
             return ObjectId.GenerateNewId().ToString();
         }
 
-        [FacebookAuthorize]
-        public ActionResult ProcessFacebook(string returnUrl)
+        public ActionResult LoginWithFacebook()
         {
-            _fb.AccessToken = Session[SessionKeys.FbAccessToken] as string;
-            dynamic fbUser = _fb.Get("me");
-
-            var user = _users.GetByFacebookId((string)fbUser.id);
-            if (user == null)
-            {
-                // check e-mail
-                var email = fbUser.email;
-                var facebookId = fbUser.id;
-                var emailIs = _users.GetUserByEmail(email) != null;
-
-                if (emailIs)
-                {
-                    return RedirectToAction("BindFacebook", new { email = email, facebookId = facebookId });
-                }
-
-                var address = new AddressData((string)fbUser.location.name);
-                user = new User
-                {
-                    Id = ObjectId.GenerateNewId().ToString(),
-                    Email = fbUser.email,
-                    FacebookId = fbUser.id,
-                    FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string,
-                    FirstName = fbUser.first_name,
-                    LastName = fbUser.last_name,
-                    Address = address,
-                    AvatarUrl = string.Format("https://graph.facebook.com/{0}/picture?width=250&height=250", fbUser.id),
-                    Registered = DateTime.Now,
-                };
-
-                _users.Save(user);
-            }
-            else
-            {
-                user.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
-                _users.Save(user);
-            }
-
-            if (Request.IsAuthenticated)
-            {
-                FormsAuthentication.SignOut();
-                Session.Abandon();
-                Session.Clear();
-            }
-
-            Auth.LoginUser(user, true);
-
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            return RedirectToAction("Index", "Home");
+            return ProcessFb(FacebookCallbackMode.AuthorizeWithFacebook);
         }
 
-        public ActionResult LoginWithFacebook(string returnUrl)
+        public ActionResult UpdateFacebookFields()
+        {
+            return ProcessFb(FacebookCallbackMode.UpdateFacebookFields, Request.UrlReferrer.AbsolutePath);
+        }
+
+        private ActionResult ProcessFb(FacebookCallbackMode mode, string returnUrl = null)
+        {
+            var fbToken = Session[SessionKeys.FbAccessToken] as string;
+
+            if (mode == FacebookCallbackMode.AuthorizeWithFacebook)
+            {
+                if (fbToken == null)
+                {
+                    return RunFacebookCallback(FacebookCallbackMode.AuthorizeWithFacebook);
+                }
+
+                return ProcessFacebook(FacebookCallbackMode.AuthorizeWithFacebook);
+            }
+
+            if (mode == FacebookCallbackMode.UpdateFacebookFields)
+            {
+                if (fbToken == null)
+                {
+                    return RunFacebookCallback(FacebookCallbackMode.UpdateFacebookFields, returnUrl);
+                }
+
+                return ProcessFacebook(FacebookCallbackMode.UpdateFacebookFields, returnUrl);
+            }
+
+            return null;
+        }
+
+        private ActionResult RunFacebookCallback(FacebookCallbackMode mode, string returnUrl = null)
         {
             var csrfToken = Guid.NewGuid().ToString();
+
             Session[SessionKeys.FbCsrfToken] = csrfToken;
-            var state = Convert.ToBase64String(Encoding.UTF8.GetBytes(_fb.SerializeJson(new { returnUrl = returnUrl, csrf = csrfToken })));
+            Session[SessionKeys.FbCallbackMode] = mode;
+            Session[SessionKeys.FbReturnUrl] = returnUrl;
+
+            var state = Convert.ToBase64String(Encoding.UTF8.GetBytes(_fb.SerializeJson(new { returnUrl = returnUrl, csrf = csrfToken, mode = mode })));
             const string scope = "user_about_me,email,publish_actions";
             var fbLoginUrl = _fb.GetLoginUrl(
                 new
@@ -217,20 +196,18 @@ namespace BrainShare.Controllers
                     redirect_uri = FacebookCallbackUri,
                     response_type = "code",
                     scope = scope,
-                    state = state
+                    state = state,
                 });
             return Redirect(fbLoginUrl.AbsoluteUri);
         }
 
-        private ActionResult RedirectToProcessFacebook(string returnUrl = null)
-        {
-            return RedirectToAction("ProcessFacebook", new { returnUrl });
-        }
-
         public ActionResult FacebookCallback(string code, string state)
         {
+            var fbCallbackMode = (FacebookCallbackMode)Session[SessionKeys.FbCallbackMode];
+            var fbReturnUrl = (string)Session[SessionKeys.FbReturnUrl];
+
             if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(state))
-                return RedirectToProcessFacebook();
+                return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
 
             // first validate the csrf token
             dynamic decodedState;
@@ -238,18 +215,21 @@ namespace BrainShare.Controllers
             {
                 decodedState = _fb.DeserializeJson(Encoding.UTF8.GetString(Convert.FromBase64String(state)), null);
                 var exepectedCsrfToken = Session[SessionKeys.FbCsrfToken] as string;
+
                 // make the fb_csrf_token invalid
                 Session[SessionKeys.FbCsrfToken] = null;
+                Session[SessionKeys.FbCallbackMode] = null;
+                Session[SessionKeys.FbReturnUrl] = null;
 
                 if (!(decodedState is IDictionary<string, object>) || !decodedState.ContainsKey("csrf") || string.IsNullOrWhiteSpace(exepectedCsrfToken) || exepectedCsrfToken != decodedState.csrf)
                 {
-                    return RedirectToProcessFacebook();
+                    return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
                 }
             }
             catch
             {
                 // log exception
-                return RedirectToProcessFacebook();
+                return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
             }
 
             try
@@ -267,18 +247,94 @@ namespace BrainShare.Controllers
                 if (result.ContainsKey("expires"))
                     Session[SessionKeys.FbExpiresIn] = DateTime.Now.AddSeconds(result.expires);
 
-                if (decodedState.ContainsKey("returnUrl"))
+                if (decodedState.ContainsKey("returnUrl") && decodedState.ContainsKey("mode"))
                 {
-                    return RedirectToProcessFacebook(decodedState.returnUrl);
+                    return ProcessFacebook((FacebookCallbackMode)decodedState.mode, decodedState.returnUrl);
                 }
 
-                return RedirectToProcessFacebook();
+                return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
             }
             catch
             {
                 // log exception
-                return RedirectToProcessFacebook();
+                return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
             }
+        }
+
+        private ActionResult ProcessFacebook(FacebookCallbackMode mode, string returnUrl = null)
+        {
+            _fb.AccessToken = Session[SessionKeys.FbAccessToken] as string;
+            dynamic fbUser = _fb.Get("me");
+            var facebookId = (string)fbUser.id;
+
+            if (mode == FacebookCallbackMode.AuthorizeWithFacebook)
+            {
+                var userByFacebookId = _users.GetByFacebookId(facebookId);
+                if (userByFacebookId == null)
+                {
+                    var address = new AddressData((string)fbUser.location.name);
+                    var newUser = new User
+                    {
+                        Id = ObjectId.GenerateNewId().ToString(),
+                        Email = fbUser.email,
+                        FacebookId = fbUser.id,
+                        FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string,
+                        FirstName = fbUser.first_name,
+                        LastName = fbUser.last_name,
+                        Address = address,
+                        AvatarUrl = string.Format("https://graph.facebook.com/{0}/picture?width=250&height=250", fbUser.id),
+                        Registered = DateTime.Now,
+                    };
+
+                    _users.Save(newUser);
+                    Auth.LoginUser(newUser, true);
+
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    return RedirectToAction("Index", "Home");
+                }
+
+                else
+                {
+                    userByFacebookId.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
+                    _users.Save(userByFacebookId);
+                    Auth.LoginUser(userByFacebookId, true);
+
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            if (mode == FacebookCallbackMode.UpdateFacebookFields)
+            {
+                var userByFacebookId = _users.GetByFacebookId(facebookId);
+
+                if (userByFacebookId == null || userByFacebookId.Id == UserId)
+                {
+                    var currentUser = _users.GetById(UserId);
+                    currentUser.FacebookId = facebookId;
+                    currentUser.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
+                    _users.Save(currentUser);
+
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    return RedirectToAction("Index", "Home");
+                }
+
+                return View("UserWithFbIdAlreadyExist");
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult GetFbFriends()
@@ -287,51 +343,34 @@ namespace BrainShare.Controllers
 
             if (currentUser.IsFacebookAccount)
             {
-                _fb.AccessToken = currentUser.FacebookAccessToken;
-                dynamic fbresult = _fb.Get("fql", new { q = "SELECT uid, first_name, last_name, pic_square FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me())" });
-                var fbfriendsInfo = fbresult["data"].ToString();
-                List<FacebookFriend> fbFriends = JsonConvert.DeserializeObject<List<FacebookFriend>>(fbfriendsInfo);
-
-                var fbIds = fbFriends.Select(x => x.FacebookId).ToList();
-
-                var existingUsersIds = _users.GetExistingUsersIds(fbIds).ToDictionary(x => x.FacebookId, c => c);
-                var existingFrends = fbFriends.Where(x => existingUsersIds.ContainsKey(x.FacebookId)).ToList();
-
-                foreach (var friend in existingFrends)
+                try
                 {
-                    friend.Id = existingUsersIds[friend.FacebookId].Id;
-                }
+                    _fb.AccessToken = currentUser.FacebookAccessToken;
+                    dynamic fbresult = _fb.Get("fql", new { q = "SELECT uid, first_name, last_name, pic_square FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me())" });
+                    var fbfriendsInfo = fbresult["data"].ToString();
+                    List<FacebookFriend> fbFriends = JsonConvert.DeserializeObject<List<FacebookFriend>>(fbfriendsInfo);
 
-                var model = new FacebookSelectorViewModel(existingFrends);
-                return View(model);
+                    var fbIds = fbFriends.Select(x => x.FacebookId).ToList();
+
+                    var existingUsersIds = _users.GetExistingUsersIds(fbIds).ToDictionary(x => x.FacebookId, c => c);
+                    var existingFrends = fbFriends.Where(x => existingUsersIds.ContainsKey(x.FacebookId)).ToList();
+
+                    foreach (var friend in existingFrends)
+                    {
+                        friend.Id = existingUsersIds[friend.FacebookId].Id;
+                    }
+
+                    var model = new FacebookSelectorViewModel(existingFrends);
+                    return View(model);
+                }
+                catch (Exception ex)
+                {
+                    var returnUrl = Url.Action("GetFbFriends", "User");
+                    return ProcessFb(FacebookCallbackMode.UpdateFacebookFields, returnUrl);
+                }
             }
 
             return View();
-        }
-
-        [HttpGet]
-        public ActionResult BindFacebook(string email, string facebookId)
-        {
-            var model = new BindFacebookViewModel() { Email = email, FacebookId = facebookId };
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult BindFacebook(BindFacebookViewModel model)
-        {
-            var user = _users.GetUserByEmail(model.Email);
-
-            if (model.Password == user.Password)
-            {
-                user.FacebookId = model.FacebookId;
-                user.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
-                _users.Save(user);
-
-                return RedirectToAction("LoginWithFacebook");
-            }
-
-            ModelState.AddModelError("Password", "Пароль неправильный");
-            return View(model);
         }
     }
 }

@@ -2,6 +2,14 @@
 @{
     Layout = "~/Views/Shared/_BootstrapLayout.cshtml";
 }
+@section Meta
+{
+    @RenderSection("Meta",false)
+}
+@section Schemas
+{
+    @RenderSection("Schemas",false)
+}
 <div class="container-fluid">
 
 
@@ -13,14 +21,15 @@
                 <div>
                     <ul class="nav nav-list">
                         <li class="nav-header">Книги</li>
-                        @Html.MenuLink("Книги", "Index", "Books", title: "искадь среди книг на BrainShare")
-                        @Html.MenuLink("Искать", "Search", "Books", title:"импортировать с сервиса Google Books")
+                        @Html.MenuLink("Книги на BrainShare", "Index", "Books", title: "искадь среди книг на BrainShare")
+                        @Html.MenuLink("Искать через Google", "Search", "Books", title:"импортировать с сервиса Google Books")
                         @Html.MenuLink("Добавить", "ChooseAddMethod", "Books")
                         <li class="divider"></li>
                         <li class="nav-header">Мои Книги</li>
                         @Html.MenuLink("Мои Книги", "MyBooks", "Profile")
                         @Html.MenuLink("Ищу Книги", "WishList", "Profile")
                         @Html.MenuLink("Предложения по обмену", "Inbox", "Profile", null, "<span id=\"booksCounter\" class=\"badge badge-warning\" style=\"margin-left: 10px\"></span>")
+                        @Html.MenuLink("История обмена", "ViewExchangeHistory", "Books")
                         <li class="divider"></li>
                     </ul>
                 </div>

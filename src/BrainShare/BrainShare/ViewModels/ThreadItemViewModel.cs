@@ -1,6 +1,6 @@
 using BrainShare.Documents;
 
-namespace BrainShare.Controllers
+namespace BrainShare.ViewModels
 {
     public class ThreadItemViewModel
     {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BrainShare.Documents;
 
-namespace BrainShare.Controllers
+namespace BrainShare.ViewModels
 {
     public class AllThreadsViewModel
     {

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
-using BrainShare.Documents;
 using BrainShare.Services;
 using BrainShare.ViewModels;
 using CloudinaryDotNet;
@@ -64,12 +62,5 @@ namespace BrainShare.Controllers
         {
             return View();
         }
-    }
-
-    public class HomeViewModel
-    {
-        public IEnumerable<ActivityFeed> Feeds { get; set; }
-        public IEnumerable<UserViewModel> Users { get; set; }
-        public IEnumerable<BookViewModel> Books { get; set; }
     }
 }

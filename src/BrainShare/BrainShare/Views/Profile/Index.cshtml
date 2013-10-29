@@ -1,4 +1,4 @@
-﻿@model BrainShare.Controllers.MyProfileViewModel
+﻿@model BrainShare.ViewModels.MyProfileViewModel
 
 @{
     Layout = "_ProfileLayout.cshtml";
@@ -16,29 +16,82 @@
     </script>
 }
 
-<div id="overlay" style="display: none" data-bind="visible: ShowOverlay"></div>
+<div class="row">
+    <p class="error-mesage"></p>
+    <div id="overlay" style="display: none" data-bind="visible: ShowOverlay"></div>
 
-<div>
-    <div id="avatarContainer" class="pull-right" style="text-align: center;">
-        <div class="avatar-container">
-            <img style="width: 250px; height: 250px" alt="аватар" class="pics" src="@Model.AvatarUrl"/>
+    <div class="span7">
+
+        <div class="form-horizontal span6 offset2">
+            <div>
+                <div class="control-group">
+                    <div>
+                        <span class="color-black">Полное имя:</span>
+                    </div>
+                    <div>
+                        <span>@Model.Name</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div>
+                        <span class="color-black">Город:</span>
+                    </div>
+                    <div>
+                        <span>@Model.Address.Formatted</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div>
+                        <span class="color-black">Ваш рейтинг:</span>
+                        <span class="text-warning" style="padding-left: 0.5em">@Model.SummaryVotes</span>
+                    </div>
+                </div>
+
+                @if (Model.Info != null)
+                {
+                    <div class="control-group">
+                        <div>
+                            <span class="color-black">Информация о пользователе:</span>
+                        </div>
+                        <div style="padding-top: 0.2em">
+                            <span>@Model.Info</span>
+                        </div>
+                    </div>
+                }
+
+                <div class="control-group">
+                    <a class="btn btn-primary" href="/Profile/EditProfile">Редактировать</a>
+                </div>
+            </div>
         </div>
 
-        <a href="#" data-bind="visible: ShowChangeAvatarButton, click: UploadImg" style="display: block;">Выбрать аватар</a>
+    </div>
+
+    <div class="span4">
+
+        <div>
+            <div id="avatarContainer" style="text-align: center;">
+                <div class="avatar-container">
+                    <img style="width: 250px; height: 250px" alt="аватар" class="pics" src="@Model.AvatarUrl"/>
+                </div>
+
+                <a href="#" data-bind="visible: ShowChangeAvatarButton, click: UploadImg" style="display: block;">Выбрать аватар</a>
+            </div>
+        </div>
+
+        <div style="display: none">
+            @using (Html.BeginForm("UploadImage", "Profile", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
+            {
+                @Html.TextBox("UploadedFile", Model.UploadedFile, new { type = "file", id = "file" })
+                @Html.ValidationMessage("UploadedFile")
+                <button type="submit" id="uploadImage" class="btn btn-primary">Upload</button>
+            }
+        </div>
     </div>
 </div>
 
-<p class="error-mesage"></p>
 
-<div style="display: none">
-    @using (Html.BeginForm("UploadImage", "Profile", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
-    {
-        @Html.TextBox("UploadedFile", Model.UploadedFile, new { type = "file", id = "file" })
-        @Html.ValidationMessage("UploadedFile")
-                    
-        <button type="submit" id="uploadImage" class="btn btn-primary">Upload</button>
-    }
-</div>
 
 
 <div id="previewContainer" style="display: none; min-width: 300px" data-bind="visible: ShowPreviewControls">

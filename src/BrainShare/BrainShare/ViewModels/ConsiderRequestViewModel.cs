@@ -3,7 +3,7 @@ using BrainShare.Controllers;
 
 namespace BrainShare.ViewModels
 {
-    public class AcceptRequestViewModel
+    public class ConsiderRequestViewModel
     {
         public BookViewModel YourBook { get; set; }
         public string FromUserId { get; set; }

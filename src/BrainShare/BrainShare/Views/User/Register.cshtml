@@ -1,4 +1,4 @@
-﻿@model BrainShare.Controllers.RegisterViewModel
+﻿@model BrainShare.ViewModels.RegisterViewModel
 
 @{
     ViewBag.Title = "Register";
@@ -10,9 +10,9 @@
 {
     <fieldset>
 
-        <legend>Заполните форму для регистрации</legend>
-            @Html.ValidationSummary()
-       
+        <legend>Заполните форму для регистрации или используйте ваш Facebook аккаунт</legend>
+        @Html.ValidationSummary()
+
         <div class="span6">
             <div class="control-group">
                 <div class="controls">
@@ -49,16 +49,8 @@
                     <input name="country" type="hidden" value="@Model.country">
                     <input name="locality" type="hidden" value="@Model.locality">
                 </div>
-
-                <script>
-                    $(function () {
-                        $("#geocomplete").geocomplete({
-                            map: '.map_canvas',
-                            details: "#locationValues"
-                        });
-                    });
-                </script>
             </div>
+
             <div class="control-group">
                 <label class="control-label" for="Email">
                     e-mail
@@ -100,5 +92,19 @@
         </div>
     </fieldset>
 }
+
+<script type="text/javascript">
+    $(function () {
+        $("#geocomplete").geocomplete({
+            map: '.map_canvas',
+            details: "#locationValues",
+            location: 'Minsk, Belarus'
+        });
+    });
+    
+    
+
+
+</script>
 
 

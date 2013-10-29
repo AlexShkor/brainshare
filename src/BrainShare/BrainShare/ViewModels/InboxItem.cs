@@ -1,23 +1,33 @@
 using System;
 using BrainShare.Documents;
-using BrainShare.ViewModels;
 
-namespace BrainShare.Controllers
+namespace BrainShare.ViewModels
 {
     public class InboxItem
     {
         public string Created { get; set; }
         public UserItemViewModel User { get; set; }
-        public BookViewModel Book { get; set; }
+        public string BookId { get; set; }
+        public string BookTitle { get; set; }
 
         public bool IsNew { get; set; }
 
         public InboxItem(DateTime created, Book book, User user, bool isNew)
         {
             Created = created.ToShortDateString();
-            Book = new BookViewModel(book);
-            User = new UserItemViewModel(book.Id, user);
+            BookId = book.Id;
+            BookTitle = book.Title;
+            User = new UserItemViewModel(user);
             IsNew = isNew;
+        }
+
+        public InboxItem(ChangeRequest request)
+        {
+            Created = request.Created.ToShortDateString();
+            User = new UserItemViewModel(request.User);
+            IsNew = !request.Viewed;
+            BookId = request.BookId;
+            BookTitle = request.BookTitle;
         }
     }
 }

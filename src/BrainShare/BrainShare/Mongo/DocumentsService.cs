@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace BrainShare.Mongo
@@ -37,6 +38,11 @@ namespace BrainShare.Mongo
         public void InsertBatch(params T[] items)
         {
             Items.InsertBatch(items);
+        }
+
+        protected static string GenerateId()
+        {
+            return ObjectId.GenerateNewId().ToString();
         }
     }
 }

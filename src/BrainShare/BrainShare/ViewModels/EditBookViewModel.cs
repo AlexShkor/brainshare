@@ -7,7 +7,7 @@ using BrainShare.Documents;
 using BrainShare.Services.Validation;
 using BrainShare.ViewModels.Base;
 
-namespace BrainShare.Controllers
+namespace BrainShare.ViewModels
 {
     public class EditBookViewModel : BaseViewModel
     {
@@ -51,7 +51,7 @@ namespace BrainShare.Controllers
         {
             ISBNs = new List<StringItem> { new StringItem() };
             Authors = new List<StringItem> { new StringItem() };
-            Image = "/images/book-logo-placeholder.png";
+            Image = Constants.DefaultBookImage;
         }
 
         public EditBookViewModel(IEnumerable<LanguageInfo> languages)

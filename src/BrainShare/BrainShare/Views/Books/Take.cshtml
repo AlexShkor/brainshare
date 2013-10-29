@@ -1,5 +1,5 @@
 ﻿@using Newtonsoft.Json
-@model BrainShare.Controllers.TakeBookViewModel
+@model BrainShare.ViewModels.TakeBookViewModel
 
 @section Scripts{
     <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/take.js")"></script>
@@ -11,40 +11,39 @@
     </script>
 }
 
-
-
 @{
-   
     ViewBag.Title = Model.Book.Title;
 }
 
 
 
 <div class="span12">
-    <h4>@Model.Book.Title</h4>
+    <h4 style="padding-bottom: 0.5em">@Model.Book.Title</h4>
     <div>
-        <div class="span3">
+        <div class="span3" style="padding-bottom: 2em;">
             @Html.Partial("DetailsPartial", Model.Book)
         </div>
         <div class="span9">
 
-            <span class="label label-info">Пользователи которые меняют эту книгу</span>
+            <div class="well" data-bind="visible: owners().length != 0">Пользователи которые меняют эту книгу</div>
+            <div data-bind="visible: owners().length == 0" class="well">К сожалению, пока ещё ни у кого нет этой книги</div>
             <table class="table table-condensed table-striped">
                 <tbody data-bind="foreach: owners">
                     <tr>
-                        <td data-bind="text: UserName"></td>
-                        <td data-bind="text: City"></td>
+                        <td style="width: 25%">
+                            <a href="#" data-bind="click: $root.seeProfile, text: UserName"></a>
+                        </td>
+                        <td style="width: 35%" data-bind="text: City"></td>
                         <td>
-                            <a class="btn btn-small" href="#" data-bind="click: $root.seeProfile">Профиль</a>
-                            <a class="btn btn-small" href="#" data-bind="click: $root.sendRequest">Отправить запрос на обмен</a>
+                            @*  <a class="btn btn-small btn-primary" href="#" data-bind="click: $root.seeProfile">Профиль</a>*@
+                            <a class="btn btn-small btn-success pull-right" href="#" data-bind="click: $root.sendRequest">Отправить запрос на обмен</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
-
         </div>
     </div>
-    <div>
+    <div style="margin-top: 1em;">
         @Html.Partial("Disquas")
     </div>
 </div>

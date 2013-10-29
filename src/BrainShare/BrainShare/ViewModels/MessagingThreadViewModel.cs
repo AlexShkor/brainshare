@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BrainShare.Documents;
 
-namespace BrainShare.Controllers
+namespace BrainShare.ViewModels
 {
     public class MessagingThreadViewModel
     {
@@ -20,7 +20,7 @@ namespace BrainShare.Controllers
             UserId = me.Id;
             RecipientId = recipient.Id;
             RecipientName = recipient.FullName;
-            RecipientAddress = recipient.Address.GetCityAndCountry();
+            RecipientAddress = recipient.Address.Locality;
             Messages = thread.Messages.OrderByDescending(x=> x.Posted).Select(x => new MessageViewModel(x, recipient)).ToList();
         }
     }

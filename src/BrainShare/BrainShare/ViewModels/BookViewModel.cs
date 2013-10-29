@@ -1,3 +1,4 @@
+﻿using System.Web.Mvc;
 using BrainShare.Controllers;
 using BrainShare.Documents;
 
@@ -24,6 +25,11 @@ namespace BrainShare.ViewModels
 
         public string CurrentUserId { get; set; }
 
+        public string SharingText
+        {
+            get { return UserName + " ищет книгу \"" + Title + "\" на BrainShare"; }
+        }
+
         public BookViewModel(Book book)
         {
             Id = book.Id;
@@ -34,10 +40,10 @@ namespace BrainShare.ViewModels
             PublishedDate = book.PublishedYear != null ? book.PublishedDate.ToString(EditBookViewModel.DateFormat, EditBookViewModel.Culture) : null;
             Publisher = book.Publisher;
             Subtitle = book.Subtitle;
-            Image = book.Image;
+            Image = book.Image ?? Constants.DefaultBookImage;
             GoogleBookId = book.GoogleBookId;
             Authors = string.Join(", ", book.Authors);
-            Address = book.UserData.Address.Formatted;
+            Address = book.UserData.Address.Locality;
             UserId = book.UserData.UserId;
             UserName = book.UserData.UserName;
             UserProfile = "/profile/view/" + book.UserData.UserId;

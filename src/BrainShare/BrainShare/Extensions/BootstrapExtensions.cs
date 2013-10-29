@@ -69,24 +69,3 @@ namespace BrainShare.Extensions
         }
     }
 }
-
-
-
-//public static MvcHtmlString MenuLink(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, string additionalCssClass = null)
-//        {
-//            var currentAction = htmlHelper.ViewContext.RouteData.GetRequiredString("action");
-//            var currentController = htmlHelper.ViewContext.RouteData.GetRequiredString("controller");
-
-//            var li = new TagBuilder("li")
-//            {
-//                InnerHtml = htmlHelper.ActionLink(linkText, actionName, controllerName).ToHtmlString()
-//            };
-
-//            if (additionalCssClass != null)
-//                li.AddCssClass(additionalCssClass);
-
-//            if (controllerName == currentController && actionName == currentAction)
-//                li.AddCssClass("active");
-
-//            return new MvcHtmlString(li.ToString());
-//        }
