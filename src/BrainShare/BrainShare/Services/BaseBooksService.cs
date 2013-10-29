@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using BinaryAnalysis.UnidecodeSharp;
 using BrainShare.Documents;
 using BrainShare.Mongo;
 using MongoDB.Bson;
@@ -46,6 +47,23 @@ namespace BrainShare.Services
             if (filter.Title.HasValue())
             {
                 yield return Query<Book>.Matches(x => x.Title, new BsonRegularExpression(filter.Title,"i"));
+            }
+            if (filter.UserName.HasValue())
+            {
+                yield return Query<Book>.Matches(x => x.UserData.UserName, new BsonRegularExpression(filter.UserName,"i"));
+            }
+            if (filter.Location.HasValue())
+            {
+               yield return Query.Or(
+                    Query<Book>.Matches(x => x.UserData.Address.Locality, new BsonRegularExpression(filter.Location, "i")),
+                    Query<Book>.Matches(x => x.UserData.Address.Country, new BsonRegularExpression(filter.Location, "i")),
+                    Query<Book>.Matches(x => x.UserData.Address.Formatted, new BsonRegularExpression(filter.Location, "i")),
+                    Query<Book>.Matches(x => x.UserData.Address.Original, new BsonRegularExpression(filter.Location, "i")),
+                    Query<Book>.Matches(x => x.UserData.Address.Locality, new BsonRegularExpression(filter.Location.Unidecode(), "i")),
+                    Query<Book>.Matches(x => x.UserData.Address.Country, new BsonRegularExpression(filter.Location.Unidecode(), "i")),
+                    Query<Book>.Matches(x => x.UserData.Address.Formatted, new BsonRegularExpression(filter.Location.Unidecode(), "i")),
+                    Query<Book>.Matches(x => x.UserData.Address.Original, new BsonRegularExpression(filter.Location.Unidecode(), "i"))
+                    );
             }
         }
 

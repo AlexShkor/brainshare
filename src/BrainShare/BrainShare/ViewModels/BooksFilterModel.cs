@@ -11,6 +11,8 @@ namespace BrainShare.ViewModels
 
         public string Location { get; set; }
 
+        public string UserName { get; set; }
+
         public bool Advanced { get; set; }
 
         public BooksFilterModel()
@@ -22,6 +24,8 @@ namespace BrainShare.ViewModels
         {
             var filter = base.ToFilter();
             filter.Title = Search;
+            filter.Location = Location;
+            filter.UserName = UserName;
             return filter;
         }
     }

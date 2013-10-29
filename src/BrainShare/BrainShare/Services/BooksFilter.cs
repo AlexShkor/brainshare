@@ -7,5 +7,6 @@ namespace BrainShare.Services
         public string Title { get; set; }
 
         public string Location { get; set; }
+        public string UserName { get; set; }
     }
 }
