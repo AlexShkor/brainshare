@@ -11,6 +11,8 @@ namespace BrainShare.ViewModels
 
         public string Location { get; set; }
 
+        public bool Advanced { get; set; }
+
         public BooksFilterModel()
         {
             ItemsPerPage = 20;
