@@ -49,6 +49,11 @@ namespace BrainShare.Services
             }
         }
 
+        protected override IMongoSortBy BuildSortExpression(BooksFilter filter)
+        {
+            return SortBy<Book>.Descending(x => x.Added);
+        }
+
         public IEnumerable<Book> GetLast(int count)
         {
             return Items.FindAll().SetSortOrder(SortBy<Book>.Descending(x => x.Added)).SetLimit(count);
