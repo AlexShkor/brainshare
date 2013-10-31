@@ -48,6 +48,18 @@ namespace BrainShare.Services
             {
                 yield return Query<Book>.Matches(x => x.Title, new BsonRegularExpression(filter.Title,"i"));
             }
+            if (filter.Author.HasValue())
+            {
+                yield return Query<Book>.Matches(x=> x.Authors, new BsonRegularExpression(filter.Author,"i"));
+            }
+            if (filter.ISBN.HasValue())
+            {
+                yield return Query<Book>.Matches(x=> x.ISBN, new BsonRegularExpression(filter.ISBN,"i"));
+            }
+            if (filter.Title.HasValue())
+            {
+                yield return Query<Book>.Matches(x => x.Title, new BsonRegularExpression(filter.Title,"i"));
+            }
             if (filter.UserName.HasValue())
             {
                 yield return Query<Book>.Matches(x => x.UserData.UserName, new BsonRegularExpression(filter.UserName,"i"));

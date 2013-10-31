@@ -12,7 +12,7 @@
     <div class="control-group" data-bind="@(visibleBinding.HasValue() ? ", visible:" + modelPrefix + visibleBinding : "")">
         <label class="control-label" for="@bindProperty">@displayName</label>
         <div class="controls">
-            <input type="@inputType" id="@bindProperty" data-bind="value: @(modelPrefix + bindProperty) @(enableBinding.HasValue() ? ", enable:" + modelPrefix + enableBinding : "")" name="@bindProperty" @additionalAttributes>
+            <input type="@inputType" id="@bindProperty" class="input-block-level" data-bind="value: @(modelPrefix + bindProperty) @(enableBinding.HasValue() ? ", enable:" + modelPrefix + enableBinding : "")" name="@bindProperty" @additionalAttributes>
         </div>
     </div>
 }
