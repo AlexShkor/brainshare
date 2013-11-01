@@ -313,23 +313,34 @@ namespace BrainShare.Controllers
         {
             if (userId == UserId)
             {
-                return Json(new
-                {
-                    Error = "Вы не можете обмениваться книгами с самим собой."
-                });
+                return JsonError("Вы не можете обмениваться книгами с самим собой.");
             }
             try
             {
                 var you = _users.GetById(UserId);
                 var he = _users.GetById(userId);
 
+                if (!you.Inbox.Any(x => x.BookId == yourBookId && x.User.UserId == userId))
+                {
+                    return JsonError("Не найден соответствующий запрос на обмен.");
+                }
+
                 var hisBook = _books.GetById(bookId);
+                if (hisBook.UserData.UserId != userId)
+                {
+                    return JsonError("Книга уже не пренадлежит указанному пользователю.");
+                }
                 hisBook.UserData = new UserData(you);
 
                 var yourBook = _books.GetById(yourBookId);
+                if (yourBook.UserData.UserId != UserId)
+                {
+                    return JsonError("Книга уже не пренадлежит указанному пользователю.");
+                }
                 yourBook.UserData = new UserData(he);
 
                 you.RemoveInboxItem(userId, yourBookId);
+
                 _users.Save(you);
 
                 _books.Save(hisBook);
@@ -361,10 +372,7 @@ namespace BrainShare.Controllers
         {
             if (userId == UserId)
             {
-                return Json(new
-                                {
-                                    Error = "Вы не можете обмениваться книгами с самим собой."
-                                });
+                return JsonError("Вы не можете обмениваться книгами с самим собой.");
             }
             try
             {
@@ -372,6 +380,11 @@ namespace BrainShare.Controllers
 
                 var user = _users.GetById(userId);
                 var book = _books.GetById(bookId);
+                if (book.UserData.UserId != UserId)
+                {
+                    return JsonError("Книга уже не пренадлежит указанному пользователю.");
+                }
+
                 book.UserData = new UserData(user);
 
                 me.RemoveInboxItem(userId, bookId);
@@ -385,17 +398,11 @@ namespace BrainShare.Controllers
                 SendBookGiftedMail(me, book, user);
                 SendRequestAcceptedAsGiftNotification(userId, book, me);
 
-                return Json(new
-                {
-                    Success = true
-                });
+                return JsonSuccess();
             }
             catch
             {
-                return Json(new
-                                {
-                                    Error = "По каким-то причинам вы не можете произвести обмен."
-                                });
+                return JsonError("По каким-то причинам вы не можете произвести обмен.");
             }
         }
 

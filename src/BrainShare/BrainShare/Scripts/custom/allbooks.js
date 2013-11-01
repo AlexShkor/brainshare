@@ -17,4 +17,8 @@ var AllBooksModel = function (data) {
         }
         return string;
     };
+
+    this.toggleAdvancedSearch = function() {
+        self.filter.Advanced(!self.filter.Advanced());
+    };
 };

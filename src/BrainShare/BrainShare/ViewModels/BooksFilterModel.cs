@@ -11,6 +11,14 @@ namespace BrainShare.ViewModels
 
         public string Location { get; set; }
 
+        public string UserName { get; set; }
+
+        public string Author { get; set; }
+
+        public string ISBN { get; set; }
+
+        public bool Advanced { get; set; }
+
         public BooksFilterModel()
         {
             ItemsPerPage = 20;
@@ -20,6 +28,10 @@ namespace BrainShare.ViewModels
         {
             var filter = base.ToFilter();
             filter.Title = Search;
+            filter.Location = Location;
+            filter.UserName = UserName;
+            filter.Author = Author;
+            filter.ISBN = ISBN;
             return filter;
         }
     }
