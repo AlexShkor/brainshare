@@ -47,6 +47,22 @@ namespace BrainShare.Controllers
             });
         }
 
+        protected JsonResult JsonSuccess()
+        {
+            return Json(new
+            {
+                Success = true
+            });
+        }
+
+        protected JsonResult JsonError(string message)
+        {
+            return Json(new
+            {
+                Error = message
+            });
+        }
+
         public JsonResult Listing(object items, object filter)
         {
             return Json(new {
