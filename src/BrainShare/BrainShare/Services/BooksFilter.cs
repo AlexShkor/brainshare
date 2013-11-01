@@ -10,5 +10,6 @@ namespace BrainShare.Services
         public string Location { get; set; }
         public string UserName { get; set; }
         public string Author { get; set; }
+        public string Language { get; set; }
     }
 }

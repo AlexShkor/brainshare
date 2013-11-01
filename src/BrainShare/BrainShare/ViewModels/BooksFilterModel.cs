@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using BrainShare.Services;
+using BrainShare.Services.Validation;
 using BrainShare.ViewModels.Base;
 
 namespace BrainShare.ViewModels
@@ -19,6 +21,8 @@ namespace BrainShare.ViewModels
 
         public bool Advanced { get; set; }
 
+        public IEnumerable<LanguageInfo> Languages { get; set; }
+
         public BooksFilterModel()
         {
             ItemsPerPage = 20;
@@ -30,6 +34,7 @@ namespace BrainShare.ViewModels
             filter.Title = Search;
             filter.Location = Location;
             filter.UserName = UserName;
+            filter.Language = Language;
             filter.Author = Author;
             filter.ISBN = ISBN;
             return filter;

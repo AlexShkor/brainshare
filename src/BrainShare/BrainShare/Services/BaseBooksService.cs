@@ -64,6 +64,10 @@ namespace BrainShare.Services
             {
                 yield return Query<Book>.Matches(x => x.UserData.UserName, new BsonRegularExpression(filter.UserName,"i"));
             }
+            if (filter.Language.HasValue())
+            {
+                yield return Query<Book>.EQ(x => x.Language, filter.Language);
+            }
             if (filter.Location.HasValue())
             {
                yield return Query.Or(
