@@ -17,7 +17,7 @@
 
     <ul class="nav nav-pills pull-right">
         <li data-bind="css: { active: filter.Advanced }">
-            <a href="#" data-bind="click: toggleAdvancedSearch">Расширенный поиск</a>
+            <a href="#" data-bind="click: toggleAdvancedSearch"><i class="icon-plus"></i> Расширенный поиск</a>
         </li>
     </ul>
     <div class="clearfix"></div>
@@ -30,8 +30,12 @@
             </div>
             <div class="span4">
                 @KO.EditRow("ISBN", modelPrefix: "filter.")
-                @KO.EditRow("Search", modelPrefix: "filter.")
-                @KO.EditRow("Search", modelPrefix: "filter.")
+                <div class="control-group">
+                    <label class="control-label" for="Language">Язык</label>
+                    <div class="controls">
+                        <select data-bind="options: languages, optionsText: 'NativeName', value: filter.Language, optionsCaption: 'Любой', optionsValue: 'Symbol'" class="input-block-level" id="Language"></select>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

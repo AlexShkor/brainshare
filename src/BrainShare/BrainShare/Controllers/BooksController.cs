@@ -43,7 +43,10 @@ namespace BrainShare.Controllers
 
         public ActionResult Index()
         {
-            return View(new BooksFilterModel());
+            return View(new BooksFilterModel()
+            {
+                Languages = new LanguagesService().GetAllLanguages(),
+            });
         }
 
         public ActionResult Filter(BooksFilterModel model)
