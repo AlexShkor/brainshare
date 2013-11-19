@@ -284,6 +284,7 @@
     <Content Include="Content\imgAreaSelect\imgareaselect-deprecated.css" />
     <Content Include="Images\book-logo-placeholder.png" />
     <Content Include="Images\user-default-avatar.jpg" />
+    <Content Include="Scripts\custom\addfromOzBy.js" />
     <Content Include="Scripts\custom\allusers.js" />
     <Content Include="Scripts\custom\Books\EditBookViewModel.js" />
     <Content Include="Scripts\custom\counting.js" />
@@ -601,6 +602,7 @@
     <Content Include="Views\Profile\EditProfile.cshtml" />
     <Content Include="Views\Books\ViewExchangeHistory.cshtml" />
     <Content Include="Views\Home\BooksGifted.cshtml" />
+    <Content Include="Views\Books\SearchOzBY.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

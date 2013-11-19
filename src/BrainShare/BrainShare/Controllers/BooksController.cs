@@ -67,6 +67,15 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
+        public ActionResult SearchOzBy()
+        {
+            var model = new List<string>();
+            Response.AddHeader("Access-Control-Allow-Origin", "http://oz.by/");
+            Response.AddHeader("Access-Control-Allow-Methods", "GET");
+            Response.AddHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            return View(model);
+        }
+
         [GET("info/{id}")]
         [GET("info/wish/{wishBookId}")]
         public ActionResult Info(string id, string wishBookId)
