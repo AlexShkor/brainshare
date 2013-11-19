@@ -140,14 +140,6 @@ namespace BrainShare.Controllers
 
         private void AdditionalBookValidate(EditBookViewModel model)
         {
-            if (model.ISBNs.Count == 0)
-            {
-                ModelState.AddModelError("ISBNs", "Должен быть указан хотябы один ISBN");
-            }
-            if (model.ISBNs.Any(x => !x.Value.HasValue()))
-            {
-                ModelState.AddModelError("ISBNs", "ISBN не может быть пустым");
-            }
             if (model.Authors.Count == 0)
             {
                 ModelState.AddModelError("Authors", "Должен быть указан хотябы один автор");
@@ -157,15 +149,18 @@ namespace BrainShare.Controllers
                 ModelState.AddModelError("Authors", "Автор не может быть пустой строкой");
             }
 
-            DateTime dt;
-            var parsed = DateTime.TryParseExact(model.PublishedDate,
-                                   EditBookViewModel.DateFormat,
-                                   EditBookViewModel.Culture,
-                                   DateTimeStyles.None,
-                                   out dt);
-            if (!parsed)
+            if (model.PublishedDate.HasValue())
             {
-                ModelState.AddModelError("PublishedDate", "У даты неправильный формат");
+                DateTime dt;
+                var parsed = DateTime.TryParseExact(model.PublishedDate,
+                    EditBookViewModel.DateFormat,
+                    EditBookViewModel.Culture,
+                    DateTimeStyles.None,
+                    out dt);
+                if (!parsed)
+                {
+                    ModelState.AddModelError("PublishedDate", "У даты неправильный формат");
+                }
             }
         }
 

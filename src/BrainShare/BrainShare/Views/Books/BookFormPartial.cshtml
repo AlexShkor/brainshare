@@ -53,7 +53,7 @@
         <div class="control-group">
             <label class="control-label" for="PublishedDate">Дата Издания</label>
             <div class="controls">
-                <input id="PublishedDate" type="text" data-bind="value: PublishedDate" required="required" class="input-xlarge">
+                <input id="PublishedDate" type="text" data-bind="value: PublishedDate" class="input-xlarge">
             </div>
         </div>
         <div class="control-group">
@@ -66,7 +66,7 @@
             <label class="control-label" for="ISBN">ISBN</label>
             <div data-bind="foreach: { data: ISBNs, as: 'isbn' }">
                 <div class="controls">
-                    <input type="text" data-bind="value: isbn.Value" required="required" class="input-xlarge" id="ISBN">
+                    <input type="text" data-bind="value: isbn.Value" class="input-xlarge" id="ISBN">
                     <button class="btn btn-mini btn-success" data-bind="click: $root.addISBN"><i class="icon-plus"></i></button>
                     <button class="btn btn-mini btn-danger" data-bind="click: $root.removeISBN"><i class="icon-remove"></i></button>
                 </div>
@@ -88,7 +88,7 @@
         <div class="control-group">
             <label class="control-label" for="selectbasic">Язык</label>
             <div class="controls">
-                <select required="required" data-bind="options: Languages, optionsText: 'NativeName', value: Language, optionsCaption: 'Выберете язык...', optionsValue: 'Symbol'" class="input-xlarge" id="selectbasic"></select>
+                <select data-bind="options: Languages, optionsText: 'NativeName', value: Language, optionsCaption: 'Выберете язык...', optionsValue: 'Symbol'" class="input-xlarge" id="selectbasic"></select>
             </div>
         </div>
         <div class="control-group">
