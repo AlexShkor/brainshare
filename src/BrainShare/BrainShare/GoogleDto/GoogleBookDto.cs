@@ -49,6 +49,7 @@ namespace BrainShare.GoogleDto
             }
             catch
             {
+                book.PublishedYear = DateTime.Now.Year;
             }
             book.UserData = new UserData(user);
             return book;

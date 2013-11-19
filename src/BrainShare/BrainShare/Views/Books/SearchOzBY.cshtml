@@ -44,12 +44,12 @@
                     </td>
                   
                     <td>
-                        <strong style="display: block" data-bind="text: PublishedDate"></strong>
+                        <strong style="display: block" data-bind="text: Year"></strong>
                     </td>
                     <td style="width: 140px">
                         <div class="well well-small">
-                            <button class="btn btn-primary btn-block" data-bind="click: $root.give">У меня есть</button>
-                            <button class="btn btn-success btn-block" data-bind="click: $root.take">Мне нужна</button>
+                            <button class="btn btn-primary btn-block" data-bind="visible: !Added(), click: $root.give">У меня есть</button>
+                            <button class="btn btn-success btn-block" data-bind="visible: !Added(), click: $root.take">Мне нужна</button>
                         </div>
                     </td>
                 </tr>

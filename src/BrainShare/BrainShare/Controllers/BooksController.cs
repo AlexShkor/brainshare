@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -260,6 +261,35 @@ namespace BrainShare.Controllers
                 SaveFeedAsync(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
             }
             return Json(new { doc.Id });
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        [POST("my/add/from-oz")]
+        public ActionResult AddToMyBooksFromOz(OzBookDto bookDto)
+        {
+            var user = _users.GetById(UserId);
+            var doc = bookDto.BuildDocument(user);
+            SaveFeedAsync(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
+            NotificationsHub.SendGenericText(UserId, "Книга добавлена",
+                string.Format("{0} добавлена в вашу книную полку", doc.Title));
+            _books.Save(doc);
+            return Json(new { Id = doc.Id });
+        }
+
+
+        [HttpPost]
+        [ValidateInput(false)]
+        [POST("wish/add/from-oz")]
+        public ActionResult AddToWishBooksFromOz(OzBookDto bookDto)
+        {
+            var user = _users.GetById(UserId);
+            var doc = bookDto.BuildDocument(user);
+            SaveFeedAsync(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
+            NotificationsHub.SendGenericText(UserId, "Книга добавлена в поиск",
+                string.Format("{0} добавлена в ваш список поиска", doc.Title));
+            _wishBooks.Save(doc);
+            return Json(new { Id = doc.Id });
         }
 
         [HttpGet]
