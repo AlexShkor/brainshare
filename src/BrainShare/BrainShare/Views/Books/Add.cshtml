@@ -7,7 +7,7 @@
 
         var model = new EditBookViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)), '/books/add');
         ko.applyBindings(model);
-        $('#publishedDate').datepicker({
+        $('#PublishedDate').datepicker({
             format: "yyyy M",
             minViewMode: 1,
             language: "ru"
