@@ -4,6 +4,8 @@ using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -74,6 +76,16 @@ namespace BrainShare.Controllers
             Response.AddHeader("Access-Control-Allow-Methods", "GET");
             Response.AddHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             return View(model);
+        }
+
+        public async Task<string> DownloadString(string q, string page)
+        {
+            using (var client = new WebClient())
+            {
+                client.Encoding = Encoding.GetEncoding("KOI8-R");
+               var result= await client.DownloadStringTaskAsync("http://oz.by/search/?catalog_id=1101523&q=" + HttpUtility.UrlEncode(q,client.Encoding) + "&page=" + page);
+                return result;
+            }
         }
 
         [GET("info/{id}")]
