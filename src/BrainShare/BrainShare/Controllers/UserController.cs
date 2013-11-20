@@ -207,7 +207,10 @@ namespace BrainShare.Controllers
             var fbReturnUrl = (string)Session[SessionKeys.FbReturnUrl];
 
             if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(state))
+            {
+                throw new Exception(string.Format("Can't process facebook. No code or state, code: {0}, state: {1}", code,state));
                 return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
+            }
 
             // first validate the csrf token
             dynamic decodedState;
@@ -223,12 +226,14 @@ namespace BrainShare.Controllers
 
                 if (!(decodedState is IDictionary<string, object>) || !decodedState.ContainsKey("csrf") || string.IsNullOrWhiteSpace(exepectedCsrfToken) || exepectedCsrfToken != decodedState.csrf)
                 {
+                    throw new Exception(string.Format("Can't process facebook. No decodedState or exepectedCsrfToken or exepectedCsrfToken != decodedState.csrf, decodedState: {0}, exepectedCsrfToken: {1}", decodedState, exepectedCsrfToken));
                     return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
                 }
             }
-            catch
+            catch (Exception exception)
             {
                 // log exception
+                throw new Exception(string.Format("Can't process facebook.  fbCallbackMode: {0}, fbReturnUrl: {1}", fbCallbackMode, fbReturnUrl), exception);
                 return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
             }
 
@@ -252,11 +257,14 @@ namespace BrainShare.Controllers
                     return ProcessFacebook((FacebookCallbackMode)decodedState.mode, decodedState.returnUrl);
                 }
 
-                return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
+                return ProcessFacebook(FacebookCallbackMode.AuthorizeWithFacebook);
+
+                // return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
             }
-            catch
+            catch(Exception exception)
             {
                 // log exception
+                throw new Exception(string.Format("Can't process facebook.  fbCallbackMode: {0}, fbReturnUrl: {1}", fbCallbackMode, fbReturnUrl), exception);
                 return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
             }
         }
