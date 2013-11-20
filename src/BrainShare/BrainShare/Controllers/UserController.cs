@@ -257,7 +257,7 @@ namespace BrainShare.Controllers
                     return ProcessFacebook((FacebookCallbackMode)decodedState.mode, decodedState.returnUrl);
                 }
 
-                return Redirect("/");
+                return ProcessFacebook(FacebookCallbackMode.AuthorizeWithFacebook);
 
                 // return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
             }
