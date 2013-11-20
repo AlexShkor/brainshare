@@ -1,0 +1,68 @@
+﻿@using Newtonsoft.Json
+@model List<string>
+
+<script type="text/javascript">
+    $(function () {
+
+        var model = new AddFromOzByBookModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+        ko.applyBindings(model);
+    });
+
+</script>
+
+<h4 style="padding-bottom: 0.5em;">Искать на OZ</h4>
+
+<form class="form-inline" data-bind="submit: submit">
+    <input type="text" data-bind="value: query" />
+    <button type="submit" class="btn btn-success" style="margin-left: 0.5em;">Искать</button>
+    <img style="width: 30px; height: 30px;" data-bind="visible: loading"  src="~/Images/loading.gif" />
+</form>
+
+<style>
+    .books .span3 {
+        margin-left: 0px;
+        margin-right: 20px;
+    }
+</style>
+<div class="row-fluid">
+
+    <div>
+        <table class="table table-condensed">
+            <tbody data-bind="foreach: items">
+                <tr>
+                    <td style="width: 128px;">
+
+                        <img data-bind="attr: { src: Image }" />
+                    </td>
+                    <td>
+                        <strong data-bind="text: Title"></strong>
+                    </td>
+                    <td>
+                        <span data-bind="foreach: Authors">
+                            <span data-bind="text: $data"></span>
+                        </span>
+                    </td>
+                  
+                    <td>
+                        <strong style="display: block" data-bind="text: Year"></strong>
+                    </td>
+                    <td style="width: 140px">
+                        <div class="well well-small">
+                            <button class="btn btn-primary btn-block" data-bind="visible: !Added(), click: $root.give">У меня есть</button>
+                            <button class="btn btn-success btn-block" data-bind="visible: !Added(), click: $root.take">Мне нужна</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="pagination" data-bind="visible: pages().length > 0">
+  <ul data-bind="foreach: pages" >
+      <li data-bind="css: {active: StartIndex() == $root.startIndex()}">
+          <a href="#" data-bind="text: Number, click: $root.goToPage"></a>
+      </li>
+  </ul>
+</div>

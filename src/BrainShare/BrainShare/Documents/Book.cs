@@ -28,6 +28,7 @@ namespace BrainShare.Documents
 
         public List<string> Authors { get; set; }
         public UserData UserData { get; set; }
+        public bool FromOzBy { get; set; }
 
         public Book()
         {

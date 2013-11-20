@@ -4,6 +4,9 @@ using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Security.Policy;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -67,6 +70,25 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
+        public ActionResult SearchOzBy()
+        {
+            var model = new List<string>();
+            Response.AddHeader("Access-Control-Allow-Origin", "http://oz.by/");
+            Response.AddHeader("Access-Control-Allow-Methods", "GET");
+            Response.AddHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            return View(model);
+        }
+
+        public async Task<string> DownloadString(string q, string page)
+        {
+            using (var client = new WebClient())
+            {
+                client.Encoding = Encoding.GetEncoding("KOI8-R");
+               var result= await client.DownloadStringTaskAsync("http://oz.by/search/?catalog_id=1101523&q=" + HttpUtility.UrlEncode(q,client.Encoding) + "&page=" + page);
+                return result;
+            }
+        }
+
         [GET("info/{id}")]
         [GET("info/wish/{wishBookId}")]
         public ActionResult Info(string id, string wishBookId)
@@ -118,14 +140,6 @@ namespace BrainShare.Controllers
 
         private void AdditionalBookValidate(EditBookViewModel model)
         {
-            if (model.ISBNs.Count == 0)
-            {
-                ModelState.AddModelError("ISBNs", "Должен быть указан хотябы один ISBN");
-            }
-            if (model.ISBNs.Any(x => !x.Value.HasValue()))
-            {
-                ModelState.AddModelError("ISBNs", "ISBN не может быть пустым");
-            }
             if (model.Authors.Count == 0)
             {
                 ModelState.AddModelError("Authors", "Должен быть указан хотябы один автор");
@@ -135,15 +149,18 @@ namespace BrainShare.Controllers
                 ModelState.AddModelError("Authors", "Автор не может быть пустой строкой");
             }
 
-            DateTime dt;
-            var parsed = DateTime.TryParseExact(model.PublishedDate,
-                                   EditBookViewModel.DateFormat,
-                                   EditBookViewModel.Culture,
-                                   DateTimeStyles.None,
-                                   out dt);
-            if (!parsed)
+            if (model.PublishedDate.HasValue())
             {
-                ModelState.AddModelError("PublishedDate", "У даты неправильный формат");
+                DateTime dt;
+                var parsed = DateTime.TryParseExact(model.PublishedDate,
+                    EditBookViewModel.DateFormat,
+                    EditBookViewModel.Culture,
+                    DateTimeStyles.None,
+                    out dt);
+                if (!parsed)
+                {
+                    ModelState.AddModelError("PublishedDate", "У даты неправильный формат");
+                }
             }
         }
 
@@ -239,6 +256,35 @@ namespace BrainShare.Controllers
                 SaveFeedAsync(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
             }
             return Json(new { doc.Id });
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        [POST("my/add/from-oz")]
+        public ActionResult AddToMyBooksFromOz(OzBookDto bookDto)
+        {
+            var user = _users.GetById(UserId);
+            var doc = bookDto.BuildDocument(user);
+            SaveFeedAsync(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
+            NotificationsHub.SendGenericText(UserId, "Книга добавлена",
+                string.Format("{0} добавлена в вашу книную полку", doc.Title));
+            _books.Save(doc);
+            return Json(new { Id = doc.Id });
+        }
+
+
+        [HttpPost]
+        [ValidateInput(false)]
+        [POST("wish/add/from-oz")]
+        public ActionResult AddToWishBooksFromOz(OzBookDto bookDto)
+        {
+            var user = _users.GetById(UserId);
+            var doc = bookDto.BuildDocument(user);
+            SaveFeedAsync(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
+            NotificationsHub.SendGenericText(UserId, "Книга добавлена в поиск",
+                string.Format("{0} добавлена в ваш список поиска", doc.Title));
+            _wishBooks.Save(doc);
+            return Json(new { Id = doc.Id });
         }
 
         [HttpGet]

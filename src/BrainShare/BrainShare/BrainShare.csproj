@@ -243,6 +243,7 @@
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ContainerConfigure.cs" />
+    <Compile Include="Controllers\OzBookDto.cs" />
     <Compile Include="Documents\Data\ActivityFeedItem.cs" />
     <Compile Include="Documents\Data\ActivityTypeEnum.cs" />
     <Compile Include="Documents\Data\AddressData.cs" />
@@ -284,6 +285,7 @@
     <Content Include="Content\imgAreaSelect\imgareaselect-deprecated.css" />
     <Content Include="Images\book-logo-placeholder.png" />
     <Content Include="Images\user-default-avatar.jpg" />
+    <Content Include="Scripts\custom\addfromOzBy.js" />
     <Content Include="Scripts\custom\allusers.js" />
     <Content Include="Scripts\custom\Books\EditBookViewModel.js" />
     <Content Include="Scripts\custom\counting.js" />
@@ -601,6 +603,7 @@
     <Content Include="Views\Profile\EditProfile.cshtml" />
     <Content Include="Views\Books\ViewExchangeHistory.cshtml" />
     <Content Include="Views\Home\BooksGifted.cshtml" />
+    <Content Include="Views\Books\SearchOzBY.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
