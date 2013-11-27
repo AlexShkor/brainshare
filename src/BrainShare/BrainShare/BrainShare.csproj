@@ -243,6 +243,7 @@
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ContainerConfigure.cs" />
+    <Compile Include="Facebook\Dto\FbUserMe.cs" />
     <Compile Include="Controllers\OzBookDto.cs" />
     <Compile Include="Documents\Data\ActivityFeedItem.cs" />
     <Compile Include="Documents\Data\ActivityTypeEnum.cs" />

@@ -13,6 +13,7 @@ using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Extensions;
 using BrainShare.Facebook;
+using BrainShare.Facebook.Dto;
 using BrainShare.Services;
 using BrainShare.Utilities;
 using BrainShare.ViewModels;
@@ -272,15 +273,15 @@ namespace BrainShare.Controllers
         private ActionResult ProcessFacebook(FacebookCallbackMode mode, string returnUrl = null)
         {
             _fb.AccessToken = Session[SessionKeys.FbAccessToken] as string;
-            dynamic fbUser = _fb.Get("me");
-            var facebookId = (string)fbUser.id;
+            var fbUser = _fb.Get<FbUserMe>("me");
+            var facebookId = fbUser.id;
 
             if (mode == FacebookCallbackMode.AuthorizeWithFacebook)
             {
                 var userByFacebookId = _users.GetByFacebookId(facebookId);
                 if (userByFacebookId == null)
                 {
-                    var address = new AddressData((string)fbUser.location.name);
+                    var address = new AddressData(fbUser.location.name);
                     var newUser = new User
                     {
                         Id = ObjectId.GenerateNewId().ToString(),
