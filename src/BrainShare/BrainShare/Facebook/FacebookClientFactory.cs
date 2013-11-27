@@ -1,7 +1,6 @@
-using System.Web;
 using Facebook;
 
-namespace BrainShare
+namespace BrainShare.Facebook
 {
     public class FacebookClientFactory
     {
