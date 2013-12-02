@@ -4,6 +4,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using BrainShare.Binders;
 using BrainShare.DependencyResolution;
 using Microsoft.AspNet.SignalR;
 using StructureMap;
@@ -31,6 +32,8 @@ namespace BrainShare
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            ModelBinders.Binders.Add(typeof(UnderscoreModelBinder), new UnderscoreModelBinder());
         }
 
         protected void Application_BeginRequest(Object sender, EventArgs e)

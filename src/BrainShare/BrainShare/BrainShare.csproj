@@ -241,8 +241,12 @@
     <Compile Include="Authentication\IUserProvider.cs" />
     <Compile Include="Authentication\UserIdentity.cs" />
     <Compile Include="Authentication\UserProvider.cs" />
+    <Compile Include="Binders\UnderscoreModelBinder.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ContainerConfigure.cs" />
+    <Compile Include="Controllers\PublicShellController.cs" />
+    <Compile Include="Documents\GoogleLocationDocument.cs" />
+    <Compile Include="Documents\PublicShell.cs" />
     <Compile Include="Facebook\Dto\FbUserMe.cs" />
     <Compile Include="Controllers\OzBookDto.cs" />
     <Compile Include="Documents\Data\ActivityFeedItem.cs" />
@@ -256,8 +260,10 @@
     <Compile Include="Facebook\FacebookFriend.cs" />
     <Compile Include="Mongo\FilterOrder.cs" />
     <Compile Include="Services\ExchangeHistoryService.cs" />
+    <Compile Include="Services\PublicShellService.cs" />
     <Compile Include="ViewModels\AllBooksViewModel.cs" />
     <Compile Include="ViewModels\BooksFilterModel.cs" />
+    <Compile Include="ViewModels\CreateShellViewModel.cs" />
     <Compile Include="ViewModels\EditBookViewModel.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="ViewModels\EditProfileViewModel.cs" />
@@ -265,6 +271,7 @@
     <Compile Include="ViewModels\MyProfileViewModel.cs" />
     <Compile Include="ViewModels\RequestAcceptedModel.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="ViewModels\ShellsViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Documents\CloudinaryImage.cs" />
     <Compile Include="Documents\Data\UserData.cs" />
@@ -605,6 +612,8 @@
     <Content Include="Views\Books\ViewExchangeHistory.cshtml" />
     <Content Include="Views\Home\BooksGifted.cshtml" />
     <Content Include="Views\Books\SearchOzBY.cshtml" />
+    <Content Include="Views\PublicShell\Index.cshtml" />
+    <Content Include="Views\PublicShell\CreateNew.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using MongoDB.Bson;
 using Newtonsoft.Json;
 
@@ -73,6 +74,27 @@ namespace BrainShare.ViewModels.Base
 
             Errors.Clear();
             SuccessMessage = successMessage;
+        }
+
+        public void AddModelStateErrors(IEnumerable<ModelError>errors, bool clearPreviouserrors = false)
+        {
+            if (clearPreviouserrors)
+            {
+                ClearErrors();
+            }
+          
+            foreach (var modelError in errors)
+            {
+                Errors.Add(new ValidationError { ErrorMessage = modelError.ErrorMessage });
+            }
+        }
+
+        public void ClearErrors()
+        {
+            if (Errors != null)
+            {
+                Errors.Clear();
+            }
         }
     }
 }

@@ -1,0 +1,119 @@
+﻿@{
+    ViewBag.Title = "CreateNew";
+    //Layout = "~/Views/Profile/_ProfileLayout.cshtml";
+}
+
+@*<h2>Create new shell  <a class="btn btn-success" href="/Shell/Index">Back</a></h2>
+
+
+<style>
+    h2 a {
+        float: right;   
+    }
+</style>*@
+
+@using Newtonsoft.Json
+@model BrainShare.ViewModels.CreateShellViewModel
+
+@{
+    ViewBag.Title = "Редактировать информацию";
+}
+
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+<script src="~/Scripts/jquery.geocomplete.min.js"></script>
+
+<!-- ko with: model-->
+<form style="padding-top: 1em;" class="form-horizontal" data-bind="submit: $root.save">
+
+    @Html.Partial("KnockoutSummary")
+
+    <div class="span6">
+       <div class="control-group">
+            <label class="control-label">
+                Choose your location using google map
+            </label>
+            <div class="controls">
+                <input style="margin-top: 0.5em;" id="geocomplete" placeholder="введите город" name="original_address" type="text" data-bind="value: GoogleLocationModel.Formatted_Address" />
+            </div>
+        </div>
+      
+        <div class="control-group">
+            <label class="control-label" for="Name">
+                Name
+            </label>
+            <div class="controls">
+                <input type="text" data-bind="value: Name" id="Name">
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="LocalPath">
+                Local path
+            </label>
+            <div class="controls">
+                <input type="text" data-bind="value: LocalPath" id="LocalPath">
+            </div>
+        </div>
+       
+
+    </div>
+    <div class="span5">
+        <div class="thumbnail">
+            <div class="map_canvas" style="height: 400px">
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+            Готово
+        </button>
+        @Html.ActionLink("Отмена", "Index", "Profile", null, new { @class = "btn btn-danger" })
+    </div>
+</form>
+<!-- /ko -->
+
+<script type="text/javascript">
+    
+    function EditProfileModel (data, submitUrl) {
+        var self = this;
+        console.log(data);
+        this.model = ko.mapping.fromJS(data);
+       
+        this.save = function () {
+            
+            sendModel(submitUrl,self.model, function (model) {
+                console.log(model.Errors);
+                if (model.Errors.length == 0) {
+                    window.location.href = "/Shell/Index";
+                }
+            });          
+        };
+    }
+    
+
+    $(function () {
+
+        var model = new EditProfileModel(@Html.Raw(JsonConvert.SerializeObject(Model)), "/shell/create-new");
+        ko.applyBindings(model);
+
+        $("#geocomplete").geocomplete({
+            map: '.map_canvas',
+            details: "#locationValues",
+            location: '@Html.Raw(Model.GoogleLocationModel.Formatted_Address)'
+        }).bind("geocode:result", function(event, result) {
+            ko.mapping.fromJS(result,{},model.currentGeoLocation);
+        });
+    });
+
+</script>
+
+<style>
+    input {
+        width: 280px;   
+    }
+</style>
+
+
+
