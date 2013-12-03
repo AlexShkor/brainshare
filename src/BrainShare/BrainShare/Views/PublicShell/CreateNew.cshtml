@@ -30,16 +30,17 @@
     <div class="span6">
        <div class="control-group">
             <label class="control-label">
-                Choose your location using google map
+              Выберите ваше положение на карте
             </label>
             <div class="controls">
-                <input style="margin-top: 0.5em;" id="geocomplete" placeholder="введите город" name="original_address" type="text" data-bind="value: GoogleLocationModel.Formatted_Address" />
+                <input style="margin-top: 0.5em;" id="geocomplete" placeholder="введите город" name="original_address" type="text" data-bind="value: FormattedAddress()" />
+                <span style="color:red;font-size: 18px;">&nbsp;*</span>
             </div>
         </div>
       
         <div class="control-group">
             <label class="control-label" for="Name">
-                Name
+                Имя полки 
             </label>
             <div class="controls">
                 <input type="text" data-bind="value: Name" id="Name">
@@ -48,13 +49,20 @@
         
         <div class="control-group">
             <label class="control-label" for="LocalPath">
-                Local path
+                Уточните положение 
             </label>
             <div class="controls">
                 <input type="text" data-bind="value: LocalPath" id="LocalPath">
             </div>
         </div>
-       
+        <div id="locationValues" class="hide">
+            <input id="route" name="route" type="hidden">
+            <input type="hidden" name="lat" id="lat"/>
+            <input type="hidden" name="lng" id="lng"/>
+            <input id="street_number" name="street_number" type="hidden">
+            <input id="formatted_address" name="formatted_address" type="hidden" >     
+            <input id="country" name="country" type="hidden" data-geo="street_number">
+        </div>
 
     </div>
     <div class="span5">
@@ -78,17 +86,25 @@
     
     function EditProfileModel (data, submitUrl) {
         var self = this;
-        console.log(data);
         this.model = ko.mapping.fromJS(data);
        
         this.save = function () {
-            
+            console.log(ko.mapping.toJS(self.model));
             sendModel(submitUrl,self.model, function (model) {
-                console.log(model.Errors);
+   
                 if (model.Errors.length == 0) {
                     window.location.href = "/Shell/Index";
                 }
             });          
+        };
+
+        this.updateResults = function() {
+            self.model.Lng($("#lng").val());
+            self.model.Lat($("#lat").val());
+            self.model.Route($("#route").val());
+            self.model.Country($("#country").val());
+            self.model.StreetNumber($("#street_number").val());
+            self.model.FormattedAddress($("#formatted_address").val());
         };
     }
     
@@ -101,10 +117,11 @@
         $("#geocomplete").geocomplete({
             map: '.map_canvas',
             details: "#locationValues",
-            location: '@Html.Raw(Model.GoogleLocationModel.Formatted_Address)'
+            location: '@Html.Raw(Model.FormattedAddress)'
         }).bind("geocode:result", function(event, result) {
-            ko.mapping.fromJS(result,{},model.currentGeoLocation);
+            model.updateResults();
         });
+    
     });
 
 </script>

@@ -7,14 +7,13 @@ namespace BrainShare.Documents
     {
         public GoogleLocationDocument()
         {
-            Address_Components = new List<AddressComponent>();
+            AddressComponents = new List<AddressComponent>();
             Types = new List<string>();
             Geometry = new Geometry();
         }
-
-        public List<AddressComponent> Address_Components { get; set; }
+        public List<AddressComponent> AddressComponents { get; set; }
         public List<string> Types { get; set; }
-        public string Formatted_Address { get; set; }
+        public string FormattedAddress { get; set; }
         public Geometry Geometry { get; set; }
     }
 
@@ -24,9 +23,8 @@ namespace BrainShare.Documents
         {
             Types = new List<string>();
         }
-        public string Long_Name { get; set; }
-
-        public string Short_Name { get; set; }
+        public string LongName { get; set; }
+        public string ShortName { get; set; }
         public List<string> Types { get; set; } 
     }
 
@@ -39,19 +37,18 @@ namespace BrainShare.Documents
         }
         public ViewPort ViewPort { get; set; }
         public Location Location { get; set; }
-        public string Location_Type { get; set; }
+        public string LocationType { get; set; }
     }
 
     public class ViewPort
     {
         public ViewPort()
         {
-            North_East = new Location();
-            South_West = new Location();
+            NorthEast = new Location();
+            SouthWest = new Location();
         }
-
-        public Location North_East { get; set; }
-        public Location South_West { get; set; }
+        public Location NorthEast { get; set; }
+        public Location SouthWest { get; set; }
     }
 
     public class Location

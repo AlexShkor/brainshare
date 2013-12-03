@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
-using BrainShare.Binders;
 using BrainShare.Documents;
 using BrainShare.Services;
 using BrainShare.ViewModels;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace BrainShare.Controllers
 {
@@ -43,6 +40,7 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
+
         [POST("create-new")]
         public ActionResult CreateNew(CreateShellViewModel model, string status)
         {
@@ -57,10 +55,15 @@ namespace BrainShare.Controllers
                     {
                         Name = model.Name,
                         LocalPath = model.LocalPath,
-                        GoogleLocationDocument = model.GoogleLocationModel,
                         Created = DateTime.UtcNow,
                         Id = ObjectId.GenerateNewId().ToString(),
-                        CreatorId = UserId
+                        CreatorId = UserId,
+                        Lat = model.Lat,
+                        Lng = model.Lng,
+                        FormattedAddress = model.FormattedAddress,
+                        Country = model.Country,
+                        Route = model.Route,
+                        StreetNumber = model.StreetNumber
                     });
             }
             return Json(model);

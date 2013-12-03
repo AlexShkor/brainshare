@@ -241,7 +241,6 @@
     <Compile Include="Authentication\IUserProvider.cs" />
     <Compile Include="Authentication\UserIdentity.cs" />
     <Compile Include="Authentication\UserProvider.cs" />
-    <Compile Include="Binders\UnderscoreModelBinder.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ContainerConfigure.cs" />
     <Compile Include="Controllers\PublicShellController.cs" />
@@ -258,6 +257,7 @@
     <Compile Include="Documents\Data\Message.cs" />
     <Compile Include="Domain\ExchangeService.cs" />
     <Compile Include="Facebook\FacebookFriend.cs" />
+    <Compile Include="GoogleDto\GoogleBookDto.cs" />
     <Compile Include="Mongo\FilterOrder.cs" />
     <Compile Include="Services\ExchangeHistoryService.cs" />
     <Compile Include="Services\PublicShellService.cs" />
@@ -281,7 +281,6 @@
     <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="Facebook\FacebookSelectorViewModel.cs" />
     <Compile Include="Facebook\GetFacebookTokenMode.cs" />
-    <Compile Include="GoogleDto\GoogleBookDto.cs" />
     <Compile Include="Hubs\NotificationsHub.cs" />
     <Compile Include="Hubs\ThreadHub.cs" />
     <Content Include="Content\imgAreaSelect\border-anim-h.gif" />
@@ -531,6 +530,7 @@
     <Content Include="Scripts\pnotify-1.2.0\use for pines style icons\jquery.pnotify.default.icons.css" />
     <Content Include="Scripts\sammy-0.7.4.js" />
     <Content Include="Scripts\sammy-0.7.4.min.js" />
+    <Content Include="Scripts\underscore.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

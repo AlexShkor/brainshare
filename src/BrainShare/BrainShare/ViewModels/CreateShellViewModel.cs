@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using BrainShare.Documents;
 using BrainShare.ViewModels.Base;
 
 namespace BrainShare.ViewModels
@@ -8,21 +7,26 @@ namespace BrainShare.ViewModels
     {
         public CreateShellViewModel()
         {
-            GoogleLocationModel = new GoogleLocationDocument();
+
         }
 
-        public CreateShellViewModel(string formattedAddress):this()
+        public CreateShellViewModel(string formattedAddress)
         {
-            GoogleLocationModel.Formatted_Address = formattedAddress;
+            FormattedAddress = formattedAddress;
         }
+        public string FormattedAddress { get; set; }
 
-        [Required(ErrorMessage = "Введите название")]
+        [Required(ErrorMessage = "Пожалуйста, укажите улицу")]
+        public string Route { get; set; }
+        [Required(ErrorMessage = "Пожалуйста, укажите дом")]
+        public string StreetNumber { get; set; }
+        [Required(ErrorMessage = "Пожалуйста, укажите страну")]
+        public string Country { get; set; }
+
+        public string Lng { get; set; }
+        public string Lat { get; set; }
+
         public string Name { get; set; }
-
-        [Required(ErrorMessage = "Введите точное расположение в здании")]
-        public string LocalPath { get; set; }
-
-        [Required(ErrorMessage = "сервисы google не отвечают. Попробуйте позже")]
-        public GoogleLocationDocument GoogleLocationModel { get; set; }
+        public string LocalPath { get; set; }    
     }
 }
