@@ -243,6 +243,8 @@
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ContainerConfigure.cs" />
+    <Compile Include="Documents\Data\ShellAddressData.cs" />
+    <Compile Include="Documents\PublicShell.cs" />
     <Compile Include="Facebook\Dto\FbUserMe.cs" />
     <Compile Include="Controllers\OzBookDto.cs" />
     <Compile Include="Documents\Data\ActivityFeedItem.cs" />
@@ -254,10 +256,15 @@
     <Compile Include="Documents\Data\Message.cs" />
     <Compile Include="Domain\ExchangeService.cs" />
     <Compile Include="Facebook\FacebookFriend.cs" />
+    <Compile Include="GoogleDto\GoogleBookDto.cs" />
+    <Compile Include="Infostructure\Location.cs" />
     <Compile Include="Mongo\FilterOrder.cs" />
     <Compile Include="Services\ExchangeHistoryService.cs" />
+    <Compile Include="Services\ShellUserService.cs" />
+    <Compile Include="Utilities\Mapper.cs" />
     <Compile Include="ViewModels\AllBooksViewModel.cs" />
     <Compile Include="ViewModels\BooksFilterModel.cs" />
+    <Compile Include="ViewModels\CreateShellViewModel.cs" />
     <Compile Include="ViewModels\EditBookViewModel.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="ViewModels\EditProfileViewModel.cs" />
@@ -274,7 +281,6 @@
     <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="Facebook\FacebookSelectorViewModel.cs" />
     <Compile Include="Facebook\GetFacebookTokenMode.cs" />
-    <Compile Include="GoogleDto\GoogleBookDto.cs" />
     <Compile Include="Hubs\NotificationsHub.cs" />
     <Compile Include="Hubs\ThreadHub.cs" />
     <Content Include="Content\imgAreaSelect\border-anim-h.gif" />
@@ -524,6 +530,7 @@
     <Content Include="Scripts\pnotify-1.2.0\use for pines style icons\jquery.pnotify.default.icons.css" />
     <Content Include="Scripts\sammy-0.7.4.js" />
     <Content Include="Scripts\sammy-0.7.4.min.js" />
+    <Content Include="Scripts\underscore.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -605,6 +612,9 @@
     <Content Include="Views\Books\ViewExchangeHistory.cshtml" />
     <Content Include="Views\Home\BooksGifted.cshtml" />
     <Content Include="Views\Books\SearchOzBY.cshtml" />
+    <Content Include="Views\PublicShell\Index.cshtml" />
+    <Content Include="Views\PublicShell\CreateNew.cshtml" />
+    <Content Include="Views\User\RegisterAsBookshell.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

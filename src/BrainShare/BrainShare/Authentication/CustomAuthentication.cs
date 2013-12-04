@@ -7,16 +7,23 @@ using System.Web.Security;
 using BrainShare.Documents;
 using BrainShare.Mongo;
 using BrainShare.Services;
+using BrainShare.Utilities;
 
 namespace BrainShare.Authentication
 {
     public class CustomAuthentication : IAuthentication
     {
         private readonly UsersService _users;
+        private readonly ShellUserService _shellUsers;
 
-        public CustomAuthentication(UsersService users)
+        private const string ShellUserFlag = "SHELL_USER";
+
+  
+
+        public CustomAuthentication(UsersService users,ShellUserService shellUsers)
         {
             _users = users;
+            _shellUsers = shellUsers;
         }
 
         private const string CookieName = "__AUTH_COOKIE";
@@ -30,9 +37,17 @@ namespace BrainShare.Authentication
         public User Login(string email, string password, bool isPersistent)
         {
             var retUser = _users.GetByCredentials(email, password);
-            if (retUser != null)
+
+            if (retUser == null)
             {
-                CreateCookie(email, isPersistent);
+                var shellUser = _shellUsers.GetByCredentials(email, password);
+
+                if (shellUser == null)
+                {
+                    CreateCookie(email, isPersistent);
+                }
+
+                retUser = shellUser.MapShellUser();
             }
 
             return retUser;
@@ -49,7 +64,7 @@ namespace BrainShare.Authentication
             return retUser;
         }
 
-        private void CreateCookie(string email, bool isPersistent = false)
+        private void CreateCookie(string email, bool isPersistent = false, string userData = "")
         {
             var ticket = new FormsAuthenticationTicket(
                 1,
@@ -57,7 +72,7 @@ namespace BrainShare.Authentication
                 DateTime.Now,
                 DateTime.Now.Add(FormsAuthentication.Timeout),
                 isPersistent,
-                string.Empty,
+                userData,
                 FormsAuthentication.FormsCookiePath);
 
             // Encrypt ticket
