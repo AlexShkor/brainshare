@@ -47,27 +47,27 @@
         </div>
         
              <div class="control-group">
-                <label class="control-label" for="Email">
+                <label class="control-label">
                     e-mail
                 </label>
-                <div class="controls">
-                    @Html.TextBox("Email", Model.Email, new { id = "Email" })
-                </div>
+                 <div class="controls">
+                     <input type="text" data-bind="value:Email"/>
+                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="Password">
+                <label class="control-label">
                     Пароль
                 </label>
                 <div class="controls">
-                    @Html.Password("Password", Model.Password, new { id = "Password" })
+                     <input type="password" data-bind="value:Password"/>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="ConfirmPassword">
+                <label class="control-label" >
                     Подтвердите пароль
                 </label>
                 <div class="controls">
-                    @Html.Password("ConfirmPassword", Model.ConfirmPassword, new { id = "ConfirmPassword" })
+                      <input type="password" data-bind="value:ConfirmPassword"/>
                 </div>
             </div>
         <div id="locationValues" class="hide">
@@ -76,7 +76,7 @@
             <input type="hidden" name="lng" id="lng"/>
             <input id="street_number" name="street_number" type="hidden">
             <input id="formatted_address" name="formatted_address" type="hidden" >     
-            <input id="country" name="country" type="hidden" data-geo="street_number">
+            <input id="country" name="country" type="hidden">
         </div>
 
     </div>
@@ -99,7 +99,7 @@
 
 <script type="text/javascript">
     
-    function EditProfileModel (data, submitUrl) {
+    function RegisterAsShellModel (data, submitUrl) {
         var self = this;
         this.model = ko.mapping.fromJS(data);
        
@@ -108,7 +108,7 @@
             sendModel(submitUrl,self.model, function (model) {
    
                 if (model.Errors.length == 0) {
-                    window.location.href = "/";
+                    window.location.href = "/User/Login";
                 }
             });          
         };
@@ -126,7 +126,7 @@
 
     $(function () {
 
-        var model = new EditProfileModel(@Html.Raw(JsonConvert.SerializeObject(Model)), "/user/RegisterAsBookshell");
+        var model = new RegisterAsShellModel(@Html.Raw(JsonConvert.SerializeObject(Model)), "/user/RegisterAsBookshell");
         ko.applyBindings(model);
 
         $("#geocomplete").geocomplete({

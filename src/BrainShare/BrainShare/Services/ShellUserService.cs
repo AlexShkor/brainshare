@@ -11,9 +11,11 @@ namespace BrainShare.Services
         {
         }
 
-        public IEnumerable<ShellUser> GetUserShells(string userId)
+        public ShellUser GetByCredentials(string email, string password)
         {
-            return null; //Items.Find(Query<PublicShell>.EQ(s => s.CreatorId, userId));
+            return
+                Items.FindOne(Query.And(Query<ShellUser>.EQ(x => x.Email, email),
+                                        Query<ShellUser>.EQ(x => x.Password, password)));
         }
 
         protected override MongoDB.Driver.MongoCollection<ShellUser> Items

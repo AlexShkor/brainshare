@@ -243,7 +243,6 @@
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ContainerConfigure.cs" />
-    <Compile Include="Controllers\PublicShellController.cs" />
     <Compile Include="Documents\Data\ShellAddressData.cs" />
     <Compile Include="Documents\PublicShell.cs" />
     <Compile Include="Facebook\Dto\FbUserMe.cs" />
@@ -262,6 +261,7 @@
     <Compile Include="Mongo\FilterOrder.cs" />
     <Compile Include="Services\ExchangeHistoryService.cs" />
     <Compile Include="Services\ShellUserService.cs" />
+    <Compile Include="Utilities\Mapper.cs" />
     <Compile Include="ViewModels\AllBooksViewModel.cs" />
     <Compile Include="ViewModels\BooksFilterModel.cs" />
     <Compile Include="ViewModels\CreateShellViewModel.cs" />

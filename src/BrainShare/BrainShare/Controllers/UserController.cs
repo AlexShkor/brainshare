@@ -140,6 +140,7 @@ namespace BrainShare.Controllers
             }
             else
             {
+                model.ClearErrors();
                 var anyUser = _users.GetUserByEmail(model.Email);
                 if (anyUser == null)
                 {
@@ -163,7 +164,7 @@ namespace BrainShare.Controllers
 
 
                     SendMailAsync(user);
-                    return RedirectToAction("Login", "User");
+                    return Json(model);
                 }
                 else
                 {

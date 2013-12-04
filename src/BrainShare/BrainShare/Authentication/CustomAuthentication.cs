@@ -7,16 +7,19 @@ using System.Web.Security;
 using BrainShare.Documents;
 using BrainShare.Mongo;
 using BrainShare.Services;
+using BrainShare.Utilities;
 
 namespace BrainShare.Authentication
 {
     public class CustomAuthentication : IAuthentication
     {
         private readonly UsersService _users;
+        private readonly ShellUserService _shellUsers;
 
-        public CustomAuthentication(UsersService users)
+        public CustomAuthentication(UsersService users,ShellUserService shellUsers)
         {
             _users = users;
+            _shellUsers = shellUsers;
         }
 
         private const string CookieName = "__AUTH_COOKIE";
@@ -32,7 +35,14 @@ namespace BrainShare.Authentication
             var retUser = _users.GetByCredentials(email, password);
             if (retUser != null)
             {
-                CreateCookie(email, isPersistent);
+                var shellUser = _shellUsers.GetByCredentials(email, password);
+
+                if (shellUser == null)
+                {
+                    CreateCookie(email, isPersistent);
+                    return null;
+                }
+                retUser = shellUser.MapShellUser();
             }
 
             return retUser;
