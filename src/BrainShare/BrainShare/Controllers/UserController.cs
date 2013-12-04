@@ -11,9 +11,11 @@ using System.Web.Security;
 using AttributeRouting.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Documents;
+using BrainShare.Documents.Data;
 using BrainShare.Extensions;
 using BrainShare.Facebook;
 using BrainShare.Facebook.Dto;
+using BrainShare.Infostructure;
 using BrainShare.Services;
 using BrainShare.Utilities;
 using BrainShare.ViewModels;
@@ -30,6 +32,7 @@ namespace BrainShare.Controllers
         private readonly Settings _settings;
         public IAuthentication Auth { get; set; }
         private readonly FacebookClient _fb;
+        private readonly ShellUserService _shellUserService;
 
         public string FacebookCallbackUri
         {
@@ -39,10 +42,11 @@ namespace BrainShare.Controllers
             }
         }
 
-        public UserController(IAuthentication auth, UsersService users, FacebookClientFactory fbFactory, Settings settings)
+        public UserController(IAuthentication auth, UsersService users,ShellUserService shellUserService, FacebookClientFactory  fbFactory, Settings settings)
         {
             _users = users;
             _settings = settings;
+            _shellUserService = shellUserService;
             Auth = auth;
             _fb = fbFactory.GetClient();
         }
@@ -127,7 +131,66 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult RegisterAsBookshell(CreateShellViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.AddModelStateErrors(ModelState.Keys.SelectMany(key => ModelState[key].Errors), true);
+            }
+            else
+            {
+                var anyUser = _users.GetUserByEmail(model.Email);
+                if (anyUser == null)
+                {
+                    var user = new ShellUser
+                        {
+                            Name = model.Name,
+                            ShellAddressData = new ShellAddressData
+                                {
+                                    Country = model.Country,
+                                    Formatted = model.FormattedAddress,
+                                    Location = new Location(model.Lat, model.Lng),
+                                    LocalPath = model.LocalPath,
+                                    Route = model.Route,
+                                    StreetNumber = model.StreetNumber
+                                },
+                            Created = DateTime.UtcNow,
+                            Id = ObjectId.GenerateNewId().ToString(),
+                        };
+
+                    _shellUserService.Insert(user);
+
+
+                    SendMailAsync(user);
+                    return RedirectToAction("Login", "User");
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
+                }
+            }
+      
+            return Json(model);
+        }
+
+        [HttpGet]
+        public ActionResult RegisterAsBookshell()
+        {
+            return View(new CreateShellViewModel());
+        }
+
         private void SendMailAsync(User newUser)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                var mailer = new MailService();
+                var welcomeEmail = mailer.SendWelcomeMessage(newUser);
+                welcomeEmail.Deliver();
+            });
+        }
+
+        private void SendMailAsync(ShellUser newUser)
         {
             Task.Factory.StartNew(() =>
             {

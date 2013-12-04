@@ -4,6 +4,8 @@ using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using BrainShare.Documents;
+using BrainShare.Documents.Data;
+using BrainShare.Infostructure;
 using BrainShare.Services;
 using BrainShare.ViewModels;
 using MongoDB.Bson;
@@ -13,23 +15,13 @@ namespace BrainShare.Controllers
     [RoutePrefix("shell")]
     public class PublicShellController : BaseController
     {
-        private readonly PublicShellService _shellService;
+        private readonly ShellUserService _shellUserService;
         private readonly UsersService _usersService;
 
-        public PublicShellController(PublicShellService shellService,UsersService usersService)
+        public PublicShellController(ShellUserService shellUserService,UsersService usersService)
         {
-            _shellService = shellService;
+            _shellUserService = shellUserService;
             _usersService = usersService;
-        }
-
-        [GET("Index")]
-        public ActionResult Index(string userId)
-        {
-            var id = userId ?? UserId;
-            var shells = _shellService.GetUserShells(id);
-            var shellsViewModel = new ShellsViewModel(shells);
-
-            return View(shellsViewModel);
         }
 
         [GET("create-new")]
@@ -51,19 +43,21 @@ namespace BrainShare.Controllers
             else
             {
                 model.ClearErrors();
-                _shellService.Insert(new PublicShell
+                _shellUserService.Insert(new ShellUser
                     {
                         Name = model.Name,
-                        LocalPath = model.LocalPath,
+                        ShellAddressData = new ShellAddressData
+                            {
+                                Country = model.Country,
+                                Formatted = model.FormattedAddress,
+                                Location = new Location(model.Lat,model.Lng),
+                                LocalPath = model.LocalPath,
+                                Route = model.Route,
+                                StreetNumber = model.StreetNumber
+                            },
                         Created = DateTime.UtcNow,
                         Id = ObjectId.GenerateNewId().ToString(),
-                        CreatorId = UserId,
-                        Lat = model.Lat,
-                        Lng = model.Lng,
-                        FormattedAddress = model.FormattedAddress,
-                        Country = model.Country,
-                        Route = model.Route,
-                        StreetNumber = model.StreetNumber
+
                     });
             }
             return Json(model);

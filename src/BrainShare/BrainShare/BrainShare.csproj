@@ -244,7 +244,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="ContainerConfigure.cs" />
     <Compile Include="Controllers\PublicShellController.cs" />
-    <Compile Include="Documents\GoogleLocationDocument.cs" />
+    <Compile Include="Documents\Data\ShellAddressData.cs" />
     <Compile Include="Documents\PublicShell.cs" />
     <Compile Include="Facebook\Dto\FbUserMe.cs" />
     <Compile Include="Controllers\OzBookDto.cs" />
@@ -258,9 +258,10 @@
     <Compile Include="Domain\ExchangeService.cs" />
     <Compile Include="Facebook\FacebookFriend.cs" />
     <Compile Include="GoogleDto\GoogleBookDto.cs" />
+    <Compile Include="Infostructure\Location.cs" />
     <Compile Include="Mongo\FilterOrder.cs" />
     <Compile Include="Services\ExchangeHistoryService.cs" />
-    <Compile Include="Services\PublicShellService.cs" />
+    <Compile Include="Services\ShellUserService.cs" />
     <Compile Include="ViewModels\AllBooksViewModel.cs" />
     <Compile Include="ViewModels\BooksFilterModel.cs" />
     <Compile Include="ViewModels\CreateShellViewModel.cs" />
@@ -271,7 +272,6 @@
     <Compile Include="ViewModels\MyProfileViewModel.cs" />
     <Compile Include="ViewModels\RequestAcceptedModel.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="ViewModels\ShellsViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Documents\CloudinaryImage.cs" />
     <Compile Include="Documents\Data\UserData.cs" />
@@ -614,6 +614,7 @@
     <Content Include="Views\Books\SearchOzBY.cshtml" />
     <Content Include="Views\PublicShell\Index.cshtml" />
     <Content Include="Views\PublicShell\CreateNew.cshtml" />
+    <Content Include="Views\User\RegisterAsBookshell.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

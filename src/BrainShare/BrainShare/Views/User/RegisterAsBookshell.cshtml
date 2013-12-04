@@ -1,9 +1,6 @@
 ﻿@{
-    ViewBag.Title = "CreateNew";
-    //Layout = "~/Views/Profile/_ProfileLayout.cshtml";
+    ViewBag.Title = "RegisterAsBookshell";
 }
-
-
 
 @using Newtonsoft.Json
 @model BrainShare.ViewModels.CreateShellViewModel
@@ -48,6 +45,31 @@
                 <input type="text" data-bind="value: LocalPath" id="LocalPath">
             </div>
         </div>
+        
+             <div class="control-group">
+                <label class="control-label" for="Email">
+                    e-mail
+                </label>
+                <div class="controls">
+                    @Html.TextBox("Email", Model.Email, new { id = "Email" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Password">
+                    Пароль
+                </label>
+                <div class="controls">
+                    @Html.Password("Password", Model.Password, new { id = "Password" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="ConfirmPassword">
+                    Подтвердите пароль
+                </label>
+                <div class="controls">
+                    @Html.Password("ConfirmPassword", Model.ConfirmPassword, new { id = "ConfirmPassword" })
+                </div>
+            </div>
         <div id="locationValues" class="hide">
             <input id="route" name="route" type="hidden">
             <input type="hidden" name="lat" id="lat"/>
@@ -86,7 +108,7 @@
             sendModel(submitUrl,self.model, function (model) {
    
                 if (model.Errors.length == 0) {
-                    window.location.href = "/Shell/Index";
+                    window.location.href = "/";
                 }
             });          
         };
@@ -104,7 +126,7 @@
 
     $(function () {
 
-        var model = new EditProfileModel(@Html.Raw(JsonConvert.SerializeObject(Model)), "/shell/create-new");
+        var model = new EditProfileModel(@Html.Raw(JsonConvert.SerializeObject(Model)), "/user/RegisterAsBookshell");
         ko.applyBindings(model);
 
         $("#geocomplete").geocomplete({
@@ -124,6 +146,4 @@
         width: 280px;   
     }
 </style>
-
-
 

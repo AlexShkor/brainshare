@@ -20,6 +20,14 @@ namespace BrainShare.Services
             return Email("WelcomeMessage", newUser);
         }
 
+        public EmailResult SendWelcomeMessage(ShellUser newUser)
+        {
+            To.Add(newUser.Email);
+            Subject = "BrainShare : Благодарим за регистрацию на BrainShare!";
+            MessageEncoding = Encoding.UTF8;
+            return Email("WelcomeMessage", newUser);
+        }
+
         public EmailResult SendRequestMessage(User currentUser, User requestedUser, Book book)
         {
             var requestViewModel = new RequestViewModel()
