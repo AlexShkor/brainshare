@@ -27,27 +27,40 @@ namespace BrainShare.Controllers
         private readonly BooksService _books;
         private readonly WishBooksService _wishBooks;
         private readonly UsersService _users;
+        private readonly ShellUserService _shellUserService;
         private readonly ThreadsService _threads;
         private readonly CloudinaryImagesService _cloudinaryImages;
-        private readonly ICommonUserService _commonUserService;
 
-        public ProfileController(BooksService books, UsersService users, ICommonUserService commonUserService, ThreadsService threads, WishBooksService whishBooks, CloudinaryImagesService cloudinaryImages)
+        public ProfileController(BooksService books, UsersService users, ShellUserService shellUserService, ThreadsService threads, WishBooksService whishBooks, CloudinaryImagesService cloudinaryImages)
         {
             _books = books;
             _users = users;
             _threads = threads;
             _wishBooks = whishBooks;
             _cloudinaryImages = cloudinaryImages;
-            _commonUserService = commonUserService;
+            _shellUserService = shellUserService;
         }
 
         public ActionResult Index()
         {
-            var user = _users.GetById(UserId);
-            Title(user.FullName + " мой аккаунт");
-            var model = new MyProfileViewModel(user);
+            if (UserOriginalType == typeof (User))
+            {
+                var user = _users.GetById(UserId);
+                Title(user.FullName + " мой аккаунт");
 
-            return View(model);
+                var model = new MyProfileViewModel(user);
+                return View(model);
+            }
+            if (UserOriginalType == typeof (ShellUser))
+            {
+                var shellUser = _shellUserService.GetById(UserId);
+                Title(shellUser.Name);
+                var model = new MyShellProfileViewModel(shellUser);
+
+                return View("ShellProfileViewModel",model);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]

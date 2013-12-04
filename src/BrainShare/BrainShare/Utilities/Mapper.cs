@@ -5,18 +5,6 @@ namespace BrainShare.Utilities
 {
     public static class Mapper
     {
-        //Todo: implement necessary mappings when it will be need
-        //public static User MapShellUser(this ShellUser shellUser)
-        //{
-        //    if (shellUser == null) 
-        //        return null;
-
-        //    return new User
-        //        {
-        //            Email = shellUser.Email
-        //        };
-        //}
-
         public static CommonUser MapShellUser(this ShellUser shellUser)
         {
             if (shellUser == null)
@@ -27,6 +15,8 @@ namespace BrainShare.Utilities
                 Email = shellUser.Email,
                 Id = shellUser.Id,
                 IsShell = true,
+                OriginalType = typeof(ShellUser),
+                FullName = shellUser.Name
             };
         }
 
@@ -40,6 +30,8 @@ namespace BrainShare.Utilities
                 Email = user.Email,
                 Id = user.Id,
                 IsShell = false,
+                OriginalType = typeof(User),
+                FullName = user.FullName
             };
         }
 

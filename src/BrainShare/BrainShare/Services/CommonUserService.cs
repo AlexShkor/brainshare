@@ -35,5 +35,18 @@ namespace BrainShare.Services
             var result = _usersService.GetById(id).MapUser();
             return result ?? _shellUserService.GetById(id).MapShellUser();
         }
+
+        public object GetUserByType(Type userType, string Id)
+        {
+            if (typeof (UsersService).Equals(userType))
+            {
+                return _usersService.GetById(Id);
+            }
+            if (typeof (ShellUserService).Equals(userType))
+            {
+                return _shellUserService.GetById(Id);
+            }
+            return null;
+        }
     }
 }

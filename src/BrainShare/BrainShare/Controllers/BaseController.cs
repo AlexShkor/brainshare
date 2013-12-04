@@ -18,6 +18,14 @@ namespace BrainShare.Controllers
             }
         }
 
+        public Type UserOriginalType
+        {
+            get
+            {
+                return (((UserIdentity)User.Identity).User ?? new CommonUser()).OriginalType;
+            }
+        }
+
         protected void Title(string title)
         {
             ViewBag.Title = title;

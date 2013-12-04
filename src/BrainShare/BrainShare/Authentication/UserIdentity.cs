@@ -17,7 +17,7 @@ namespace BrainShare.Authentication
         {
             get
             {
-                return typeof(User).ToString();
+                return typeof(CommonUser).ToString();
             }
         }
 

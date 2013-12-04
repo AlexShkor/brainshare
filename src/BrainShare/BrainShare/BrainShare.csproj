@@ -232,7 +232,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authentication\AuthHttpModule.cs" />
-    <Compile Include="Authentication\ICommonUser.cs" />
+    <Compile Include="Authentication\CommonUser.cs" />
     <Compile Include="Authentication\CustomAuthentication.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -267,6 +267,7 @@
     <Compile Include="Utilities\Mapper.cs" />
     <Compile Include="ViewModels\AllBooksViewModel.cs" />
     <Compile Include="ViewModels\BooksFilterModel.cs" />
+    <Compile Include="ViewModels\MyShellProfileViewModel.cs" />
     <Compile Include="ViewModels\CreateShellViewModel.cs" />
     <Compile Include="ViewModels\EditBookViewModel.cs" />
     <Compile Include="Controllers\HelpController.cs" />
@@ -618,6 +619,7 @@
     <Content Include="Views\PublicShell\Index.cshtml" />
     <Content Include="Views\PublicShell\CreateNew.cshtml" />
     <Content Include="Views\User\RegisterAsBookshell.cshtml" />
+    <Content Include="Views\Profile\ShellProfileViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
