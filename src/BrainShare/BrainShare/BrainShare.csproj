@@ -615,6 +615,7 @@
     <Content Include="Views\PublicShell\Index.cshtml" />
     <Content Include="Views\PublicShell\CreateNew.cshtml" />
     <Content Include="Views\User\RegisterAsBookshell.cshtml" />
+    <Content Include="Views\Shared\GoogleAnalytics.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
