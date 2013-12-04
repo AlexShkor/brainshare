@@ -158,9 +158,11 @@ namespace BrainShare.Controllers
                                 },
                             Created = DateTime.UtcNow,
                             Id = ObjectId.GenerateNewId().ToString(),
+                            Password = model.Password,
+                            Email = model.Email
                         };
 
-                    _shellUserService.Insert(user);
+                    _shellUserService.Save(user);
 
 
                     SendMailAsync(user);

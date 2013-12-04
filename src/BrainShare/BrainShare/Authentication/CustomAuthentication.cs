@@ -16,6 +16,10 @@ namespace BrainShare.Authentication
         private readonly UsersService _users;
         private readonly ShellUserService _shellUsers;
 
+        private const string ShellUserFlag = "SHELL_USER";
+
+  
+
         public CustomAuthentication(UsersService users,ShellUserService shellUsers)
         {
             _users = users;
@@ -33,15 +37,16 @@ namespace BrainShare.Authentication
         public User Login(string email, string password, bool isPersistent)
         {
             var retUser = _users.GetByCredentials(email, password);
-            if (retUser != null)
+
+            if (retUser == null)
             {
                 var shellUser = _shellUsers.GetByCredentials(email, password);
 
                 if (shellUser == null)
                 {
                     CreateCookie(email, isPersistent);
-                    return null;
                 }
+
                 retUser = shellUser.MapShellUser();
             }
 
@@ -59,7 +64,7 @@ namespace BrainShare.Authentication
             return retUser;
         }
 
-        private void CreateCookie(string email, bool isPersistent = false)
+        private void CreateCookie(string email, bool isPersistent = false, string userData = "")
         {
             var ticket = new FormsAuthenticationTicket(
                 1,
@@ -67,7 +72,7 @@ namespace BrainShare.Authentication
                 DateTime.Now,
                 DateTime.Now.Add(FormsAuthentication.Timeout),
                 isPersistent,
-                string.Empty,
+                userData,
                 FormsAuthentication.FormsCookiePath);
 
             // Encrypt ticket

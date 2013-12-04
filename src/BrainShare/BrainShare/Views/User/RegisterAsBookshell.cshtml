@@ -18,13 +18,21 @@
     @Html.Partial("KnockoutSummary")
 
     <div class="span6">
-       <div class="control-group">
+        <div class="control-group">
             <label class="control-label">
-              Выберите ваше положение на карте
+                Выберите ваше положение на карте
             </label>
             <div class="controls">
                 <input style="margin-top: 0.5em;" id="geocomplete" placeholder="введите город" name="original_address" type="text" data-bind="value: FormattedAddress()" />
-                <span style="color:red;font-size: 18px;">&nbsp;*</span>
+                <span class="required-field-symbol">*</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="LocalPath">
+                Уточните положение 
+            </label>
+            <div class="controls">
+                <input type="text" data-bind="value: LocalPath" id="LocalPath">
             </div>
         </div>
       
@@ -37,14 +45,6 @@
             </div>
         </div>
         
-        <div class="control-group">
-            <label class="control-label" for="LocalPath">
-                Уточните положение 
-            </label>
-            <div class="controls">
-                <input type="text" data-bind="value: LocalPath" id="LocalPath">
-            </div>
-        </div>
         
              <div class="control-group">
                 <label class="control-label">
@@ -52,6 +52,7 @@
                 </label>
                  <div class="controls">
                      <input type="text" data-bind="value:Email"/>
+                     <span class="required-field-symbol">*</span>
                  </div>
             </div>
             <div class="control-group">
@@ -59,17 +60,21 @@
                     Пароль
                 </label>
                 <div class="controls">
-                     <input type="password" data-bind="value:Password"/>
+                    <input type="password" data-bind="value:Password"/>
+                    <span class="required-field-symbol">*</span>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" >
-                    Подтвердите пароль
-                </label>
-                <div class="controls">
-                      <input type="password" data-bind="value:ConfirmPassword"/>
-                </div>
+        <div class="control-group">
+            <label class="control-label" >
+                Подтвердите пароль
+            </label>
+            <div class="controls">
+                <input type="password" data-bind="value:ConfirmPassword"/>
+                <span class="required-field-symbol">*</span>
             </div>
+        </div>
+        
+        <span><span class="required-field-symbol">*</span>поля обязательные для заполнения</span>
         <div id="locationValues" class="hide">
             <input id="route" name="route" type="hidden">
             <input type="hidden" name="lat" id="lat"/>
@@ -144,6 +149,11 @@
 <style>
     input {
         width: 280px;   
+    }
+    .required-field-symbol {
+        color:red;
+        font-size: 18px;
+        margin: 0px 5px 0px 5px;
     }
 </style>
 
