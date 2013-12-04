@@ -5,6 +5,7 @@ using System.Security.Principal;
 using System.Web;
 using BrainShare.Documents;
 using BrainShare.Services;
+using BrainShare.Utilities;
 
 namespace BrainShare.Authentication
 {
@@ -46,6 +47,14 @@ namespace BrainShare.Authentication
             if (!string.IsNullOrEmpty(email))
             {
                 User = users.GetUserByEmail(email);
+            }
+        }
+
+        public void Init(string email, ShellUserService users)
+        {
+            if (!string.IsNullOrEmpty(email))
+            {
+                User = users.GetUserByEmail(email).MapShellUser();
             }
         }
     }

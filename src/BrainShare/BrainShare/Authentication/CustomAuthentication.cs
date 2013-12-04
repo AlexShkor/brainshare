@@ -16,10 +16,6 @@ namespace BrainShare.Authentication
         private readonly UsersService _users;
         private readonly ShellUserService _shellUsers;
 
-        private const string ShellUserFlag = "SHELL_USER";
-
-  
-
         public CustomAuthentication(UsersService users,ShellUserService shellUsers)
         {
             _users = users;
@@ -42,9 +38,9 @@ namespace BrainShare.Authentication
             {
                 var shellUser = _shellUsers.GetByCredentials(email, password);
 
-                if (shellUser == null)
+                if (shellUser != null)
                 {
-                    CreateCookie(email, isPersistent);
+                    CreateCookie(email, isPersistent, Constants.ShellUserFlag);
                 }
 
                 retUser = shellUser.MapShellUser();
@@ -111,18 +107,18 @@ namespace BrainShare.Authentication
                         if (authCookie != null && !string.IsNullOrEmpty(authCookie.Value))
                         {
                             var ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                            _currentUser = new UserProvider(ticket.Name, _users);
+                            _currentUser = new UserProvider(ticket.Name, _users,_shellUsers, ticket.UserData);
                         }
 
                         else
                         {
-                            _currentUser = new UserProvider(null, null);
+                            _currentUser = new UserProvider(null, null,null);
                         }
                     }
 
                     catch(Exception)
                     {
-                        _currentUser = new UserProvider(null, null);
+                        _currentUser = new UserProvider(null, null,null);
                     }
                 }
 

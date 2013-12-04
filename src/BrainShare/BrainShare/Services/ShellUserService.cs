@@ -18,6 +18,11 @@ namespace BrainShare.Services
                                         Query<ShellUser>.EQ(x => x.Password, password)));
         }
 
+        public ShellUser GetUserByEmail(string email)
+        {
+            return Items.FindOne(Query<ShellUser>.EQ(x => x.Email, email));
+        }
+
         protected override MongoDB.Driver.MongoCollection<ShellUser> Items
         {
             get { return Database.ShellUsers; }

@@ -7,8 +7,13 @@ namespace BrainShare.Utilities
         //Todo: implement necessary mappings when it will be need
         public static User MapShellUser(this ShellUser shellUser)
         {
-            if (shellUser == null) return null;
-            return new User();
+            if (shellUser == null) 
+                return null;
+
+            return new User
+                {
+                    Email = shellUser.Email
+                };
         }
     }
 }
