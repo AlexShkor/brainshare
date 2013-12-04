@@ -51,6 +51,7 @@ namespace BrainShare.Controllers
             else
             {
                 model.ClearErrors();
+                //TODO: Леша, что за бред ты тут написал? (с) Егор
                 _shellService.Insert(new PublicShell
                     {
                         Name = model.Name,
