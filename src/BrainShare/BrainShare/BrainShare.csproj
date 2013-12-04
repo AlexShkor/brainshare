@@ -232,12 +232,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authentication\AuthHttpModule.cs" />
+    <Compile Include="Authentication\ICommonUser.cs" />
     <Compile Include="Authentication\CustomAuthentication.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Authentication\IAuthentication.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Authentication\ICommonUserService.cs" />
     <Compile Include="Authentication\IUserProvider.cs" />
     <Compile Include="Authentication\UserIdentity.cs" />
     <Compile Include="Authentication\UserProvider.cs" />
@@ -259,6 +261,7 @@
     <Compile Include="GoogleDto\GoogleBookDto.cs" />
     <Compile Include="Infostructure\Location.cs" />
     <Compile Include="Mongo\FilterOrder.cs" />
+    <Compile Include="Services\CommonUserService.cs" />
     <Compile Include="Services\ExchangeHistoryService.cs" />
     <Compile Include="Services\ShellUserService.cs" />
     <Compile Include="Utilities\Mapper.cs" />

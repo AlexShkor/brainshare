@@ -14,7 +14,7 @@ namespace BrainShare.Controllers
         {
             get
             {
-                return (((UserIdentity)User.Identity).User ?? new User()).Id;
+                return (((UserIdentity)User.Identity).User ?? new CommonUser()).Id;
             }
         }
 
@@ -34,8 +34,8 @@ namespace BrainShare.Controllers
             var controller = (string)RouteData.Values["controller"];
             Title(action.Equals("index", StringComparison.InvariantCultureIgnoreCase) ? controller : action);
             ViewBag.UserId = UserId;
-            ViewBag.UserName = (((UserIdentity)User.Identity).User ?? new User()).FullName;
-            ViewBag.IsFacebookAccount = (((UserIdentity)User.Identity).User ?? new User()).IsFacebookAccount;
+            ViewBag.UserName = (((UserIdentity)User.Identity).User ?? new CommonUser()).FullName;
+            ViewBag.IsFacebookAccount = (((UserIdentity)User.Identity).User ?? new CommonUser()).IsFacebookAccount;
             base.OnActionExecuting(filterContext);
         }
 

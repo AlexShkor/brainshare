@@ -26,7 +26,7 @@ namespace BrainShare.Hubs
                 });
         }
 
-        private User GetUser()
+        private CommonUser GetUser()
         {
             return ((UserIdentity) Context.User.Identity).User;
         }

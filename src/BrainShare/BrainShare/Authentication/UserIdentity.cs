@@ -11,7 +11,7 @@ namespace BrainShare.Authentication
 {
     public class UserIdentity : IIdentity, IUserProvider
     {
-        public User User { get; set; }
+        public CommonUser User { get; set; }
 
         public string AuthenticationType
         {
@@ -42,19 +42,11 @@ namespace BrainShare.Authentication
             }
         }
 
-        public void Init (string email, UsersService users)
+        public void Init (string email, ICommonUserService usersService)
         {
             if (!string.IsNullOrEmpty(email))
             {
-                User = users.GetUserByEmail(email);
-            }
-        }
-
-        public void Init(string email, ShellUserService users)
-        {
-            if (!string.IsNullOrEmpty(email))
-            {
-                User = users.GetUserByEmail(email).MapShellUser();
+                User = usersService.GetUserByEmail(email);
             }
         }
     }

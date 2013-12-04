@@ -51,14 +51,14 @@ namespace BrainShare.Controllers
             _fb = fbFactory.GetClient();
         }
 
-        private User CurrentUser
+        private CommonUser CurrentUser
         {
             get { return ((IUserProvider)Auth.CurrentUser.Identity).User; }
         }
 
         public ActionResult UserLogin()
         {
-            return View(CurrentUser);
+            return View(_users.GetById(CurrentUser.Id));
         }
 
         [HttpGet]
@@ -132,7 +132,7 @@ namespace BrainShare.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegisterAsBookshell(CreateShellViewModel model)
+        public ActionResult RegisterAsBookShell(CreateShellViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -362,7 +362,7 @@ namespace BrainShare.Controllers
                     };
 
                     _users.Save(newUser);
-                    Auth.LoginUser(newUser, true);
+                    Auth.LoginUser(newUser.Id, true);
 
                     if (Url.IsLocalUrl(returnUrl))
                     {
@@ -376,7 +376,7 @@ namespace BrainShare.Controllers
                 {
                     userByFacebookId.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
                     _users.Save(userByFacebookId);
-                    Auth.LoginUser(userByFacebookId, true);
+                    Auth.LoginUser(userByFacebookId.Email, true);
 
                     if (Url.IsLocalUrl(returnUrl))
                     {

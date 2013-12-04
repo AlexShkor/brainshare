@@ -29,14 +29,16 @@ namespace BrainShare.Controllers
         private readonly UsersService _users;
         private readonly ThreadsService _threads;
         private readonly CloudinaryImagesService _cloudinaryImages;
+        private readonly ICommonUserService _commonUserService;
 
-        public ProfileController(BooksService books, UsersService users, ThreadsService threads, WishBooksService whishBooks, CloudinaryImagesService cloudinaryImages)
+        public ProfileController(BooksService books, UsersService users, ICommonUserService commonUserService, ThreadsService threads, WishBooksService whishBooks, CloudinaryImagesService cloudinaryImages)
         {
             _books = books;
             _users = users;
             _threads = threads;
             _wishBooks = whishBooks;
             _cloudinaryImages = cloudinaryImages;
+            _commonUserService = commonUserService;
         }
 
         public ActionResult Index()

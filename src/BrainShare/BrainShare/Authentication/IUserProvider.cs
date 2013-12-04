@@ -8,6 +8,6 @@ namespace BrainShare.Authentication
 {
     public interface IUserProvider
     {
-        User User { get; set; }
+        CommonUser User { get; set; }
     }
 }

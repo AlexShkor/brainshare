@@ -18,6 +18,7 @@ namespace BrainShare
                     c.For<MongoDocumentsDatabase>().Singleton().Use(database);
                     c.For<Settings>().Singleton().Use(settings);
                     c.For<IAuthentication>().Transient().Use<CustomAuthentication>();
+                    c.For<ICommonUserService>().Use<CommonUserService>();
                 });
         }
     }

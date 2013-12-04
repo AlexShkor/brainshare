@@ -15,11 +15,13 @@ namespace BrainShare.Authentication
     {
         private readonly UsersService _users;
         private readonly ShellUserService _shellUsers;
+        private readonly ICommonUserService _commonUserService;
 
-        public CustomAuthentication(UsersService users,ShellUserService shellUsers)
+        public CustomAuthentication(UsersService users,ShellUserService shellUsers,ICommonUserService commonUserService)
         {
             _users = users;
             _shellUsers = shellUsers;
+            _commonUserService = commonUserService;
         }
 
         private const string CookieName = "__AUTH_COOKIE";
@@ -30,28 +32,21 @@ namespace BrainShare.Authentication
             set { _httpContext = value; }
         }
 
-        public User Login(string email, string password, bool isPersistent)
+        public CommonUser Login(string email, string password, bool isPersistent)
         {
-            var retUser = _users.GetByCredentials(email, password);
+            var retUser = _commonUserService.GetByCredentials(email, password);
 
-            if (retUser == null)
+            if (retUser != null)
             {
-                var shellUser = _shellUsers.GetByCredentials(email, password);
-
-                if (shellUser != null)
-                {
-                    CreateCookie(email, isPersistent, Constants.ShellUserFlag);
-                }
-
-                retUser = shellUser.MapShellUser();
+                CreateCookie(email, isPersistent, Constants.ShellUserFlag);
             }
 
             return retUser;
         }
 
-        public User Login(string email)
+        public CommonUser Login(string email)
         {
-            var retUser = _users.GetUserByEmail(email);
+            var retUser = _commonUserService.GetUserByEmail(email);
             if (retUser != null)
             {
                 CreateCookie(email);
@@ -107,7 +102,7 @@ namespace BrainShare.Authentication
                         if (authCookie != null && !string.IsNullOrEmpty(authCookie.Value))
                         {
                             var ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                            _currentUser = new UserProvider(ticket.Name, _users,_shellUsers, ticket.UserData);
+                            _currentUser = new UserProvider(ticket.Name, _commonUserService, ticket.UserData);
                         }
 
                         else
@@ -126,9 +121,9 @@ namespace BrainShare.Authentication
             }
         }
 
-        public void LoginUser(User user, bool isPersistent)
+        public void LoginUser(string email, bool isPersistent)
         {
-            CreateCookie(user.Email,isPersistent);
+            CreateCookie(email,isPersistent);
         }
     }
 }

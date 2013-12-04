@@ -11,19 +11,11 @@ namespace BrainShare.Authentication
     public class UserProvider : IPrincipal
     {
 
-        public UserProvider(string name, UsersService users, ShellUserService _shellUsers, string userData = "")
+        public UserProvider(string name, ICommonUserService commonUserService, string userData = "")
         {
             userIdentity = new UserIdentity();
 
-            if (userData == string.Empty)
-            {
-                userIdentity.Init(name, users);
-            }
-            if (userData == Constants.ShellUserFlag)
-            {
-                userIdentity.Init(name, _shellUsers);
-            }
-
+            userIdentity.Init(name, commonUserService);
         }
 
 
