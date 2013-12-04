@@ -17,6 +17,7 @@ namespace BrainShare.Controllers
             _users = users;
         }
 
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var model = _users.GetAll().Select(x => new UserViewModel(x)).OrderByDescending(x => x.Rating).ToList();
