@@ -10,10 +10,12 @@ namespace BrainShare.ViewModels
 
         [Required(ErrorMessage = "Введите имя")]
         [Display(Name = "Имя")]
+        [StringLength(50, ErrorMessage = "Имя должен содержать не более 50-ти символов")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Введите фамилию")]
         [Display(Name = "Фамилия")]
+        [StringLength(50, ErrorMessage = "Фамилия должна содержать не более 50-ти символов")]
         public string LastName { get; set; }
 
 
@@ -28,6 +30,7 @@ namespace BrainShare.ViewModels
 
         [Required(ErrorMessage = "Введите e-mail адресс")]
         [EmailAddress(ErrorMessage = "Проверьте правильность вашего e-mail адресса")]
+        [StringLength(100, ErrorMessage = "Почта должна состоять не более чем из 100 символов")]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "e-mail")]
         public string Email { get; set; }

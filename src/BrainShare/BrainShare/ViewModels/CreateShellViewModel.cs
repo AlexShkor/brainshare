@@ -17,6 +17,7 @@ namespace BrainShare.ViewModels
         public string FormattedAddress { get; set; }
 
         [Required(ErrorMessage = "Пожалуйста, дайте имя вашей полке")]
+        [StringLength(50, ErrorMessage = "Имя должен содержать не более 50-ти символов")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Пожалуйста, укажите страну")]
@@ -28,6 +29,7 @@ namespace BrainShare.ViewModels
         [Required(ErrorMessage = "Пожалуйста, укажите дом")]
         public int StreetNumber { get; set; }
 
+        [StringLength(150, ErrorMessage = "Имя должен содержать не более 150-ти символов")]
         public string LocalPath { get; set; }   
 
         public double Lng { get; set; }
@@ -40,6 +42,7 @@ namespace BrainShare.ViewModels
 
         [Required(ErrorMessage = "Введите e-mail адресс")]
         [EmailAddress(ErrorMessage = "Проверьте правильность вашего e-mail адресса")]
+        [StringLength(100, ErrorMessage = "Почта должна состоять не более чем из 100 символов")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
