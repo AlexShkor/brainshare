@@ -622,8 +622,6 @@
     <Content Include="Views\Books\ViewExchangeHistory.cshtml" />
     <Content Include="Views\Home\BooksGifted.cshtml" />
     <Content Include="Views\Books\SearchOzBY.cshtml" />
-    <Content Include="Views\PublicShell\Index.cshtml" />
-    <Content Include="Views\PublicShell\CreateNew.cshtml" />
     <Content Include="Views\User\RegisterAsBookshell.cshtml" />
     <Content Include="Views\Shared\GoogleAnalytics.cshtml" />
     <Content Include="Views\Profile\ShellProfileViewModel.cshtml" />
