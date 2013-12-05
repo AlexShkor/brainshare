@@ -25,10 +25,13 @@ namespace BrainShare.ViewModels
             Lat = address.Location.Latitude;
             Lng = address.Location.Longitude;
             LocalPath = address.LocalPath;
+            Name = shellUser.Name;
         }
 
 
         public string FormattedAddress { get; set; }
+
+        [Required(ErrorMessage = "Пожалуйста, дайте имя вашей полке")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Пожалуйста, укажите страну")]

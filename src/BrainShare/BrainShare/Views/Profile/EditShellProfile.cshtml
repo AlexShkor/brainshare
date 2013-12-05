@@ -15,12 +15,11 @@
 
     <div class="span6">
        <div class="control-group">
-            <label class="control-label">
-                Выберите ваше положение на карте
-            </label>
+            <label class="control-label" data-bind="text:$root.addressFieldDescription"></label>
             <div class="controls">
-                <input style="margin-top: 0.5em;" id="geocomplete" placeholder="введите город" name="original_address" type="text" data-bind="value: FormattedAddress()" />
-                <span class="required-field-symbol">*</span>
+                <span style="min-width: 300px; text-align: left" class="control-label" data-bind="text: FormattedAddress, visible: !$root.ShowLocationInput()"></span>
+                <a style="text-align: left; cursor: pointer" href="#" class="text-success control-label" data-bind="click: $root.EditLocation, visible: !$root.ShowLocationInput()">Изменить</a>
+                <input style="margin-top: 0.5em;" id="geocomplete" placeholder="введите город" name="FormattedAddress" type="text" data-bind="value: FormattedAddress(), visible: $root.ShowLocationInput" />
             </div>
         </div>
         <div class="control-group">
@@ -71,29 +70,37 @@
 <script type="text/javascript">
     
     function EditProfileModel (data, submitUrl) {
+        console.log(data);
         var self = this;
         
         this.model = ko.mapping.fromJS(data);
+        
+        this.updateResults = function() {
+            self.model.Lng($("#lng").val());
+            self.model.Lat($("#lat").val());
+            self.model.Route($("#route").val());
+            self.model.Country($("#country").val());
+            self.model.StreetNumber($("#street_number").val());
+            self.model.FormattedAddress($("#formatted_address").val());
+        };
+        
         this.save = function () {
-            
-            var formatted_address = $("#formatted_address").val();
-            var country = $("#country").val();
-            var locality = $("#locality").val();
 
-            self.model.formatted_address(formatted_address);
-            self.model.country(country);
-            self.model.locality(locality);
-
+            self.updateResults();
 
             sendModel(submitUrl, self.model, function (model) {
-                debugger;
                 if (model.Errors.length == 0) {
                     window.location.href = "/Profile/Index";
                 }
             });
         };
+        
 
         this.ShowLocationInput = ko.observable(false);
+        
+        this.addressFieldDescription = ko.computed(function() {
+            return self.ShowLocationInput() ? "Укажите новое положение" : "Текущее положение";
+        });
 
         this.AddressInputChanged = function() {
           
@@ -112,7 +119,7 @@
 
     $(function () {
 
-        var model = new EditProfileModel(@Html.Raw(JsonConvert.SerializeObject(Model)), "/Profile/EditProfile");
+        var model = new EditProfileModel(@Html.Raw(JsonConvert.SerializeObject(Model)), "/Profile/EditShellProfile");
         ko.applyBindings(model);
 
         $("#geocomplete").geocomplete({

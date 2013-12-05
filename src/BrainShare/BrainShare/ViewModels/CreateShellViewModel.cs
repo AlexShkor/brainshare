@@ -15,6 +15,8 @@ namespace BrainShare.ViewModels
             FormattedAddress = formattedAddress;
         }
         public string FormattedAddress { get; set; }
+
+        [Required(ErrorMessage = "Пожалуйста, дайте имя вашей полке")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Пожалуйста, укажите страну")]

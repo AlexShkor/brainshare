@@ -11,6 +11,7 @@ using AttributeRouting.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Hubs;
+using BrainShare.Infostructure;
 using BrainShare.Services;
 using BrainShare.ViewModels;
 using MongoDB.Bson;
@@ -97,6 +98,32 @@ namespace BrainShare.Controllers
             }
 
             model.Errors.RemoveAll(x => x.ErrorMessage != " ");
+            return JsonModel(model);
+        }
+
+        [HttpPost]
+        public ActionResult EditShellProfile(EditShellProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.AddModelStateErrors(ModelState.Keys.SelectMany(key => ModelState[key].Errors), true);
+            }
+            else
+            {
+                model.ClearErrors();
+
+                var shellUser = _shellUserService.GetById(UserId);
+
+                shellUser.Name = model.Name;
+                shellUser.ShellAddressData.LocalPath = model.LocalPath;
+                shellUser.ShellAddressData.Formatted = model.FormattedAddress;
+                shellUser.ShellAddressData.Country = model.Country;
+                shellUser.ShellAddressData.StreetNumber = model.StreetNumber;
+                shellUser.ShellAddressData.Route = model.Route;
+                shellUser.ShellAddressData.Location = new Location(model.Lat,model.Lng);
+
+                _shellUserService.Save(shellUser);
+            }
             return JsonModel(model);
         }
 

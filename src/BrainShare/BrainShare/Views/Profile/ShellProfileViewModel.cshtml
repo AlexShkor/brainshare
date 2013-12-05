@@ -40,6 +40,22 @@
                         <span>@Model.Address.Formatted</span>
                     </div>
                 </div>
+                <div class="control-group">
+                    <div>
+                        <span class="color-black">Уточнённое положение</span>
+                    </div>
+                    <div>
+                        @if (string.IsNullOrEmpty(Model.Address.LocalPath))
+                        {
+                            <span>Положение не уточнено</span>
+                        }
+                        else
+                        {
+                            <span>@Model.Address.LocalPath</span>
+                        }
+                        
+                    </div>
+                </div>
 
                 <div class="control-group">
                     <a class="btn btn-primary" href="/Profile/EditProfile">Редактировать</a>
