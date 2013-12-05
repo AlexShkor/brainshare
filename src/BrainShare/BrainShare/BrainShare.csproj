@@ -245,6 +245,7 @@
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ContainerConfigure.cs" />
+    <Compile Include="Controllers\MigrateController.cs" />
     <Compile Include="Documents\Data\ShellAddressData.cs" />
     <Compile Include="Documents\PublicShell.cs" />
     <Compile Include="Facebook\Dto\FbUserMe.cs" />
