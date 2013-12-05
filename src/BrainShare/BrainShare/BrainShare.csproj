@@ -621,6 +621,7 @@
     <Content Include="Views\PublicShell\Index.cshtml" />
     <Content Include="Views\PublicShell\CreateNew.cshtml" />
     <Content Include="Views\User\RegisterAsBookshell.cshtml" />
+    <Content Include="Views\Shared\GoogleAnalytics.cshtml" />
     <Content Include="Views\Profile\ShellProfileViewModel.cshtml" />
     <Content Include="Views\Profile\_ShellProfileLayout.cshtml" />
     <Content Include="Views\Profile\EditShellProfile.cshtml" />

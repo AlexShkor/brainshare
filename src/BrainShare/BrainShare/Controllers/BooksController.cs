@@ -42,7 +42,8 @@ namespace BrainShare.Controllers
             _cloudinaryImages = cloudinaryImages;
             _exchangeHistory = exchangeHistory;
         }
-
+        
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View(new BooksFilterModel()
@@ -51,6 +52,7 @@ namespace BrainShare.Controllers
             });
         }
 
+        [AllowAnonymous]
         public ActionResult Filter(BooksFilterModel model)
         {
             var filter = model.ToFilter();
@@ -59,6 +61,7 @@ namespace BrainShare.Controllers
             return Listing(items, model);
         }
 
+        [AllowAnonymous]
         public ActionResult Search()
         {
             var model = new List<string>();
@@ -69,6 +72,7 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         public ActionResult SearchOzBy()
         {
             var model = new List<string>();
@@ -78,6 +82,7 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         public async Task<string> DownloadString(string q, string page)
         {
             using (var client = new WebClient())
@@ -90,6 +95,7 @@ namespace BrainShare.Controllers
 
         [GET("info/{id}")]
         [GET("info/wish/{wishBookId}")]
+        [AllowAnonymous]
         public ActionResult Info(string id, string wishBookId)
         {
             var book = id.HasValue() ? _books.GetById(id) : _wishBooks.GetById(wishBookId);
@@ -165,12 +171,14 @@ namespace BrainShare.Controllers
         }
 
         [GET("choose-add-method")]
+        [AllowAnonymous]
         public ActionResult ChooseAddMethod()
         {
             return View();
         }
 
         [GET("add")]
+        [AllowAnonymous]
         public ActionResult Add()
         {
             var languages = new LanguagesService().GetAllLanguages();

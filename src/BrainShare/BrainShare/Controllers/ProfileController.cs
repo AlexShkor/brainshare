@@ -128,6 +128,7 @@ namespace BrainShare.Controllers
         }
 
         [GET("view/{id}")]
+        [AllowAnonymous]
         public ActionResult ViewUserProfile(string id)
         {
             if (id == UserId)
@@ -138,9 +139,12 @@ namespace BrainShare.Controllers
             var user = _users.GetById(id);
             var model = new UserProfileModel(user, UserId);
 
-            model.CanIncrease = user.GetVote(id, UserId) <= 0;
-            model.CanDecrease = user.GetVote(id, UserId) >= 0;
-            model.SummaryVotes = user.GetSummaryVotes();
+            if (UserId.HasValue())
+            {
+                model.CanIncrease = user.GetVote(id, UserId) <= 0;
+                model.CanDecrease = user.GetVote(id, UserId) >= 0;
+                model.SummaryVotes = user.GetSummaryVotes();
+            }
 
             Title(user.FullName);
             return View(model);
@@ -296,6 +300,7 @@ namespace BrainShare.Controllers
         }
 
         [POST("get-user-books")]
+        [AllowAnonymous]
         public ActionResult GetUserBooks(string userId)
         {
             var books = _books.GetUserBooks(userId).Select(x => new BookViewModel(x));
@@ -303,6 +308,7 @@ namespace BrainShare.Controllers
         }
 
         [POST("get-user-wish-books")]
+        [AllowAnonymous]
         public ActionResult GetUserWishBooks(string userId)
         {
             var books = _wishBooks.GetUserBooks(userId).Select(x => new BookViewModel(x));
