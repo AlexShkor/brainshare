@@ -52,6 +52,9 @@
                     <div class="control-group">
                         <button class="btn btn-info" data-bind="click: sendMessage">Отправить сообщение</button>
                     </div>
+                    <div class="control-group" data-bind="template: { name: templateName()}">
+ 
+                    </div>
                 }
 
             </div>
@@ -119,4 +122,12 @@
         </div>
     </div>
 </div>
+
+<script id="subscribe-template" type="text/html">
+        <button class="btn btn-info" data-bind="click: followMe">Подписаться</button>
+</script>
+<script id="subscribed-template" type="text/html">
+        <span class="btn btn-info">Вы подписаны</span>
+</script>
+
 

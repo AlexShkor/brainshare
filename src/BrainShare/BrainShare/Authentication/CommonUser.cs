@@ -10,5 +10,6 @@ namespace BrainShare.Authentication
         public bool IsShell { get; set; }
         public bool IsFacebookAccount { get; set; }
         public string FullName  { get; set; }
+        public string AvatarUrl { get; set; }
     }
 }

@@ -137,7 +137,8 @@ namespace BrainShare.Controllers
             }
 
             var user = _users.GetById(id);
-            var model = new UserProfileModel(user, UserId);
+            var me = _users.GetById(UserId);
+            var model = new UserProfileModel(user, me);
 
             if (UserId.HasValue())
             {

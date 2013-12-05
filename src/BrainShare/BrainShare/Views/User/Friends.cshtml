@@ -1,0 +1,17 @@
+﻿@model BrainShare.ViewModels.FollowersViewModel
+@{
+    ViewBag.Title = "Friends";
+    Layout = "~/Views/Profile/_ProfileLayout.cshtml";
+}
+
+@if (!Model.FriendsExist)
+{
+    <h4>У вас 0 друзей. Воспользуйтесь формой поиска и найдите своих друзей.</h4>
+}
+else
+{
+    foreach (var follower in Model.Publishers)
+    {
+        <p>@follower.FullName</p>
+    }
+}

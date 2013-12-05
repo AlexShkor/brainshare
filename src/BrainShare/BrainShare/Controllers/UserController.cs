@@ -416,6 +416,17 @@ namespace BrainShare.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public ActionResult Friends()
+        {
+            if (IsShellUser)
+            {
+                //Todo: implementation will be based on future needs
+                return View("ShellFriends");
+            }
+
+            return View(new FollowersViewModel(_users.GetById(UserId)));
+        }
+
         public ActionResult GetFbFriends()
         {
             var currentUser = _users.GetById(UserId);

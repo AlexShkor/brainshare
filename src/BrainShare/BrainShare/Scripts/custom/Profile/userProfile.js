@@ -2,10 +2,19 @@
     var self = this;
     this.user = data;
 
+    this.notSubscribedTemplateName = "subscribe-template";
+    this.subscribedTemplateName = "subscribed-template";
+
     // Reputation section
     this.canIncrease = ko.observable(self.user.CanIncrease);
     this.canDecrease = ko.observable(self.user.CanDecrease);
     this.summaryVotes = ko.observable(self.user.SummaryVotes);
+    this.isCurrentUserSubscribed = ko.observable(self.user.IsCurrentUserSubscribed);
+    console.log(data);
+    
+    this.templateName = ko.computed(function() {
+        return self.isCurrentUserSubscribed() ? self.subscribedTemplateName : self.notSubscribedTemplateName;
+    });
     this.increaseReputation = function () {
         var parameters = { id: self.user.Id, value: 1 };
         send("/Profile/AdjustReputation", parameters, function (response) {
@@ -46,6 +55,14 @@
 
     this.sendMessage = function () {
         window.location = "/profile/message/to/" + self.user.Id;
+    };
+
+    this.followMe = function() {
+        send("/Follower/Follow", { userId: self.user.Id }, function(response) {
+            if (response == "success") {
+                self.isCurrentUserSubscribed(true);
+            }
+        });
     };
 
     this.viewWishBook = function(book) {

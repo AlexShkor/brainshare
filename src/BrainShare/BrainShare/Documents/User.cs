@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BrainShare.Authentication;
 using BrainShare.Controllers;
+using BrainShare.Documents.Data;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace BrainShare.Documents
@@ -30,6 +32,8 @@ namespace BrainShare.Documents
 
         public List<ChangeRequest> Inbox { get; set; }
 
+        public List<Publisher> Publishers { get; set; }
+
         public string FullName
         {
             get { return string.Format("{0} {1}", FirstName, LastName); }
@@ -41,6 +45,7 @@ namespace BrainShare.Documents
             Votes = new Dictionary<string, int>();
             ThreadsWithUnreadMessages = new List<string>();
             Address = new AddressData();
+            Publishers = new List<Publisher>();
         }
 
         public void SetVote(string setterId, int value)
@@ -73,6 +78,27 @@ namespace BrainShare.Documents
         public void RemoveInboxItem(string userId, string yourBookId)
         {
             Inbox.RemoveAll(x => x.User.UserId == userId && x.BookId == yourBookId);
+        }
+
+        public void SetPublisher(CommonUser user)
+        {
+            if (Publishers.Any(p => p.Id == user.Id))
+            {
+                return;
+            }
+
+            Publishers.Add(new Publisher
+                {
+                    Id = user.Id,
+                    AvatarUrl = user.AvatarUrl,
+                    FullName = user.FullName,
+                    IsShell = user.IsShell
+                });
+        }
+
+        public bool IsSubscribed(string userId)
+        {
+            return Publishers.Any(p => p.Id == userId);
         }
     }
 }
