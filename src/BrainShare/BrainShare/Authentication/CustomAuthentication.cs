@@ -5,6 +5,7 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Security;
 using BrainShare.Documents;
+using BrainShare.Infostructure;
 using BrainShare.Mongo;
 using BrainShare.Services;
 using BrainShare.Utilities;
@@ -16,12 +17,14 @@ namespace BrainShare.Authentication
         private readonly UsersService _users;
         private readonly ShellUserService _shellUsers;
         private readonly ICommonUserService _commonUserService;
+        private readonly CryptographicHelper _cryptoHelper;
 
-        public CustomAuthentication(UsersService users,ShellUserService shellUsers,ICommonUserService commonUserService)
+        public CustomAuthentication(UsersService users, ShellUserService shellUsers, ICommonUserService commonUserService, CryptographicHelper cryptoHelper)
         {
             _users = users;
             _shellUsers = shellUsers;
             _commonUserService = commonUserService;
+            _cryptoHelper = cryptoHelper;
         }
 
         private const string CookieName = "__AUTH_COOKIE";
@@ -34,11 +37,11 @@ namespace BrainShare.Authentication
 
         public CommonUser Login(string email, string password, bool isPersistent)
         {
-            var retUser = _commonUserService.GetByCredentials(email, password);
+            var retUser = _commonUserService.GetByCredentials(email.ToLower(), _cryptoHelper.GetPasswordHash(password));
 
             if (retUser != null)
             {
-                CreateCookie(email, isPersistent, Constants.ShellUserFlag);
+                CreateCookie(email.ToLower(), isPersistent, Constants.ShellUserFlag);
             }
 
             return retUser;
@@ -46,10 +49,10 @@ namespace BrainShare.Authentication
 
         public CommonUser Login(string email)
         {
-            var retUser = _commonUserService.GetUserByEmail(email);
+            var retUser = _commonUserService.GetUserByEmail(email.ToLower());
             if (retUser != null)
             {
-                CreateCookie(email);
+                CreateCookie(email.ToLower());
             }
 
             return retUser;
@@ -123,7 +126,7 @@ namespace BrainShare.Authentication
 
         public void LoginUser(string email, bool isPersistent)
         {
-            CreateCookie(email,isPersistent);
+            CreateCookie(email.ToLower(),isPersistent);
         }
     }
 }

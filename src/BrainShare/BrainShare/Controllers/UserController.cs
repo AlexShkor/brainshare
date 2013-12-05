@@ -33,6 +33,7 @@ namespace BrainShare.Controllers
         public IAuthentication Auth { get; set; }
         private readonly FacebookClient _fb;
         private readonly ShellUserService _shellUserService;
+        private readonly CryptographicHelper _cryptoHelper;
 
         public string FacebookCallbackUri
         {
@@ -42,11 +43,12 @@ namespace BrainShare.Controllers
             }
         }
 
-        public UserController(IAuthentication auth, UsersService users,ShellUserService shellUserService, FacebookClientFactory  fbFactory, Settings settings)
+        public UserController(IAuthentication auth, UsersService users,ShellUserService shellUserService, FacebookClientFactory  fbFactory, CryptographicHelper cryptoHelper, Settings settings)
         {
             _users = users;
             _settings = settings;
             _shellUserService = shellUserService;
+            _cryptoHelper = cryptoHelper;
             Auth = auth;
             _fb = fbFactory.GetClient();
         }
@@ -104,17 +106,18 @@ namespace BrainShare.Controllers
         {
             if (ModelState.IsValid)
             {
-                var anyUser = _users.GetUserByEmail(model.Email);
+                var anyUser = _users.GetUserByEmail(model.Email.ToLower());
                 if (anyUser == null)
                 {
+                    var hashedPassword = _cryptoHelper.GetPasswordHash(model.Password);
                     var newUser = new User()
                                       {
                                           Id = GetIdForUser(),
                                           FirstName = model.FirstName,
                                           Address = new AddressData(model),
                                           LastName = model.LastName,
-                                          Email = model.Email,
-                                          Password = model.Password,
+                                          Email = model.Email.ToLower(),
+                                          Password = hashedPassword,
                                           Registered = DateTime.Now
                                       };
 
@@ -141,9 +144,10 @@ namespace BrainShare.Controllers
             else
             {
                 model.ClearErrors();
-                var anyUser = _users.GetUserByEmail(model.Email);
+                var anyUser = _users.GetUserByEmail(model.Email.ToLower());
                 if (anyUser == null)
                 {
+                    var hashedPassword = _cryptoHelper.GetPasswordHash(model.Password);
                     var user = new ShellUser
                         {
                             Name = model.Name,
@@ -158,8 +162,8 @@ namespace BrainShare.Controllers
                                 },
                             Created = DateTime.UtcNow,
                             Id = ObjectId.GenerateNewId().ToString(),
-                            Password = model.Password,
-                            Email = model.Email
+                            Password = hashedPassword,
+                            Email = model.Email.ToLower()
                         };
 
                     _shellUserService.Save(user);

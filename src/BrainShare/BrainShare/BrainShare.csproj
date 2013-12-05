@@ -259,6 +259,7 @@
     <Compile Include="Domain\ExchangeService.cs" />
     <Compile Include="Facebook\FacebookFriend.cs" />
     <Compile Include="GoogleDto\GoogleBookDto.cs" />
+    <Compile Include="Infostructure\CryptographicHelper.cs" />
     <Compile Include="Infostructure\Location.cs" />
     <Compile Include="Mongo\FilterOrder.cs" />
     <Compile Include="Services\CommonUserService.cs" />
