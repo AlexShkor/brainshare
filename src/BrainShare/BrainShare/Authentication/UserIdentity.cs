@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Web;
-using BrainShare.Documents;
-using BrainShare.Services;
-using BrainShare.Utilities;
+﻿using System.Security.Principal;
 
 namespace BrainShare.Authentication
 {

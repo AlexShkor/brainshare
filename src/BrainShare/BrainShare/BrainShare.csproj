@@ -267,6 +267,7 @@
     <Compile Include="Utilities\Mapper.cs" />
     <Compile Include="ViewModels\AllBooksViewModel.cs" />
     <Compile Include="ViewModels\BooksFilterModel.cs" />
+    <Compile Include="ViewModels\EditShellProfileViewModel.cs" />
     <Compile Include="ViewModels\MyShellProfileViewModel.cs" />
     <Compile Include="ViewModels\CreateShellViewModel.cs" />
     <Compile Include="ViewModels\EditBookViewModel.cs" />
@@ -442,6 +443,7 @@
     <Content Include="Scripts\custom\allbooks.js" />
     <Content Include="Scripts\custom\Profile\allMessages.js" />
     <Content Include="Scripts\custom\common.js" />
+    <Content Include="Scripts\custom\Profile\myShellProfile.js" />
     <Content Include="Scripts\custom\Profile\inbox.js" />
     <Content Include="Scripts\custom\Profile\myBooks.js" />
     <Content Include="Scripts\custom\Profile\myProfile.js" />
@@ -534,7 +536,6 @@
     <Content Include="Scripts\pnotify-1.2.0\use for pines style icons\jquery.pnotify.default.icons.css" />
     <Content Include="Scripts\sammy-0.7.4.js" />
     <Content Include="Scripts\sammy-0.7.4.min.js" />
-    <Content Include="Scripts\underscore.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -620,6 +621,8 @@
     <Content Include="Views\PublicShell\CreateNew.cshtml" />
     <Content Include="Views\User\RegisterAsBookshell.cshtml" />
     <Content Include="Views\Profile\ShellProfileViewModel.cshtml" />
+    <Content Include="Views\Profile\_ShellProfileLayout.cshtml" />
+    <Content Include="Views\Profile\EditShellProfile.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

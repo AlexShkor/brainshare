@@ -43,7 +43,15 @@ namespace BrainShare.Controllers
 
         public ActionResult Index()
         {
-            if (UserOriginalType == typeof (User))
+            if (IsShellUser)
+            {
+                var shellUser = _shellUserService.GetById(UserId);
+                Title(shellUser.Name);
+                var model = new MyShellProfileViewModel(shellUser);
+
+                return View("ShellProfileViewModel", model);
+            }
+            else
             {
                 var user = _users.GetById(UserId);
                 Title(user.FullName + " мой аккаунт");
@@ -51,24 +59,25 @@ namespace BrainShare.Controllers
                 var model = new MyProfileViewModel(user);
                 return View(model);
             }
-            if (UserOriginalType == typeof (ShellUser))
-            {
-                var shellUser = _shellUserService.GetById(UserId);
-                Title(shellUser.Name);
-                var model = new MyShellProfileViewModel(shellUser);
-
-                return View("ShellProfileViewModel",model);
-            }
-
-            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
         public ActionResult EditProfile()
         {
-            var user = _users.GetById(UserId);
-            var model = new EditProfileViewModel(user);
-            return View(model);
+            if (IsShellUser)
+            {
+                var shellUser = _shellUserService.GetById(UserId);
+                var model = new EditShellProfileViewModel(shellUser);
+                return View("EditShellProfile",model);
+
+            }
+            else
+            {
+                var user = _users.GetById(UserId);
+                var model = new EditProfileViewModel(user);
+                return View(model);
+            }
+     
         }
 
         [HttpPost]

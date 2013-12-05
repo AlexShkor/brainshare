@@ -18,11 +18,11 @@ namespace BrainShare.Controllers
             }
         }
 
-        public Type UserOriginalType
+        public bool IsShellUser
         {
             get
             {
-                return (((UserIdentity)User.Identity).User ?? new CommonUser()).OriginalType;
+                return (((UserIdentity)User.Identity).User ?? new CommonUser()).OriginalType == typeof(ShellUser);
             }
         }
 
