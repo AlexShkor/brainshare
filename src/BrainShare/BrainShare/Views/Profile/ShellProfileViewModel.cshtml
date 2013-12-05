@@ -78,7 +78,7 @@
         </div>
 
         <div style="display: none">
-            @using (Html.BeginForm("UploadImage", "Profile", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
+            @using (Html.BeginForm("UploadShellImage", "Profile", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
             {
                 @Html.TextBox("UploadedFile", Model.UploadedFile, new { type = "file", id = "file" })
                 @Html.ValidationMessage("UploadedFile")

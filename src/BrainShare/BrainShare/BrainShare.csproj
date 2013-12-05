@@ -623,6 +623,8 @@
     <Content Include="Views\Profile\ShellProfileViewModel.cshtml" />
     <Content Include="Views\Profile\_ShellProfileLayout.cshtml" />
     <Content Include="Views\Profile\EditShellProfile.cshtml" />
+    <Content Include="Views\Profile\ShellAllMessages.cshtml" />
+    <Content Include="Views\Home\ShellFeedback.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

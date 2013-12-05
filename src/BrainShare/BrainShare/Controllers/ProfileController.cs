@@ -217,10 +217,16 @@ namespace BrainShare.Controllers
         [GET("messages")]
         public ActionResult AllMessages()
         {
+            if (IsShellUser)
+            {
+                return View("ShellAllMessages");
+            }
+
             var threads = _threads.GetAllForUser(UserId).Where(x => x.Messages.Any()).OrderByDescending(x => x.Messages.Max(m => m.Posted));
             var user = _users.GetById(UserId);
             var model = new AllThreadsViewModel(threads, UserId, user);
             Title("Сообщения");
+
             return View(model);
         }
 
@@ -333,16 +339,27 @@ namespace BrainShare.Controllers
         [POST("get-new-books-count")]
         public ActionResult GetNewBooksCount()
         {
-            var user = _users.GetById(UserId);
-            //replaces with all book requests, not only new
-            return Json(new { Result = user.Inbox.Count });
+            if (!IsShellUser)
+            {
+                 var user = _users.GetById(UserId);
+                //replaces with all book requests, not only new
+                return Json(new { Result = user.Inbox.Count });
+            }
+            //Todo: Realize logic for shell user
+            return Json(new { Result = 0 });
         }
 
         [POST("get-new-messages-count")]
         public ActionResult ThreadsWithUnreadMessages()
         {
-            var user = _users.GetById(UserId);
-            return Json(new { Result = user.ThreadsWithUnreadMessages.Count });
+            if (!IsShellUser)
+            {
+                var user = _users.GetById(UserId);
+                return Json(new { Result = user.ThreadsWithUnreadMessages.Count });
+            }
+
+            //Todo: Realize logic for shell user
+            return Json(new { Result = 0 });          
         }
 
         [POST]
@@ -375,6 +392,40 @@ namespace BrainShare.Controllers
 
                 return Json(new { avatarUrl = avatarUrl, avatarId = uploadResult.PublicId, avatarFormat = uploadResult.Format });
             }
+
+            return Json(new { error = "Файл загруженный вами не является изображением или его размеры слишком малы" });
+        }
+
+        [POST]
+        public JsonResult UploadShellImage(HttpPostedFileBase uploadedFile)
+        {
+            //var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
+            //bool isValidImage;
+
+            //if (uploadedFile != null)
+            //{
+            //    isValidImage = uploadedFile.IsValidImage(250, 250);
+            //}
+            //else
+            //{
+            //    // TODO: actions if close button pressed
+            //    return null;
+            //}
+
+            //if (isValidImage)
+            //{
+            //    uploadedFile.InputStream.Seek(0, SeekOrigin.Begin);
+
+            //    var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams()
+            //    {
+            //        File = new CloudinaryDotNet.Actions.FileDescription("filename", uploadedFile.InputStream),
+            //    };
+
+            //    var uploadResult = cloudinary.Upload(uploadParams);
+            //    string avatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(500).Height(500).Crop("limit")).BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
+
+            //    return Json(new { avatarUrl = avatarUrl, avatarId = uploadResult.PublicId, avatarFormat = uploadResult.Format });
+            //}
 
             return Json(new { error = "Файл загруженный вами не является изображением или его размеры слишком малы" });
         }

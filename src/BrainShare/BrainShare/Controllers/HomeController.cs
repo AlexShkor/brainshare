@@ -60,7 +60,7 @@ namespace BrainShare.Controllers
 
         public ActionResult Feedback()
         {
-            return View();
+            return IsShellUser ? View("ShellFeedback") : View();
         }
     }
 }
