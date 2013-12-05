@@ -626,6 +626,7 @@
     <Content Include="Views\Profile\EditShellProfile.cshtml" />
     <Content Include="Views\Profile\ShellAllMessages.cshtml" />
     <Content Include="Views\Home\ShellFeedback.cshtml" />
+    <Content Include="Views\Books\WishInfo.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -100,7 +100,8 @@ namespace BrainShare.Controllers
             var model = new BookViewModel(book);
             model.CurrentUserId = UserId;
             Title(model.Title);
-            return View("Info", model);
+            ViewBag.Searecher = UserName;
+            return View("WishInfo", model);
         }
 
         [GET("edit/{id}")]

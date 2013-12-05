@@ -18,6 +18,14 @@ namespace BrainShare.Controllers
             }
         }
 
+        public string UserName
+        {
+            get
+            {
+                return (((UserIdentity)User.Identity).User ?? new CommonUser()).FullName;
+            }
+        }
+
         public bool IsShellUser
         {
             get
@@ -26,6 +34,7 @@ namespace BrainShare.Controllers
             }
         }
 
+  
         protected void Title(string title)
         {
             ViewBag.Title = title;
