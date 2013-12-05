@@ -26,6 +26,8 @@ namespace BrainShare.Controllers
             {
                 user.Password = _cryptographicHelper.GetPasswordHash(user.Password);
                 user.Email = user.Email.ToLower();
+
+                _users.Save(user);
                 total++;
             }
 
