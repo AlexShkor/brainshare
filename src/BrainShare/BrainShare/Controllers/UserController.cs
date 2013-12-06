@@ -127,14 +127,13 @@ namespace BrainShare.Controllers
                     _users.AddUser(newUser);
 
                     SendMailAsync(newUser);
-                    return RedirectToAction("Login", "User");
                 }
                 else
                 {
                     ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
                 }
             }
-            return View(model);
+            return JsonModel(model);
         }
 
         [HttpPost]

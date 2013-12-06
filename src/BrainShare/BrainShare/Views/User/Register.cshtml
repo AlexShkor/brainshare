@@ -1,4 +1,5 @@
-﻿@model BrainShare.ViewModels.RegisterViewModel
+﻿@using Newtonsoft.Json
+@model BrainShare.ViewModels.RegisterViewModel
 
 @{
     ViewBag.Title = "Register";
@@ -6,103 +7,143 @@
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
 <script src="~/Scripts/jquery.geocomplete.min.js"></script>
 
-@using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "form-horizontal" }))
-{
-    <fieldset>
+<!-- ko with: model-->
 
-        <legend>Заполните форму для регистрации или используйте ваш Facebook аккаунт</legend>
-        <a href="/user/RegisterAsBookshell">Зарегистрировать полку</a>
-        @Html.ValidationSummary()
+<form class = "form-horizontal">
+        
+<fieldset>
 
-        <div class="span6">
-            <div class="control-group">
-                <div class="controls">
-                    <a class="btn btn-large btn-primary" href="@Url.Action("LoginWithFacebook", "User")">Войти через Facebook</a>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="FirstName">
-                    Имя
-                </label>
-                <div class="controls">
-                    @Html.TextBox("FirstName", Model.FirstName)
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="LastName">
-                    Фамилия
-                </label>
-                <div class="controls">
-                    @Html.TextBox("LastName", Model.LastName)
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="geocomplete">
-                    Город
-                </label>
-                <div class="controls">
-                    <input id="geocomplete" placeholder="введите город" name="original_address" type="text" value="@Model.original_address"/>
-                </div>
-                <div>
-                </div>
-                <div id="locationValues" class="hide">
-                    <input name="formatted_address" type="hidden" value="@Model.formatted_address">
-                    <input name="country" type="hidden" value="@Model.country">
-                    <input name="locality" type="hidden" value="@Model.locality">
-                </div>
-            </div>
+    <legend>Заполните форму для регистрации или используйте ваш Facebook аккаунт</legend>
+    <a href="/user/RegisterAsBookshell">Зарегистрировать полку</a>
+       
+    @Html.Partial("KnockoutSummary")
 
-            <div class="control-group">
-                <label class="control-label" for="Email">
-                    e-mail
-                </label>
-                <div class="controls">
-                    @Html.TextBox("Email", Model.Email, new { id = "Email" })
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="Password">
-                    Пароль
-                </label>
-                <div class="controls">
-                    @Html.Password("Password", Model.Password, new { id = "Password" })
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="ConfirmPassword">
-                    Подтвердите пароль
-                </label>
-                <div class="controls">
-                    @Html.Password("ConfirmPassword", Model.ConfirmPassword, new { id = "ConfirmPassword" })
-                </div>
+    <div class="span6">
+        <div class="control-group">
+            <div class="controls">
+                <a class="btn btn-large btn-primary" href="@Url.Action("LoginWithFacebook", "User")">Войти через Facebook</a>
             </div>
         </div>
-        <div class="span5">
-            <div class="thumbnail">
-                <div class="map_canvas" style="height: 400px">
-                </div>
+        <div class="control-group">
+            <label class="control-label" for="FirstName">
+                Имя
+            </label>
+            <div class="controls">
+                <input type="text" data-bind="value:FirstName"/>
+                <span class="required-field-symbol">*</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="LastName">
+                Фамилия
+            </label>
+            <div class="controls">
+                <input type="text" data-bind="value:LastName"/>
+                <span class="required-field-symbol">*</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="geocomplete">
+                Город
+            </label>
+            <div class="controls">
+                <input id="geocomplete" placeholder="введите город" name="original_address" type="text" data-bind="value:original_address" />
+                <span class="required-field-symbol">*</span>
+            </div>
+            <div>
+            </div>
+            <div id="locationValues" class="hide">
+                <input name="formatted_address" id="formatted_address" type="hidden" value="@Model.formatted_address">
+                <input name="country" type="hidden" id="country" value="@Model.country">
+                <input name="locality" type="hidden" id="locality" value="@Model.locality">
             </div>
         </div>
 
-        <div class="clearfix"></div>
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary">
-                Готово
-            </button>
-            @Html.ActionLink("Отмена", "Index", "Home", null, new { @class = "btn btn-danger" })
+        <div class="control-group">
+            <label class="control-label" for="Email">
+                e-mail
+            </label>
+            <div class="controls">
+                <input type="text" data-bind="value:Email"/>
+                <span class="required-field-symbol">*</span>
+            </div>
         </div>
-    </fieldset>
-}
+        <div class="control-group">
+            <label class="control-label" for="Password">
+                Пароль
+            </label>
+            <div class="controls">
+                <input type="password" data-bind="value:Password"/>
+                <span class="required-field-symbol">*</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="ConfirmPassword">
+                Подтвердите пароль
+            </label>
+            <div class="controls">
+                <input type="password" data-bind="value:ConfirmPassword"/>
+                <span class="required-field-symbol">*</span>
+            </div>
+        </div>
+        <span><span class="required-field-symbol">*</span>поля обязательные для заполнения</span>
+    </div>
+    <div class="span5">
+        <div class="thumbnail">
+            <div class="map_canvas" style="height: 400px">
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary" data-bind="click:$root.save">
+            Готово
+        </button>
+        @Html.ActionLink("Отмена", "Index", "Home", null, new { @class = "btn btn-danger" })
+    </div>
+</fieldset>
+</form>
+
+<!-- /ko -->
 
 <script type="text/javascript">
+  
+    function RegisterModel (data, submitUrl) {
+        var self = this;
+        this.model = ko.mapping.fromJS(data);
+       
+        this.updateResults = function() {
+            self.model.locality($("#locality").val());
+            self.model.country($("#country").val());
+            self.model.formatted_address($("#formatted_address").val());
+        };
+        
+        this.save = function () {
+            self.updateResults();
+            sendModel(submitUrl,self.model, function (model) {
+   
+                if (model.Errors.length == 0) {
+                    window.location.href = "/User/Login";
+                }
+            });          
+        };
+        
+    }  
+
     $(function () {
+
+        var model = new RegisterModel(@Html.Raw(JsonConvert.SerializeObject(Model)), "/user/Register");
+        ko.applyBindings(model);
+
         $("#geocomplete").geocomplete({
             map: '.map_canvas',
             details: "#locationValues",
             location: 'Minsk, Belarus'
-        });
+        }).bind("geocode:result", function(event, result) {
+            model.updateResults();
+        });;
     });
-   
 </script>
 
 

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using BrainShare.ViewModels.Base;
 
 namespace BrainShare.ViewModels
 {
-    public class RegisterViewModel
+    public class RegisterViewModel:BaseViewModel
     {
-        private const string LocalityErrorMessage = "Пожалуйста, выберите город из списка";
-        private const string EmptyErrorMessage = " "; // white space is important!
 
         [Required(ErrorMessage = "Введите имя")]
         [Display(Name = "Имя")]
@@ -18,14 +17,14 @@ namespace BrainShare.ViewModels
         [StringLength(50, ErrorMessage = "Фамилия должна содержать не более 50-ти символов")]
         public string LastName { get; set; }
 
-
-        [Required(ErrorMessage = "Укажите город")]
         public string original_address { get; set; }
-        [Required(ErrorMessage = EmptyErrorMessage)]
+
         public string formatted_address { get; set; }
-        [Required(ErrorMessage = EmptyErrorMessage)]
+
+        [Required(ErrorMessage = "Укажите страну")]
         public string country { get; set; }
-        [Required(ErrorMessage = LocalityErrorMessage)]
+
+        [Required(ErrorMessage = "Укажите положение")]
         public string locality { get; set; }
 
         [Required(ErrorMessage = "Введите e-mail адресс")]
