@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Services;
 using BrainShare.Utilities;
@@ -13,13 +9,11 @@ namespace BrainShare.Controllers
     {
         private readonly UsersService _users;
         private readonly ShellUserService _shellUserService;
-        private readonly ICommonUserService _commonUserService;
 
-        public FollowerController(UsersService users, ShellUserService shellUserService, ICommonUserService commonUserService)
+        public FollowerController(UsersService users, ShellUserService shellUserService)
         {
             _users = users;
             _shellUserService = shellUserService;
-            _commonUserService = commonUserService;
         }
 
         //shells cant follow 
@@ -38,13 +32,13 @@ namespace BrainShare.Controllers
             {
                 var shellPublisher = _shellUserService.GetById(publisherId);
                 currentUser.SetPublisher(shellPublisher.MapShellUser());
-                shellPublisher.SetFollower(currentUser);
+                shellPublisher.SetFollower(currentUser.AvatarUrl, currentUser.FullName, currentUser.Id);
                 _shellUserService.Save(shellPublisher);
             }
             else
             {
                  currentUser.SetPublisher(publisher.MapUser());
-                publisher.SetFollower(currentUser);
+                 publisher.SetFollower(currentUser.AvatarUrl, currentUser.FullName, currentUser.Id);
                 _users.Save(publisher);
             }
             _users.Save(currentUser);

@@ -9,12 +9,8 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace BrainShare.Documents
 {
     [BsonIgnoreExtraElements]
-    public class User
+    public class User : BaseUser
     {
-        [BsonId]
-        public string Id { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Info { get; set; }
@@ -33,7 +29,6 @@ namespace BrainShare.Documents
         public List<ChangeRequest> Inbox { get; set; }
 
         public List<Publisher> Publishers { get; set; }
-        public List<Follower> Followers { get; set; }
 
         public string FullName
         {
@@ -98,30 +93,12 @@ namespace BrainShare.Documents
                 });
         }
 
-        public void SetFollower(User follower)
-        {
-            if (Followers.Any(f => f.Id == follower.Id))
-            {
-                return;
-            }
-
-            Followers.Add(new Follower
-            {
-                Id = follower.Id,
-                AvatarUrl = follower.AvatarUrl,
-                FullName = follower.FullName,
-            });
-        }
-
         public void RemovePublisher(string userId)
         {
             Publishers.RemoveAll(e => e.Id == userId);
         }
 
-        public void RemoveFollower(string userId)
-        {
-            Followers.RemoveAll(e => e.Id == userId);
-        }
+
 
         public bool IsSubscribed(string userId)
         {
