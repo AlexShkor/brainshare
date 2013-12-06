@@ -106,10 +106,12 @@ namespace BrainShare.Controllers
         {
             if (ModelState.IsValid)
             {
-                var anyUser = _users.GetUserByEmail(model.Email.ToLower());
+                var anyUser = _users.GetUserByEmail(model.Email);
                 if (anyUser == null)
                 {
-                    var hashedPassword = _cryptoHelper.GetPasswordHash(model.Password);
+                    var salt = _cryptoHelper.GenerateSalt();
+                    var hashedPassword = _cryptoHelper.GetPasswordHash(model.Password,salt);
+
                     var newUser = new User()
                                       {
                                           Id = GetIdForUser(),
@@ -118,7 +120,8 @@ namespace BrainShare.Controllers
                                           LastName = model.LastName,
                                           Email = model.Email.ToLower(),
                                           Password = hashedPassword,
-                                          Registered = DateTime.Now
+                                          Registered = DateTime.Now,
+                                          Salt = salt
                                       };
 
                     _users.AddUser(newUser);
@@ -144,10 +147,12 @@ namespace BrainShare.Controllers
             else
             {
                 model.ClearErrors();
-                var anyUser = _users.GetUserByEmail(model.Email.ToLower());
+                var anyUser = _users.GetUserByEmail(model.Email);
                 if (anyUser == null)
                 {
-                    var hashedPassword = _cryptoHelper.GetPasswordHash(model.Password);
+                    var salt = _cryptoHelper.GenerateSalt();
+                    var hashedPassword = _cryptoHelper.GetPasswordHash(model.Password, salt);
+
                     var user = new ShellUser
                         {
                             Name = model.Name,
@@ -163,7 +168,8 @@ namespace BrainShare.Controllers
                             Created = DateTime.UtcNow,
                             Id = ObjectId.GenerateNewId().ToString(),
                             Password = hashedPassword,
-                            Email = model.Email.ToLower()
+                            Email = model.Email.ToLower(),
+                            Salt = salt
                         };
 
                     _shellUserService.Save(user);

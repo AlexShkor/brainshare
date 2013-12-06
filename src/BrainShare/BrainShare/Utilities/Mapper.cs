@@ -17,7 +17,9 @@ namespace BrainShare.Utilities
                 IsShell = true,
                 OriginalType = typeof(ShellUser),
                 FullName = shellUser.Name,
-                AvatarUrl = shellUser.AvatarUrl
+                AvatarUrl = shellUser.AvatarUrl,
+                Password = shellUser.Password,
+                Salt =  shellUser.Salt
             };
         }
 
@@ -33,7 +35,9 @@ namespace BrainShare.Utilities
                 IsShell = false,
                 OriginalType = typeof(User),
                 FullName = user.FullName,
-                AvatarUrl = user.AvatarUrl
+                AvatarUrl = user.AvatarUrl,
+                Password = user.Password,
+                Salt = user.Salt
             };
         }
 

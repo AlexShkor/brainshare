@@ -37,14 +37,23 @@ namespace BrainShare.Authentication
 
         public CommonUser Login(string email, string password, bool isPersistent)
         {
-            var retUser = _commonUserService.GetByCredentials(email.ToLower(), _cryptoHelper.GetPasswordHash(password));
+            var retUser = _commonUserService.GetUserByEmail(email.ToLower());
 
-            if (retUser != null)
+            if (retUser == null)
             {
-                CreateCookie(email.ToLower(), isPersistent, Constants.ShellUserFlag);
+                return null;
             }
 
-            return retUser;
+            password = _cryptoHelper.GetPasswordHash(password, retUser.Salt);
+
+
+            if (retUser.Password.Equals(password))
+            {
+                CreateCookie(email.ToLower(), isPersistent, Constants.ShellUserFlag);
+                return retUser;
+            }
+
+            return null;
         }
 
         public CommonUser Login(string email)

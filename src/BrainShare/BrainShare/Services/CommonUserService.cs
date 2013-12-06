@@ -18,12 +18,6 @@ namespace BrainShare.Services
             _usersService = usersService;
         }
 
-        public CommonUser GetByCredentials(string email, string password)
-        {
-            var result = _usersService.GetByCredentials(email, password).MapUser();
-            return result ?? _shellUserService.GetByCredentials(email, password).MapShellUser();
-        }
-
         public CommonUser GetUserByEmail(string email)
         {
             var result = _usersService.GetUserByEmail(email).MapUser();

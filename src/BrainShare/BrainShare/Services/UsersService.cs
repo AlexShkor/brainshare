@@ -23,14 +23,7 @@ namespace BrainShare.Services
 
         public User GetUserByEmail(string email)
         {
-            return Items.FindOne(Query<User>.EQ(x => x.Email, email));
-        }
-
-        public User GetByCredentials(string email, string password)
-        {
-            return
-                Items.FindOne(Query.And(Query<User>.EQ(x => x.Email, email),
-                                        Query<User>.EQ(x => x.Password, password)));
+            return Items.FindOne(Query<User>.EQ(x => x.Email, email.ToLower()));
         }
 
         public User GetByFacebookId(string facebookId)
