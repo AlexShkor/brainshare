@@ -140,13 +140,8 @@ namespace BrainShare.Controllers
         [HttpPost]
         public ActionResult RegisterAsBookShell(CreateShellViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                model.AddModelStateErrors(ModelState.Keys.SelectMany(key => ModelState[key].Errors), true);
-            }
-            else
-            {
-                model.ClearErrors();
                 var anyUser = _users.GetUserByEmail(model.Email);
                 if (anyUser == null)
                 {
@@ -178,13 +173,11 @@ namespace BrainShare.Controllers
                     SendMailAsync(user);
                     return Json(model);
                 }
-                else
-                {
-                    ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
-                }
+
+                ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
             }
       
-            return Json(model);
+            return JsonModel(model);
         }
 
         [HttpGet]

@@ -109,14 +109,8 @@ namespace BrainShare.Controllers
         [HttpPost]
         public ActionResult EditShellProfile(EditShellProfileViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                model.AddModelStateErrors(ModelState.Keys.SelectMany(key => ModelState[key].Errors), true);
-            }
-            else
-            {
-                model.ClearErrors();
-
                 var shellUser = _shellUserService.GetById(UserId);
 
                 shellUser.Name = model.Name;
@@ -129,6 +123,7 @@ namespace BrainShare.Controllers
 
                 _shellUserService.Save(shellUser);
             }
+
             return JsonModel(model);
         }
 

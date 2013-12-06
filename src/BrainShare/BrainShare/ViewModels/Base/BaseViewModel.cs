@@ -75,26 +75,5 @@ namespace BrainShare.ViewModels.Base
             Errors.Clear();
             SuccessMessage = successMessage;
         }
-
-        public void AddModelStateErrors(IEnumerable<ModelError>errors, bool clearPreviouserrors = false)
-        {
-            if (clearPreviouserrors)
-            {
-                ClearErrors();
-            }
-          
-            foreach (var modelError in errors)
-            {
-                Errors.Add(new ValidationError { ErrorMessage = modelError.ErrorMessage });
-            }
-        }
-
-        public void ClearErrors()
-        {
-            if (Errors != null)
-            {
-                Errors.Clear();
-            }
-        }
     }
 }
