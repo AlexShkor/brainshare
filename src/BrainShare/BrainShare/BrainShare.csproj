@@ -248,7 +248,6 @@
     <Compile Include="Controllers\FollowerController.cs" />
     <Compile Include="Controllers\MigrateController.cs" />
     <Compile Include="Documents\BaseUser.cs" />
-    <Compile Include="Documents\Data\Follower.cs" />
     <Compile Include="Documents\Data\Publisher.cs" />
     <Compile Include="Documents\Data\ShellAddressData.cs" />
     <Compile Include="Documents\PublicShell.cs" />
@@ -274,7 +273,7 @@
     <Compile Include="ViewModels\AllBooksViewModel.cs" />
     <Compile Include="ViewModels\BooksFilterModel.cs" />
     <Compile Include="ViewModels\EditShellProfileViewModel.cs" />
-    <Compile Include="ViewModels\FollowersViewModel.cs" />
+    <Compile Include="ViewModels\PublishersViewModel.cs" />
     <Compile Include="ViewModels\MyShellProfileViewModel.cs" />
     <Compile Include="ViewModels\CreateShellViewModel.cs" />
     <Compile Include="ViewModels\EditBookViewModel.cs" />
@@ -634,6 +633,7 @@
     <Content Include="Views\Books\WishInfo.cshtml" />
     <Content Include="Views\User\ShellFriends.cshtml" />
     <Content Include="Views\User\Friends.cshtml" />
+    <Content Include="Views\Shared\_PublisherListItem.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

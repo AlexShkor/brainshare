@@ -1,0 +1,39 @@
+﻿@model BrainShare.Documents.Data.Publisher
+
+  <div style="padding-top: 1.5em" class="row">
+        <div style="padding-top: 0" class="avatar-container span4">
+            <img alt="аватар" class="avatar-image" src="@Model.AvatarUrl" />
+        </div>
+
+        <div class="form-horizontal span6">
+            <div>
+                <div class="control-group">
+                    <div>
+                        <span class="color-black">Полное имя:</span>
+                    </div>
+                    <div>
+                        <span>@Model.FullName</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div>
+                        <span class="color-black">ещё какая нибудь инфа:</span>
+                    </div>
+                    <div>
+                        <span>Implement</span>
+                    </div>
+                </div>
+          
+                    <div class="control-group" data-bind="template: { name: templateName()}">
+                          <button class="btn btn-info" data-bind="click: sendMessage">Отписаться</button>
+                    </div>
+            </div>
+        </div>
+
+    </div>
+
+<style>
+    .avatar-image {
+        height: 160px;   
+    }
+</style>

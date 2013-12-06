@@ -424,7 +424,10 @@ namespace BrainShare.Controllers
                 return View("ShellFriends");
             }
 
-            return View(new FollowersViewModel(_users.GetById(UserId)));
+            var publishersIds = _users.GetById(UserId).Publishers;
+            var publishers = _users.GetByIds(publishersIds);
+
+            return View(new PublishersViewModel(publishers));
         }
 
         public ActionResult GetFbFriends()

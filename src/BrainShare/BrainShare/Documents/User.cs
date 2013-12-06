@@ -21,19 +21,19 @@ namespace BrainShare.Documents
         public string FacebookAccessToken { get; set; }
         
         public AddressData Address { get; set; }
-
-        public string AvatarUrl { get; set; }
        
         public DateTime Registered { get; set; }
 
         public List<ChangeRequest> Inbox { get; set; }
 
-        public List<Publisher> Publishers { get; set; }
+        public List<string> Publishers { get; set; }
 
-        public string FullName
+        public override string FullName
         {
             get { return string.Format("{0} {1}", FirstName, LastName); }
         }
+
+        public override string UserType { get { return "User"; }  }
 
         public User()
         {
@@ -41,8 +41,8 @@ namespace BrainShare.Documents
             Votes = new Dictionary<string, int>();
             ThreadsWithUnreadMessages = new List<string>();
             Address = new AddressData();
-            Publishers = new List<Publisher>();
-            Followers = new List<Follower>();
+            Publishers = new List<string>();
+            Followers = new List<string>();
         }
 
         public void SetVote(string setterId, int value)
@@ -79,30 +79,24 @@ namespace BrainShare.Documents
 
         public void SetPublisher(CommonUser publisher)
         {
-            if (Publishers.Any(p => p.Id == publisher.Id))
+            if (Publishers.Any(p => p == publisher.Id))
             {
                 return;
             }
 
-            Publishers.Add(new Publisher
-                {
-                    Id = publisher.Id,
-                    AvatarUrl = publisher.AvatarUrl,
-                    FullName = publisher.FullName,
-                    IsShell = publisher.IsShell
-                });
+            Publishers.Add(publisher.Id);
         }
 
         public void RemovePublisher(string userId)
         {
-            Publishers.RemoveAll(e => e.Id == userId);
+            Publishers.RemoveAll(e => e == userId);
         }
 
 
 
         public bool IsSubscribed(string userId)
         {
-            return Publishers.Any(p => p.Id == userId);
+            return Publishers.Any(p => p == userId);
         }
     }
 }

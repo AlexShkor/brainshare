@@ -16,7 +16,8 @@ namespace BrainShare.Utilities
                 Id = shellUser.Id,
                 IsShell = true,
                 OriginalType = typeof(ShellUser),
-                FullName = shellUser.Name
+                FullName = shellUser.Name,
+                AvatarUrl = shellUser.AvatarUrl
             };
         }
 
@@ -31,7 +32,8 @@ namespace BrainShare.Utilities
                 Id = user.Id,
                 IsShell = false,
                 OriginalType = typeof(User),
-                FullName = user.FullName
+                FullName = user.FullName,
+                AvatarUrl = user.AvatarUrl
             };
         }
 

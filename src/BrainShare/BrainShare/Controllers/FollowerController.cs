@@ -32,13 +32,13 @@ namespace BrainShare.Controllers
             {
                 var shellPublisher = _shellUserService.GetById(publisherId);
                 currentUser.SetPublisher(shellPublisher.MapShellUser());
-                shellPublisher.SetFollower(currentUser.AvatarUrl, currentUser.FullName, currentUser.Id);
+                shellPublisher.SetFollower(currentUser.Id);
                 _shellUserService.Save(shellPublisher);
             }
             else
             {
                  currentUser.SetPublisher(publisher.MapUser());
-                 publisher.SetFollower(currentUser.AvatarUrl, currentUser.FullName, currentUser.Id);
+                 publisher.SetFollower(currentUser.Id);
                 _users.Save(publisher);
             }
             _users.Save(currentUser);

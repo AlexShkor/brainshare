@@ -13,32 +13,36 @@ namespace BrainShare.Documents
         public DateTime Created { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        public List<Follower> Followers { get; set; }
+        public List<string> Followers { get; set; }
         public string Salt { get; set; }
+        public string AvatarUrl { get; set; }
+        public virtual string FullName { get; set; }
 
-        public BaseUser()
+        public virtual string UserType { get; set; }
+
+        protected BaseUser()
         {
-            Followers = new List<Follower>();
+            Followers = new List<string>();
         }
 
-        public virtual void SetFollower(string avatarUrl, string name, string id)
+        public virtual void SetFollower(string id)
         {
-            if (Followers.Any(f => f.Id == id))
+            if (Followers == null)
+            {
+                Followers = new List<string>();
+            }
+
+            if (Followers.Any(f => f == id))
             {
                 throw new Exception(string.Format("follower with id = {0} already exists",id));
             }
 
-            Followers.Add(new Follower
-            {
-                Id = id,
-                AvatarUrl = avatarUrl,
-                FullName = name,
-            });
+            Followers.Add(id);
         }
 
         public virtual void RemoveFollower(string id)
         {
-            Followers.RemoveAll(e => e.Id == id);
+            Followers.RemoveAll(e => e == id);
         }
     }
 }
