@@ -124,10 +124,23 @@
 </div>
 
 <script id="subscribe-template" type="text/html">
-        <button class="btn btn-info" data-bind="click: followMe">Подписаться</button>
+        <button class="btn btn-info subscribe-button" data-bind="click: subscribe">Подписаться</button>
 </script>
 <script id="subscribed-template" type="text/html">
-        <span class="btn btn-info">Вы подписаны</span>
+    <span class="">Вы подписаны  <a href="#" data-bind="click: unsubscribe" class="unsubscribe-link">Отписаться</a></span>
 </script>
+
+<style>
+    .unsubscribe-link {
+        margin-left: 14px;
+        font-size: 13px;   
+    }
+
+    .subscribe-button {
+        width: 206px;
+        position: relative;
+        top: -13px;
+    }
+</style>
 
 

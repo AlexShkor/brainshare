@@ -33,6 +33,7 @@ namespace BrainShare.Documents
         public List<ChangeRequest> Inbox { get; set; }
 
         public List<Publisher> Publishers { get; set; }
+        public List<Follower> Followers { get; set; }
 
         public string FullName
         {
@@ -46,6 +47,7 @@ namespace BrainShare.Documents
             ThreadsWithUnreadMessages = new List<string>();
             Address = new AddressData();
             Publishers = new List<Publisher>();
+            Followers = new List<Follower>();
         }
 
         public void SetVote(string setterId, int value)
@@ -80,20 +82,45 @@ namespace BrainShare.Documents
             Inbox.RemoveAll(x => x.User.UserId == userId && x.BookId == yourBookId);
         }
 
-        public void SetPublisher(CommonUser user)
+        public void SetPublisher(CommonUser publisher)
         {
-            if (Publishers.Any(p => p.Id == user.Id))
+            if (Publishers.Any(p => p.Id == publisher.Id))
             {
                 return;
             }
 
             Publishers.Add(new Publisher
                 {
-                    Id = user.Id,
-                    AvatarUrl = user.AvatarUrl,
-                    FullName = user.FullName,
-                    IsShell = user.IsShell
+                    Id = publisher.Id,
+                    AvatarUrl = publisher.AvatarUrl,
+                    FullName = publisher.FullName,
+                    IsShell = publisher.IsShell
                 });
+        }
+
+        public void SetFollower(User follower)
+        {
+            if (Followers.Any(f => f.Id == follower.Id))
+            {
+                return;
+            }
+
+            Followers.Add(new Follower
+            {
+                Id = follower.Id,
+                AvatarUrl = follower.AvatarUrl,
+                FullName = follower.FullName,
+            });
+        }
+
+        public void RemovePublisher(string userId)
+        {
+            Publishers.RemoveAll(e => e.Id == userId);
+        }
+
+        public void RemoveFollower(string userId)
+        {
+            Followers.RemoveAll(e => e.Id == userId);
         }
 
         public bool IsSubscribed(string userId)

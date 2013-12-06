@@ -247,6 +247,7 @@
     <Compile Include="ContainerConfigure.cs" />
     <Compile Include="Controllers\FollowerController.cs" />
     <Compile Include="Controllers\MigrateController.cs" />
+    <Compile Include="Documents\Data\Follower.cs" />
     <Compile Include="Documents\Data\Publisher.cs" />
     <Compile Include="Documents\Data\ShellAddressData.cs" />
     <Compile Include="Documents\PublicShell.cs" />

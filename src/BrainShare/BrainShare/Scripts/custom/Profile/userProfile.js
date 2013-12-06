@@ -57,10 +57,18 @@
         window.location = "/profile/message/to/" + self.user.Id;
     };
 
-    this.followMe = function() {
-        send("/Follower/Follow", { userId: self.user.Id }, function(response) {
+    this.subscribe = function () {
+        send("/Follower/Subscribe", { publisherId: self.user.Id }, function (response) {
             if (response == "success") {
                 self.isCurrentUserSubscribed(true);
+            }
+        });
+    };
+    
+    this.unsubscribe = function () {
+        send("/Follower/Unsubscribe", { userId: self.user.Id }, function (response) {
+            if (response == "success") {
+                self.isCurrentUserSubscribed(false);
             }
         });
     };
