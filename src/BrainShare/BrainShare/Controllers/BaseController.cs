@@ -34,6 +34,14 @@ namespace BrainShare.Controllers
             }
         }
 
+        public bool IsFacebookAccountWithoutPassword
+        {
+            get
+            {
+                var user = ((UserIdentity) User.Identity).User ?? new CommonUser();
+                return user.IsFacebookAccount && user.Password == null;
+            }
+        }
   
         protected void Title(string title)
         {

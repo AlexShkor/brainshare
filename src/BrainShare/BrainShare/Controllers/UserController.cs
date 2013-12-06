@@ -192,6 +192,7 @@ namespace BrainShare.Controllers
         {
             return View(new CreateShellViewModel());
         }
+        
 
         private void SendMailAsync(User newUser)
         {

@@ -21,7 +21,7 @@ using BrainShare.Extensions;
 
 namespace BrainShare.Controllers
 {
-    [System.Web.Mvc.Authorize]
+    [Authorize]
     [RoutePrefix("profile")]
     public class ProfileController : BaseController
     {
@@ -31,8 +31,11 @@ namespace BrainShare.Controllers
         private readonly ShellUserService _shellUserService;
         private readonly ThreadsService _threads;
         private readonly CloudinaryImagesService _cloudinaryImages;
+        private readonly CryptographicHelper _cryptographicHelper;
+        private readonly IAuthentication _authentication;
 
-        public ProfileController(BooksService books, UsersService users, ShellUserService shellUserService, ThreadsService threads, WishBooksService whishBooks, CloudinaryImagesService cloudinaryImages)
+        public ProfileController(BooksService books, UsersService users, ShellUserService shellUserService, ThreadsService threads, WishBooksService whishBooks, 
+            CloudinaryImagesService cloudinaryImages,CryptographicHelper cryptographicHelper,IAuthentication authentication)
         {
             _books = books;
             _users = users;
@@ -40,6 +43,8 @@ namespace BrainShare.Controllers
             _wishBooks = whishBooks;
             _cloudinaryImages = cloudinaryImages;
             _shellUserService = shellUserService;
+            _cryptographicHelper = cryptographicHelper;
+            _authentication = authentication;
         }
 
         public ActionResult Index()
@@ -166,6 +171,44 @@ namespace BrainShare.Controllers
 
             return Json(new { Success = "OK" });
         }
+
+        [HttpGet]
+        public ActionResult ChangePassword()
+        {
+            return View(new ChangePasswordModel{ IsFacebokAccountWithoutPassword = IsFacebookAccountWithoutPassword});
+        }
+
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var salt = _cryptographicHelper.GenerateSalt();
+                var password = _cryptographicHelper.GetPasswordHash(model.Password, salt);
+
+                if (IsShellUser)
+                {
+                    var shellUser = _shellUserService.GetById(UserId);
+                    shellUser.Password = password;
+                    shellUser.Salt = salt;
+                    _shellUserService.Save(shellUser);
+                }
+                else
+                {
+                    var user = _users.GetById(UserId);
+                    user.Password = password;
+                    user.Salt = salt;
+
+                    _users.Save(user);
+                }
+
+                _authentication.Logout();
+            }
+
+            return JsonModel(model);
+        }
+
+
 
         [POST]
         [ValidateInput(false)]

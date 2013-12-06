@@ -37,7 +37,8 @@ namespace BrainShare.Utilities
                 FullName = user.FullName,
                 AvatarUrl = user.AvatarUrl,
                 Password = user.Password,
-                Salt = user.Salt
+                Salt = user.Salt,
+                IsFacebookAccount = user.IsFacebookAccount
             };
         }
 

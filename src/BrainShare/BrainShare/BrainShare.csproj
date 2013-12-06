@@ -272,6 +272,7 @@
     <Compile Include="Utilities\Mapper.cs" />
     <Compile Include="ViewModels\AllBooksViewModel.cs" />
     <Compile Include="ViewModels\BooksFilterModel.cs" />
+    <Compile Include="ViewModels\ChangePasswordModel.cs" />
     <Compile Include="ViewModels\EditShellProfileViewModel.cs" />
     <Compile Include="ViewModels\PublishersViewModel.cs" />
     <Compile Include="ViewModels\MyShellProfileViewModel.cs" />
@@ -634,6 +635,7 @@
     <Content Include="Views\User\ShellFriends.cshtml" />
     <Content Include="Views\User\Friends.cshtml" />
     <Content Include="Views\Shared\_PublisherListItem.cshtml" />
+    <Content Include="Views\Profile\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
