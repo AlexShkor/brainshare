@@ -106,6 +106,12 @@ namespace BrainShare.Controllers
             var model = new BookViewModel(book);
             model.CurrentUserId = UserId;
             Title(model.Title);
+
+            if (id.HasValue())
+            {
+                return View("Info", model);
+            }
+
             ViewBag.Searecher = UserName;
             return View("WishInfo", model);
         }
