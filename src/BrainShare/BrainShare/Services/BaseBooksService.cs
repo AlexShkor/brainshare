@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using BinaryAnalysis.UnidecodeSharp;
 using BrainShare.Documents;
+using BrainShare.Infostructure.Filters;
 using BrainShare.Mongo;
 using MongoDB.Bson;
 using MongoDB.Driver;

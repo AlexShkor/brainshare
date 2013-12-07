@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using BrainShare.Documents;
 using BrainShare.Facebook;
+using BrainShare.Infostructure.Filters;
 using BrainShare.Mongo;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
 namespace BrainShare.Services
 {
-    public class UsersService : DocumentsService<User>
+    public class UsersService : DocumentsServiceFiltered<User,UsersFilter>
     {
         public UsersService(MongoDocumentsDatabase database)
             : base(database)
@@ -80,6 +82,18 @@ namespace BrainShare.Services
         public IEnumerable<User> GetLast(int count)
         {
             return Items.FindAll().SetSortOrder(SortBy<User>.Descending(x => x.Registered)).SetLimit(count);
+        }
+
+        protected override IEnumerable<IMongoQuery> BuildFilterQuery(UsersFilter filter)
+        {
+            if (filter.FirstName.HasValue())
+            {
+                yield return Query<User>.Matches(x => x.FirstName, new BsonRegularExpression(filter.FirstName, "i"));
+            }
+            if (filter.LastName.HasValue())
+            {
+                yield return Query<User>.Matches(x => x.LastName, new BsonRegularExpression(filter.FirstName, "i"));
+            }
         }
     }
 }

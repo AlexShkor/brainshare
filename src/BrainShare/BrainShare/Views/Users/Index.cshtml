@@ -9,7 +9,39 @@
 
 </script>
 <h4>Пользователи</h4>
-<ul class="thumbnails" data-bind="foreach: items">
+
+<form class="form-inline" action="/books" method="POST" @*data-bind="submit: search"*@>
+    <input type="text" @*data-bind="value: filter.Search"*@ />
+    <button type="submit" class="btn btn-success" style="margin-left: 0.5em;">Искать</button>
+   @* <img style="width: 30px; height: 30px;" data-bind="visible: filter.Loading" src="~/Images/loading.gif" />*@
+
+   <ul class="nav nav-pills pull-right">
+        <li data-bind="css: { active: @*filter.Advanced*@ true }">
+            <a href="#" @*data-bind="click: toggleAdvancedSearch"*@><i class="icon-plus"></i> Расширенный поиск</a>
+        </li>
+    </ul> @*
+    <div class="clearfix"></div>
+    <div class="well" data-bind="visible: filter.Advanced">
+        <div class="container">
+            <div class="span4">
+                @KO.EditRow("UserName", modelPrefix: "filter.",displayName:"Пользователь")
+                @KO.EditRow("Location", modelPrefix: "filter.",displayName:"Город")
+                @KO.EditRow("Author", modelPrefix: "filter.",displayName:"Автор")
+            </div>
+            <div class="span4">
+                @KO.EditRow("ISBN", modelPrefix: "filter.")
+                <div class="control-group">
+                    <label class="control-label" for="Language">Язык</label>
+                    <div class="controls">
+                        <select data-bind="options: languages, optionsText: 'NativeName', value: filter.Language, optionsCaption: 'Любой', optionsValue: 'Symbol'" class="input-block-level" id="Language"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+</form>
+
+<ul class="thumbnails" data-bind="foreach: $root.items">
     <li class="user-icon">
         <div class="thumbnail" data-bind="click: $root.info" style="width: 140px; height: 200px; overflow: hidden;">
             <img style="width: 128px;" data-bind="attr: { src: Avatar }" />

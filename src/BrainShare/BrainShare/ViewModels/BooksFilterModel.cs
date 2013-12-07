@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BrainShare.Infostructure.Filters;
 using BrainShare.Services;
 using BrainShare.Services.Validation;
 using BrainShare.ViewModels.Base;

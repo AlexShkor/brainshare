@@ -20,8 +20,22 @@ namespace BrainShare.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var model = _users.GetAll().Select(x => new UserViewModel(x)).OrderByDescending(x => x.Rating).ToList();
+            var model = new UsersFilterModel
+                {
+                    Users = _users.GetAll().Select(x => new UserViewModel(x)).OrderByDescending(x => x.Rating).ToList()
+                };
+
             return View(model);
+        }
+
+
+        [AllowAnonymous]
+        public ActionResult Filter(UsersFilterModel model)
+        {
+            var filter = model.ToFilter();
+            var items = _users.GetByFilter(filter).Select(x => new UserViewModel(x));
+            model.UpdatePagingInfo(filter.PagingInfo);
+            return Listing(items, model);
         }
     }
 }

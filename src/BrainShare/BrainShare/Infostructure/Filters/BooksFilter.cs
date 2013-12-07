@@ -1,6 +1,6 @@
 using BrainShare.Mongo;
 
-namespace BrainShare.Services
+namespace BrainShare.Infostructure.Filters
 {
     public class BooksFilter : BaseFilter
     {

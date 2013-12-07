@@ -264,6 +264,7 @@
     <Compile Include="Facebook\FacebookFriend.cs" />
     <Compile Include="GoogleDto\GoogleBookDto.cs" />
     <Compile Include="Infostructure\CryptographicHelper.cs" />
+    <Compile Include="Infostructure\Filters\UsersFilter.cs" />
     <Compile Include="Infostructure\Location.cs" />
     <Compile Include="Mongo\FilterOrder.cs" />
     <Compile Include="Services\CommonUserService.cs" />
@@ -284,6 +285,7 @@
     <Compile Include="ViewModels\MyProfileViewModel.cs" />
     <Compile Include="ViewModels\RequestAcceptedModel.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="ViewModels\UsersFilterModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Documents\CloudinaryImage.cs" />
     <Compile Include="Documents\Data\UserData.cs" />
@@ -312,7 +314,7 @@
     <Compile Include="Mongo\PagingInfo.cs" />
     <Compile Include="Mongo\DocumentsServiceFiltered.cs" />
     <Compile Include="Services\BaseBooksService.cs" />
-    <Compile Include="Services\BooksFilter.cs" />
+    <Compile Include="Infostructure\Filters\BooksFilter.cs" />
     <Compile Include="Services\CloudinaryImagesService.cs" />
     <Compile Include="Services\Validation\LanguagesService.cs" />
     <Compile Include="Services\WishBooksService.cs" />
