@@ -31,7 +31,7 @@
             <td data-bind="text: Authors"></td>
             <td><input type="checkbox" data-bind="checked: IsUserReadMe,click:$root.UpdateReadableStatus" /></td>
             <td>
-                <a class="btn btn-small"  data-bind="attr: {href: '/books/edit/' + Id}">Редактировать</a>
+                <a class="btn btn-small"  data-bind="attr: {href: '/books/edit/' + Id()}">Редактировать</a>
                 <a class="btn btn-danger btn-small" href="#" data-bind="click: $root.dontHave">Удалить</a>
             </td>
         </tr>
