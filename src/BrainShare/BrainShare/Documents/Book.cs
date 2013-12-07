@@ -23,6 +23,7 @@ namespace BrainShare.Documents
         public string Subtitle { get; set; }
         public string Image { get; set; }
         public string Country { get; set; }
+        public bool IsUserReadMe { get; set; }
 
         public DateTime Added { get; set; }
 

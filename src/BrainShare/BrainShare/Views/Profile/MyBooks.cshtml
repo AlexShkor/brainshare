@@ -21,6 +21,7 @@
         <tr>
             <th class="span5">Название</th>
             <th class="span5">Автор(ы)    </th>
+            <th class="span5">Книга читается</th>
             <th class="span5"></th>
         </tr>
     </thead>
@@ -28,6 +29,7 @@
         <tr>
             <td><a data-bind="text: Title, attr: {href: '/books/info/' + Id}"></a></td>
             <td data-bind="text: Authors"></td>
+            <td><input type="checkbox" data-bind="checked: IsUserReadMe,click:$root.UpdateReadableStatus" /></td>
             <td>
                 <a class="btn btn-small"  data-bind="attr: {href: '/books/edit/' + Id}">Редактировать</a>
                 <a class="btn btn-danger btn-small" href="#" data-bind="click: $root.dontHave">Удалить</a>

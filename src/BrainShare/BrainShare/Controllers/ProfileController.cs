@@ -167,6 +167,18 @@ namespace BrainShare.Controllers
             return Json(new { Success = "OK" });
         }
 
+        [POST]
+        public ActionResult UpdateBookStatus(string id)
+        {
+            var book = _books.GetById(id);
+            book.IsUserReadMe = !book.IsUserReadMe;
+
+            _books.Save(book);
+
+            return Json(book.IsUserReadMe);
+        }
+        
+
         [HttpGet]
         public ActionResult ChangePassword()
         {
