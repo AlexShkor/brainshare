@@ -7,23 +7,29 @@ namespace BrainShare.ViewModels
 {
     public class PublishersViewModel
     {
-        public PublishersViewModel(IEnumerable<BaseUser> publishers )
+        public  string  PublisherTemplate = "publisherTemplate";
+        public  string  PublisherDeletedTemplate = "publisherDeletedTemplate";
+        public string UserName { get; set; }
+ 
+        public PublishersViewModel(IEnumerable<BaseUser> publishers,string userName)
         {
-            Publishers = new List<Publisher>();
+            Publishers = new List<PublisherViewModel>();
+            UserName = userName;
 
             foreach (var publisher in publishers)
             {
-                Publishers.Add(new Publisher
+                Publishers.Add(new PublisherViewModel
                     {
                         AvatarUrl = publisher.AvatarUrl?? Constants.DefaultAvatarUrl,
                         FullName = publisher.FullName,
                         Id = publisher.Id,
-                        IsShell = publisher.UserType == "ShellUser"
+                        IsShell = publisher.UserType == "ShellUser",
+                        TemplateName = PublisherTemplate
                     });
             }
         }
 
-        public List<Publisher> Publishers { get; set; }
+        public List<PublisherViewModel> Publishers { get; set; }
 
         public bool PublishersExist{
             get { return Publishers != null && Publishers.Any(); }

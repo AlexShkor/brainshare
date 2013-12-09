@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Documents;
@@ -26,6 +27,7 @@ using System.Linq;
 
 namespace BrainShare.Controllers
 {
+    [RoutePrefix("user")]
     public class UserController : BaseController
     {
         private readonly UsersService _users;
@@ -415,18 +417,20 @@ namespace BrainShare.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult Friends()
+        [GET("Friends/{userId}")]
+        public ActionResult Friends(string userId)
         {
             if (IsShellUser)
             {
                 //Todo: implementation will be based on future needs
                 return View("ShellFriends");
             }
+            //Todo: future implementation will be based on user settings
+            userId = userId ?? UserId;
+            var user = _users.GetById(userId);
+            var publishers = _users.GetByIds(user.Publishers);
 
-            var publishersIds = _users.GetById(UserId).Publishers;
-            var publishers = _users.GetByIds(publishersIds);
-
-            return View(new PublishersViewModel(publishers));
+            return View(new PublishersViewModel(publishers,user.FullName));
         }
 
         public ActionResult GetFbFriends()

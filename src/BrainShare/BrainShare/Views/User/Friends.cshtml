@@ -1,4 +1,5 @@
-﻿@model BrainShare.ViewModels.PublishersViewModel
+﻿@using Newtonsoft.Json
+@model BrainShare.ViewModels.PublishersViewModel
 @{
     ViewBag.Title = "Friends";
     Layout = "~/Views/Profile/_ProfileLayout.cshtml";
@@ -10,8 +11,56 @@
 }
 else
 {
-    foreach (var follower in Model.Publishers)
-    {
-        @Html.Partial("_PublisherListItem",follower)
-    }
+    <!-- ko foreach: model.Publishers-->
+        @Html.Partial("_PublisherListItem")
+    <!-- /ko -->
 }
+
+<script type="text/javascript">
+  
+    function PublishersViewModel (data) {
+        var self = this;
+
+        this.publisherTemplate = data.PublisherTemplate;
+        this.publisherDeletedTemplate = data.PublisherDeletedTemplate;
+        
+        this.model = ko.mapping.fromJS(data);
+
+
+        this.showProfile = function(publisher) {
+            document.location = "/profile/view/" + publisher.Id();
+        };
+        
+        this.showPublishers = function (publisher) {
+            document.location = "/User/Friends/" + publisher.Id();
+        };
+        
+        this.sendMessage = function (publisher) {
+            document.location = "/profile/message/to/" + publisher.Id();
+        };
+        
+        this.unsubscribe = function (publisher) {
+            send("/Follower/Unsubscribe", { userId: publisher.Id() }, function (response) {
+                console.log(self.publisherDeletedTemplate);
+                console.log(  publisher.TemplateName());
+                publisher.TemplateName(self.publisherDeletedTemplate);
+            });
+        };
+
+        this.subscribe = function (publisher) {
+            console.log(publisher.Id());
+            send("/Follower/Subscribe", { publisherId: publisher.Id() }, function (response) {
+                console.log(self.PublisherTemplate);
+                publisher.TemplateName(self.publisherTemplate);
+            });
+        };
+
+    }  
+
+    $(function () {
+
+        var model = new PublishersViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+        ko.applyBindings(model);
+    });
+</script>
+
