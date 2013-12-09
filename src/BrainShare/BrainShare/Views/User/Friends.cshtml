@@ -22,6 +22,10 @@ else
     {
         <h4>Друзья пользователя <span>@Model.UserName</span></h4>
     }
+    else
+    {
+        <a class="btn-primary btn" href="@Url.Action("GetFbFriends")">Показать друзей с фейсбука</a>
+    }
     <!-- ko foreach: model.Publishers-->
         @Html.Partial("_PublisherListItem")
     <!-- /ko -->
