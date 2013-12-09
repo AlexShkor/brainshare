@@ -32,8 +32,9 @@ namespace BrainShare.Controllers
         private readonly ActivityFeedsService _feeds;
         private readonly CloudinaryImagesService _cloudinaryImages;
         private readonly ExchangeHistoryService _exchangeHistory;
+        private readonly Settings _settings;
 
-        public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages, ExchangeHistoryService exchangeHistory)
+        public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages, ExchangeHistoryService exchangeHistory,Settings settings)
         {
             _users = users;
             _books = books;
@@ -41,6 +42,7 @@ namespace BrainShare.Controllers
             _wishBooks = wishBooks;
             _cloudinaryImages = cloudinaryImages;
             _exchangeHistory = exchangeHistory;
+            _settings = settings;
         }
         
         [AllowAnonymous]
@@ -530,7 +532,7 @@ namespace BrainShare.Controllers
 
             if (isValidImage)
             {
-                var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
+                var cloudinary = new CloudinaryDotNet.Cloudinary(_settings.CloudinaryUrl);
                 bookImgfile.InputStream.Seek(0, SeekOrigin.Begin);
                 var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams()
                 {

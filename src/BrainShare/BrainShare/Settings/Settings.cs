@@ -14,8 +14,8 @@ namespace BrainShare
         //[SettingsProperty("cloudinary_public_id")]
         //public string CloudinaryPublicId { get; set; }
 
-        //[SettingsProperty("cloudinary_url")]
-        //public string CloudinaryUrl { get; set; }
+        [SettingsProperty("cloudinary_url")]
+        public string CloudinaryUrl { get; set; }
 
         //[SettingsProperty("adminEmail")]
         //public string AdminEmail { get; set; }

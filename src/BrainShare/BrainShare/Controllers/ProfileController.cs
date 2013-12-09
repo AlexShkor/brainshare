@@ -33,9 +33,10 @@ namespace BrainShare.Controllers
         private readonly CloudinaryImagesService _cloudinaryImages;
         private readonly CryptographicHelper _cryptographicHelper;
         private readonly IAuthentication _authentication;
+        private readonly Settings _settings;
 
         public ProfileController(BooksService books, UsersService users, ShellUserService shellUserService, ThreadsService threads, WishBooksService whishBooks, 
-            CloudinaryImagesService cloudinaryImages,CryptographicHelper cryptographicHelper,IAuthentication authentication)
+            CloudinaryImagesService cloudinaryImages,CryptographicHelper cryptographicHelper,IAuthentication authentication, Settings settings)
         {
             _books = books;
             _users = users;
@@ -45,6 +46,7 @@ namespace BrainShare.Controllers
             _shellUserService = shellUserService;
             _cryptographicHelper = cryptographicHelper;
             _authentication = authentication;
+            _settings = settings;
         }
 
         public ActionResult Index()
@@ -422,7 +424,7 @@ namespace BrainShare.Controllers
         [POST]
         public JsonResult UploadImage(HttpPostedFileBase uploadedFile)
         {
-            var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
+            var cloudinary = new CloudinaryDotNet.Cloudinary(_settings.CloudinaryUrl);
             bool isValidImage;
 
             if (uploadedFile != null)
@@ -491,7 +493,7 @@ namespace BrainShare.Controllers
         public JsonResult ResizeAvatar(string avatarId, string avatarFormat, string x, string y, string width, string height)
         {
             var user = _users.GetById(UserId);
-            var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
+            var cloudinary = new CloudinaryDotNet.Cloudinary(_settings.CloudinaryUrl);
             string realAvatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(500).Height(500).Crop("limit").Chain().X(x).Y(y).Width(width).Height(height).Crop("crop")).BuildUrl(String.Format("{0}.{1}", avatarId, avatarFormat));
 
             _cloudinaryImages.AddImage(new CloudinaryImage() { Id = ObjectId.GenerateNewId().ToString(), ImageId = avatarId, ImageUrl = realAvatarUrl });
