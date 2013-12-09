@@ -5,6 +5,11 @@ namespace BrainShare.ViewModels
 {
     public class UsersFilterModel : BaseFilterModel<UsersFilter>
     {
+        public UsersFilterModel()
+        {
+            ItemsPerPage = 12;
+        }
+
         public string Search { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
