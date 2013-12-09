@@ -305,6 +305,7 @@
     <Content Include="Content\imgAreaSelect\imgareaselect-default.css" />
     <Content Include="Content\imgAreaSelect\imgareaselect-deprecated.css" />
     <Content Include="Images\book-logo-placeholder.png" />
+    <Content Include="Images\fb_signup_empty.png" />
     <Content Include="Images\user-default-avatar.jpg" />
     <Content Include="Scripts\custom\addfromOzBy.js" />
     <Content Include="Scripts\custom\allusers.js" />
