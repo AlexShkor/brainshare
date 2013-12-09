@@ -92,7 +92,11 @@ namespace BrainShare.Services
             }
             if (filter.LastName.HasValue())
             {
-                yield return Query<User>.Matches(x => x.LastName, new BsonRegularExpression(filter.FirstName, "i"));
+                yield return Query<User>.Matches(x => x.LastName, new BsonRegularExpression(filter.LastName, "i"));
+            }
+            if (filter.Country.HasValue())
+            {
+                yield return Query<User>.Matches(x => x.Address.Country, new BsonRegularExpression(filter.Country, "i"));
             }
         }
     }

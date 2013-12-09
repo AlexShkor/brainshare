@@ -11,7 +11,8 @@
 
     console.log(ko.mapping.toJS(self));
 
-    this.info = function(item) {
+    this.info = function (item) {
+        console.log(item);
         window.location = "/profile/view/" + item.UserId();
     };
 
@@ -21,5 +22,9 @@
             return cutString + "...";
         }
         return string;
+    };
+    
+    this.toggleAdvancedSearch = function () {
+        self.filter.Advanced(!self.filter.Advanced());
     };
 }; 

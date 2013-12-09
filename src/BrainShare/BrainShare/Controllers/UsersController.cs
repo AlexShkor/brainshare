@@ -8,6 +8,7 @@ using BrainShare.ViewModels;
 
 namespace BrainShare.Controllers
 {
+    [Authorize]
     public class UsersController : BaseController
     {
         private readonly UsersService _users;
@@ -17,19 +18,13 @@ namespace BrainShare.Controllers
             _users = users;
         }
 
-        [AllowAnonymous]
         public ActionResult Index()
         {
-            var model = new UsersFilterModel
-                {
-                    Users = _users.GetAll().Select(x => new UserViewModel(x)).OrderByDescending(x => x.Rating).ToList()
-                };
+            var model = new UsersFilterModel();
 
             return View(model);
         }
 
-
-        [AllowAnonymous]
         public ActionResult Filter(UsersFilterModel model)
         {
             var filter = model.ToFilter();
