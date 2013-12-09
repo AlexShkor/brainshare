@@ -7,10 +7,21 @@
 
 @if (!Model.PublishersExist)
 {
-    <h4>У вас 0 друзей. Воспользуйтесь формой поиска и найдите своих друзей.</h4>
+    if (Model.IsMyFriends)
+    {
+        <h4>У вас 0 друзей. Воспользуйтесь формой поиска и найдите своих друзей.</h4>
+    }
+    else
+    {
+        <h4>У пользователя <span>@Model.UserName</span> нет друзей</h4>
+    }
 }
 else
 {
+    if (!Model.IsMyFriends)
+    {
+        <h4>Друзья пользователя <span>@Model.UserName</span></h4>
+    }
     <!-- ko foreach: model.Publishers-->
         @Html.Partial("_PublisherListItem")
     <!-- /ko -->

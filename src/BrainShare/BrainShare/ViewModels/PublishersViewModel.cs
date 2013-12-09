@@ -9,12 +9,16 @@ namespace BrainShare.ViewModels
     {
         public  string  PublisherTemplate = "publisherTemplate";
         public  string  PublisherDeletedTemplate = "publisherDeletedTemplate";
+
         public string UserName { get; set; }
+        public bool IsMyFriends { get; set; }
  
-        public PublishersViewModel(IEnumerable<BaseUser> publishers,string userName)
+ 
+        public PublishersViewModel(IEnumerable<BaseUser> publishers,string userName,bool isMyFriends)
         {
             Publishers = new List<PublisherViewModel>();
             UserName = userName;
+            IsMyFriends = isMyFriends;
 
             foreach (var publisher in publishers)
             {

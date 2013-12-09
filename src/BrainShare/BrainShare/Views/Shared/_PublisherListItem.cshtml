@@ -14,10 +14,10 @@
             <div class="span2"></div>
             <div class="span10">
                 <ul class="nav nav-stacked friend-options">
-                    <li class="active"><a href="#" data-bind="click:$root.sendMessage">Написать сообщение</a></li>
+                    <li class="active" data-bind="css:{'display-none':!$root.model.IsMyFriends()}"><a href="#" data-bind="click:$root.sendMessage">Написать сообщение</a></li>
                     <li><a href="#" data-bind="click:$root.showProfile">Посмотреть профиль</a></li>
                     <li><a href="#" data-bind="click:$root.showPublishers">Посмотреть друзей</a></li>
-                    <li><a href="#" data-bind="click:$root.unsubscribe">Убрать из друзей</a></li>
+                    <li data-bind="css:{'display-none':!$root.model.IsMyFriends()}"><a href="#" data-bind="click:$root.unsubscribe">Убрать из друзей</a></li>
                 </ul>
             </div>
         </div>
@@ -57,6 +57,9 @@
       .deleted-publisher-link:hover {
           background-color: lightgray;
           padding: 5px 2px;
+      }
+      .display-none {
+          display: none;   
       }
 
 </style>

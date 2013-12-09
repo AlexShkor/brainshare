@@ -430,7 +430,7 @@ namespace BrainShare.Controllers
             var user = _users.GetById(userId);
             var publishers = _users.GetByIds(user.Publishers);
 
-            return View(new PublishersViewModel(publishers,user.FullName));
+            return View(new PublishersViewModel(publishers,user.FullName, userId == UserId));
         }
 
         public ActionResult GetFbFriends()
