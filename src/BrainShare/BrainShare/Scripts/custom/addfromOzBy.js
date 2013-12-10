@@ -8,12 +8,19 @@ var AddFromOzByBookModel = function () {
     
     this.items = ko.observableArray();
 
+    this.visibleItemsPerPage = 10;
+    
+    this.visibleItems = ko.observableArray();
+
     this.pages = ko.observableArray();
     
     this.page = ko.observable(1);
 
     this.submit = function() {
-        this.page(1);
+        self.page(1);
+        self.pages.removeAll();
+        self.items.removeAll();
+        self.visibleItems.removeAll();
         self.search();
     };
 
@@ -39,23 +46,38 @@ var AddFromOzByBookModel = function () {
                             Added: ko.observable(false) 
                         };
                         self.items.push(s);
+                        if (self.visibleItemsPerPage > j) {
+                            self.visibleItems.push(s);
+                        }
                     }
                     self.loading(false);
-                    //self.pages.removeAll();
-                    //for (var i = 0; i < response.totalItems/20; i++) {
-                    //    self.pages.push({
-                    //        Number: ko.observable(i + 1),
-                    //        StartIndex: ko.observable(i*20)
-                    //    });
-                    //}
+                    self.pages.removeAll();
+                    for (var i = 1; i < self.items().length / self.visibleItemsPerPage; i++) {
+                        self.pages.push({
+                            Number: ko.observable(i),
+                            StartIndex: ko.observable((i-1)*20)
+                        });
+                    }
                 });
         }
     };
 
+    this.copyVisibleItems = function(start,length) {
+        self.visibleItems.removeAll();
+        
+        for (var i = 0; i < length; i++) {
+            var index = start + i;
+            if (index >= self.items().length) {
+                return;
+            }
+            self.visibleItems.push(self.items()[index]);
+        }
+    };
 
-    this.goToPage = function(page) {
-        self.startIndex(page);
-        self.search();
+    this.goToPage = function (page) {
+        var startIndex = page.StartIndex();
+        self.copyVisibleItems(startIndex, self.visibleItemsPerPage);
+        self.page(page.Number());
     };
 
     this.give = function (item) {

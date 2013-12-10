@@ -1,6 +1,6 @@
 ﻿var AllUsersModel = function (data) {
     var self = this;
-
+    console.log(data);
     this.filter = ko.mapping.fromJS(data);
     
     ApplyFilterModel(self, "/users");

@@ -28,7 +28,7 @@
 
     <div>
         <table class="table table-condensed">
-            <tbody data-bind="foreach: items">
+            <tbody data-bind="foreach: visibleItems">
                 <tr>
                     <td style="width: 128px;">
 
@@ -61,7 +61,7 @@
 
 <div class="pagination" data-bind="visible: pages().length > 0">
   <ul data-bind="foreach: pages" >
-      <li data-bind="css: {active: StartIndex() == $root.startIndex()}">
+      <li data-bind="css: {active: Number() == $root.page()}">
           <a href="#" data-bind="text: Number, click: $root.goToPage"></a>
       </li>
   </ul>
