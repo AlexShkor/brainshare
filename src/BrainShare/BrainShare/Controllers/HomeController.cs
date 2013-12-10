@@ -46,6 +46,7 @@ namespace BrainShare.Controllers
 
         public ActionResult About()
         {
+            Title("О сервисе");
             ViewBag.Message = "Your app description page.";
 
             return View();
@@ -53,6 +54,7 @@ namespace BrainShare.Controllers
 
         public ActionResult Contact()
         {
+            Title("Контакты");
             ViewBag.Message = "Your contact page.";
 
             return View();
@@ -60,6 +62,7 @@ namespace BrainShare.Controllers
 
         public ActionResult Feedback()
         {
+            Title("Отзывы");
             return IsShellUser ? View("ShellFeedback") : View();
         }
     }

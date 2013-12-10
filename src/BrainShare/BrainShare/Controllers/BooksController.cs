@@ -48,6 +48,7 @@ namespace BrainShare.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
+            Title("Книги на Brainshare");
             return View(new BooksFilterModel()
             {
                 Languages = new LanguagesService().GetAllLanguages(),
@@ -71,6 +72,8 @@ namespace BrainShare.Controllers
             {
                 model = _books.GetUserBooks(UserId).Select(x => x.GoogleBookId).ToList();
             }
+
+            Title("Искать на Google Books");
             return View(model);
         }
 
@@ -81,6 +84,8 @@ namespace BrainShare.Controllers
             Response.AddHeader("Access-Control-Allow-Origin", "http://oz.by/");
             Response.AddHeader("Access-Control-Allow-Methods", "GET");
             Response.AddHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+            Title("Искать на Oz");
             return View(model);
         }
 
@@ -103,6 +108,7 @@ namespace BrainShare.Controllers
             var book = id.HasValue() ? _books.GetById(id) : _wishBooks.GetById(wishBookId);
             if (book == null)
             {
+                Title("Результаты поиска отрицательны");
                 return View("NotFound");
             }
             var model = new BookViewModel(book);
@@ -182,6 +188,7 @@ namespace BrainShare.Controllers
         [AllowAnonymous]
         public ActionResult ChooseAddMethod()
         {
+            Title("Выбор метода поиска");
             return View();
         }
 
@@ -324,6 +331,7 @@ namespace BrainShare.Controllers
         {
             if (userId == UserId)
             {
+                Title("Отказ в действие");
                 return View("CustomError", (object)"Вы не можете отправить запрос самому себе.");
             }
             var user = _users.GetById(userId);
@@ -475,6 +483,7 @@ namespace BrainShare.Controllers
         public ActionResult ViewExchangeHistory()
         {
             var items = _exchangeHistory.GetFor(UserId);
+            Title("История обмена");
             return View(items);
         }
 

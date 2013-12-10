@@ -68,6 +68,7 @@ namespace BrainShare.Controllers
         [HttpGet]
         public ActionResult Login()
         {
+            Title("Вход в систему");
             return View(new LoginView());
         }
 
@@ -100,6 +101,7 @@ namespace BrainShare.Controllers
         [HttpGet]
         public ActionResult Register()
         {
+            Title("Зарегистрироваться");
             return View(new RegisterViewModel());
         }
 
@@ -184,6 +186,7 @@ namespace BrainShare.Controllers
         [HttpGet]
         public ActionResult RegisterAsBookshell()
         {
+            Title("Зарегистрироваться в качестве 'полки'");
             return View(new CreateShellViewModel());
         }
         
@@ -430,11 +433,13 @@ namespace BrainShare.Controllers
             var user = _users.GetById(userId);
             var publishers = _users.GetByIds(user.Publishers);
 
+            Title("На кого я подписан");
             return View(new PublishersViewModel(publishers,user.FullName, userId == UserId));
         }
 
         public ActionResult GetFbFriends()
         {
+            Title("Друзья с фейсбука");
             var currentUser = _users.GetById(UserId);
 
             if (currentUser.IsFacebookAccount)
