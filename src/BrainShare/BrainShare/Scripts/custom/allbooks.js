@@ -7,8 +7,14 @@ var AllBooksModel = function (data) {
     delete data.Languages;
 
     this.filter = ko.mapping.fromJS(data);
+   
 
     ApplyFilterModel(self, "/books");
+
+    if (data.Search) {
+        self.filter.Search(data.Search);
+        self.search();
+    }
 
     this.info = function (item) {
         window.location = "/books/info/" + item.Id();

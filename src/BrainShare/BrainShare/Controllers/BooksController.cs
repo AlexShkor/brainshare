@@ -46,12 +46,14 @@ namespace BrainShare.Controllers
         }
         
         [AllowAnonymous]
-        public ActionResult Index()
+        [GET("index/{search}")]
+        public ActionResult Index(string search)
         {
             Title("Книги на Brainshare");
             return View(new BooksFilterModel()
             {
                 Languages = new LanguagesService().GetAllLanguages(),
+                Search = search
             });
         }
 

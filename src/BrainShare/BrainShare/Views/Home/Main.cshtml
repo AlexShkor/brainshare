@@ -39,6 +39,8 @@
         <a class="btn btn-large btn-success" href="/User/LoginWithFacebook">Войти</a>
     </div>
 }
+<h4>искать Книги</h4>
+ <input type="text" id="search" /> <button type="submit" class="btn btn-success" style="margin:0px 0px 9px 20px" onclick="searchRedirect()">Искать</button>
 <h4>5 последних Книг</h4>
 <div>
     <ul class="thumbnails" data-bind="foreach: items">
@@ -92,3 +94,11 @@
         }
     </tbody>
 </table>
+
+
+<script>
+    var searchRedirect = function() {
+        var searchText = encodeURIComponent($($("#search")).val());
+        document.location = "/Books/Index/" + searchText;
+    };
+</script>
