@@ -14,16 +14,12 @@ namespace BrainShare.Documents
         public string Password { get; set; }
         public string Email { get; set; }
         public List<string> Followers { get; set; }
+        public List<Notification> Notifications { get; set; }
         public string Salt { get; set; }
         public string AvatarUrl { get; set; }
         public virtual string FullName { get; set; }
 
         public virtual string UserType { get; set; }
-
-        protected BaseUser()
-        {
-            Followers = new List<string>();
-        }
 
         public virtual void SetFollower(string id)
         {
