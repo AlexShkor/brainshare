@@ -27,7 +27,7 @@
     </thead>
     <tbody data-bind="foreach: books">
         <tr>
-            <td><a data-bind="text: Title, attr: {href: '/books/info/' + Id}"></a></td>
+            <td><a data-bind="text: Title, attr: {href: '/books/info/' + Id()}"></a></td>
             <td data-bind="text: Authors"></td>
             <td><input type="checkbox" data-bind="checked: IsUserReadMe,click:$root.UpdateReadableStatus" /></td>
             <td>
