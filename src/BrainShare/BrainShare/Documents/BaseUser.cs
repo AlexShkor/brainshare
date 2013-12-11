@@ -17,6 +17,9 @@ namespace BrainShare.Documents
         public List<Notification> Notifications { get; set; }
         public string Salt { get; set; }
         public string AvatarUrl { get; set; }
+        public bool IsOnline { get; set; }
+        public DateTime LastVisited { get; set; }
+
         public virtual string FullName { get; set; }
 
         public virtual string UserType { get; set; }

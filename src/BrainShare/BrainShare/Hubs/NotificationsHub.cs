@@ -1,12 +1,21 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using BrainShare.Authentication;
 using BrainShare.Documents;
+using BrainShare.Services;
 using Microsoft.AspNet.SignalR;
 
 namespace BrainShare.Hubs
 {
     public class NotificationsHub: Hub
     {
+        private readonly UsersService _users;
+
+        public NotificationsHub(UsersService users)
+        {
+            _users = users;
+        }
+
         public static IHubContext HubContext
         {
             get
@@ -15,32 +24,44 @@ namespace BrainShare.Hubs
             }
         }
 
+        public static bool IsOnline(string userId)
+        {
+            return HubContext.Clients.Group(userId) == null;
+        }
+
         public override Task OnConnected()
         {
             return Task.Factory.StartNew(() =>
+            {
+                var userId = GetUserId();
+                if (userId != null)
                 {
-                    if (GetUser() != null)
-                    {
-                        Groups.Add(Context.ConnectionId, GetUser().Id);
-                    }
-                });
-        }
-
-        private CommonUser GetUser()
-        {
-            return ((UserIdentity) Context.User.Identity).User;
+                    Groups.Add(Context.ConnectionId, userId);
+                    _users.SetOnlineStatus(userId, true);
+                }
+            });
         }
 
         public override Task OnDisconnected()
         {
             return Task.Factory.StartNew(() =>
             {
-                if (GetUser() != null)
+                var userId = GetUserId();
+                if (userId != null)
                 {
-                    Groups.Remove(Context.ConnectionId, ((UserIdentity) Context.User.Identity).User.Id);
+                    Groups.Remove(Context.ConnectionId, userId);
+                    _users.SetOnlineStatus(userId, false);
+                    _users.SetLastVisitedDate(DateTime.UtcNow,userId);
                 }
             });
         }
+
+        private string GetUserId()
+        {
+            return ((UserIdentity) Context.User.Identity).User.Id;
+        }
+
+  
 
         public static void SendGenericText(string userId, string title, string message)
         {

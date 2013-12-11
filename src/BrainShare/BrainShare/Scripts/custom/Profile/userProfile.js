@@ -10,6 +10,7 @@
     this.canDecrease = ko.observable(self.user.CanDecrease);
     this.summaryVotes = ko.observable(self.user.SummaryVotes);
     this.isCurrentUserSubscribed = ko.observable(self.user.IsCurrentUserSubscribed);
+    this.status = ko.observable(self.user.Status);
     console.log(data);
     
     this.templateName = ko.computed(function() {

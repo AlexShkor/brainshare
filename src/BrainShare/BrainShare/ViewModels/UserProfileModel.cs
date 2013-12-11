@@ -1,4 +1,5 @@
 using BrainShare.Documents;
+using BrainShare.Utilities;
 
 namespace BrainShare.ViewModels
 {
@@ -18,6 +19,8 @@ namespace BrainShare.ViewModels
         public bool CanIncrease { get; set; }
         public bool CanDecrease { get; set; }
 
+        public string Status { get; set; }
+
         public UserProfileModel(User user, User me)
         {
             Id = user.Id;
@@ -28,6 +31,7 @@ namespace BrainShare.ViewModels
             Email = user.Email;
             Info = user.Info;
             IsCurrentUserSubscribed = me.IsSubscribed(Id);
+            Status = StringUtility.GetUserStatus(user);
         }
     }
 }

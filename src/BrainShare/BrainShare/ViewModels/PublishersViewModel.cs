@@ -2,6 +2,7 @@
 using System.Linq;
 using BrainShare.Documents;
 using BrainShare.Documents.Data;
+using BrainShare.Utilities;
 
 namespace BrainShare.ViewModels
 {
@@ -28,7 +29,8 @@ namespace BrainShare.ViewModels
                         FullName = publisher.FullName,
                         Id = publisher.Id,
                         IsShell = publisher.UserType == "ShellUser",
-                        TemplateName = PublisherTemplate
+                        TemplateName = PublisherTemplate,
+                        Status = StringUtility.GetUserStatus(publisher)
                     });
             }
         }

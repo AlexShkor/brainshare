@@ -58,6 +58,16 @@ namespace BrainShare.Services
                                                                                       });
         }
 
+        public void SetOnlineStatus(string userId, bool isOnline)
+        {
+            Items.Update(Query<User>.EQ(x => x.Id, userId), Update<User>.Set(x => x.IsOnline, isOnline));
+        }
+
+        public void SetLastVisitedDate(DateTime date, string userId)
+        {
+            Items.Update(Query<User>.EQ(x => x.Id, userId), Update<User>.Set(x => x.LastVisited, date));
+        }
+
         public void UpdateRequestViewed(string userId, string bookId, string requestFromUserId)
         {
             Items.Update(Query.And(Query<User>.EQ(x => x.Id, userId), Query<User>.ElemMatch(x => x.Inbox,

@@ -14,6 +14,7 @@ using BrainShare.Hubs;
 using BrainShare.Infostructure;
 using BrainShare.Services;
 using BrainShare.ViewModels;
+using Microsoft.AspNet.SignalR;
 using MongoDB.Bson;
 using Thread = BrainShare.Documents.Thread;
 using BrainShare.Extensions;
@@ -21,7 +22,7 @@ using BrainShare.Extensions;
 
 namespace BrainShare.Controllers
 {
-    [Authorize]
+    [System.Web.Mvc.Authorize]
     [RoutePrefix("profile")]
     public class ProfileController : BaseController
     {
@@ -140,6 +141,7 @@ namespace BrainShare.Controllers
 
             var user = _users.GetById(id);
             var me = _users.GetById(UserId);
+  
             var model = new UserProfileModel(user, me);
 
             if (UserId.HasValue())

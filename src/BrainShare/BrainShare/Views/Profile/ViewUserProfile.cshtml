@@ -69,6 +69,10 @@
                 <i class="icon-chevron-down icon-3x"></i>
             </button>
         </div>
+        
+       <div class="pull-left status"></div>
+          <span class="status-text" data-bind="text:status"></span>
+        
     </div>
 
 
@@ -140,6 +144,9 @@
         width: 206px;
         position: relative;
         top: -13px;
+    }
+    .status-text {
+        float: right;  
     }
 </style>
 

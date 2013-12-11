@@ -7,5 +7,6 @@
         public bool IsShell { get; set; }
         public string AvatarUrl { get; set; }
         public string TemplateName { get; set; }
+        public string Status { get; set; }
     }
 }

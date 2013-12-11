@@ -250,6 +250,7 @@
     <Compile Include="Documents\BaseUser.cs" />
     <Compile Include="Documents\Data\Notification.cs" />
     <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="Utilities\StringUtility.cs" />
     <Compile Include="ViewModels\PublisherViewModel.cs" />
     <Compile Include="Documents\Data\ShellAddressData.cs" />
     <Compile Include="Documents\PublicShell.cs" />
