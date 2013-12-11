@@ -297,7 +297,7 @@ namespace BrainShare.Controllers
         public ActionResult MessageTo(string recipientId)
         {
             var thread = _threads.GetFor(UserId, recipientId);
-
+            //Todo:remove this code when tests with news will done
             var news = new News("some message","some title");
 
             var recepient = _users.GetById(recipientId);
@@ -305,7 +305,7 @@ namespace BrainShare.Controllers
             _users.Save(recepient);
 
             _news.Save(news);
-
+            ////////////
             if (thread == null)
             {
                 var user = _users.GetById(UserId);
@@ -359,6 +359,15 @@ namespace BrainShare.Controllers
                 return HttpNotFound();
             }
             var sendToUserId = thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId;
+            //Todo:remove this code when tests with news will done
+            var news = new News("some message", "some title");
+
+            var recepient = _users.GetById(sendToUserId);
+            recepient.AddNews(news.Id);
+            _users.Save(recepient);
+
+            _news.Save(news);
+            //
             UpdateUnreadMessagesAsync(threadId, sendToUserId);
             var model = new MessageViewModel();
             model.Init(UserId, content, DateTime.Now.ToString("o"), false);
