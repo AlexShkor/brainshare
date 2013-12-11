@@ -1,12 +1,40 @@
-﻿@model BrainShare.ViewModels.NewsViewModel
+﻿@using Newtonsoft.Json
+@model BrainShare.ViewModels.NewsViewModel
 @{
-    ViewBag.Title = "News";
+    ViewBag.Title = "Новости";
     Layout = "~/Views/Profile/_ProfileLayout.cshtml";
 }
 
-<h2>News</h2>
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/news.js")"></script>
+<script type="text/javascript">
+    $(function () {
+        var model = new NewsListViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+        ko.applyBindings(model);
+    })
+</script>
 
-@foreach (var news in Model.News)
-{
-    <p>@news.Message</p>
-}
+<div class="span9" style="margin-left: 5%">
+    <h4>Новости</h4>
+    <table class="table table-condensed table-striped">
+        <tbody data-bind="foreach: model.News">
+            <tr>
+                <td class="span7">
+                    <span  data-bind="text: Title"></span>
+                    <span class="badge badge-info" data-bind="visible: !WasRead()">new</span>
+                </td>
+                <td class="span2">
+                    <a class="btn btn-small" href="#" data-bind="click: $root.openNews,text: IsVisible() ? 'Свернуть' : 'Посмотреть'">Посмотреть</a>
+                </td>
+            </tr>
+            <tr data-bind="visible:IsVisible">
+                <td colspan="2">\xcj bcdhfjdshfjhdfjh djshfjshfjhsf kdfhjkdjskfj kdfjkjfdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdk fdksjf ksfjkijgdjg kgjkdgfjkjgh kjgkfjg kfgjkfgjkdf dfkgjkfdjg  gfkj</td>
+            </tr>
+        </tbody>
+        <tfoot data-bind="visible: model.News().length == 0">
+            <tr>
+                <td>У вас нет новостей.</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+

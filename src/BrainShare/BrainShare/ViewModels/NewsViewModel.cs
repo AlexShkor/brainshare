@@ -18,7 +18,8 @@ namespace BrainShare.ViewModels
                     {
                         Id = appopriateInfo.Id,
                         Message = newsItem.Message,
-                        WasRead = appopriateInfo.WasRead
+                        WasRead = appopriateInfo.WasRead,
+                        Title = newsItem.Title,
                     });
             }
         }
@@ -31,5 +32,7 @@ namespace BrainShare.ViewModels
         public string Message { get; set; }
         public string Id { get; set; }
         public bool WasRead { get; set; }
+        public string Title { get; set; }
+        public bool IsVisible { get; set; }
     }
 }

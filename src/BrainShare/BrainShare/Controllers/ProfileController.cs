@@ -298,7 +298,7 @@ namespace BrainShare.Controllers
         {
             var thread = _threads.GetFor(UserId, recipientId);
 
-            var news = new News("some message");
+            var news = new News("some message","some title");
 
             var recepient = _users.GetById(recipientId);
             recepient.AddNews(news.Id);
@@ -316,6 +316,17 @@ namespace BrainShare.Controllers
             }
         
             return RedirectToAction("ViewThread", new { threadId = thread.Id });
+        }
+
+        [POST("set-news-status-to-read")]
+        public ActionResult UpdateUserNewsStatus(string id)
+        {
+            var user = _users.GetById(UserId);
+            user.SetNewsReadStatusTrue(id);
+            _users.Save(user);
+
+            return Json("");
+
         }
 
         [GET("thread/view/{threadId}")]

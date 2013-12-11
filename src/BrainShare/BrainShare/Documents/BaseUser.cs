@@ -43,5 +43,10 @@ namespace BrainShare.Documents
         {
             Followers.RemoveAll(e => e == id);
         }
+
+        public virtual void SetNewsReadStatusTrue(string id)
+        {
+            News.Single(n => n.Id == id).WasRead = true;
+        }
     }
 }

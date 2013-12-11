@@ -10,10 +10,11 @@ namespace BrainShare.Documents
         {
         }
 
-        public News(string message)
+        public News(string message, string title)
         {
             Message = message;
             Created = DateTime.UtcNow;
+            Title = title;
             Id = ObjectId.GenerateNewId(DateTime.Now).ToString();
         }
 
@@ -21,5 +22,6 @@ namespace BrainShare.Documents
         public string Id { get; set; }
         public string Message { get; set; }
         public DateTime Created { get; set; }
+        public string Title { get; set; }
     }
 }
