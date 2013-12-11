@@ -35,6 +35,7 @@ namespace BrainShare.Controllers
         public IAuthentication Auth { get; set; }
         private readonly FacebookClient _fb;
         private readonly ShellUserService _shellUserService;
+        private readonly NewsService _news;
         private readonly CryptographicHelper _cryptoHelper;
 
         public string FacebookCallbackUri
@@ -45,12 +46,13 @@ namespace BrainShare.Controllers
             }
         }
 
-        public UserController(IAuthentication auth, UsersService users,ShellUserService shellUserService, FacebookClientFactory  fbFactory, CryptographicHelper cryptoHelper, Settings settings)
+        public UserController(IAuthentication auth, UsersService users,ShellUserService shellUserService, FacebookClientFactory  fbFactory, CryptographicHelper cryptoHelper, Settings settings, NewsService news)
         {
             _users = users;
             _settings = settings;
             _shellUserService = shellUserService;
             _cryptoHelper = cryptoHelper;
+            _news = news;
             Auth = auth;
             _fb = fbFactory.GetClient();
         }
@@ -418,6 +420,22 @@ namespace BrainShare.Controllers
             }
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [GET("News")]
+        public ActionResult News()
+        {
+            if (!IsShellUser)
+            {
+               var user = _users.GetById(UserId);
+               var news = _news.GetByIds(user.News.Select(n => n.Id));
+
+               var model = new NewsViewModel(user.News, news);
+               return View(model);
+            }
+          
+        
+            return View();
         }
 
         [GET("Friends/{userId}")]

@@ -1,0 +1,12 @@
+﻿@model BrainShare.ViewModels.NewsViewModel
+@{
+    ViewBag.Title = "News";
+    Layout = "~/Views/Profile/_ProfileLayout.cshtml";
+}
+
+<h2>News</h2>
+
+@foreach (var news in Model.News)
+{
+    <p>@news.Message</p>
+}

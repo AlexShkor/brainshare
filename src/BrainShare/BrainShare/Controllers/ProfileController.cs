@@ -10,6 +10,7 @@ using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Documents;
+using BrainShare.Documents.Data;
 using BrainShare.Hubs;
 using BrainShare.Infostructure;
 using BrainShare.Services;
@@ -31,13 +32,14 @@ namespace BrainShare.Controllers
         private readonly UsersService _users;
         private readonly ShellUserService _shellUserService;
         private readonly ThreadsService _threads;
+        private readonly NewsService _news;
         private readonly CloudinaryImagesService _cloudinaryImages;
         private readonly CryptographicHelper _cryptographicHelper;
         private readonly IAuthentication _authentication;
         private readonly Settings _settings;
 
         public ProfileController(BooksService books, UsersService users, ShellUserService shellUserService, ThreadsService threads, WishBooksService whishBooks, 
-            CloudinaryImagesService cloudinaryImages,CryptographicHelper cryptographicHelper,IAuthentication authentication, Settings settings)
+            CloudinaryImagesService cloudinaryImages,CryptographicHelper cryptographicHelper,IAuthentication authentication, NewsService news, Settings settings)
         {
             _books = books;
             _users = users;
@@ -45,6 +47,7 @@ namespace BrainShare.Controllers
             _wishBooks = whishBooks;
             _cloudinaryImages = cloudinaryImages;
             _shellUserService = shellUserService;
+            _news = news;
             _cryptographicHelper = cryptographicHelper;
             _authentication = authentication;
             _settings = settings;
@@ -294,13 +297,24 @@ namespace BrainShare.Controllers
         public ActionResult MessageTo(string recipientId)
         {
             var thread = _threads.GetFor(UserId, recipientId);
+
+            var news = new News("some message");
+
+            var recepient = _users.GetById(recipientId);
+            recepient.AddNews(news.Id);
+            _users.Save(recepient);
+
+            _news.Save(news);
+
             if (thread == null)
             {
                 var user = _users.GetById(UserId);
                 var recipient = _users.GetById(recipientId);
                 thread = new Thread(UserId, user.FullName, recipientId, recipient.FullName);
                 _threads.Save(thread);
+                _news.Save(new News{});
             }
+        
             return RedirectToAction("ViewThread", new { threadId = thread.Id });
         }
 
@@ -405,6 +419,18 @@ namespace BrainShare.Controllers
                  var user = _users.GetById(UserId);
                 //replaces with all book requests, not only new
                 return Json(new { Result = user.Inbox.Count });
+            }
+            //Todo: Realize logic for shell user
+            return Json(new { Result = 0 });
+        }
+
+        [POST("get-unread-news-count")]
+        public ActionResult GetUnreadNewsCount()
+        {
+            if (!IsShellUser)
+            {
+                var user = _users.GetById(UserId);
+                return Json(new { Result = user.News.Count(n => !n.WasRead) });
             }
             //Todo: Realize logic for shell user
             return Json(new { Result = 0 });

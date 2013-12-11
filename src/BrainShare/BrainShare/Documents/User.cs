@@ -43,7 +43,7 @@ namespace BrainShare.Documents
             Address = new AddressData();
             Publishers = new List<string>();
             Followers = new List<string>();
-            Notifications =  new List<Notification>();
+            News = new List<UserNewsInfo>();
         }
 
         public void SetVote(string setterId, int value)
@@ -98,9 +98,9 @@ namespace BrainShare.Documents
             return Publishers.Any(p => p == userId);
         }
 
-        public void AddNotification(string message)
+        public void AddNews(string id)
         {
-            Notifications.Add(new Notification(message));
+            News.Add(new UserNewsInfo { Id = id});
         }
     }
 }

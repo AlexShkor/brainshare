@@ -14,7 +14,7 @@ namespace BrainShare.Documents
         public string Password { get; set; }
         public string Email { get; set; }
         public List<string> Followers { get; set; }
-        public List<Notification> Notifications { get; set; }
+        public List<UserNewsInfo> News { get; set; }
         public string Salt { get; set; }
         public string AvatarUrl { get; set; }
         public bool IsOnline { get; set; }

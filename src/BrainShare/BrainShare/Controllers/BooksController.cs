@@ -278,7 +278,6 @@ namespace BrainShare.Controllers
                 var user = _users.GetById(UserId);
                 doc = bookDto.BuildDocument(user);
                 _wishBooks.Save(doc);
-                SendNotificationAsync(UserId, "Вы ищите книгу");
                 NotificationsHub.SendGenericText(UserId,"my title","my message");
                 SaveFeedAsync(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
             }
@@ -522,16 +521,6 @@ namespace BrainShare.Controllers
                                       {
                                           var mailer = new MailService();
                                       });
-        }
-
-        private void SendNotificationAsync(string userId, string message)
-        {
-            Task.Factory.StartNew(() =>
-                {
-                    var user = _users.GetById(userId);
-                    user.AddNotification(message);
-                    _users.Save(user);
-                });
         }
 
         private void SaveFeedAsync(ActivityFeed feed)

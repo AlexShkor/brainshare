@@ -58,5 +58,6 @@ namespace BrainShare.Mongo
         public MongoCollection<Thread> Threads { get { return Database.GetCollection<Thread>("threads"); } }
         public MongoCollection<CloudinaryImage> CloudinaryImages { get { return Database.GetCollection<CloudinaryImage>("cloudinary_images"); } }
         public MongoCollection<ExchangeHistory> ExchangeHistory { get { return Database.GetCollection<ExchangeHistory>("exchange_history"); } }
+        public MongoCollection<News> News { get { return Database.GetCollection<News>("news"); } }
     }
 }

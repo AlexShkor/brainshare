@@ -248,9 +248,11 @@
     <Compile Include="Controllers\FollowerController.cs" />
     <Compile Include="Controllers\MigrateController.cs" />
     <Compile Include="Documents\BaseUser.cs" />
-    <Compile Include="Documents\Data\Notification.cs" />
-    <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="Documents\Data\UserNewsInfo.cs" />
+    <Compile Include="Documents\News.cs" />
+    <Compile Include="Services\NewsService.cs" />
     <Compile Include="Utilities\StringUtility.cs" />
+    <Compile Include="ViewModels\NewsViewModel.cs" />
     <Compile Include="ViewModels\PublisherViewModel.cs" />
     <Compile Include="Documents\Data\ShellAddressData.cs" />
     <Compile Include="Documents\PublicShell.cs" />
@@ -642,6 +644,7 @@
     <Content Include="Views\User\Friends.cshtml" />
     <Content Include="Views\Shared\_PublisherListItem.cshtml" />
     <Content Include="Views\Profile\ChangePassword.cshtml" />
+    <Content Include="Views\User\News.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
