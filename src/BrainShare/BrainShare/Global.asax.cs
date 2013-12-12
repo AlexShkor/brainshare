@@ -25,7 +25,7 @@ namespace BrainShare
             GlobalConfiguration.Configuration.DependencyResolver = new StructureMapDependencyResolver(container);
 
             GlobalHost.DependencyResolver = new StructureMapResolver(container);
-            RouteTable.Routes.MapHubs(new HubConfiguration() { Resolver = GlobalHost.DependencyResolver });
+           
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
