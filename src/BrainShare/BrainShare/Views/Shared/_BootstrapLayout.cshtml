@@ -36,6 +36,7 @@
     <script src="~/Scripts/custom/addfromOzBy.js"></script>
     <script src="~/Scripts/custom/allbooks.js"></script>
     <script src="~/Scripts/custom/allusers.js"></script>
+     <script src="~/Scripts/custom/globalErrorHandler.js"></script>
 
     <script src="~/Scripts/custom/Books/EditBookViewModel.js"></script>
     @RenderSection("head", required: false)
@@ -48,69 +49,69 @@
         </script>
     }
 </head>
-<body>
+    <body>
 
-    <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container">
-                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </a>
-                <a class="brand" href="/">BrainShare</a>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="/">BrainShare</a>
 
-                <div class="nav-collapse collapse">
+                    <div class="nav-collapse collapse">
 
-                    @if (Request.IsAuthenticated)
-                    { 
-                        <p class="navbar-text pull-right" id="currentUser">
-                            <a class="label label-warning" href="/Profile/Inbox"><i class="icon-book icon-large "></i><strong style="padding-left: 5px;" id="navigationBooksCounter">0</strong></a>
-                            <a class="label label-info" href="/Profile/AllMessages"><i class="icon-envelope icon-large "></i><strong style="padding-left: 5px;" id="navigationMessagesCounter">0</strong></a>
-                            <a href="/profile" class="navbar-link" style="padding-left: 10px; padding-right: 10px;">@ViewBag.UserName</a>
-                            <a href="@Url.Action("Logout", "User")" >Выйти</a>
-                        </p>
-                    }
-                    else
-                    {
-                        <ul class="nav pull-right">
-                            @Html.MenuLink("Регистрация", "Register", "User")
-                            @Html.MenuLink("Войти", "Login", "User")
-                            @Html.MenuLink("Facebook", "LoginWithFacebook", "User", "facebook-link")
+                        @if (Request.IsAuthenticated)
+                        { 
+                            <p class="navbar-text pull-right" id="currentUser">
+                                <a class="label label-warning" href="/Profile/Inbox"><i class="icon-book icon-large "></i><strong style="padding-left: 5px;" id="navigationBooksCounter">0</strong></a>
+                                <a class="label label-info" href="/Profile/AllMessages"><i class="icon-envelope icon-large "></i><strong style="padding-left: 5px;" id="navigationMessagesCounter">0</strong></a>
+                                <a href="/profile" class="navbar-link" style="padding-left: 10px; padding-right: 10px;">@ViewBag.UserName</a>
+                                <a href="@Url.Action("Logout", "User")" >Выйти</a>
+                            </p>
+                        }
+                        else
+                        {
+                            <ul class="nav pull-right">
+                                @Html.MenuLink("Регистрация", "Register", "User")
+                                @Html.MenuLink("Войти", "Login", "User")
+                                @Html.MenuLink("Facebook", "LoginWithFacebook", "User", "facebook-link")
+                            </ul>
+                        }
+
+                        <ul class="nav" id="mainNav">
+                            @Html.MenuLink("Активность", "Activity", "Home")
+                            @Html.MenuLink("Книги", "Index", "Books", null)
+                            @Html.MenuLink("Мой Аккаунт", "Index", "Profile", null)
+                            @Html.MenuLink("Пользователи", "Index", "Users")
                         </ul>
-                    }
 
-                    <ul class="nav" id="mainNav">
-                        @Html.MenuLink("Активность", "Activity", "Home")
-                        @Html.MenuLink("Книги", "Index", "Books", null)
-                        @Html.MenuLink("Мой Аккаунт", "Index", "Profile", null)
-                        @Html.MenuLink("Пользователи", "Index", "Users")
-                    </ul>
-
-                    <ul class="nav" id="loadBar" style="display: none">
-                        <li>
-                            <div id="progress" style="margin-left: 5%">
-                                <div id="bar" class="custom-progress-bar"></div>
-                                <div id="percent" class="custom-progress-bar-percent">0 %</div>
-                            </div>
-                        </li>
-                        <li>
-                            <div style="margin-left: 85%; margin-top: 8%;">
-                                <button id="cancelLoading" class="btn btn-mini btn-danger">Отменить</button>
-                            </div>
-                        </li>
-                    </ul>
+                        <ul class="nav" id="loadBar" style="display: none">
+                            <li>
+                                <div id="progress" style="margin-left: 5%">
+                                    <div id="bar" class="custom-progress-bar"></div>
+                                    <div id="percent" class="custom-progress-bar-percent">0 %</div>
+                                </div>
+                            </li>
+                            <li>
+                                <div style="margin-left: 85%; margin-top: 8%;">
+                                    <button id="cancelLoading" class="btn btn-mini btn-danger">Отменить</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="container">
-        @RenderBody()
-    </div>
+        <div class="container">
+            @RenderBody()
+        </div>
 
 
-    @RenderSection("Scripts", required: false)
-    @Html.Partial("GoogleAnalytics")
-</body>
+        @RenderSection("Scripts", required: false)
+        @Html.Partial("GoogleAnalytics")
+    </body>
 </html>

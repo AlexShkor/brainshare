@@ -316,6 +316,7 @@
     <Content Include="Scripts\custom\allusers.js" />
     <Content Include="Scripts\custom\Books\EditBookViewModel.js" />
     <Content Include="Scripts\custom\counting.js" />
+    <Content Include="Scripts\custom\globalErrorHandler.js" />
     <Content Include="Scripts\custom\news.js" />
     <Content Include="Scripts\custom\notifications.js" />
     <Compile Include="Mongo\PagingInfo.cs" />
