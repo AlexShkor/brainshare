@@ -70,6 +70,12 @@ namespace BrainShare.Hubs
                 Title = title,
                 Message = message
             });
+
+            //HubContext.Clients.User(userId).genericText(new
+            //{
+            //    Title = title,
+            //    Message = message
+            //});
         }
     }
 }
