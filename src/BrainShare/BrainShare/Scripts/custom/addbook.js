@@ -28,7 +28,7 @@ var AddBookModel = function (ownedItems) {
     this.startIndex = ko.observable(0);
 
     this.submit = function() {
-        this.startIndex(0);
+        self.startIndex(0);
         self.search();
     };
 

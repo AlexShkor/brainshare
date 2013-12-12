@@ -16,21 +16,34 @@ var AddFromOzByBookModel = function () {
     
     this.page = ko.observable(1);
 
-    this.submit = function() {
-        self.page(1);
-        self.pages.removeAll();
+    this.pageRange = ko.observableArray([10, 25, 50]);
+
+    this.selectedRange = ko.observable(25);
+    this.selectedRange.subscribe(function (newVal) {
+        self.visibleItemsPerPage = newVal;
+        self.submit();
+    });
+    
+
+    this.startIndex = ko.observable(0);
+
+    this.submit = function () {
+        this.startIndex(0);
         self.items.removeAll();
-        self.visibleItems.removeAll();
+        self.pages.removeAll();
         self.search();
     };
 
     this.search = function () {
         if (self.query()) {
             self.loading(true);
-            $.get("/books/downloadstring?q=" + encodeURIComponent(self.query()) + "&page=" + self.page(),
+            $.get("/books/downloadstring?q=" + encodeURIComponent(self.query()) + "&page=" + self.page() + "&&searchLimit=" + self.visibleItemsPerPage,
                 function (response) {
                     self.items.removeAll();
-
+                    console.log("SEARCH");
+                    var ozPages = $(response).find(".pages > .nolist .longcol").children();
+                    var lastPage = parseInt($(ozPages).last().text());
+ 
                     var elements = $(response).find("ul.big-thumb-listing > li");
                     for (var j = 0; j < elements.length; j++) {
                         var el = $(elements[j]);
@@ -46,38 +59,24 @@ var AddFromOzByBookModel = function () {
                             Added: ko.observable(false) 
                         };
                         self.items.push(s);
-                        if (self.visibleItemsPerPage > j) {
-                            self.visibleItems.push(s);
-                        }
                     }
                     self.loading(false);
+           
                     self.pages.removeAll();
-                    for (var i = 1; i < self.items().length / self.visibleItemsPerPage; i++) {
+                    for (var i = 0; i < lastPage ; i++) {
                         self.pages.push({
-                            Number: ko.observable(i),
-                            StartIndex: ko.observable((i-1)*20)
+                            Number: ko.observable(i + 1),
+                            StartIndex: ko.observable(i * self.visibleItemsPerPage)
                         });
                     }
                 });
         }
     };
 
-    this.copyVisibleItems = function(start,length) {
-        self.visibleItems.removeAll();
-        
-        for (var i = 0; i < length; i++) {
-            var index = start + i;
-            if (index >= self.items().length) {
-                return;
-            }
-            self.visibleItems.push(self.items()[index]);
-        }
-    };
 
     this.goToPage = function (page) {
-        var startIndex = page.StartIndex();
-        self.copyVisibleItems(startIndex, self.visibleItemsPerPage);
         self.page(page.Number());
+        self.search();       
     };
 
     this.give = function (item) {

@@ -92,12 +92,14 @@ namespace BrainShare.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<string> DownloadString(string q, string page)
+        public async Task<string> DownloadString(string q, string page, int searchLimit)
         {
             using (var client = new WebClient())
             {
                 client.Encoding = Encoding.GetEncoding("KOI8-R");
-               var result= await client.DownloadStringTaskAsync("http://oz.by/search/?catalog_id=1101523&q=" + HttpUtility.UrlEncode(q,client.Encoding) + "&page=" + page);
+                var url = "http://oz.by/search/?catalog_id=1101523&q=" + HttpUtility.UrlEncode(q, client.Encoding) +
+                          "&page=" + page + "&search_limit="+searchLimit.ToString();
+                var result = await client.DownloadStringTaskAsync(url);
                 return result;
             }
         }
