@@ -257,6 +257,7 @@
     <Compile Include="Documents\Data\UserNewsInfo.cs" />
     <Compile Include="Documents\News.cs" />
     <Compile Include="Services\NewsService.cs" />
+    <Compile Include="Utilities\NewsMaker.cs" />
     <Compile Include="Utilities\StringUtility.cs" />
     <Compile Include="ViewModels\NewsViewModel.cs" />
     <Compile Include="ViewModels\PublisherViewModel.cs" />

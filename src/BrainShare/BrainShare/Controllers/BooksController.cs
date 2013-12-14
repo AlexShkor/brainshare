@@ -17,6 +17,7 @@ using BrainShare.GoogleDto;
 using BrainShare.Hubs;
 using BrainShare.Services;
 using BrainShare.Services.Validation;
+using BrainShare.Utilities;
 using BrainShare.ViewModels;
 using MongoDB.Bson;
 
@@ -31,10 +32,12 @@ namespace BrainShare.Controllers
         private readonly WishBooksService _wishBooks;
         private readonly ActivityFeedsService _feeds;
         private readonly CloudinaryImagesService _cloudinaryImages;
+        private readonly NewsService _newsService;
         private readonly ExchangeHistoryService _exchangeHistory;
         private readonly Settings _settings;
 
-        public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages, ExchangeHistoryService exchangeHistory,Settings settings)
+        public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages, 
+            ExchangeHistoryService exchangeHistory, Settings settings, NewsService newsService)
         {
             _users = users;
             _books = books;
@@ -43,6 +46,7 @@ namespace BrainShare.Controllers
             _cloudinaryImages = cloudinaryImages;
             _exchangeHistory = exchangeHistory;
             _settings = settings;
+            _newsService = newsService;
         }
         
         [AllowAnonymous]
@@ -256,6 +260,7 @@ namespace BrainShare.Controllers
                 var user = _users.GetById(UserId);
                 doc = bookDto.BuildDocument(user);
                 SaveFeedAsync(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
+                SendSearchingUsersNewsAsync(user, doc);
                 NotificationsHub.SendGenericText(UserId, "Книга добавлена",
                     string.Format("{0} добавлена в вашу книную полку", doc.Title));
                 _books.Save(doc);
@@ -523,6 +528,26 @@ namespace BrainShare.Controllers
                                       {
                                           var mailer = new MailService();
                                       });
+        }
+
+        private void SendSearchingUsersNewsAsync(User owner, Book newBook)
+        {
+            Task.Factory.StartNew(() =>
+                {
+                    var wishBooks = _wishBooks.GetBooksByISBN(newBook.ISBN);
+                    foreach (var wishBook in wishBooks)
+                    {
+                        var userData = wishBook.UserData;
+                        var news = new News(
+                            NewsMaker.UserHaveBookMessage(UserName, UserName, newBook.Title, newBook.Id),
+                            "Информация по разыкиваемой книге");
+                        _newsService.Save(news);
+                        var taker = _users.GetById(userData.UserId);
+                        taker.AddNews(news.Id);
+                        _users.Save(taker);
+                    }
+                    var x = 8;
+                });
         }
 
         private void SaveFeedAsync(ActivityFeed feed)

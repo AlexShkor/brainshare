@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Web;
 using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Services;
@@ -7,6 +8,7 @@ using Microsoft.AspNet.SignalR;
 
 namespace BrainShare.Hubs
 {
+    [Authorize]
     public class NotificationsHub: Hub
     {
         private readonly UsersService _users;
@@ -58,7 +60,7 @@ namespace BrainShare.Hubs
 
         private string GetUserId()
         {
-            return ((UserIdentity) Context.User.Identity).User.Id;
+             return  ((UserIdentity) Context.Request.GetHttpContext().User.Identity).User.Id;    
         }
 
   

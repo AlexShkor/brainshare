@@ -7,6 +7,9 @@ using BrainShare.Mongo;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using MongoDB.Driver.Linq;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace BrainShare.Services
 {
@@ -104,6 +107,12 @@ namespace BrainShare.Services
             return
                 Items.FindOne(Query.And(Query<Book>.EQ(x => x.UserData.UserId, userId),
                                         Query<Book>.EQ(b => b.GoogleBookId, googleBookId)));
+        }
+
+        public List<Book> GetBooksByISBN(IEnumerable<string> ISBN)
+        {
+            return
+                Items.Find(Query<Book>.In(b => b.ISBN, ISBN)).ToList();
         }
 
         public void Remove(string id)
