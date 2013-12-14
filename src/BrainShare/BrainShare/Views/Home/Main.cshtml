@@ -27,15 +27,24 @@
         }
         .autocomplete-image {
             height: 50px;
+            text-align: left;
+            vertical-align: top;
+            float: left;
         }
         .name {
-            margin-left: 10px;   
+            margin-left: 10px;
+            display: inline; 
         }
         .selectize-input {
                width: 450px; 
         }
         .selectize-control {
             display: inline-block;
+        }
+
+        .title {
+            font-weight: bold;
+            
         }
 </style>
 
@@ -68,9 +77,9 @@
    
                 return '<div>' +
                     '<img class=autocomplete-image src="' + escape(item.Image) + '" alt="">' +
-                    '<span class="title">' +
-                        '<span class="name">' + escape(item.Title) + '</span>' +
-                    '</span>' +
+                        '<span class="name title">' + escape(item.Title) + '</span> </br>' +
+                        '<span class="name "><span">Владелец:</span>' + item.UserName +'</span> </br>' + 
+                        '<span class="name">Расположение владельца: ' + escape(item.UserLocality) + '</span>' +
                 '</div>';
             }
         },

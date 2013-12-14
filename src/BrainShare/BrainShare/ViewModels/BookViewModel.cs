@@ -21,6 +21,7 @@ namespace BrainShare.ViewModels
         public string UserId { get; set; }
         public string UserName { get; set; }
         public string UserProfile { get; set; }
+        public string UserLocality { get; set; }
         public string AvatarUrl { get; set; }
         public bool IsUserReadMe { get; set; }
 
@@ -48,6 +49,7 @@ namespace BrainShare.ViewModels
             UserId = book.UserData.UserId;
             UserName = book.UserData.UserName;
             UserProfile = "/profile/view/" + book.UserData.UserId;
+            UserLocality = book.UserData.Address.Locality;
             AvatarUrl = book.UserData.AvatarUrl;
             IsUserReadMe = book.IsUserReadMe;
         }
