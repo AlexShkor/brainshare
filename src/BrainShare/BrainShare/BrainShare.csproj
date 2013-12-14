@@ -319,6 +319,8 @@
     <Content Include="Images\book-logo-placeholder.png" />
     <Content Include="Images\fb_signup_empty.png" />
     <Content Include="Images\user-default-avatar.jpg" />
+    <Content Include="Scripts\autocomplete\selectize.css" />
+    <Content Include="Scripts\autocomplete\selectize.js" />
     <Content Include="Scripts\custom\addfromOzBy.js" />
     <Content Include="Scripts\custom\allusers.js" />
     <Content Include="Scripts\custom\Books\EditBookViewModel.js" />

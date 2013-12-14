@@ -50,14 +50,16 @@ namespace BrainShare.Controllers
         }
         
         [AllowAnonymous]
-        [GET("index/{search}")]
-        public ActionResult Index(string search)
+        [GET("index/{search?}")]
+        public ActionResult Index(string search,string ISBN)
         {
             Title("Книги на Brainshare");
+
             return View(new BooksFilterModel()
             {
                 Languages = new LanguagesService().GetAllLanguages(),
-                Search = search
+                Search = search,
+                ISBN = ISBN
             });
         }
 
@@ -69,6 +71,15 @@ namespace BrainShare.Controllers
             model.UpdatePagingInfo(filter.PagingInfo);
             return Listing(items, model);
         }
+
+        //[AllowAnonymous]
+        //public ActionResult FilterAutocomplete(BooksFilterModel model)
+        //{
+        //    var filter = model.ToFilter();
+        //    var items = _books.GetByFilter(filter).Select(x => new BookViewModel(x));
+        //    model.UpdatePagingInfo(filter.PagingInfo);
+        //    return Listing(items, model);
+        //}
 
         [AllowAnonymous]
         public ActionResult Search()

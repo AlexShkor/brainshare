@@ -60,7 +60,7 @@ namespace BrainShare.Hubs
 
         private string GetUserId()
         {
-             return  ((UserIdentity) Context.Request.GetHttpContext().User.Identity).User.Id;    
+            return "Id"; //return  ((UserIdentity) Context.Request.GetHttpContext().User.Identity).User.Id;    
         }
 
   

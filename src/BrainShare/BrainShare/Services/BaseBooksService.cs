@@ -58,7 +58,7 @@ namespace BrainShare.Services
             }
             if (filter.ISBN.HasValue())
             {
-                yield return Query<Book>.Matches(x=> x.ISBN, new BsonRegularExpression(filter.ISBN,"i"));
+                yield return Query<Book>.In(x=> x.ISBN, filter.ISBN.Split(',').Select(i => i.Trim()));
             }
             if (filter.Title.HasValue())
             {

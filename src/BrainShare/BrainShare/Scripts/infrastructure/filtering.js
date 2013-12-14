@@ -10,6 +10,8 @@
     var ignoreList = self.filter.DoNotReturnPropertiesNames() || [];
     ignoreList.push('pages');
 
+    self.successFilterCallback = null;
+
     self.isVisiblePage = function (item) {
         var pageNumber = item.Number();
         return pageNumber == 1
@@ -106,6 +108,8 @@
 
     var submitForm = function () {
         var dto = self.filter.toJS();
+        console.log('submitForm');
+        console.log(dto);
         location.hash = "search/" + ko.utils.buildQueryUrl(dto);
     };
 
@@ -117,6 +121,10 @@
         ko.mapping.fromJS(resp.Items, itemsMapping || {}, self.items);
         self.updatePagination();
         self.filter.Loading(false);
+
+        if (self.successFilterCallback) {
+            self.successFilterCallback();
+        }
     };
 
     Sammy(function () {

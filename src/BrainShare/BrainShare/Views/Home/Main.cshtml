@@ -25,6 +25,18 @@
         .marketing p + h4 {
             margin-top: 28px;
         }
+        .autocomplete-image {
+            height: 50px;
+        }
+        .name {
+            margin-left: 10px;   
+        }
+        .selectize-input {
+               width: 450px; 
+        }
+        .selectize-control {
+            display: inline-block;
+        }
 </style>
 
 @if (!Request.IsAuthenticated)
@@ -40,7 +52,46 @@
     </div>
 }
 <h4>искать Книги</h4>
- <input type="text" id="search" /> <button type="submit" class="btn btn-success" style="margin:0px 0px 9px 20px" onclick="searchRedirect()">Искать</button>
+<input type="text" id="search" /> <button type="submit" class="btn btn-success" style="margin:0px 0px 30px 20px" onclick="searchRedirect()">Искать</button>
+
+<script>
+    $('#search').selectize({
+        valueField: 'ISBN',
+        labelField: 'Title',
+        searchField: 'Title',
+        options: [],
+        create: false,
+     //   maxItems: 1,
+        render: {
+            option: function (item, escape) {
+                console.log(item);
+   
+                return '<div>' +
+                    '<img class=autocomplete-image src="' + escape(item.Image) + '" alt="">' +
+                    '<span class="title">' +
+                        '<span class="name">' + escape(item.Title) + '</span>' +
+                    '</span>' +
+                '</div>';
+            }
+        },
+        load: function (query, callback) {
+            if (!query.length) return callback();
+            $.ajax({
+                url: '/Books/Filter',
+                type: 'GET',
+                data: {
+                    Search: query,
+                },
+                error: function () {
+                    console.log("error");
+                },
+                success: function (res) {
+                    callback(res.Items);
+                }
+            });
+        }
+    });
+</script>
 <h4>5 последних Книг</h4>
 <div>
     <ul class="thumbnails" data-bind="foreach: items">
@@ -98,7 +149,7 @@
 
 <script>
     var searchRedirect = function() {
-        var searchText = encodeURIComponent($($("#search")).val());
-        document.location = "/Books/Index/" + searchText;
+        var searchISBNS = encodeURIComponent($("#search").val());
+        document.location = "/Books/Index/?ISBN=" + searchISBNS;
     };
 </script>
