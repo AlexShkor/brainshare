@@ -326,7 +326,7 @@
 }
 
 .selectize-control.single .selectize-input.dropdown-active:after {
-  margin-top: -4px;
+  /*margin-top: -4px;*/
   border-color: transparent transparent #808080 transparent;
   border-width: 0 5px 5px 5px;
 }

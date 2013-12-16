@@ -1,72 +1,5 @@
 ﻿@model BrainShare.ViewModels.HomeViewModel
-
-<style type="text/css">
-    /* Main marketing message and sign up button */
-    .jumbotron {
-        margin: 60px 0;
-        text-align: center;
-    }
-
-        .jumbotron h1 {
-            font-size: 72px;
-            line-height: 1;
-        }
-
-        .jumbotron .btn {
-            font-size: 21px;
-            padding: 14px 24px;
-        }
-
-    /* Supporting marketing content */
-    .marketing {
-        margin: 60px 0;
-    }
-
-        .marketing p + h4 {
-            margin-top: 28px;
-        }
-        .autocomplete-image {
-            height: 50px;
-            text-align: left;
-            vertical-align: top;
-            float: left;
-        }
-        .name {
-            margin-left: 10px;
-            display: inline; 
-        }
-        .selectize-input {
-            width: 500px;
-            border: 2px solid #dce4ec;
-            border-radius: 6px;
-        }
-       .selectize-input input {
-           font-size: 15px;
-           line-height: 21px;
-           color: #95a5a6;         
-        }
-
-          .selectize-input.focus {
-              border-color: rgb(26, 188, 156);
-          }
-        .selectize-control {
-            display: inline-block;
-        }
-
-        .title {
-            font-weight: bold;
-            
-        }
-        .search-container {
-            display: inline;
-            text-align: initial;
-     
-        }
-        .search-outer-container {
-             text-align: center;
-            margin-top: 30px;
-        }
-</style>
+<script src="~/Scripts/custom/mainPage.js"></script>
 
 @if (!Request.IsAuthenticated)
 {
@@ -84,60 +17,10 @@
 <div class="search-outer-container">
     <div class="search-container">
         <input type="text" id="search" /> 
-        <button type="submit" class="btn btn-success" style="margin:0px 0px 30px 20px;" onclick="searchRedirect()">Искать</button>
+        <button type="submit" class="btn btn-success"  onclick="searchRedirect()">Искать</button>
     </div>
 </div>
 
-<script>
-    
-    var isbnRedirect = function () {
-        var searchISBNS = encodeURIComponent($("#search").val());
-        document.location = "/Books/Index/?ISBN=" + searchISBNS;
-    };
-
-    var searchRedirect = function () {
-        var search = encodeURIComponent($($(".selectize-input input")[0]).val());
-        document.location = "/Books/Index/" + search;
-    };
-
-    $('#search').selectize({
-        valueField: 'ISBN',
-        labelField: 'Title',
-        searchField: 'Title',
-        placeholder: "Искать книги",
-        options: [],
-        create: false,
-        maxItems: 1,
-        render: {
-            option: function(item, escape) {
-                console.log(item);
-
-                return '<div>' +
-                    '<img class=autocomplete-image src="' + escape(item.Image) + '" alt="">' +
-                    '<span class="name title">' + escape(item.Title) + '</span> </br>' +
-                    '<span class="name "><span">Владелец:</span>' + item.UserName + '</span> </br>' +
-                    '<span class="name">Расположение владельца: ' + escape(item.UserLocality) + '</span>' +
-                    '</div>';
-            }
-        },
-        load: function(query, callback) {
-            if (!query.length) return callback();
-            $.ajax({
-                url: '/Books/Filter',
-                type: 'GET',
-                data: {
-                    Search: query,
-                },
-                error: function() {
-                    console.log("error");
-                },
-                success: function(res) {
-                    callback(res.Items);
-                }
-            });
-        }
-    }).on('change',  isbnRedirect);
-</script>
 <h4>5 последних Книг</h4>
 <div>
     <ul class="thumbnails" data-bind="foreach: items">
