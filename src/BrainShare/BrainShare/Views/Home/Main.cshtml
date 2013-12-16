@@ -36,8 +36,19 @@
             display: inline; 
         }
         .selectize-input {
-               width: 450px; 
+            width: 500px;
+            border: 2px solid #dce4ec;
+            border-radius: 6px;
         }
+       .selectize-input input {
+           font-size: 15px;
+           line-height: 21px;
+           color: #95a5a6;         
+        }
+
+          .selectize-input.focus {
+              border-color: rgb(26, 188, 156);
+          }
         .selectize-control {
             display: inline-block;
         }
@@ -45,6 +56,15 @@
         .title {
             font-weight: bold;
             
+        }
+        .search-container {
+            display: inline;
+            text-align: initial;
+     
+        }
+        .search-outer-container {
+             text-align: center;
+            margin-top: 30px;
         }
 </style>
 
@@ -60,8 +80,13 @@
         <a class="btn btn-large btn-success" href="/User/LoginWithFacebook">Войти</a>
     </div>
 }
-<h4>искать Книги</h4>
-<input type="text" id="search" /> <button type="submit" class="btn btn-success" style="margin:0px 0px 30px 20px" onclick="searchRedirect()">Искать</button>
+
+<div class="search-outer-container">
+    <div class="search-container">
+        <input type="text" id="search" /> 
+        <button type="submit" class="btn btn-success" style="margin:0px 0px 30px 20px;" onclick="searchRedirect()">Искать</button>
+    </div>
+</div>
 
 <script>
     
@@ -72,8 +97,6 @@
 
     var searchRedirect = function () {
         var search = encodeURIComponent($($(".selectize-input input")[0]).val());
-        console.log(search);
-        alert(search);
         document.location = "/Books/Index/" + search;
     };
 
@@ -81,6 +104,7 @@
         valueField: 'ISBN',
         labelField: 'Title',
         searchField: 'Title',
+        placeholder: "Искать книги",
         options: [],
         create: false,
         maxItems: 1,
