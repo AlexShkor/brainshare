@@ -1172,6 +1172,8 @@
 			self.$control_input    = $control_input;
 			self.$dropdown         = $dropdown;
 			self.$dropdown_content = $dropdown_content;
+		    
+			self.clearTextBox = true;
 	
 			$dropdown.on('mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
 			$dropdown.on('mousedown', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
@@ -1193,7 +1195,7 @@
 				focus     : function() { return self.onFocus.apply(self, arguments); }
 			});
 	
-			$document.on('keydown' + eventNS, function(e) {
+			$document.on('keydown' + eventNS, function (e) {
 				self.isCmdDown = e[IS_MAC ? 'metaKey' : 'ctrlKey'];
 				self.isCtrlDown = e[IS_MAC ? 'altKey' : 'ctrlKey'];
 				self.isShiftDown = e.shiftKey;
@@ -1205,17 +1207,25 @@
 				if (e.keyCode === KEY_CMD) self.isCmdDown = false;
 			});
 	
-			$document.on('mousedown' + eventNS, function(e) {
-				if (self.isFocused) {
-					// prevent events on the dropdown scrollbar from causing the control to blur
-					if (e.target === self.$dropdown[0] || e.target.parentNode === self.$dropdown[0]) {
-						return false;
-					}
-					// blur on click outside
-					if (!self.$control.has(e.target).length && e.target !== self.$control[0]) {
-						self.blur();
-					}
-				}
+			$document.on('mousedown' + eventNS, function (e) {
+			   
+			    if (self.isFocused) {
+			        var val = $control_input.val();
+			        if (val != null && val != '') {
+			            self.clearTextBox = false;
+			            self.onBlur();
+			            return true;
+			        }
+			        // prevent events on the dropdown scrollbar from causing the control to blur
+				    if (e.target === self.$dropdown[0] || e.target.parentNode === self.$dropdown[0]) {
+
+				        return false;
+				    }
+				    // blur on click outside
+				    if (!self.$control.has(e.target).length && e.target !== self.$control[0]) {
+				        self.blur();
+				    }
+				} 
 			});
 	
 			$window.on(['scroll' + eventNS, 'resize' + eventNS].join(' '), function() {
@@ -1350,7 +1360,7 @@
 		 * @param {object} e
 		 * @return {boolean}
 		 */
-		onMouseDown: function(e) {
+		onMouseDown: function (e) {
 			var self = this;
 			var defaultPrevented = e.isDefaultPrevented();
 			var $target = $(e.target);
@@ -1548,8 +1558,8 @@
 		 * @param {object} e
 		 * @returns {boolean}
 		 */
-		onBlur: function(e) {
-			var self = this;
+		onBlur: function (e) {
+		    var self = this;
 			self.isFocused = false;
 			if (self.ignoreFocus) return;
 	
@@ -1558,7 +1568,11 @@
 			}
 	
 			self.close();
-			self.setTextboxValue('');
+			if (self.clearTextBox) {   
+			    self.setTextboxValue('');
+			    self.clearTextBox = true;
+			}
+	
 			self.setActiveItem(null);
 			self.setActiveOption(null);
 			self.setCaret(self.items.length);
@@ -1681,7 +1695,7 @@
 		 *
 		 * @param {mixed} value
 		 */
-		setValue: function(value) {
+		setValue: function (value) {
 			debounce_events(this, ['change'], function() {
 				this.clear();
 				var items = $.isArray(value) ? value : [value];
@@ -1697,7 +1711,7 @@
 		 * @param {object} $item
 		 * @param {object} e (optional)
 		 */
-		setActiveItem: function($item, e) {
+		setActiveItem: function ($item, e) {
 			var self = this;
 			var eventName;
 			var i, idx, begin, end, item, swap;
@@ -1716,7 +1730,7 @@
 				return;
 			}
 	
-			// modify selection
+		    // modify selection
 			eventName = e && e.type.toLowerCase();
 	
 			if (eventName === 'mousedown' && self.isShiftDown && self.$activeItems.length) {

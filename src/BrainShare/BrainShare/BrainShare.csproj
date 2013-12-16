@@ -532,7 +532,7 @@
     <Content Include="Scripts\jquery-2.0.0.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
-    <Content Include="Scripts\jquery.color.js" />
+    <Content Include="Scripts\infrastructure\jquery.color.js" />
     <Content Include="Scripts\jquery.geocomplete.js" />
     <Content Include="Scripts\jquery.geocomplete.min.js" />
     <Content Include="Scripts\jquery.Jcrop.js" />

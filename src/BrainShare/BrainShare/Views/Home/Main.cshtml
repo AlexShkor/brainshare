@@ -64,26 +64,39 @@
 <input type="text" id="search" /> <button type="submit" class="btn btn-success" style="margin:0px 0px 30px 20px" onclick="searchRedirect()">Искать</button>
 
 <script>
+    
+    var isbnRedirect = function () {
+        var searchISBNS = encodeURIComponent($("#search").val());
+        document.location = "/Books/Index/?ISBN=" + searchISBNS;
+    };
+
+    var searchRedirect = function () {
+        var search = encodeURIComponent($($(".selectize-input input")[0]).val());
+        console.log(search);
+        alert(search);
+        document.location = "/Books/Index/" + search;
+    };
+
     $('#search').selectize({
         valueField: 'ISBN',
         labelField: 'Title',
         searchField: 'Title',
         options: [],
         create: false,
-     //   maxItems: 1,
+        maxItems: 1,
         render: {
-            option: function (item, escape) {
+            option: function(item, escape) {
                 console.log(item);
-   
+
                 return '<div>' +
                     '<img class=autocomplete-image src="' + escape(item.Image) + '" alt="">' +
-                        '<span class="name title">' + escape(item.Title) + '</span> </br>' +
-                        '<span class="name "><span">Владелец:</span>' + item.UserName +'</span> </br>' + 
-                        '<span class="name">Расположение владельца: ' + escape(item.UserLocality) + '</span>' +
-                '</div>';
+                    '<span class="name title">' + escape(item.Title) + '</span> </br>' +
+                    '<span class="name "><span">Владелец:</span>' + item.UserName + '</span> </br>' +
+                    '<span class="name">Расположение владельца: ' + escape(item.UserLocality) + '</span>' +
+                    '</div>';
             }
         },
-        load: function (query, callback) {
+        load: function(query, callback) {
             if (!query.length) return callback();
             $.ajax({
                 url: '/Books/Filter',
@@ -91,15 +104,15 @@
                 data: {
                     Search: query,
                 },
-                error: function () {
+                error: function() {
                     console.log("error");
                 },
-                success: function (res) {
+                success: function(res) {
                     callback(res.Items);
                 }
             });
         }
-    });
+    }).on('change',  isbnRedirect);
 </script>
 <h4>5 последних Книг</h4>
 <div>
@@ -156,9 +169,3 @@
 </table>
 
 
-<script>
-    var searchRedirect = function() {
-        var searchISBNS = encodeURIComponent($("#search").val());
-        document.location = "/Books/Index/?ISBN=" + searchISBNS;
-    };
-</script>
