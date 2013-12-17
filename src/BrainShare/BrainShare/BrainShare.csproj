@@ -255,6 +255,7 @@
     <Compile Include="Controllers\MigrateController.cs" />
     <Compile Include="Documents\BaseUser.cs" />
     <Compile Include="Documents\Data\UserNewsInfo.cs" />
+    <Compile Include="Documents\Data\UserSettings.cs" />
     <Compile Include="Documents\News.cs" />
     <Compile Include="Services\NewsService.cs" />
     <Compile Include="Utilities\NewsMaker.cs" />
@@ -297,6 +298,7 @@
     <Compile Include="ViewModels\MyProfileViewModel.cs" />
     <Compile Include="ViewModels\RequestAcceptedModel.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\UsersFilterModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Documents\CloudinaryImage.cs" />
@@ -664,6 +666,9 @@
     <Content Include="Views\Profile\ChangePassword.cshtml" />
     <Content Include="Views\User\News.cshtml" />
     <Content Include="Views\Profile\Settings.cshtml" />
+    <Content Include="Views\Profile\SettingsTabs\Common.cshtml" />
+    <Content Include="Views\Profile\SettingsTabs\Notifications.cshtml" />
+    <Content Include="Views\Profile\SettingsTabs\Privacy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Views\Help\" />

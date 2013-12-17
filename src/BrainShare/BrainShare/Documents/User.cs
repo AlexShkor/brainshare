@@ -21,6 +21,8 @@ namespace BrainShare.Documents
         public string FacebookAccessToken { get; set; }
         
         public AddressData Address { get; set; }
+
+        public UserSettings Settings { get; set; }
        
         public DateTime Registered { get; set; }
 

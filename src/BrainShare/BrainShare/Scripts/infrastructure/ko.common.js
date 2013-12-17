@@ -50,6 +50,16 @@ function sendJson(url, jsonOrModel, success, error) {
     });
 }
 
+function getHtml(url, data, success) {
+    $.ajax({
+        url: url,
+        data: data,
+        success: success,
+    });
+}
+
+
+
 var parseValues = function (data, callback, prefix, postfix) {
     postfix = postfix || "";
     prefix = prefix || "";

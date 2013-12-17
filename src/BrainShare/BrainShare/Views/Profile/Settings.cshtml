@@ -4,31 +4,67 @@
 }
 
 
-<ul class="nav nav-tabs">
-    <li class="active"><a href="#">Общие</a></li>
-    <li><a href="#">Оповещения</a></li>
-    <li><a href="#">Приватность</a></li>
-</ul>
+@using Newtonsoft.Json
+@model BrainShare.ViewModels.SettingsViewModel
+
+<!-- ko with: model -->
+<div class="settings-header-wrapper">
+    <ul class="nav nav-tabs">
+        <!-- ko foreach: Tabs -->
+        <li data-bind="css:{ active :IsActive},click:$root.loadTab"><a href="#" data-bind="text:Title">Общие</a></li>
+        <!-- /ko-->
+    </ul>
+</div>
+<!-- /ko-->
+
+<div class="settings-body-wrapper">
+    
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var model = new SettingsViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+        ko.applyBindings(model, $("#profileBody")[0]);
+    });
+</script>
 
 <style>
-        .nav-tabs>li>a {
-padding-top:0px;
-padding-bottom: 0px;
-line-height: 21px;
-border: 1px solid transparent;
--webkit-border-radius: 4px 4px 0 0;
--moz-border-radius: 4px 4px 0 0;
-border-radius: 4px 4px 0 0;
-            font-size: 12px;
-            font-weight: bold;
+    .settings-header-wrapper .nav-tabs>li>a {
+        padding-top:0px;
+        padding-bottom: 0px;
+        line-height: 21px;
+        font-size: 12px;
+        font-weight: bold;
       
-}
-    .nav-tabs>.active>a, .nav-tabs>.active>a:hover, .nav-tabs>.active>a:focus {
-color: #95a5a6;
-cursor: default;
-background-color: #2c3e50;
-border: 1px solid #ddd;
-      color: white;
-/*border-bottom-color: transparent;*/
-}
+    }
+    .settings-header-wrapper .nav-tabs>.active>a, .settings-header-wrapper .nav-tabs>.active>a:hover, .settings-header-wrapper .nav-tabs>.active>a:focus {
+        background-color: #2c3e50;
+        color: white;
+    }
 </style>
+
+<script>
+    var SettingsViewModel = function(model) {
+        var self = this;
+
+        self.model = ko.mapping.fromJS(model);
+
+        self.clearTabSelection = function() {
+            for (var i = 0; i < self.model.Tabs().length;i++)
+            {
+                if (self.model.Tabs()[i].IsActive()) {
+                    self.model.Tabs()[i].IsActive(false);
+                }
+            }
+        };
+
+        self.loadTab = function (tab) {
+            console.log(ko.mapping.toJS(tab));
+            getHtml("/Profile/Settings/Tabs/" + tab.Name(), {}, function (content) {
+                self.clearTabSelection();
+                $($(".settings-body-wrapper")[0]).html(content);
+                tab.IsActive(true);
+            });
+        };
+    };
+</script>

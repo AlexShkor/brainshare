@@ -296,7 +296,13 @@ namespace BrainShare.Controllers
         public ActionResult Settings()
         {
             Title("настройки");
-            return View();
+            return View(new SettingsViewModel());
+        }
+
+        [GET("settings/tabs/{tabname}")]
+        public ActionResult GetSettingTab(string tabname)
+        {
+            return View("SettingsTabs/" + tabname);
         }
 
 
