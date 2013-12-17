@@ -5,7 +5,7 @@
     Layout = "~/Views/Profile/_ProfileLayout.cshtml";
 }
 
-<script type="text/javascript" src="@Url.Content("~/Scripts/custom/news.js")"></script>
+<script type="text/javascript" src="~/Scripts/Views/User/NewsListViewModel.js"></script>
 <script type="text/javascript">
     $(function () {
         var model = new NewsListViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
