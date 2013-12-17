@@ -302,7 +302,29 @@ namespace BrainShare.Controllers
         [GET("settings/tabs/{tabname}")]
         public ActionResult GetSettingTab(string tabname)
         {
-            return View("SettingsTabs/" + tabname);
+            var user = _users.GetById(UserId);
+
+            switch (tabname)
+            {
+                case "Common":
+                    return View("SettingsTabs/Common", user.Settings.CommonSettings);
+                case "Notifications":
+                    return View("SettingsTabs/Notifications", user.Settings.NotificationSettings);
+                case "Privacy":
+                    return View("SettingsTabs/Privacy", user.Settings.PrivacySettings);
+
+                default: return View("SettingsTabs/Common", user.Settings.CommonSettings);
+            }
+        }
+
+        [POST("settings/update/notifications")]
+        public ActionResult UpdateNotificationsSettings(NotificationSettings notificationSettings)
+        {
+            var user = _users.GetById(UserId);
+            user.Settings.NotificationSettings = notificationSettings;
+            _users.Save(user);
+
+            return Json("");
         }
 
 

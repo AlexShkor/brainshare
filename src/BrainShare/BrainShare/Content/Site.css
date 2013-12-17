@@ -110,3 +110,30 @@
     .status-text {
         float: right;  
     }
+
+    /*Profile/Settings*/
+
+    .settings-header-wrapper .nav-tabs>li>a {
+        padding-top:0px;
+        padding-bottom: 0px;
+        line-height: 21px;
+        font-size: 12px;
+        font-weight: bold;
+      
+    }
+    .settings-header-wrapper .nav-tabs>.active>a, .settings-header-wrapper .nav-tabs>.active>a:hover, .settings-header-wrapper .nav-tabs>.active>a:focus {
+        background-color: #2c3e50;
+        color: white;
+    }
+
+    /*profile/Settings/notifications*/
+
+    .notification-settings-label {
+        font-weight: bold;
+    }
+    .notifications-content {
+        padding: 20px 200px;   
+    }
+    .apply-btn {
+        float: right;   
+    }

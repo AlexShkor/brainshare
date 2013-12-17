@@ -1,5 +1,31 @@
-﻿@{
+﻿@using Newtonsoft.Json
+@model BrainShare.Documents.Data.NotificationSettings
+@{
     Layout = null;
 }
-
-<h2>Notifications</h2>
+<script src="~/Scripts/Views/Profile/SettingsTabs/NotificationSettingsViewModel.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var model = new NotificationSettingsViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+        ko.applyBindings(model, $(".settings-body-wrapper")[0]);
+        console.log(model);
+    });
+</script>
+<!-- ko with: model -->
+<div class="notifications-content">
+    <p class="notification-settings-label">Настройка оповещений по email</p>
+    
+    <table class="table email-settings-table">
+        <tr>
+            <td class="span6">Уведомлять о появление книг которее я ищу</td> 
+            <td><input type="checkbox" data-bind="checked:NotifyByEmailIfAnybodyAddedMyWishBook,event: { change: $root.ItemChanged }"/></td>
+        </tr>
+        <tr>
+            <td class="span6">Дублировать личные сообщения на почту</td>
+            <td><input type="checkbox" data-bind="checked:DuplicateMessagesToEmail,event: { change: $root.ItemChanged }"/></td>
+        </tr>
+    </table>
+    
+    <button class="btn btn-success apply-btn" data-bind="enable:$root.applyButtonIsVisible,click:$root.applySettings">Применить</button>
+</div>
+<!-- /ko-->

@@ -327,6 +327,8 @@
     <Content Include="Scripts\infrastructure\counting.js" />
     <Content Include="Scripts\infrastructure\globalErrorHandler.js" />
     <Content Include="Scripts\Views\Home\Main.js" />
+    <Content Include="Scripts\Views\Profile\SettingsTabs\NotificationSettingsViewModel.js" />
+    <Content Include="Scripts\Views\Profile\SettingsViewModel.js" />
     <Content Include="Scripts\Views\User\NewsListViewModel.js" />
     <Content Include="Scripts\infrastructure\notifications.js" />
     <Compile Include="Mongo\PagingInfo.cs" />
