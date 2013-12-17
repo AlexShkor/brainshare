@@ -8,18 +8,18 @@
     <title>@ViewBag.Title | BrainShare</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @RenderSection("Meta", required: false)
-    <link href="~/Scripts/datepicker/css/datepicker.css" rel="stylesheet" />
+    <link href="~/Scripts/Plugins/datepicker/css/datepicker.css" rel="stylesheet" />
     <link href="@Styles.Url("~/content/css")" rel="stylesheet"/>
-    <link href="~/Scripts/pnotify-1.2.0/jquery.pnotify.default.css" rel="stylesheet" />
+    <link href="~/Scripts/Plugins/pnotify-1.2.0/jquery.pnotify.default.css" rel="stylesheet" />
     <link href="~/Content/imgAreaSelect/imgareaselect-default.css" rel="stylesheet" />
-    <link href="~/Scripts/autocomplete/selectize.css" rel="stylesheet" />
+    <link href="~/Scripts/Plugins/autocomplete/selectize.css" rel="stylesheet" />
     <link href="~/Content/site.css" rel="stylesheet" />
 
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     @* Libs Scripts*@
     <script src="~/Scripts/jquery-2.0.1.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.0.1.min.js"></script>
-    <script src="~/Scripts/custom/notifications.js"></script>
+    <script src="~/Scripts/infrastructure/notifications.js"></script>
     <script src="~/Scripts/knockout-2.2.1.js"></script>
     <script src="~/Scripts/sammy-0.7.4.min.js"></script>
     <script src="~/Scripts/knockout.mapping-latest.js"></script>
@@ -27,15 +27,14 @@
     <script src="~/Scripts/infrastructure/filtering.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/knockout-bootstrap.min.js"></script>
-    <script src="~/Scripts/datepicker/js/bootstrap-datepicker.js"></script>
-    <script src="~/Scripts/datepicker/js/locales/bootstrap-datepicker.ru.js"></script>
+    <script src="~/Scripts/Plugins/datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/Plugins/datepicker/js/locales/bootstrap-datepicker.ru.js"></script>
     <script src="~/signalr/hubs"></script>
-    <script src="~/Scripts/pnotify-1.2.0/jquery.pnotify.min.js"></script>
-    <script src="~/Scripts/autocomplete/selectize.js"></script>
+    <script src="~/Scripts/Plugins/pnotify-1.2.0/jquery.pnotify.min.js"></script>
+    <script src="~/Scripts/Plugins/autocomplete/selectize.js"></script>
     @* Our Scripts*@
-    <script src="~/Scripts/custom/common.js"></script>
-    <script src="~/Scripts/custom/counting.js"></script>
-     <script src="~/Scripts/custom/globalErrorHandler.js"></script>
+    <script src="~/Scripts/infrastructure/counting.js"></script>
+     <script src="~/Scripts/infrastructure/globalErrorHandler.js"></script>
 
     <script src="~/Scripts/Views/Shared/EditBookViewModel.js"></script>
     @RenderSection("head", required: false)
