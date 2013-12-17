@@ -306,11 +306,11 @@ namespace BrainShare.Controllers
 
             switch (tabname)
             {
-                case "Common":
+                case "common":
                     return View("SettingsTabs/Common", user.Settings.CommonSettings);
-                case "Notifications":
+                case "notifications":
                     return View("SettingsTabs/Notifications", user.Settings.NotificationSettings);
-                case "Privacy":
+                case "privacy":
                     return View("SettingsTabs/Privacy", user.Settings.PrivacySettings);
 
                 default: return View("SettingsTabs/Common", user.Settings.CommonSettings);

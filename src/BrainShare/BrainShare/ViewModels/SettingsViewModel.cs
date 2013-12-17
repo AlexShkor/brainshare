@@ -11,9 +11,9 @@ namespace BrainShare.ViewModels
         {
             Tabs = new List<Tab>();
 
-            Tabs.Add(new Tab("Общие","Common",true));
-            Tabs.Add(new Tab("Оповещения","Notifications"));
-            Tabs.Add(new Tab("Приватность","Privacy"));
+            Tabs.Add(new Tab("Общие","common",true));
+            Tabs.Add(new Tab("Оповещения","notifications"));
+            Tabs.Add(new Tab("Приватность","privacy"));
         }
         public List<Tab> Tabs { get; set; }
     }
