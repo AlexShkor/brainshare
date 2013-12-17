@@ -137,3 +137,11 @@
     .apply-btn {
         float: right;   
     }
+
+    /*bootstrap layout*/
+    .facebook-link {
+        padding-top: 11px;
+    }
+    .facebook-link  a {
+        background-image: url(/Images/facebook.png);
+    }
