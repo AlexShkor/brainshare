@@ -27,55 +27,86 @@
 
 
 
-        .autocomplete-image {
-            height: 50px;
-            text-align: left;
-            vertical-align: top;
-            float: left;
-        }
-        .name {
-            margin-left: 10px;
-            display: inline; 
-        }
-        .owner {
-            float: right;   
-        }
-        .selectize-input {
-            width: 600px;
-            border: 2px solid #dce4ec;
-            border-radius: 6px;
-        }
-       .selectize-input input {
-           font-size: 17px;
-           line-height: 21px;
-           color: rgb(44,62,80);   
-        }
+    .autocomplete-image {
+        height: 50px;
+        text-align: left;
+        vertical-align: top;
+        float: left;
+    }
+    .name {
+        margin-left: 10px;
+        display: inline; 
+    }
+    .owner {
+        float: right;   
+    }
+    .selectize-input {
+        width: 600px;
+        border: 2px solid #dce4ec;
+        border-radius: 6px;
+    }
+    .selectize-input input {
+        font-size: 17px;
+        line-height: 21px;
+        color: rgb(44,62,80);   
+    }
 
-        .selectize-input.focus {
-            border-color: rgb(26, 188, 156);           
-            border-radius: 6px;
+    .selectize-input.focus {
+        border-color: rgb(26, 188, 156);           
+        border-radius: 6px;
           
-        }
-        .selectize-control {
-            display: inline-block;
-        }
+    }
+    .selectize-control {
+        display: inline-block;
+    }
 
-        .title {
-            font-weight: bold;
+    .title {
+        font-weight: bold;
             
-        }
-        .search-container {
-            display: inline;
-            text-align: initial;
+    }
+    .search-container {
+        display: inline;
+        text-align: initial;
      
-        }
-        .search-outer-container {
-             text-align: center;
-            margin-top: 30px;
-        }
-        .search-container button {
-            font-size: 18px;
-            font-weight: bold;
-            padding: 12px 36px;  
-            margin: 0px 0px 33px 20px;
-        }
+    }
+    .search-outer-container {
+            text-align: center;
+        margin-top: 30px;
+    }
+    .search-container button {
+        font-size: 18px;
+        font-weight: bold;
+        padding: 12px 36px;  
+        margin: 0px 0px 33px 20px;
+    }
+
+    /*books list*/
+
+    .books .span3 {
+        margin-left: 0px;
+        margin-right: 20px;
+    }
+    /*searchOzby*/
+
+    .page-range-input {
+        width: 60px;   
+    }
+    .range-contatainer {
+        display: inline-block;
+         float: right;   
+    }
+
+    /*view user profile*/
+    .unsubscribe-link {
+        margin-left: 14px;
+        font-size: 13px;   
+    }
+
+    .subscribe-button {
+        width: 206px;
+        position: relative;
+        top: -13px;
+    }
+    .status-text {
+        float: right;  
+    }

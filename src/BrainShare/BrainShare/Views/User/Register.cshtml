@@ -3,6 +3,7 @@
 
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
 <script src="~/Scripts/jquery.geocomplete.min.js"></script>
+<script type="text/javascript" src="~/Scripts/Views/User/RegisterModel.js"></script>
 
 <!-- ko with: model-->
 
@@ -105,31 +106,7 @@
 <!-- /ko -->
 
 <script type="text/javascript">
-  
-    function RegisterModel (data, submitUrl) {
-        var self = this;
-        this.model = ko.mapping.fromJS(data);
-       
-        this.updateResults = function() {
-            self.model.locality($("#locality").val());
-            self.model.country($("#country").val());
-            self.model.formatted_address($("#formatted_address").val());
-        };
-        
-        this.save = function () {
-            self.updateResults();
-            sendModel(submitUrl,self.model, function (model) {
-   
-                if (model.Errors.length == 0) {
-                    window.location.href = "/User/Login";
-                }
-            });          
-        };
-        
-    }  
-
     $(function () {
-
         var model = new RegisterModel(@Html.Raw(JsonConvert.SerializeObject(Model)), "/user/Register");
         ko.applyBindings(model);
 

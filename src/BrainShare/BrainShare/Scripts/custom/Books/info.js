@@ -1,6 +1,5 @@
 ﻿var InfoModel = function (data) {
     var self = this;
-    console.log(data);
     this.book = data;
 
     this.take = function () {

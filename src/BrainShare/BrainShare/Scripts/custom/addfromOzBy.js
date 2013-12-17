@@ -40,7 +40,6 @@ var AddFromOzByBookModel = function () {
             $.get("/books/downloadstring?q=" + encodeURIComponent(self.query()) + "&page=" + self.page() + "&&searchLimit=" + self.visibleItemsPerPage,
                 function (response) {
                     self.items.removeAll();
-                    console.log("SEARCH");
                     var ozPages = $(response).find(".pages > .nolist .longcol").children();
                     var lastPage = parseInt($(ozPages).last().text());
  

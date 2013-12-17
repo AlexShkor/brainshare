@@ -1,12 +1,11 @@
 ﻿var AllUsersModel = function (data) {
     var self = this;
-    console.log(data);
+
     this.filter = ko.mapping.fromJS(data);
     
     ApplyFilterModel(self, "/users");
 
     this.info = function (item) {
-        console.log(item);
         window.location = "/profile/view/" + item.UserId();
     };
 

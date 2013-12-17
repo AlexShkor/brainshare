@@ -108,8 +108,6 @@
 
     var submitForm = function () {
         var dto = self.filter.toJS();
-        console.log('submitForm');
-        console.log(dto);
         location.hash = "search/" + ko.utils.buildQueryUrl(dto);
     };
 

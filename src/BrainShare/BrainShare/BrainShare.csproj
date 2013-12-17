@@ -561,6 +561,15 @@
     <Content Include="Scripts\pnotify-1.2.0\use for pines style icons\jquery.pnotify.default.icons.css" />
     <Content Include="Scripts\sammy-0.7.4.js" />
     <Content Include="Scripts\sammy-0.7.4.min.js" />
+    <Content Include="Scripts\Views\Profile\ChangePasswordModel.js" />
+    <Content Include="Scripts\Views\Profile\EditProfileModel.js" />
+    <Content Include="Scripts\Views\Profile\EditShellProfile.js" />
+    <Content Include="Scripts\Views\Shared\Disquas.js" />
+    <Content Include="Scripts\Views\Shared\GoogleAnalytics.js" />
+    <Content Include="Scripts\Views\User\GetFbFriends.js" />
+    <Content Include="Scripts\Views\User\PublishersViewModel.js" />
+    <Content Include="Scripts\Views\User\RegisterAsShellModel.js" />
+    <Content Include="Scripts\Views\User\RegisterModel.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -656,7 +665,13 @@
     <Content Include="Views\Profile\ChangePassword.cshtml" />
     <Content Include="Views\User\News.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Scripts\Views\Books\Add\" />
+    <Folder Include="Scripts\Views\Help\" />
+    <Folder Include="Scripts\Views\Home\" />
+    <Folder Include="Scripts\Views\MailService\" />
+    <Folder Include="Scripts\Views\Users\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

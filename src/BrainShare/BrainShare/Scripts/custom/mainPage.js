@@ -20,7 +20,6 @@ $(function () {
         maxItems: 1,
         render: {
             option: function (item, escape) {
-                console.log(item);
 
                 return '<div>' +
                     '<img class=autocomplete-image src="' + escape(item.Image) + '" alt="">' +

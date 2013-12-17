@@ -33,7 +33,6 @@
     });
     
     $.post("/profile/get-unread-news-count", function (data) {
-        console.log(data);
         if (data.Result !== undefined) {
             if (localStorageIsAvailable) {
                 localStorage.setItem('newsCount', data.Result);

@@ -4,6 +4,7 @@
 
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
 <script src="~/Scripts/jquery.geocomplete.min.js"></script>
+<script src="~/Scripts/Views/User/RegisterAsShellModel.js"></script>
 
 <!-- ko with: model-->
 <form style="padding-top: 1em;" class="form-horizontal" data-bind="submit: $root.save">
@@ -96,34 +97,7 @@
 <!-- /ko -->
 
 <script type="text/javascript">
-    
-    function RegisterAsShellModel (data, submitUrl) {
-        var self = this;
-        this.model = ko.mapping.fromJS(data);
-       
-        this.save = function () {
-            console.log(ko.mapping.toJS(self.model));
-            sendModel(submitUrl,self.model, function (model) {
-   
-                if (model.Errors.length == 0) {
-                    window.location.href = "/User/Login";
-                }
-            });          
-        };
-
-        this.updateResults = function() {
-            self.model.Lng($("#lng").val());
-            self.model.Lat($("#lat").val());
-            self.model.Route($("#route").val());
-            self.model.Country($("#country").val());
-            self.model.StreetNumber($("#street_number").val());
-            self.model.FormattedAddress($("#formatted_address").val());
-        };
-    }
-    
-
     $(function () {
-
         var model = new RegisterAsShellModel(@Html.Raw(JsonConvert.SerializeObject(Model)), "/user/RegisterAsBookshell");
         ko.applyBindings(model);
 
@@ -133,8 +107,7 @@
             location: '@Html.Raw(Model.FormattedAddress)'
         }).bind("geocode:result", function(event, result) {
             model.updateResults();
-        });
-    
+        });  
     });
 
 </script>

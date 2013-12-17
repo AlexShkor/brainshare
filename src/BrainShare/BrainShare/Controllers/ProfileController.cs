@@ -427,8 +427,6 @@ namespace BrainShare.Controllers
 
             _users.Save(user);
 
-            throw new Exception();
-
             return Json(new { canIncrease = canIncrease, canDecrease = canDecrease, summaryVotes = summaryVotes });
         }
 
