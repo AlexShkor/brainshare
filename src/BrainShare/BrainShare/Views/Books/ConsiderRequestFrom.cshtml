@@ -2,10 +2,10 @@
 @model BrainShare.ViewModels.ConsiderRequestViewModel
 
 @section Scripts{
-    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/acceptRequestFrom.js")"></script>
+    <script type="text/javascript" src="~/Scripts/Views/Books/ConsiderRequestViewModel.js"></script>
     <script type="text/javascript">
         $(function () {
-            var model = new ConsiderRequestModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+            var model = new ConsiderRequestViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
             ko.applyBindings(model);
         });
     </script>

@@ -323,7 +323,6 @@
     <Content Include="Scripts\autocomplete\selectize.js" />
     <Content Include="Scripts\custom\addfromOzBy.js" />
     <Content Include="Scripts\custom\allusers.js" />
-    <Content Include="Scripts\custom\Books\EditBookViewModel.js" />
     <Content Include="Scripts\custom\counting.js" />
     <Content Include="Scripts\custom\globalErrorHandler.js" />
     <Content Include="Scripts\custom\mainPage.js" />
@@ -464,19 +463,8 @@
     <Content Include="Scripts\cloudinary\jquery.iframe-transport.js" />
     <Content Include="Scripts\cloudinary\jquery.ui.widget.js" />
     <Content Include="Scripts\custom\addbook.js" />
-    <Content Include="Scripts\custom\Books\acceptRequestFrom.js" />
-    <Content Include="Scripts\custom\Books\info.js" />
-    <Content Include="Scripts\custom\Books\take.js" />
     <Content Include="Scripts\custom\allbooks.js" />
-    <Content Include="Scripts\custom\Profile\allMessages.js" />
     <Content Include="Scripts\custom\common.js" />
-    <Content Include="Scripts\custom\Profile\myShellProfile.js" />
-    <Content Include="Scripts\custom\Profile\inbox.js" />
-    <Content Include="Scripts\custom\Profile\myBooks.js" />
-    <Content Include="Scripts\custom\Profile\myProfile.js" />
-    <Content Include="Scripts\custom\Profile\userProfile.js" />
-    <Content Include="Scripts\custom\Profile\viewThread.js" />
-    <Content Include="Scripts\custom\Profile\wishList.js" />
     <None Include="Scripts\jquery-2.0.1.intellisense.js" />
     <Content Include="Scripts\datepicker\css\datepicker.css" />
     <Content Include="Scripts\datepicker\js\bootstrap-datepicker.js" />
@@ -561,10 +549,22 @@
     <Content Include="Scripts\pnotify-1.2.0\use for pines style icons\jquery.pnotify.default.icons.css" />
     <Content Include="Scripts\sammy-0.7.4.js" />
     <Content Include="Scripts\sammy-0.7.4.min.js" />
+    <Content Include="Scripts\Views\Books\ConsiderRequestViewModel.js" />
+    <Content Include="Scripts\Views\Books\InfoModel.js" />
+    <Content Include="Scripts\Views\Books\TakeModel.js" />
+    <Content Include="Scripts\Views\Profile\AllMessagesModel.js" />
     <Content Include="Scripts\Views\Profile\ChangePasswordModel.js" />
     <Content Include="Scripts\Views\Profile\EditProfileModel.js" />
     <Content Include="Scripts\Views\Profile\EditShellProfile.js" />
+    <Content Include="Scripts\Views\Profile\InboxModel.js" />
+    <Content Include="Scripts\Views\Profile\MyBooksModel.js" />
+    <Content Include="Scripts\Views\Profile\MyProfileViewModel.js" />
+    <Content Include="Scripts\Views\Profile\MyShellProfileViewModel.js" />
+    <Content Include="Scripts\Views\Profile\UserProfileModel.js" />
+    <Content Include="Scripts\Views\Profile\MessagesModel.js" />
+    <Content Include="Scripts\Views\Profile\WishListModel.js" />
     <Content Include="Scripts\Views\Shared\Disquas.js" />
+    <Content Include="Scripts\Views\Shared\EditBookViewModel.js" />
     <Content Include="Scripts\Views\Shared\GoogleAnalytics.js" />
     <Content Include="Scripts\Views\User\GetFbFriends.js" />
     <Content Include="Scripts\Views\User\PublishersViewModel.js" />
@@ -666,7 +666,6 @@
     <Content Include="Views\User\News.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Scripts\Views\Books\Add\" />
     <Folder Include="Scripts\Views\Help\" />
     <Folder Include="Scripts\Views\Home\" />
     <Folder Include="Scripts\Views\MailService\" />

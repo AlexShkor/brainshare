@@ -1,7 +1,7 @@
 ﻿@using Newtonsoft.Json
 @model BrainShare.ViewModels.UserProfileModel
 
-<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Profile/userProfile.js")"></script>
+<script type="text/javascript" src="~/Scripts/Views/Profile/UserProfileModel.js"></script>
 <script type="text/javascript">
     $(function () {
         var model = new UserProfileModel(@Html.Raw(JsonConvert.SerializeObject(Model)));

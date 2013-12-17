@@ -13,7 +13,6 @@
     this.ShowOverlay = ko.observable(false);
 
     this.CropImg = function () {
-        debugger;
         var selection = imgAreaApi.getSelection();
 
         var data = {
@@ -40,7 +39,6 @@
         self.ShowChangeAvatarButton(true);
 
         function loadRealAvatar(response) {
-            debugger;
             $("#avatarContainer div").empty();
             $("#avatarContainer div").append($("<img style='width: 250px; height: 250px;' />").attr("id", "avatarImg").attr("src", response.url));
         }
@@ -65,8 +63,6 @@
 
     var options = {
         beforeSend: function (formOptions) {
-            debugger;
-
             self.ShowOverlay(true);
 
             // hide navigation
@@ -100,9 +96,6 @@
         },
 
         success: function (response) {
-            debugger;
-
-
             $("#bar").width('100%');
             $("#percent").html('100%');
             $("#loadBar").hide();

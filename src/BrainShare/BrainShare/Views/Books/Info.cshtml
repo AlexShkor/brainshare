@@ -13,7 +13,7 @@
     xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"
 }
 @section Scripts{
-    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/info.js")"></script>
+    <script type="text/javascript" src="~/Scripts/Views/Books/InfoModel.js"></script>
     <script>
         $(function () {
             var model = new InfoModel(@Html.Raw(JsonConvert.SerializeObject(Model)));

@@ -1,4 +1,4 @@
-﻿var ConsiderRequestModel = function (data) {
+﻿var ConsiderRequestViewModel = function (data) {
 
     var self = this;
 
