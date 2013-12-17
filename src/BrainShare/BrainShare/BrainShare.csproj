@@ -663,6 +663,7 @@
     <Content Include="Views\Shared\_PublisherListItem.cshtml" />
     <Content Include="Views\Profile\ChangePassword.cshtml" />
     <Content Include="Views\User\News.cshtml" />
+    <Content Include="Views\Profile\Settings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Views\Help\" />

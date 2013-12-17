@@ -292,6 +292,13 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
+        [GET("settings")]
+        public ActionResult Settings()
+        {
+            Title("настройки");
+            return View();
+        }
+
 
         [GET("message/to/{recipientId}")]
         public ActionResult MessageTo(string recipientId)
