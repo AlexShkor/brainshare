@@ -17,19 +17,11 @@ namespace BrainShare
         [SettingsProperty("cloudinary_url")]
         public string CloudinaryUrl { get; set; }
 
-        //[SettingsProperty("adminEmail")]
-        //public string AdminEmail { get; set; }
+        [SettingsProperty("AdminDisplayName")]
+        public string AdminDisplayName { get; set; }
 
-        //[SettingsProperty("smtpServer")]
-        //public string SmtpServer { get; set; }
+        [SettingsProperty("adminEmail")]
+        public string AdminEmail { get; set; } 
 
-        //[SettingsProperty("smtpPort")]
-        //public string SmtpPort { get; set; }
-
-        //[SettingsProperty("smtpUser")]
-        //public string SmtpUser { get; set; }
-
-        //[SettingsProperty("smtpPass")]
-        //public string SmtpPass { get; set; }
     }
 }

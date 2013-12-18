@@ -613,9 +613,9 @@
     <Content Include="Views\Home\BookAdded.cshtml" />
     <Content Include="Views\Home\BookWanted.cshtml" />
     <Content Include="Views\Home\BooksExchanged.cshtml" />
-    <Content Include="Views\MailService\WelcomeMessage.html.cshtml" />
-    <Content Include="Views\MailService\ExchangeConfirmMessage.html.cshtml" />
-    <Content Include="Views\MailService\RequestMessage.html.cshtml" />
+    <Content Include="Views\MailService\WelcomeMessage.cshtml" />
+    <Content Include="Views\MailService\ExchangeConfirmMessage.cshtml" />
+    <Content Include="Views\MailService\RequestMessage.cshtml" />
     <Content Include="Views\Books\Info.cshtml" />
     <Content Include="Views\Profile\ViewUserProfile.cshtml" />
     <Content Include="Views\Profile\Messages.cshtml" />

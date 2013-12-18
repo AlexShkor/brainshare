@@ -1,9 +1,10 @@
 ﻿using System.Net.Mail;
 using System.Net.Mime;
-using System.Text;
 using System.Threading.Tasks;
 using BrainShare.Documents;
 using BrainShare.ViewModels;
+using RazorEngine;
+using Encoding = System.Text.Encoding;
 
 namespace BrainShare.Services
 {
@@ -18,7 +19,8 @@ namespace BrainShare.Services
 
         public void SendWelcomeMessage(User newUser)
         {
-            Send(newUser.Email, newUser.FullName, "a.putov@paralect.com", "a.putov@paralect.com", "BrainShare : Благодарим за регистрацию на BrainShare!", @"<p>welcome message</p>");
+           var body = GetStringFromRazor("WelcomeMessage", newUser);
+           Send(newUser.Email, newUser.FullName, "BrainShare : Благодарим за регистрацию на BrainShare!", body);
         }
 
         public void SendRequestMessage(User currentUser, User requestedUser, Book book)
@@ -30,8 +32,8 @@ namespace BrainShare.Services
                                            Book = book
                                        };
 
-
-            Send(currentUser.Email, currentUser.FullName, "", "", "BrainShare : Уведомление об отправке запроса", @"<p>welcome message</p>");
+            var body = GetStringFromRazor("RequestMessage", requestViewModel);
+            Send(currentUser.Email, currentUser.FullName, "BrainShare : Уведомление об отправке запроса", body);
         }
 
         public void SendExchangeConfirmMessage(User firstUser, Book firstBook, User secondUser, Book secondBook)
@@ -44,10 +46,11 @@ namespace BrainShare.Services
                                             HisBook = secondBook
                                         };
 
-            Send(firstUser.Email, firstUser.FullName, "", "", "BrainShare : Уведомление об обмене", @"<p>welcome message</p>");
+            var body = GetStringFromRazor("ExchangeConfirmMessage", exchangeViewModel);
+            Send(firstUser.Email, firstUser.FullName, "BrainShare : Уведомление об обмене", body);
         }
 
-        private void Send(string toAddress, string toDisplayName,string fromAddress, string fromDisplayName, string subject, string html,bool async = true)
+        private void Send(string toAddress, string toDisplayName, string subject, string html,bool async = true)
         {
             MailMessage mailMsg = new MailMessage();
             mailMsg.BodyEncoding = Encoding.UTF8;
@@ -55,7 +58,7 @@ namespace BrainShare.Services
             mailMsg.To.Add(new MailAddress(toAddress, toDisplayName));
 
             // From
-            mailMsg.From = new MailAddress(fromAddress, fromDisplayName);
+            mailMsg.From = new MailAddress(_settings.AdminEmail, _settings.AdminDisplayName);
 
             // Subject and multipart/alternative Body
             mailMsg.Subject = subject;
@@ -63,8 +66,6 @@ namespace BrainShare.Services
 
             // Init SmtpClient and send
             SmtpClient smtpClient = new SmtpClient();
-            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential("f841dc01-7378-4c92-a783-4eecad474217@apphb.com", "p0gxh9sk");
-            smtpClient.Credentials = credentials;
 
             if (async)
             {
@@ -73,8 +74,15 @@ namespace BrainShare.Services
             else
             {
                 smtpClient.Send(mailMsg);
-            }
-       
+            }      
+        }
+
+        private string GetStringFromRazor(string viewname, object model)
+        {
+            var path = System.Web.HttpContext.Current.Server.MapPath(@"~/Views/MailService/" + viewname + ".cshtml");
+            var fileContents = System.IO.File.ReadAllText(path);
+
+            return Razor.Parse(fileContents, model);
         }
     }
 
