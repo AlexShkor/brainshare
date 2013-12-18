@@ -36,6 +36,7 @@ namespace BrainShare.Controllers
         private readonly FacebookClient _fb;
         private readonly ShellUserService _shellUserService;
         private readonly NewsService _news;
+        private readonly MailService _mailService;
         private readonly CryptographicHelper _cryptoHelper;
 
         public string FacebookCallbackUri
@@ -46,13 +47,14 @@ namespace BrainShare.Controllers
             }
         }
 
-        public UserController(IAuthentication auth, UsersService users,ShellUserService shellUserService, FacebookClientFactory  fbFactory, CryptographicHelper cryptoHelper, Settings settings, NewsService news)
+        public UserController(IAuthentication auth, UsersService users, ShellUserService shellUserService, FacebookClientFactory fbFactory, CryptographicHelper cryptoHelper, Settings settings, NewsService news, MailService mailService)
         {
             _users = users;
             _settings = settings;
             _shellUserService = shellUserService;
             _cryptoHelper = cryptoHelper;
             _news = news;
+            _mailService = mailService;
             Auth = auth;
             _fb = fbFactory.GetClient();
         }
@@ -132,7 +134,7 @@ namespace BrainShare.Controllers
 
                     _users.AddUser(newUser);
 
-                    SendMailAsync(newUser);
+                    _mailService.SendWelcomeMessage(newUser);
                 }
                 else
                 {
@@ -174,8 +176,6 @@ namespace BrainShare.Controllers
 
                     _shellUserService.Save(user);
 
-
-                    SendMailAsync(user);
                     return Json(model);
                 }
 
@@ -193,25 +193,6 @@ namespace BrainShare.Controllers
         }
         
 
-        private void SendMailAsync(User newUser)
-        {
-            Task.Factory.StartNew(() =>
-            {
-                var mailer = new MailService();
-                var welcomeEmail = mailer.SendWelcomeMessage(newUser);
-                welcomeEmail.Deliver();
-            });
-        }
-
-        private void SendMailAsync(ShellUser newUser)
-        {
-            Task.Factory.StartNew(() =>
-            {
-                var mailer = new MailService();
-                var welcomeEmail = mailer.SendWelcomeMessage(newUser);
-                welcomeEmail.Deliver();
-            });
-        }
 
         public static string GetIdForUser()
         {

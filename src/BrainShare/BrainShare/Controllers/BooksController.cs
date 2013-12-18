@@ -34,10 +34,11 @@ namespace BrainShare.Controllers
         private readonly CloudinaryImagesService _cloudinaryImages;
         private readonly NewsService _newsService;
         private readonly ExchangeHistoryService _exchangeHistory;
+        private readonly MailService _mailService;
         private readonly Settings _settings;
 
         public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages, 
-            ExchangeHistoryService exchangeHistory, Settings settings, NewsService newsService)
+            ExchangeHistoryService exchangeHistory, Settings settings, NewsService newsService, MailService mailService)
         {
             _users = users;
             _books = books;
@@ -47,6 +48,7 @@ namespace BrainShare.Controllers
             _exchangeHistory = exchangeHistory;
             _settings = settings;
             _newsService = newsService;
+            _mailService = mailService;
         }
         
         [AllowAnonymous]
@@ -368,14 +370,7 @@ namespace BrainShare.Controllers
                         BookTitle = book.Title
                     });
                 _users.Save(user);
-
-                Task.Factory.StartNew(() =>
-                {
-                    var currentUser = _users.GetById(UserId);
-                    var mailer = new MailService();
-                    var requestEmail = mailer.SendRequestMessage(currentUser, user, book);
-                    requestEmail.Deliver();
-                });
+                _mailService.SendRequestMessage(_users.GetById(UserId), user, book);
             }
             var model = new ChangeRequestSentModel(book);
             Title("Обмен " + model.Book.Title + " от " + user.FullName);
@@ -489,7 +484,6 @@ namespace BrainShare.Controllers
                 _exchangeHistory.SaveGift(userId, new ExchangeEntry(me, book));
 
                 SaveFeedAsync(ActivityFeed.BooksGifted(me, book, user));
-                SendBookGiftedMail(me, book, user);
                 SendRequestAcceptedAsGiftNotification(userId, book, me);
 
                 return JsonSuccess();
@@ -520,25 +514,8 @@ namespace BrainShare.Controllers
 
         private void SendExchangeMail(Book yourBook, User you, Book hisBook, User he)
         {
-            Task.Factory.StartNew(() =>
-                {
-                    var mailer = new MailService();
-                    var emailTofirst = mailer.SendExchangeConfirmMessage(you, yourBook, he, hisBook);
-                    emailTofirst.Deliver();
-                    var mailer2 = new MailService();
-                    var emailToSecond = mailer2.SendExchangeConfirmMessage(he, hisBook, you, yourBook);
-                    emailToSecond.Deliver();
-                });
-        }
-
-
-
-        private void SendBookGiftedMail(User me, Book book, User user)
-        {
-            Task.Factory.StartNew(() =>
-                                      {
-                                          var mailer = new MailService();
-                                      });
+            _mailService.SendExchangeConfirmMessage(you, yourBook, he, hisBook);
+            _mailService.SendExchangeConfirmMessage(he, hisBook, you, yourBook);        
         }
 
         private void SendSearchingUsersNewsAsync(User owner, Book newBook)

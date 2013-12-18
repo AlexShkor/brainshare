@@ -1,34 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Net.Mail;
+using System.Net.Mime;
 using System.Text;
-using System.Web;
-using ActionMailer.Net.Mvc;
+using System.Threading.Tasks;
 using BrainShare.Documents;
 using BrainShare.ViewModels;
 
 namespace BrainShare.Services
 {
-    public class MailService : MailerBase
+    public class MailService
     {
+        private readonly Settings _settings;
 
-        public EmailResult SendWelcomeMessage(User newUser)
+        public MailService(Settings settings)
         {
-            To.Add(newUser.Email);
-            Subject = "BrainShare : Благодарим за регистрацию на BrainShare!";
-            MessageEncoding = Encoding.UTF8;
-            return Email("WelcomeMessage", newUser);
+            _settings = settings;
         }
 
-        public EmailResult SendWelcomeMessage(ShellUser newUser)
+        public void SendWelcomeMessage(User newUser)
         {
-            To.Add(newUser.Email);
-            Subject = "BrainShare : Благодарим за регистрацию на BrainShare!";
-            MessageEncoding = Encoding.UTF8;
-            return Email("WelcomeMessage", newUser);
+            Send(newUser.Email, newUser.FullName, "a.putov@paralect.com", "a.putov@paralect.com", "BrainShare : Благодарим за регистрацию на BrainShare!", @"<p>welcome message</p>");
         }
 
-        public EmailResult SendRequestMessage(User currentUser, User requestedUser, Book book)
+        public void SendRequestMessage(User currentUser, User requestedUser, Book book)
         {
             var requestViewModel = new RequestViewModel()
                                        {
@@ -36,13 +29,12 @@ namespace BrainShare.Services
                                            RequestedUser = requestedUser,
                                            Book = book
                                        };
-            To.Add(currentUser.Email);
-            Subject = "BrainShare : Уведомление об отправке запроса";
-            MessageEncoding = Encoding.UTF8;
-            return Email("RequestMessage", requestViewModel);
+
+
+            Send(currentUser.Email, currentUser.FullName, "", "", "BrainShare : Уведомление об отправке запроса", @"<p>welcome message</p>");
         }
 
-        public EmailResult SendExchangeConfirmMessage(User firstUser, Book firstBook, User secondUser, Book secondBook)
+        public void SendExchangeConfirmMessage(User firstUser, Book firstBook, User secondUser, Book secondBook)
         {
             var exchangeViewModel = new ExchangeConfirmViewModel()
                                         {
@@ -52,13 +44,38 @@ namespace BrainShare.Services
                                             HisBook = secondBook
                                         };
 
-            To.Add(firstUser.Email);
-            Subject = "BrainShare : Уведомление об обмене";
-            MessageEncoding = Encoding.UTF8;
-            return Email("ExchangeConfirmMessage", exchangeViewModel);
+            Send(firstUser.Email, firstUser.FullName, "", "", "BrainShare : Уведомление об обмене", @"<p>welcome message</p>");
         }
 
+        private void Send(string toAddress, string toDisplayName,string fromAddress, string fromDisplayName, string subject, string html,bool async = true)
+        {
+            MailMessage mailMsg = new MailMessage();
+            mailMsg.BodyEncoding = Encoding.UTF8;
+            // To
+            mailMsg.To.Add(new MailAddress(toAddress, toDisplayName));
 
+            // From
+            mailMsg.From = new MailAddress(fromAddress, fromDisplayName);
+
+            // Subject and multipart/alternative Body
+            mailMsg.Subject = subject;
+            mailMsg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
+
+            // Init SmtpClient and send
+            SmtpClient smtpClient = new SmtpClient();
+            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential("f841dc01-7378-4c92-a783-4eecad474217@apphb.com", "p0gxh9sk");
+            smtpClient.Credentials = credentials;
+
+            if (async)
+            {
+                Task.Factory.StartNew(() => smtpClient.Send(mailMsg));        
+            }
+            else
+            {
+                smtpClient.Send(mailMsg);
+            }
+       
+        }
     }
 
 }
