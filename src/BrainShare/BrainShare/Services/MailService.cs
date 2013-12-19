@@ -1,6 +1,7 @@
 ﻿using System.Net.Mail;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using BrainShare.Documents;
 using BrainShare.ViewModels;
 using RazorEngine;
@@ -28,6 +29,14 @@ namespace BrainShare.Services
             var model = new EmailUserMessageModel {Message = message, Sender = sender};
             var body = GetStringFromRazor("EmailUserMessage", model);
             Send(receiver.Email, receiver.FullName, "BrainShare : Новое сообщение", body);
+        }
+
+        public void EmailUserHaveSearechedBook(User owner, User receiver,  Book book)
+        {
+            var model = new EmailUserHaveSearechedBookModel {Book = book, Owner = owner};
+            var body = GetStringFromRazor("EmailUserHaveSearechedBookMessage", model);
+
+            Send(receiver.Email, receiver.FullName, "BrainShare : Интересующая", body);
         }
 
         public void SendRequestMessage(User currentUser, User requestedUser, Book book)
@@ -86,7 +95,7 @@ namespace BrainShare.Services
 
         private string GetStringFromRazor(string viewname, object model)
         {
-            var path = System.Web.HttpContext.Current.Server.MapPath(@"~/Views/MailService/" + viewname + ".cshtml");
+            var path = HostingEnvironment.MapPath(@"~/Views/MailService/" + viewname + ".cshtml");
             var fileContents = System.IO.File.ReadAllText(path);
 
             return Razor.Parse(fileContents, model);

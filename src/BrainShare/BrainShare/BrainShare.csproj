@@ -264,6 +264,7 @@
     <Compile Include="Services\NewsService.cs" />
     <Compile Include="Utilities\NewsMaker.cs" />
     <Compile Include="Utilities\StringUtility.cs" />
+    <Compile Include="ViewModels\EmailUserHaveSearechedBookModel.cs" />
     <Compile Include="ViewModels\EmailUserMessageModel.cs" />
     <Compile Include="ViewModels\NewsViewModel.cs" />
     <Compile Include="ViewModels\PublisherViewModel.cs" />
@@ -678,6 +679,7 @@
     <Content Include="Views\Profile\SettingsTabs\Notifications.cshtml" />
     <Content Include="Views\Profile\SettingsTabs\Privacy.cshtml" />
     <Content Include="Views\MailService\EmailUserMessage.cshtml" />
+    <Content Include="Views\MailService\EmailUserHaveSearechedBookMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Views\Help\" />

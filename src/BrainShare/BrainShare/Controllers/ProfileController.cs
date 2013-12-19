@@ -356,7 +356,6 @@ namespace BrainShare.Controllers
             _users.Save(user);
 
             return Json("");
-
         }
 
         [GET("thread/view/{threadId}")]
@@ -391,16 +390,8 @@ namespace BrainShare.Controllers
                 return HttpNotFound();
             }
             var sendToUserId = thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId;
-            //
 
-            var recipient = _users.GetById(sendToUserId);
-            var settings = recipient.Settings.NotificationSettings;
-
-            if (settings.DuplicateMessagesToEmail)
-            {
-                _mailService.EmailUserMessage(content,_users.GetById(UserId),recipient);
-            }
-            //
+            EmailUsermessage(sendToUserId, content);
 
             _asyncTaskScheduler.StartUpdateUnreadMessages(threadId, sendToUserId);
 
@@ -576,6 +567,17 @@ namespace BrainShare.Controllers
             _users.Save(user);
 
             return Json(new { url = realAvatarUrl });
+        }
+
+        private void EmailUsermessage(string recipientId, string message)
+        {
+            var recipient = _users.GetById(recipientId);
+            var settings = recipient.Settings.NotificationSettings;
+
+            if (settings.DuplicateMessagesToEmail)
+            {
+                _mailService.EmailUserMessage(message, _users.GetById(UserId), recipient);
+            }
         }
     }
 }

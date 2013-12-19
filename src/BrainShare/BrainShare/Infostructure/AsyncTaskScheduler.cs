@@ -12,17 +12,33 @@ namespace BrainShare.Infostructure
         private readonly WishBooksService _wishBooks;
         private readonly ActivityFeedsService _feeds;
         private readonly NewsService _newsService;
+        private readonly MailService _mailService;
 
-        public AsyncTaskScheduler(WishBooksService wishBooks, ActivityFeedsService feeds, UsersService users, BooksService books, NewsService newsService)
+        public AsyncTaskScheduler(WishBooksService wishBooks, ActivityFeedsService feeds, UsersService users, BooksService books, NewsService newsService,MailService mailService)
         {
             _wishBooks = wishBooks;
             _feeds = feeds;
             _users = users;
             _books = books;
             _newsService = newsService;
+            _mailService = mailService;
         }
 
         public Task StartEmailSendSearchingUsersTask(User owner, Book newBook)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                var wishBooks = _wishBooks.GetBooksByISBN(newBook.ISBN);
+                foreach (var wishBook in wishBooks)
+                {
+                    var userData = wishBook.UserData;
+
+                    _mailService.EmailUserHaveSearechedBook(owner, _users.GetById(userData.UserId), wishBook);
+                }
+            });
+        }
+
+        public Task StartNewsSendSearchingUsersTask(User owner, Book newBook)
         {
             return Task.Factory.StartNew(() =>
             {
