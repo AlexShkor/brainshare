@@ -34,12 +34,15 @@ namespace BrainShare.Controllers
         private readonly ThreadsService _threads;
         private readonly NewsService _news;
         private readonly CloudinaryImagesService _cloudinaryImages;
+        private readonly MailService _mailService; 
         private readonly CryptographicHelper _cryptographicHelper;
         private readonly IAuthentication _authentication;
+        private readonly AsyncTaskScheduler _asyncTaskScheduler;
         private readonly Settings _settings;
 
         public ProfileController(BooksService books, UsersService users, ShellUserService shellUserService, ThreadsService threads, WishBooksService whishBooks, 
-            CloudinaryImagesService cloudinaryImages,CryptographicHelper cryptographicHelper,IAuthentication authentication, NewsService news, Settings settings)
+            CloudinaryImagesService cloudinaryImages,CryptographicHelper cryptographicHelper,IAuthentication authentication, NewsService news, Settings settings,
+            MailService mailService, AsyncTaskScheduler asyncTaskScheduler)
         {
             _books = books;
             _users = users;
@@ -47,6 +50,8 @@ namespace BrainShare.Controllers
             _wishBooks = whishBooks;
             _cloudinaryImages = cloudinaryImages;
             _shellUserService = shellUserService;
+            _mailService = mailService;
+            _asyncTaskScheduler = asyncTaskScheduler;
             _news = news;
             _cryptographicHelper = cryptographicHelper;
             _authentication = authentication;
@@ -332,22 +337,12 @@ namespace BrainShare.Controllers
         public ActionResult MessageTo(string recipientId)
         {
             var thread = _threads.GetFor(UserId, recipientId);
-            //Todo:remove this code when tests with news will done
-            var news = new News("some message","some title");
-
-            var recepient = _users.GetById(recipientId);
-            recepient.AddNews(news.Id);
-            _users.Save(recepient);
-
-            _news.Save(news);
-            ////////////
             if (thread == null)
             {
                 var user = _users.GetById(UserId);
                 var recipient = _users.GetById(recipientId);
                 thread = new Thread(UserId, user.FullName, recipientId, recipient.FullName);
                 _threads.Save(thread);
-                _news.Save(new News{});
             }
         
             return RedirectToAction("ViewThread", new { threadId = thread.Id });
@@ -365,7 +360,7 @@ namespace BrainShare.Controllers
         }
 
         [GET("thread/view/{threadId}")]
-        public ActionResult ViewThread(string threadId)
+        public async Task<ActionResult> ViewThread(string threadId)
         {
             var thread = _threads.GetById(threadId);
             if (!thread.ContainsUser(UserId))
@@ -375,14 +370,16 @@ namespace BrainShare.Controllers
             var me = _users.GetById(UserId);
             var recipient = _users.GetById(thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId);
             var model = new MessagingThreadViewModel(thread, me, recipient);
-            SetThreadIsReadAsync(UserId, threadId);
+
+            _asyncTaskScheduler.StartSetThreadIsRead(UserId, threadId);
+
             Title("Сообщения от " + recipient.FullName);
             return View("Messages", model);
         }
 
 
         [POST("thread/post")]
-        public ActionResult PostToThread(string threadId, string content)
+        public async Task<ActionResult> PostToThread(string threadId, string content)
         {
             var thread = _threads.GetById(threadId);
             if (thread != null && thread.ContainsUser(UserId))
@@ -394,16 +391,19 @@ namespace BrainShare.Controllers
                 return HttpNotFound();
             }
             var sendToUserId = thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId;
-            //Todo:remove this code when tests with news will done
-            var news = new News("some message", "some title");
-
-            var recepient = _users.GetById(sendToUserId);
-            recepient.AddNews(news.Id);
-            _users.Save(recepient);
-
-            _news.Save(news);
             //
-            UpdateUnreadMessagesAsync(threadId, sendToUserId);
+
+            var recipient = _users.GetById(sendToUserId);
+            var settings = recipient.Settings.NotificationSettings;
+
+            if (settings.DuplicateMessagesToEmail)
+            {
+                _mailService.EmailUserMessage(content,_users.GetById(UserId),recipient);
+            }
+            //
+
+            _asyncTaskScheduler.StartUpdateUnreadMessages(threadId, sendToUserId);
+
             var model = new MessageViewModel();
             model.Init(UserId, content, DateTime.Now.ToString("o"), false);
             var callbackModel = new MessageViewModel();
@@ -413,15 +413,7 @@ namespace BrainShare.Controllers
             return Json(model);
         }
 
-        private void UpdateUnreadMessagesAsync(string threadId, string toUserId)
-        {
-            Task.Factory.StartNew(() => _users.AddThreadToUnread(toUserId, threadId));
-        }
 
-        private void SetThreadIsReadAsync(string userId, string threadId)
-        {
-            Task.Factory.StartNew(() => _users.RemoveThreadFromUnread(userId, threadId));
-        }
 
         [POST("get-user-books")]
         [AllowAnonymous]

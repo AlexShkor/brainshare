@@ -23,6 +23,13 @@ namespace BrainShare.Services
            Send(newUser.Email, newUser.FullName, "BrainShare : Благодарим за регистрацию на BrainShare!", body);
         }
 
+        public void EmailUserMessage(string message, User sender, User receiver)
+        {
+            var model = new EmailUserMessageModel {Message = message, Sender = sender};
+            var body = GetStringFromRazor("EmailUserMessage", model);
+            Send(receiver.Email, receiver.FullName, "BrainShare : Новое сообщение", body);
+        }
+
         public void SendRequestMessage(User currentUser, User requestedUser, Book book)
         {
             var requestViewModel = new RequestViewModel()

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -15,6 +14,7 @@ using BrainShare.Documents;
 using BrainShare.Extensions;
 using BrainShare.GoogleDto;
 using BrainShare.Hubs;
+using BrainShare.Infostructure;
 using BrainShare.Services;
 using BrainShare.Services.Validation;
 using BrainShare.Utilities;
@@ -32,13 +32,14 @@ namespace BrainShare.Controllers
         private readonly WishBooksService _wishBooks;
         private readonly ActivityFeedsService _feeds;
         private readonly CloudinaryImagesService _cloudinaryImages;
+        private readonly AsyncTaskScheduler _asyncTaskScheduler;
         private readonly NewsService _newsService;
         private readonly ExchangeHistoryService _exchangeHistory;
         private readonly MailService _mailService;
         private readonly Settings _settings;
 
         public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages, 
-            ExchangeHistoryService exchangeHistory, Settings settings, NewsService newsService, MailService mailService)
+            ExchangeHistoryService exchangeHistory, Settings settings, NewsService newsService, MailService mailService, AsyncTaskScheduler asyncTaskScheduler)
         {
             _users = users;
             _books = books;
@@ -49,6 +50,7 @@ namespace BrainShare.Controllers
             _settings = settings;
             _newsService = newsService;
             _mailService = mailService;
+            _asyncTaskScheduler = asyncTaskScheduler;
         }
         
         [AllowAnonymous]
@@ -73,15 +75,6 @@ namespace BrainShare.Controllers
             model.UpdatePagingInfo(filter.PagingInfo);
             return Listing(items, model);
         }
-
-        //[AllowAnonymous]
-        //public ActionResult FilterAutocomplete(BooksFilterModel model)
-        //{
-        //    var filter = model.ToFilter();
-        //    var items = _books.GetByFilter(filter).Select(x => new BookViewModel(x));
-        //    model.UpdatePagingInfo(filter.PagingInfo);
-        //    return Listing(items, model);
-        //}
 
         [AllowAnonymous]
         public ActionResult Search()
@@ -265,20 +258,23 @@ namespace BrainShare.Controllers
         [ValidateInput(false)]
         [POST("my/add/from-google")]
         [POST("give")]
-        public ActionResult AddToMyBooks(GoogleBookDto bookDto)
+        public async Task<ActionResult> AddToMyBooks(GoogleBookDto bookDto)
         {
             var doc = _books.GetUserBook(bookDto.GoogleBookId, UserId);
             if (doc == null)
             {
                 var user = _users.GetById(UserId);
                 doc = bookDto.BuildDocument(user);
-                SaveFeedAsync(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
-                SendSearchingUsersNewsAsync(user, doc);
-                NotificationsHub.SendGenericText(UserId, "Книга добавлена",
-                    string.Format("{0} добавлена в вашу книную полку", doc.Title));
-                _books.Save(doc);
-            }
 
+                _books.Save(doc);
+
+                _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
+
+                _asyncTaskScheduler.StartEmailSendSearchingUsersTask(user, doc);
+
+                NotificationsHub.SendGenericText(UserId, "Книга добавлена",
+                                                    string.Format("{0} добавлена в вашу книную полку", doc.Title));
+            }
             else
             {
                 return Json(new { Error = "Книга уже добавлена." });
@@ -290,16 +286,19 @@ namespace BrainShare.Controllers
         [ValidateInput(false)]
         [POST("wish/add/from-google")]
         [POST("take")]
-        public ActionResult AddToWishBooks(GoogleBookDto bookDto)
+        public async Task<ActionResult> AddToWishBooks(GoogleBookDto bookDto)
         {
             var doc = _wishBooks.GetUserBook(bookDto.GoogleBookId, UserId);
             if (doc == null)
             {
                 var user = _users.GetById(UserId);
+
                 doc = bookDto.BuildDocument(user);
                 _wishBooks.Save(doc);
+
+                _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
+
                 NotificationsHub.SendGenericText(UserId,"my title","my message");
-                SaveFeedAsync(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
             }
             return Json(new { doc.Id });
         }
@@ -307,14 +306,18 @@ namespace BrainShare.Controllers
         [HttpPost]
         [ValidateInput(false)]
         [POST("my/add/from-oz")]
-        public ActionResult AddToMyBooksFromOz(OzBookDto bookDto)
+        public async Task<ActionResult> AddToMyBooksFromOz(OzBookDto bookDto)
         {
             var user = _users.GetById(UserId);
             var doc = bookDto.BuildDocument(user);
-            SaveFeedAsync(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
+
+            _books.Save(doc);
+
+            _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
+
             NotificationsHub.SendGenericText(UserId, "Книга добавлена",
                 string.Format("{0} добавлена в вашу книную полку", doc.Title));
-            _books.Save(doc);
+
             return Json(new { Id = doc.Id });
         }
 
@@ -322,14 +325,18 @@ namespace BrainShare.Controllers
         [HttpPost]
         [ValidateInput(false)]
         [POST("wish/add/from-oz")]
-        public ActionResult AddToWishBooksFromOz(OzBookDto bookDto)
+        public async Task<ActionResult> AddToWishBooksFromOz(OzBookDto bookDto)
         {
             var user = _users.GetById(UserId);
             var doc = bookDto.BuildDocument(user);
-            SaveFeedAsync(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
+
+            _wishBooks.Save(doc);
+
+            _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
+
             NotificationsHub.SendGenericText(UserId, "Книга добавлена в поиск",
                 string.Format("{0} добавлена в ваш список поиска", doc.Title));
-            _wishBooks.Save(doc);
+
             return Json(new { Id = doc.Id });
         }
 
@@ -387,18 +394,13 @@ namespace BrainShare.Controllers
             model.FromUser = new UserItemViewModel(fromUser);
             var yourBook = _books.GetById(requestedBookId);
             model.YourBook = new BookViewModel(yourBook);
-            UpdateRequestViewedAsync(UserId, requestedBookId, userId);
+            _asyncTaskScheduler.StartUpdateRequestViewed(UserId, requestedBookId, userId);
             Title(string.Format("Запрос от {0} на книгу {1}", fromUser.FullName, yourBook.Title));
             return View(model);
         }
 
-        private void UpdateRequestViewedAsync(string userId, string bookId, string requestFromUserId)
-        {
-            Task.Factory.StartNew(() => _users.UpdateRequestViewed(userId, bookId, requestFromUserId));
-        }
-
         [POST("exchange")]
-        public ActionResult Exchange(string userId, string bookId, string yourBookId)
+        public async Task<ActionResult> Exchange(string userId, string bookId, string yourBookId)
         {
             if (userId == UserId)
             {
@@ -438,7 +440,8 @@ namespace BrainShare.Controllers
                 _exchangeHistory.SaveExchange(userId, new ExchangeEntry(he, hisBook),
                                                                    new ExchangeEntry(you, yourBook));
 
-                SaveFeedAsync(ActivityFeed.BooksExchanged(yourBook, you, hisBook, he));
+                _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BooksExchanged(yourBook, you, hisBook, he));
+
                 SendExchangeMail(yourBook, you, hisBook, he);
                 SendRequestAcceptedNotification(userId, yourBook, hisBook, you);
 
@@ -457,7 +460,7 @@ namespace BrainShare.Controllers
         }
 
         [POST("make-gift")]
-        public ActionResult MakeGift(string userId, string bookId)
+        public async Task<ActionResult> MakeGift(string userId, string bookId)
         {
             if (userId == UserId)
             {
@@ -483,7 +486,8 @@ namespace BrainShare.Controllers
 
                 _exchangeHistory.SaveGift(userId, new ExchangeEntry(me, book));
 
-                SaveFeedAsync(ActivityFeed.BooksGifted(me, book, user));
+                _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BooksGifted(me, book, user));
+
                 SendRequestAcceptedAsGiftNotification(userId, book, me);
 
                 return JsonSuccess();
@@ -516,31 +520,6 @@ namespace BrainShare.Controllers
         {
             _mailService.SendExchangeConfirmMessage(you, yourBook, he, hisBook);
             _mailService.SendExchangeConfirmMessage(he, hisBook, you, yourBook);        
-        }
-
-        private void SendSearchingUsersNewsAsync(User owner, Book newBook)
-        {
-            Task.Factory.StartNew(() =>
-                {
-                    var wishBooks = _wishBooks.GetBooksByISBN(newBook.ISBN);
-                    foreach (var wishBook in wishBooks)
-                    {
-                        var userData = wishBook.UserData;
-                        var news = new News(
-                            NewsMaker.UserHaveBookMessage(UserName, UserName, newBook.Title, newBook.Id),
-                            "Информация по разыкиваемой книге");
-                        _newsService.Save(news);
-                        var taker = _users.GetById(userData.UserId);
-                        taker.AddNews(news.Id);
-                        _users.Save(taker);
-                    }
-                    var x = 8;
-                });
-        }
-
-        private void SaveFeedAsync(ActivityFeed feed)
-        {
-            Task.Factory.StartNew(() => _feeds.Save(feed));
         }
 
         public JsonResult UploadBookImage(HttpPostedFileBase bookImgfile)

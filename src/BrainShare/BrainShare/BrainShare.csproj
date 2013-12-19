@@ -260,9 +260,11 @@
     <Compile Include="Documents\Data\UserNewsInfo.cs" />
     <Compile Include="Documents\Data\UserSettings.cs" />
     <Compile Include="Documents\News.cs" />
+    <Compile Include="Infostructure\AsyncTaskScheduler.cs" />
     <Compile Include="Services\NewsService.cs" />
     <Compile Include="Utilities\NewsMaker.cs" />
     <Compile Include="Utilities\StringUtility.cs" />
+    <Compile Include="ViewModels\EmailUserMessageModel.cs" />
     <Compile Include="ViewModels\NewsViewModel.cs" />
     <Compile Include="ViewModels\PublisherViewModel.cs" />
     <Compile Include="Documents\Data\ShellAddressData.cs" />
@@ -675,6 +677,7 @@
     <Content Include="Views\Profile\SettingsTabs\Common.cshtml" />
     <Content Include="Views\Profile\SettingsTabs\Notifications.cshtml" />
     <Content Include="Views\Profile\SettingsTabs\Privacy.cshtml" />
+    <Content Include="Views\MailService\EmailUserMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Views\Help\" />
