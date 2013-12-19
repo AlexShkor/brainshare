@@ -33,7 +33,7 @@ namespace BrainShare.Services
 
         public void EmailUserHaveSearechedBook(User owner, User receiver,  Book book)
         {
-            var model = new EmailUserHaveSearechedBookModel {Book = book, Owner = owner};
+            var model = new EmailUserHaveSearechedBookModel {Book = new BookViewModel(book), Owner = owner};
             var body = GetStringFromRazor("EmailUserHaveSearechedBookMessage", model);
 
             Send(receiver.Email, receiver.FullName, "BrainShare : Интересующая", body);
@@ -76,9 +76,11 @@ namespace BrainShare.Services
             // From
             mailMsg.From = new MailAddress(_settings.AdminEmail, _settings.AdminDisplayName);
 
+            AlternateView htmlView = AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html);
+
             // Subject and multipart/alternative Body
             mailMsg.Subject = subject;
-            mailMsg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
+            mailMsg.AlternateViews.Add(htmlView);
 
             // Init SmtpClient and send
             SmtpClient smtpClient = new SmtpClient();

@@ -9,12 +9,42 @@
 <head>
     <meta name="viewport" content="width=device-width" />
 </head>
-<body>
-    <div>
-        <p>У пользователя  @Model.Owner.FullName появилась разыскиваемая вами книга</p>
-        <p>@Model.Book.Title</p>
-    </div>
-</body>
+    <body>
+        <div>
+            <p>У пользователя  <a href="@Model.OwnerProfileLink">@Model.Owner.FullName</a> появилась разыскиваемая вами книга</p>
+            <p><strong>@Model.Book.Title</strong></p>
+        
+            <div style="float:left">
+               <img style="margin:10px;height: 250px;" src="@Model.Book.Image" />     
+            </div>
+
+            <div style="float:left">
+                <div >
+                    <p style="width: 190px;display: inline-block;font-weight: bold">Название:</p>
+                    <p style="display: inline-block;"> @Model.Book.Title</p>
+                </div>
+                <div >
+                    <p style="width: 190px;display: inline-block;font-weight: bold">Авторы:</p>
+                    <p style="display: inline-block;">@Model.Book.Authors</p>
+                </div>
+                <div >
+                    <p style="width: 190px;display: inline-block;font-weight: bold">Издательство:</p>
+                    <p style="display: inline-block" >@Model.Book.P</p>
+                </div>
+                <div>
+                    <p style="width: 190px;display: inline-block;font-weight: bold">Дата издания:</p>
+                    <p style="display: inline-block">@Model.Book.PublishedDate</p>
+                </div>
+                <div  >
+                    <p style="width: 190px;display: inline-block;font-weight: bold">Количество страниц:</p>
+                    <p style="display: inline-block">@Model.Book.PageCount</p>
+                </div>
+                <div >
+                    <p style="width: 190px;display: inline-block;font-weight: bold">Местонахождение книги:</p>
+                    <p style="display: inline-block" >@Model.Owner.Address.Locality</p>
+                </div>
+            </div>
+       </div>
 </html>
 
 

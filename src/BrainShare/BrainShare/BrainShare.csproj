@@ -264,6 +264,7 @@
     <Compile Include="Services\NewsService.cs" />
     <Compile Include="Utilities\NewsMaker.cs" />
     <Compile Include="Utilities\StringUtility.cs" />
+    <Compile Include="ViewModels\BaseEmailModel.cs" />
     <Compile Include="ViewModels\EmailUserHaveSearechedBookModel.cs" />
     <Compile Include="ViewModels\EmailUserMessageModel.cs" />
     <Compile Include="ViewModels\NewsViewModel.cs" />
