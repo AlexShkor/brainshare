@@ -32,8 +32,12 @@ namespace BrainShare.Infostructure
                 foreach (var wishBook in wishBooks)
                 {
                     var userData = wishBook.UserData;
+                    var user = _users.GetById(userData.UserId);
 
-                    _mailService.EmailUserHaveSearechedBook(owner, _users.GetById(userData.UserId), wishBook);
+                    if (user.Settings.NotificationSettings.NotifyByEmailIfAnybodyAddedMyWishBook)
+                    {
+                        _mailService.EmailUserHaveSearechedBook(owner, user, wishBook);
+                    }
                 }
             });
         }

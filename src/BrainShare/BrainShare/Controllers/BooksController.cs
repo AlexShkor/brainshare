@@ -272,6 +272,8 @@ namespace BrainShare.Controllers
 
                 _asyncTaskScheduler.StartEmailSendSearchingUsersTask(user, doc);
 
+                _asyncTaskScheduler.StartNewsSendSearchingUsersTask(user, doc);
+
                 NotificationsHub.SendGenericText(UserId, "Книга добавлена",
                                                     string.Format("{0} добавлена в вашу книную полку", doc.Title));
             }
@@ -314,6 +316,10 @@ namespace BrainShare.Controllers
             _books.Save(doc);
 
             _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
+
+            _asyncTaskScheduler.StartEmailSendSearchingUsersTask(user, doc);
+
+            _asyncTaskScheduler.StartNewsSendSearchingUsersTask(user, doc);
 
             NotificationsHub.SendGenericText(UserId, "Книга добавлена",
                 string.Format("{0} добавлена в вашу книную полку", doc.Title));
