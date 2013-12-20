@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using BrainShare.Documents;
 using BrainShare.Hubs;
 using BrainShare.Services;
@@ -32,39 +34,35 @@ namespace BrainShare.Infostructure
                 var wishBooks = _wishBooks.GetBooksByISBN(newBook.ISBN);
                 foreach (var wishBook in wishBooks)
                 {
-                    var userData = wishBook.UserData;
-                    var user = _users.GetById(userData.UserId);
-
-                    if (user.Settings.NotificationSettings.NotifyByEmailIfAnybodyAddedMyWishBook)
-                    {
-                        _mailService.EmailUserHaveSearechedBook(owner, user, wishBook);
-                    }
+                    SendEmailSearhingUser(wishBook, owner);
                 }
             });
         }
 
-        public Task StartNewsSendSearchingUsersTask(User owner, Book newBook)
+        public Task UserHaveNewBookNotifyer(User owner, Book newBook)
         {
             return Task.Factory.StartNew(() =>
             {
                 var wishBooks = _wishBooks.GetBooksByISBN(newBook.ISBN);
+
+                string title = "Информация по разыкиваемой книге";
+                var content = NewsMaker.UserHaveBookMessage(owner.FullName, owner.Id, newBook.Title, newBook.Id); 
+
+                var news = new News(content,title);
+                _newsService.Save(news);
+
                 foreach (var wishBook in wishBooks)
                 {
-                    var userData = wishBook.UserData;
+                    SendNewsSearhingUser(wishBook, owner, title, content);    
+                    NotificationsHub.SendGenericText(wishBook.UserData.UserId,title,content);                    
+                }
 
-                    string title = "Информация по разыкиваемой книге";
-                    string content = NewsMaker.UserHaveBookMessage(owner.FullName, owner.Id, newBook.Title, newBook.Id);  
-     
-                    NotificationsHub.SendGenericText(userData.UserId,title,content);
+                news = new News(content, "Новости от " + owner.FullName);
+                _newsService.Save(news);
 
-                    var news = new News(
-                        NewsMaker.UserHaveBookMessage(owner.FullName, owner.Id, newBook.Title, newBook.Id),
-                        "Информация по разыкиваемой книге");
-                    _newsService.Save(news);
-
-                    var taker = _users.GetById(userData.UserId);
-                    taker.AddNews(news.Id);
-                    _users.Save(taker);
+                foreach (var followerId in owner.Followers)
+                {
+                    AddNews(followerId,news.Id);
                 }
             });
         }
@@ -88,5 +86,39 @@ namespace BrainShare.Infostructure
         {
             return Task.Factory.StartNew(() => _users.RemoveThreadFromUnread(userId, threadId));
         }
+
+        #region helpers
+
+        private void AddNews(string userId, string newsId)
+        {
+            var taker = _users.GetById(userId);
+            taker.AddNews(newsId);
+            _users.Save(taker);
+        }
+
+        private void SendEmailSearhingUser(Book wishBook, User owner)
+        {
+            var userData = wishBook.UserData;
+            var user = _users.GetById(userData.UserId);
+
+            if (user.Settings.NotificationSettings.NotifyByEmailIfAnybodyAddedMyWishBook)
+            {
+                _mailService.EmailUserHaveSearechedBook(owner, user, wishBook);
+            }
+        }
+
+        private void SendNewsSearhingUser(Book wishBook, User owner,string title, string message)
+        {
+            var news = new News(message, title);
+            _newsService.Save(news);
+
+            // followers will get news separatly
+            if (owner.Followers.Any(e => e != wishBook.UserData.UserId))
+            {
+                AddNews(wishBook.UserData.UserId, news.Id);
+            }   
+        }
+
+        #endregion
     }
 }
