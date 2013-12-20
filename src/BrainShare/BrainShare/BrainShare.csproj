@@ -254,6 +254,7 @@
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ContainerConfigure.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FollowerController.cs" />
     <Compile Include="Controllers\MigrateController.cs" />
     <Compile Include="Documents\BaseUser.cs" />
@@ -326,6 +327,7 @@
     <Content Include="Content\imgAreaSelect\imgareaselect-default.css" />
     <Content Include="Content\imgAreaSelect\imgareaselect-deprecated.css" />
     <Content Include="Images\book-logo-placeholder.png" />
+    <Content Include="Images\ErrorPages\500.jpg" />
     <Content Include="Images\facebook.png" />
     <Content Include="Images\fb_signup_empty.png" />
     <Content Include="Images\user-default-avatar.jpg" />
@@ -681,6 +683,7 @@
     <Content Include="Views\Profile\SettingsTabs\Privacy.cshtml" />
     <Content Include="Views\MailService\EmailUserMessage.cshtml" />
     <Content Include="Views\MailService\EmailUserHaveSearechedBookMessage.cshtml" />
+    <Content Include="Views\Shared\ErrorPages\500.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Views\Help\" />

@@ -34,7 +34,7 @@ namespace BrainShare.Controllers
                 Users = last5Users.Select(x => new UserViewModel(x)),
                 Books = last5Books.Select(x => new BookViewModel(x)),
             };
-            return View("Main", model);
+           return View("Main", model);
         }
 
         public ActionResult Activity()
