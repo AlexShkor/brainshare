@@ -27,9 +27,14 @@ namespace BrainShare.ViewModels
 
         public string CurrentUserId { get; set; }
 
-        public string SharingText
+        public string SharingSearchBookText
         {
             get { return UserName + " ищет книгу \"" + Title + "\" на BrainShare"; }
+        }
+
+        public string SharingHaveBookText
+        {
+            get { return "У пользователя " + UserName + " есть книга \"" + Title + "\" на BrainShare"; }
         }
 
         public BookViewModel(Book book)
