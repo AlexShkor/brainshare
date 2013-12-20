@@ -496,6 +496,8 @@ namespace BrainShare.Controllers
 
                 _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BooksGifted(me, book, user));
 
+                _mailService.SendGiftExchangeMessage(book, me, user);
+
                 SendRequestAcceptedAsGiftNotification(userId, book, me);
 
                 return JsonSuccess();

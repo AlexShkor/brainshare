@@ -265,9 +265,10 @@
     <Compile Include="Services\NewsService.cs" />
     <Compile Include="Utilities\NewsMaker.cs" />
     <Compile Include="Utilities\StringUtility.cs" />
-    <Compile Include="ViewModels\BaseEmailModel.cs" />
-    <Compile Include="ViewModels\EmailUserHaveSearechedBookModel.cs" />
-    <Compile Include="ViewModels\EmailUserMessageModel.cs" />
+    <Compile Include="ViewModels\Base\BaseEmailModel.cs" />
+    <Compile Include="ViewModels\Email\EmailUserHaveSearechedBookModel.cs" />
+    <Compile Include="ViewModels\Email\EmailUserMessageModel.cs" />
+    <Compile Include="ViewModels\Email\EmailGiftExchangeViewModel.cs" />
     <Compile Include="ViewModels\NewsViewModel.cs" />
     <Compile Include="ViewModels\PublisherViewModel.cs" />
     <Compile Include="Documents\Data\ShellAddressData.cs" />
@@ -398,7 +399,7 @@
     <Compile Include="Services\MailService.cs" />
     <Compile Include="Services\ThreadsService.cs" />
     <Compile Include="ViewModels\ExchangeConfirmViewModel.cs" />
-    <Compile Include="ViewModels\RequestViewModel.cs" />
+    <Compile Include="ViewModels\Email\RequestViewModel.cs" />
     <Compile Include="Services\UsersService.cs" />
     <Compile Include="ViewModels\LoginView.cs" />
     <Compile Include="Controllers\BooksController.cs" />
@@ -684,6 +685,7 @@
     <Content Include="Views\MailService\EmailUserMessage.cshtml" />
     <Content Include="Views\MailService\EmailUserHaveSearechedBookMessage.cshtml" />
     <Content Include="Views\Shared\ErrorPages\500.cshtml" />
+    <Content Include="Views\MailService\GiftExchangeMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Views\Help\" />

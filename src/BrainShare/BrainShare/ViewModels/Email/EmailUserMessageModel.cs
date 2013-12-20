@@ -6,9 +6,17 @@ using BrainShare.Documents;
 
 namespace BrainShare.ViewModels
 {
-    public class EmailUserMessageModel
+    public class EmailUserMessageModel : BaseEmailModel
     {
         public string Message { get; set; }
         public User Sender { get; set; }
+
+        public string SenderProfileLink
+        {
+            get
+            {
+                return BaseAddress + "/profile/view/" + Sender.Id;
+            }
+        }
     }
 }

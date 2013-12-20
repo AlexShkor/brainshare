@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Hosting;
 using BrainShare.Documents;
 using BrainShare.ViewModels;
+using BrainShare.ViewModels.Email;
 using RazorEngine;
 using Encoding = System.Text.Encoding;
 
@@ -22,6 +23,14 @@ namespace BrainShare.Services
         {
            var body = GetStringFromRazor("WelcomeMessage", newUser);
            Send(newUser.Email, newUser.FullName, "BrainShare : Благодарим за регистрацию на BrainShare!", body);
+        }
+
+        public void SendGiftExchangeMessage(Book book, User owner, User receiver)
+        {
+            var model = new EmailGiftExchangeViewModel {Book = book, Owner = owner, Receiver = receiver};
+            var body = GetStringFromRazor("GiftExchangeMessage", model);
+
+            Send(receiver.Email, receiver.FullName, "BrainShare : Вам подарили книгу!!", body);
         }
 
         public void EmailUserMessage(string message, User sender, User receiver)

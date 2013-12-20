@@ -11,8 +11,8 @@
 </head>
 <body>
     <div>
-        <p>Пользователь  @Model.Sender.FullName прислал вам сообщение</p>
-        <p>@Model.Message</p>
+        <p>Пользователь <a style="margin:0 6px 0 6px" href="@Model.SenderProfileLink">@Model.Sender.FullName</a>   прислал вам сообщение</p>
+        <p style="margin:10px;background-color: lightgrey;color:black;padding: 10px">@Model.Message</p>
     </div>
 </body>
 </html>
