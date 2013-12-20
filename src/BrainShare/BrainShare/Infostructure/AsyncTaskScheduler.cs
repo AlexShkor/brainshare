@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using BrainShare.Documents;
+using BrainShare.Hubs;
 using BrainShare.Services;
 using BrainShare.Utilities;
 
@@ -50,6 +51,12 @@ namespace BrainShare.Infostructure
                 foreach (var wishBook in wishBooks)
                 {
                     var userData = wishBook.UserData;
+
+                    string title = "Информация по разыкиваемой книге";
+                    string content = NewsMaker.UserHaveBookMessage(owner.FullName, owner.Id, newBook.Title, newBook.Id);  
+     
+                    NotificationsHub.SendGenericText(userData.UserId,title,content);
+
                     var news = new News(
                         NewsMaker.UserHaveBookMessage(owner.FullName, owner.Id, newBook.Title, newBook.Id),
                         "Информация по разыкиваемой книге");

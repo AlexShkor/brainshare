@@ -33,6 +33,7 @@ namespace BrainShare.Hubs
 
         public override Task OnConnected()
         {
+            
             return Task.Factory.StartNew(() =>
             {
                 var userId = GetUserId();
@@ -46,9 +47,10 @@ namespace BrainShare.Hubs
 
         public override Task OnDisconnected()
         {
+
             return Task.Factory.StartNew(() =>
-            {
-                var userId = GetUserId();
+            {            var userId = GetUserId();
+             
                 if (userId != null)
                 {
                     Groups.Remove(Context.ConnectionId, userId);
@@ -60,7 +62,7 @@ namespace BrainShare.Hubs
 
         private string GetUserId()
         {
-            return "Id"; //return  ((UserIdentity) Context.Request.GetHttpContext().User.Identity).User.Id;    
+            return ((UserIdentity) Context.Request.GetHttpContext().User.Identity).User.Id;    
         }
 
   
@@ -72,12 +74,6 @@ namespace BrainShare.Hubs
                 Title = title,
                 Message = message
             });
-
-            //HubContext.Clients.User(userId).genericText(new
-            //{
-            //    Title = title,
-            //    Message = message
-            //});
         }
     }
 }
