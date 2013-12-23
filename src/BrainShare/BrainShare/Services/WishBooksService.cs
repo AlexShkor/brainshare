@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using BrainShare.Documents;
 using BrainShare.Mongo;
 using MongoDB.Driver;
@@ -22,5 +24,5 @@ namespace BrainShare.Services
             Items.Remove(Query.And(Query<Book>.EQ(x => x.UserData.UserId, userId),
                                    Query<Book>.EQ(b => b.GoogleBookId, googleBookId)));
         }
-    }
+  }
 }

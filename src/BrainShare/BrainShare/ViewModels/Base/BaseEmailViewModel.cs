@@ -2,7 +2,7 @@
 
 namespace BrainShare.ViewModels
 {
-    public class BaseEmailModel
+    public class BaseEmailViewModel
     {
         public string BaseAddress
         {

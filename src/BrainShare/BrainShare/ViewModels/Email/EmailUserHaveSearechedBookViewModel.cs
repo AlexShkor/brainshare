@@ -2,7 +2,7 @@
 
 namespace BrainShare.ViewModels
 {
-    public class EmailUserHaveSearechedBookModel : BaseEmailModel
+    public class EmailUserHaveSearechedBookViewModel : BaseEmailViewModel
     {
         public User Owner { get; set; }
         public BookViewModel Book { get; set; }

@@ -97,8 +97,11 @@ namespace BrainShare.Controllers
             Response.AddHeader("Access-Control-Allow-Methods", "GET");
             Response.AddHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
+            var wishBooksIds = _wishBooks.GetOzIds(UserId);
+           
+
             Title("Искать на Oz");
-            return View(model);
+            return View(wishBooksIds);
         }
 
         [AllowAnonymous]

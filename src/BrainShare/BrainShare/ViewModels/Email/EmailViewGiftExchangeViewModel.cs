@@ -2,7 +2,7 @@
 
 namespace BrainShare.ViewModels.Email
 {
-    public class EmailGiftExchangeViewModel :BaseEmailModel
+    public class EmailGiftExchangeViewModel :BaseEmailViewModel
     {
         public Book Book { get; set; }
         public User Owner { get; set; }

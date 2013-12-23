@@ -119,5 +119,30 @@ namespace BrainShare.Services
         {
             Items.Remove(Query<Book>.EQ(x => x.Id, id));
         }
+
+        public IEnumerable<string> GetOzIds(string userId)
+        {
+            return Items.Find(
+                Query.And(
+                     Query<Book>.EQ(x => x.UserData.UserId, userId),
+                     Query<Book>.EQ(b => b.FromOzBy, true)
+                 ))
+                 .SetFields(Fields<Book>.Include(b => b.Id))
+                 .ToList()
+                 .Select(e => e.Id);
+        }
+
+        public IEnumerable<string> GetGoogleIds(string userId)
+        {
+            return Items.Find(
+                Query.And(
+                     Query<Book>.EQ(x => x.UserData.UserId, userId),
+                     Query<Book>.NE(b => b.GoogleBookId, null)
+                 ))
+                 .SetFields(Fields<Book>.Include(b => b.Id))
+                 .ToList()
+                 .Select(e => e.Id);
+        }
+  
     }
 }

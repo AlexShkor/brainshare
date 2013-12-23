@@ -265,10 +265,10 @@
     <Compile Include="Services\NewsService.cs" />
     <Compile Include="Utilities\NewsMaker.cs" />
     <Compile Include="Utilities\StringUtility.cs" />
-    <Compile Include="ViewModels\Base\BaseEmailModel.cs" />
-    <Compile Include="ViewModels\Email\EmailUserHaveSearechedBookModel.cs" />
-    <Compile Include="ViewModels\Email\EmailUserMessageModel.cs" />
-    <Compile Include="ViewModels\Email\EmailGiftExchangeViewModel.cs" />
+    <Compile Include="ViewModels\Base\BaseEmailViewModel.cs" />
+    <Compile Include="ViewModels\Email\EmailUserHaveSearechedBookViewModel.cs" />
+    <Compile Include="ViewModels\Email\EmailUserMessageViewModel.cs" />
+    <Compile Include="ViewModels\Email\EmailViewGiftExchangeViewModel.cs" />
     <Compile Include="ViewModels\NewsViewModel.cs" />
     <Compile Include="ViewModels\PublisherViewModel.cs" />
     <Compile Include="Documents\Data\ShellAddressData.cs" />
@@ -399,7 +399,7 @@
     <Compile Include="Services\MailService.cs" />
     <Compile Include="Services\ThreadsService.cs" />
     <Compile Include="ViewModels\ExchangeConfirmViewModel.cs" />
-    <Compile Include="ViewModels\Email\RequestViewModel.cs" />
+    <Compile Include="ViewModels\Email\RequestViewViewModel.cs" />
     <Compile Include="Services\UsersService.cs" />
     <Compile Include="ViewModels\LoginView.cs" />
     <Compile Include="Controllers\BooksController.cs" />

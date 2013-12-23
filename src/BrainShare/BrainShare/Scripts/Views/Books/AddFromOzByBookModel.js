@@ -1,5 +1,5 @@
 ﻿
-var AddFromOzByBookModel = function () {
+var AddFromOzByBookModel = function (ownedItems) {
     var self = this;
 
     this.query = ko.observable();
@@ -10,7 +10,7 @@ var AddFromOzByBookModel = function () {
 
     this.visibleItemsPerPage = 10;
     
-    this.visibleItems = ko.observableArray();
+    this.owned = ko.observableArray(ownedItems);
 
     this.pages = ko.observableArray();
     

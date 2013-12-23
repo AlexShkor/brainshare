@@ -35,14 +35,14 @@ namespace BrainShare.Services
 
         public void EmailUserMessage(string message, User sender, User receiver)
         {
-            var model = new EmailUserMessageModel {Message = message, Sender = sender};
+            var model = new EmailUserMessageViewModel {Message = message, Sender = sender};
             var body = GetStringFromRazor("EmailUserMessage", model);
             Send(receiver.Email, receiver.FullName, "BrainShare : Новое сообщение", body);
         }
 
         public void EmailUserHaveSearechedBook(User owner, User receiver,  Book book)
         {
-            var model = new EmailUserHaveSearechedBookModel {Book = new BookViewModel(book), Owner = owner};
+            var model = new EmailUserHaveSearechedBookViewModel {Book = new BookViewModel(book), Owner = owner};
             var body = GetStringFromRazor("EmailUserHaveSearechedBookMessage", model);
 
             Send(receiver.Email, receiver.FullName, "BrainShare : Интересующая", body);
@@ -50,7 +50,7 @@ namespace BrainShare.Services
 
         public void SendRequestMessage(User currentUser, User requestedUser, Book book)
         {
-            var requestViewModel = new RequestViewModel()
+            var requestViewModel = new EmailRequestViewModel()
                                        {
                                            CurrentUser = currentUser,
                                            RequestedUser = requestedUser,

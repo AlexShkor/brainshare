@@ -2,7 +2,7 @@
 
 namespace BrainShare.ViewModels
 {
-    public class RequestViewModel : BaseEmailModel
+    public class EmailRequestViewModel : BaseEmailViewModel
     {
         public User CurrentUser { get; set; }
         public User RequestedUser { get; set; }
