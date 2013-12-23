@@ -125,7 +125,8 @@ namespace BrainShare.Services
             return Items.Find(
                 Query.And(
                      Query<Book>.EQ(x => x.UserData.UserId, userId),
-                     Query<Book>.EQ(b => b.FromOzBy, true)
+                     Query<Book>.EQ(b => b.FromOzBy, true),
+                     Query<Book>.NE(b => b.OzBookId, null)
                  ))
                  .SetFields(Fields<Book>.Include(b => b.OzBookId))
                  .ToList()

@@ -1,7 +1,7 @@
 ﻿
-var AddFromOzByBookModel = function (ownedItems) {
+var AddFromOzByBookModel = function (model) {
 
-    console.log(ownedItems);
+    console.log(model);
     var self = this;
 
     this.query = ko.observable();
@@ -12,7 +12,8 @@ var AddFromOzByBookModel = function (ownedItems) {
 
     this.visibleItemsPerPage = 10;
     
-    this.owned = ko.observableArray(ownedItems);
+    this.owned = ko.observableArray(model.MyBooksIds);
+    this.wished = ko.observableArray(model.WishBooksIds);
 
     this.pages = ko.observableArray();
     
@@ -63,8 +64,7 @@ var AddFromOzByBookModel = function (ownedItems) {
                             Description: $(el.find("p")[1]).text(),
                             Authors: ko.observableArray(arr),
                             Year: yaer,
-                            Id:ozId,
-                            Added: ko.observable(false) 
+                            Id:ozId
                         };
                         self.items.push(s);
                     }
@@ -89,13 +89,13 @@ var AddFromOzByBookModel = function (ownedItems) {
 
     this.give = function (item) {
         send("/books/my/add/from-oz", item, function(response) {
-            item.Added(true);
+            self.owned.push(item.Id);
         });
     };
 
     this.take = function (item) {
         send("/books/wish/add/from-oz", item, function (response) {
-            item.Added(true);
+            self.wished.push(item.Id);
         });
     };
 

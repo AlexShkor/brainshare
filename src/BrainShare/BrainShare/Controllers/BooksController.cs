@@ -92,16 +92,22 @@ namespace BrainShare.Controllers
         [AllowAnonymous]
         public ActionResult SearchOzBy()
         {
-            var model = new List<string>();
             Response.AddHeader("Access-Control-Allow-Origin", "http://oz.by/");
             Response.AddHeader("Access-Control-Allow-Methods", "GET");
             Response.AddHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
             var wishBooksIds = _wishBooks.GetOzIds(UserId);
+            var myBooksIds = _books.GetOzIds(UserId);
+
+            var model = new SearchByOzViewModel
+                {
+                    MyBooksIds = myBooksIds,
+                    WishBooksIds = wishBooksIds
+                };
            
 
             Title("Искать на Oz");
-            return View(wishBooksIds);
+            return View(model);
         }
 
         [AllowAnonymous]
