@@ -53,7 +53,7 @@ namespace BrainShare.Infostructure
 
                 foreach (var wishBook in wishBooks)
                 {
-                    SendNewsSearhingUser(wishBook, owner, title, content);    
+                    AddNews(wishBook.UserData.UserId,news.Id);  
                     NotificationsHub.SendGenericText(wishBook.UserData.UserId,title,content);                    
                 }
 
@@ -63,6 +63,35 @@ namespace BrainShare.Infostructure
                 foreach (var followerId in owner.Followers)
                 {
                     AddNews(followerId,news.Id);
+                }
+            });
+        }
+
+        public Task UserSearchedForNewBookNotifyer(User searcher, Book searchedBook)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                var existingBooks = _books.GetBooksByISBN(searchedBook.ISBN);
+
+                string title = "Пользователь ищет имеющуюся книгу";
+                var content = NewsMaker.UserSearchedBookMessage(searcher.FullName,searchedBook.Title);
+
+                var news = new News(content, title);
+                _newsService.Save(news);
+
+                foreach (var existingBook in existingBooks)
+                {
+                    //Todo: notifications policy
+                    AddNews(existingBook.UserData.UserId,news.Id);
+                    NotificationsHub.SendGenericText(existingBook.UserData.UserId, title, content);
+                }
+
+                news = new News(content, "Новости от " + searcher.FullName);
+                _newsService.Save(news);
+
+                foreach (var followerId in searcher.Followers)
+                {
+                    AddNews(followerId, news.Id);
                 }
             });
         }
@@ -105,18 +134,6 @@ namespace BrainShare.Infostructure
             {
                 _mailService.EmailUserHaveSearechedBook(owner, user, wishBook);
             }
-        }
-
-        private void SendNewsSearhingUser(Book wishBook, User owner,string title, string message)
-        {
-            var news = new News(message, title);
-            _newsService.Save(news);
-
-            // followers will get news separatly
-            if (owner.Followers.Any(e => e != wishBook.UserData.UserId))
-            {
-                AddNews(wishBook.UserData.UserId, news.Id);
-            }   
         }
 
         #endregion

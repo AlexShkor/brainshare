@@ -347,6 +347,8 @@ namespace BrainShare.Controllers
 
             _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
 
+            _asyncTaskScheduler.UserSearchedForNewBookNotifyer(user, doc);
+
             NotificationsHub.SendGenericText(UserId, "Книга добавлена в поиск",
                 string.Format("{0} добавлена в ваш список поиска", doc.Title));
 
