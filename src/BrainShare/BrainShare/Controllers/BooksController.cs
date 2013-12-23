@@ -27,7 +27,6 @@ namespace BrainShare.Controllers
     [Authorize]
     public class BooksController : BaseController
     {
-        private readonly UsersService _users;
         private readonly BooksService _books;
         private readonly WishBooksService _wishBooks;
         private readonly ActivityFeedsService _feeds;
@@ -39,9 +38,8 @@ namespace BrainShare.Controllers
         private readonly Settings _settings;
 
         public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages, 
-            ExchangeHistoryService exchangeHistory, Settings settings, NewsService newsService, MailService mailService, AsyncTaskScheduler asyncTaskScheduler)
+            ExchangeHistoryService exchangeHistory, Settings settings, NewsService newsService, MailService mailService, AsyncTaskScheduler asyncTaskScheduler):base(users)
         {
-            _users = users;
             _books = books;
             _feeds = feeds;
             _wishBooks = wishBooks;

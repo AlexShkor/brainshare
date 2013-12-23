@@ -1,9 +1,15 @@
 ﻿using System.Web.Mvc;
+using BrainShare.Services;
 
 namespace BrainShare.Controllers
 {
     public class HelpController : BaseController
     {
+        public HelpController(UsersService userService):base(userService)
+        {
+
+        }
+
         public ActionResult Index()
         {
             Title("Помощь");

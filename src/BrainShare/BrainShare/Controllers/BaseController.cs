@@ -4,12 +4,20 @@ using System.Linq;
 using System.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Documents;
+using BrainShare.Services;
 using BrainShare.ViewModels.Base;
 
 namespace BrainShare.Controllers
 {
     public class BaseController : Controller
     {
+        public readonly UsersService _users;
+
+        public BaseController(UsersService usersService)
+        {
+            _users = usersService;
+        }
+
         public string UserId
         {
             get
@@ -61,6 +69,9 @@ namespace BrainShare.Controllers
             ViewBag.UserId = UserId;
             ViewBag.UserName = (((UserIdentity)User.Identity).User ?? new CommonUser()).FullName;
             ViewBag.IsFacebookAccount = (((UserIdentity)User.Identity).User ?? new CommonUser()).IsFacebookAccount;
+
+            _users.SetLastVisitedDate(DateTime.UtcNow, UserId);
+
             base.OnActionExecuting(filterContext);
         }
 

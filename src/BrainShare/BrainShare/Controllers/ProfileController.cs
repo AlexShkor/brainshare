@@ -29,7 +29,6 @@ namespace BrainShare.Controllers
     {
         private readonly BooksService _books;
         private readonly WishBooksService _wishBooks;
-        private readonly UsersService _users;
         private readonly ShellUserService _shellUserService;
         private readonly ThreadsService _threads;
         private readonly NewsService _news;
@@ -42,10 +41,9 @@ namespace BrainShare.Controllers
 
         public ProfileController(BooksService books, UsersService users, ShellUserService shellUserService, ThreadsService threads, WishBooksService whishBooks, 
             CloudinaryImagesService cloudinaryImages,CryptographicHelper cryptographicHelper,IAuthentication authentication, NewsService news, Settings settings,
-            MailService mailService, AsyncTaskScheduler asyncTaskScheduler)
+            MailService mailService, AsyncTaskScheduler asyncTaskScheduler):base(users)
         {
             _books = books;
-            _users = users;
             _threads = threads;
             _wishBooks = whishBooks;
             _cloudinaryImages = cloudinaryImages;
@@ -150,7 +148,7 @@ namespace BrainShare.Controllers
             var user = _users.GetById(id);
             var me = _users.GetById(UserId);
   
-            var model = new UserProfileModel(user, me);
+            var model = new UserProfileModel(user, me,_settings.ActivityTimeoutInMinutes);
 
             if (UserId.HasValue())
             {

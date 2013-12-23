@@ -1,24 +1,18 @@
-﻿using System;
-using System.Configuration;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using BrainShare.Services;
 using BrainShare.ViewModels;
-using CloudinaryDotNet;
 
 namespace BrainShare.Controllers
 {
     public class HomeController : BaseController
     {
         private readonly ActivityFeedsService _activityFeeds;
-        private readonly UsersService _users;
         private readonly BooksService _books;
 
-        public HomeController(ActivityFeedsService activityFeeds, UsersService users, BooksService books)
+        public HomeController(ActivityFeedsService activityFeeds, UsersService users, BooksService books):base(users)
         {
             _activityFeeds = activityFeeds;
-            _users = users;
             _books = books;
         }
 

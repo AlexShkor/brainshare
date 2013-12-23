@@ -7,12 +7,10 @@ namespace BrainShare.Controllers
 {
     public class FollowerController : BaseController
     {
-        private readonly UsersService _users;
         private readonly ShellUserService _shellUserService;
 
-        public FollowerController(UsersService users, ShellUserService shellUserService)
+        public FollowerController(UsersService users, ShellUserService shellUserService):base(users)
         {
-            _users = users;
             _shellUserService = shellUserService;
         }
 

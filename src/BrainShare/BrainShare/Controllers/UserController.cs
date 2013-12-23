@@ -30,7 +30,6 @@ namespace BrainShare.Controllers
     [RoutePrefix("user")]
     public class UserController : BaseController
     {
-        private readonly UsersService _users;
         private readonly Settings _settings;
         public IAuthentication Auth { get; set; }
         private readonly FacebookClient _fb;
@@ -47,9 +46,8 @@ namespace BrainShare.Controllers
             }
         }
 
-        public UserController(IAuthentication auth, UsersService users, ShellUserService shellUserService, FacebookClientFactory fbFactory, CryptographicHelper cryptoHelper, Settings settings, NewsService news, MailService mailService)
+        public UserController(IAuthentication auth, UsersService users, ShellUserService shellUserService, FacebookClientFactory fbFactory, CryptographicHelper cryptoHelper, Settings settings, NewsService news, MailService mailService):base(users)
         {
-            _users = users;
             _settings = settings;
             _shellUserService = shellUserService;
             _cryptoHelper = cryptoHelper;
@@ -433,7 +431,7 @@ namespace BrainShare.Controllers
             var publishers = _users.GetByIds(user.Publishers);
 
             Title("На кого я подписан");
-            return View(new PublishersViewModel(publishers,user.FullName, userId == UserId));
+            return View(new PublishersViewModel(publishers,user.FullName, userId == UserId,_settings.ActivityTimeoutInMinutes));
         }
 
         public ActionResult GetFbFriends()

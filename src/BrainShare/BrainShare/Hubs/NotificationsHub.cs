@@ -40,25 +40,10 @@ namespace BrainShare.Hubs
                 if (userId != null)
                 {
                     Groups.Add(Context.ConnectionId, userId);
-                    _users.SetOnlineStatus(userId, true);
                 }
             });
         }
 
-        public override Task OnDisconnected()
-        {
-
-            return Task.Factory.StartNew(() =>
-            {            var userId = GetUserId();
-             
-                if (userId != null)
-                {
-                    Groups.Remove(Context.ConnectionId, userId);
-                    _users.SetOnlineStatus(userId, false);
-                    _users.SetLastVisitedDate(DateTime.UtcNow,userId);
-                }
-            });
-        }
 
         private string GetUserId()
         {

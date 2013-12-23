@@ -21,7 +21,7 @@ namespace BrainShare.ViewModels
 
         public string Status { get; set; }
 
-        public UserProfileModel(User user, User me)
+        public UserProfileModel(User user, User me, int userActivityTimeoutInMinutes)
         {
             Id = user.Id;
             Name = user.FullName;
@@ -31,7 +31,7 @@ namespace BrainShare.ViewModels
             Email = user.Email;
             Info = user.Info;
             IsCurrentUserSubscribed = me.IsSubscribed(Id);
-            Status = StringUtility.GetUserStatus(user);
+            Status = StringUtility.GetUserStatus(user, userActivityTimeoutInMinutes);
         }
     }
 }

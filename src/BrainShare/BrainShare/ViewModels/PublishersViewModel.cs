@@ -13,9 +13,9 @@ namespace BrainShare.ViewModels
 
         public string UserName { get; set; }
         public bool IsMyFriends { get; set; }
- 
- 
-        public PublishersViewModel(IEnumerable<BaseUser> publishers,string userName,bool isMyFriends)
+
+
+        public PublishersViewModel(IEnumerable<BaseUser> publishers, string userName, bool isMyFriends, int userActivityTimeoutInMinutes)
         {
             Publishers = new List<PublisherViewModel>();
             UserName = userName;
@@ -30,7 +30,7 @@ namespace BrainShare.ViewModels
                         Id = publisher.Id,
                         IsShell = publisher.UserType == "ShellUser",
                         TemplateName = PublisherTemplate,
-                        Status = StringUtility.GetUserStatus(publisher)
+                        Status = StringUtility.GetUserStatus(publisher,userActivityTimeoutInMinutes)
                     });
             }
         }
