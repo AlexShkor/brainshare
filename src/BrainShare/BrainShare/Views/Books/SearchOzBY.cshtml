@@ -1,5 +1,5 @@
 ﻿@using Newtonsoft.Json
-@model List<string>
+@model IEnumerable<string>
 
 <script src="~/Scripts/Views/Books/AddFromOzByBookModel.js"></script>
 <script type="text/javascript">
@@ -48,7 +48,7 @@
                     </td>
                     <td style="width: 140px">
                         <div class="well well-small">
-                            <button class="btn btn-primary btn-block" data-bind="visible: !Added(), click: $root.give">У меня есть</button>
+                            <button class="btn btn-primary btn-block" data-bind="click: $root.give">У меня есть</button>
                             <button class="btn btn-success btn-block" data-bind="click: $root.take">Мне нужна</button>
                         </div>
                     </td>

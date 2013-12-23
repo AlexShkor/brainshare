@@ -1,5 +1,7 @@
 ﻿
 var AddFromOzByBookModel = function (ownedItems) {
+
+    console.log(ownedItems);
     var self = this;
 
     this.query = ko.observable();
@@ -49,12 +51,19 @@ var AddFromOzByBookModel = function (ownedItems) {
                         var arr = el.find("div.f11").text().trim().split(", ");
                         var yaer = arr.pop();
 
+                        // extract oz id based on html link
+                        var href = el.find("h2 a").attr('href');
+                        var start = href.lastIndexOf("more") + 4;
+                        var end = href.lastIndexOf(".");
+                        var ozId = href.substr(start, end - start);
+                        
                         var s = {
                             Title: el.find("h2 a").text(),
                             Image: el.find("img").attr("src").replace("listing.ozstatic.by/70", "goods.ozstatic.by/200"),
                             Description: $(el.find("p")[1]).text(),
                             Authors: ko.observableArray(arr),
                             Year: yaer,
+                            Id:ozId,
                             Added: ko.observable(false) 
                         };
                         self.items.push(s);
@@ -85,7 +94,6 @@ var AddFromOzByBookModel = function (ownedItems) {
     };
 
     this.take = function (item) {
-
         send("/books/wish/add/from-oz", item, function (response) {
             item.Added(true);
         });

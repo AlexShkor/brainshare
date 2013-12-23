@@ -14,6 +14,7 @@ namespace BrainShare.Controllers
         public string Image { get; set; }
         public List<string> Authors { get; set; }
         public string ISBN { get; set; }
+        public string Id { get; set; }
 
         public Book BuildDocument(User user)
         {
@@ -24,6 +25,7 @@ namespace BrainShare.Controllers
                 Image = Image,
                 Title = Title,
                 SearchInfo = Description,
+                OzBookId = Id
             };
             try
             {

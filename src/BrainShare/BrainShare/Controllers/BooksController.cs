@@ -291,7 +291,7 @@ namespace BrainShare.Controllers
         [ValidateInput(false)]
         [POST("wish/add/from-google")]
         [POST("take")]
-        public async Task<ActionResult> AddToWishBooks(GoogleBookDto bookDto)
+        public ActionResult AddToWishBooks(GoogleBookDto bookDto)
         {
             var doc = _wishBooks.GetUserBook(bookDto.GoogleBookId, UserId);
             if (doc == null)

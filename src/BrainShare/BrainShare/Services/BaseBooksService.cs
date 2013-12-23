@@ -127,9 +127,9 @@ namespace BrainShare.Services
                      Query<Book>.EQ(x => x.UserData.UserId, userId),
                      Query<Book>.EQ(b => b.FromOzBy, true)
                  ))
-                 .SetFields(Fields<Book>.Include(b => b.Id))
+                 .SetFields(Fields<Book>.Include(b => b.OzBookId))
                  .ToList()
-                 .Select(e => e.Id);
+                 .Select(e => e.OzBookId);
         }
 
         public IEnumerable<string> GetGoogleIds(string userId)
