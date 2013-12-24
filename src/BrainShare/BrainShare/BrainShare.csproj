@@ -625,9 +625,6 @@
     <Content Include="Views\Home\BookAdded.cshtml" />
     <Content Include="Views\Home\BookWanted.cshtml" />
     <Content Include="Views\Home\BooksExchanged.cshtml" />
-    <Content Include="Views\MailService\WelcomeMessage.cshtml" />
-    <Content Include="Views\MailService\ExchangeConfirmMessage.cshtml" />
-    <Content Include="Views\MailService\RequestMessage.cshtml" />
     <Content Include="Views\Books\Info.cshtml" />
     <Content Include="Views\Profile\ViewUserProfile.cshtml" />
     <Content Include="Views\Profile\Messages.cshtml" />
@@ -687,10 +684,7 @@
     <Content Include="Views\Profile\SettingsTabs\Common.cshtml" />
     <Content Include="Views\Profile\SettingsTabs\Notifications.cshtml" />
     <Content Include="Views\Profile\SettingsTabs\Privacy.cshtml" />
-    <Content Include="Views\MailService\EmailUserMessage.cshtml" />
-    <Content Include="Views\MailService\EmailUserHaveSearechedBookMessage.cshtml" />
     <Content Include="Views\Shared\ErrorPages\500.cshtml" />
-    <Content Include="Views\MailService\GiftExchangeMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Views\Help\" />

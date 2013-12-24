@@ -1,120 +1,92 @@
-﻿using System.Net.Mail;
-using System.Net.Mime;
-using System.Threading.Tasks;
-using System.Web.Hosting;
-using BrainShare.Documents;
+﻿using BrainShare.Documents;
 using BrainShare.EmailMessaging;
 using BrainShare.EmailMessaging.ViewModels;
+using BrainShare.Utilities;
 using BrainShare.ViewModels;
-using BrainShare.ViewModels.Email;
-using RazorEngine;
-using Encoding = System.Text.Encoding;
 
 namespace BrainShare.Services
 {
     public class MailService
     {
         private readonly Settings _settings;
+        private readonly Emailer _emailer;
 
         public MailService(Settings settings)
         {
             _settings = settings;
+            _emailer = new Emailer(_settings.AdminEmail,_settings.AdminDisplayName);
         }
 
         public void SendWelcomeMessage(User newUser)
         {
-            var body = GetStringFromRazor("WelcomeMessage", newUser);
-            Send(newUser.Email, newUser.FullName, "BrainShare : Благодарим за регистрацию на BrainShare!", body);
+           _emailer.SendWelcomeMessage(new Welcome
+               {
+                   ReceiverName = newUser.FullName
+               }, 
+               newUser.Email,newUser.FullName);
         }
 
         public void SendGiftExchangeMessage(Book book, User owner, User receiver)
         {
-            var model = new EmailGiftExchangeViewModel {Book = book, Owner = owner, Receiver = receiver};
-            var body = GetStringFromRazor("GiftExchangeMessage", model);
-
-            Send(receiver.Email, receiver.FullName, "BrainShare : Вам подарили книгу!!", body);
+            _emailer.SendGiftExchangeMessage(new GiftExchange
+            {
+                OwnerFullName = owner.FullName,
+                OwnerProfileLink = UrlUtility.GetProfileLink(owner.Id),
+                BookLink = UrlUtility.GetProfileLink(book.Id),
+                BookTitle = book.Title
+            },
+             receiver.Email, receiver.FullName);
         }
 
         public void EmailUserMessage(string message, User sender, User receiver)
         {
-            //var model = new EmailUserMessageViewModel {Message = message, Sender = sender};
-            //var body = GetStringFromRazor("EmailUserMessage", model);
-            //Send(receiver.Email, receiver.FullName, "BrainShare : Новое сообщение", body);
-
-            Emailer mailer = new Emailer("noreply@brainshare.me", "name");
-            mailer.EmailUserMessage(new UserMessage{ Message = message , SenderFullName = sender.FullName, SenderProfileLink = "ddf"},receiver.Email,receiver.FullName );
+            _emailer.EmailUserMessage(new UserMessage
+                {
+                    Message = message ,
+                    SenderFullName = sender.FullName,
+                    SenderProfileLink = UrlUtility.GetProfileLink(sender.Id),                 
+                },
+                receiver.Email,receiver.FullName );
         }
 
         public void EmailUserHaveSearechedBook(User owner, User receiver,  Book book)
         {
-            var model = new EmailUserHaveSearechedBookViewModel {Book = new BookViewModel(book), Owner = owner};
-            var body = GetStringFromRazor("EmailUserHaveSearechedBookMessage", model);
-
-            Send(receiver.Email, receiver.FullName, "BrainShare : Интересующая", body);
+             _emailer.EmailUserHaveSearechedBook(new UserHaveSearechedBook
+                 {
+                    Authors = string.Join(", ", book.Authors),
+                    BookImage = book.Image ?? Constants.DefaultBookImage,
+                    BookTitle = book.Title,
+                    OwnerFullName = owner.FullName,
+                    OwnerLocality = owner.Address.Locality,
+                    OwnerProfileLink = UrlUtility.GetProfileLink(owner.Id),
+                    PageCount = book.PageCount.ToString(),
+                    PublishedDate =  book.PublishedYear != null ? book.PublishedDate.ToString(EditBookViewModel.DateFormat, EditBookViewModel.Culture) : null
+                 }, 
+                 receiver.Email, receiver.FullName);
         }
 
         public void SendRequestMessage(User currentUser, User requestedUser, Book book)
         {
-            var requestViewModel = new EmailRequestViewModel()
-                                       {
-                                           CurrentUser = currentUser,
-                                           RequestedUser = requestedUser,
-                                           Book = book
-                                       };
-
-            var body = GetStringFromRazor("RequestMessage", requestViewModel);
-            Send(currentUser.Email, currentUser.FullName, "BrainShare : Уведомление об отправке запроса", body);
+            _emailer.SendRequestMessage(new Request
+                {
+                   BookTitle = book.Title,
+                   BookLink = UrlUtility.GetBookLink(book.Id),
+                   RequestedUserFullName = requestedUser.FullName,
+                   RequestedUserProfileLink = UrlUtility.GetProfileLink(requestedUser.Id)
+                },
+                requestedUser.Email,requestedUser.FullName);
         }
 
         public void SendExchangeConfirmMessage(User firstUser, Book firstBook, User secondUser, Book secondBook)
         {
-            var exchangeViewModel = new ExchangeConfirmViewModel()
-                                        {
-                                            You = firstUser,
-                                            YourBook = firstBook,
-                                            He = secondUser,
-                                            HisBook = secondBook
-                                        };
-
-            var body = GetStringFromRazor("ExchangeConfirmMessage", exchangeViewModel);
-            Send(firstUser.Email, firstUser.FullName, "BrainShare : Уведомление об обмене", body);
-        }
-
-        private void Send(string toAddress, string toDisplayName, string subject, string html,bool async = true)
-        {
-            MailMessage mailMsg = new MailMessage();
-            mailMsg.BodyEncoding = Encoding.UTF8;
-            // To
-            mailMsg.To.Add(new MailAddress(toAddress, toDisplayName));
-
-            // From
-            mailMsg.From = new MailAddress(_settings.AdminEmail, _settings.AdminDisplayName);
-
-            AlternateView htmlView = AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html);
-
-            // Subject and multipart/alternative Body
-            mailMsg.Subject = subject;
-            mailMsg.AlternateViews.Add(htmlView);
-
-            // Init SmtpClient and send
-            SmtpClient smtpClient = new SmtpClient();
-
-            if (async)
-            {
-                Task.Factory.StartNew(() => smtpClient.Send(mailMsg));        
-            }
-            else
-            {
-                smtpClient.Send(mailMsg);
-            }      
-        }
-
-        private string GetStringFromRazor(string viewname, object model)
-        {
-            var path = HostingEnvironment.MapPath(@"~/Views/MailService/" + viewname + ".cshtml");
-            var fileContents = System.IO.File.ReadAllText(path);
-
-            return Razor.Parse(fileContents, model);
+           _emailer.SendExchangeConfirmMessage(new ExchangeConfirm
+               {
+                   MyBookTitle = firstBook.Title,
+                   PartnerBookTitle = secondBook.Title,
+                   PartnerEmail = secondUser.Email,
+                   PartnerFullName = secondUser.FullName
+               }, 
+               firstUser.Email,firstUser.FullName);
         }
     }
 

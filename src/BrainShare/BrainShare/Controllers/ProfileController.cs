@@ -14,6 +14,7 @@ using BrainShare.Documents.Data;
 using BrainShare.Hubs;
 using BrainShare.Infostructure;
 using BrainShare.Services;
+using BrainShare.Utilities;
 using BrainShare.ViewModels;
 using Microsoft.AspNet.SignalR;
 using MongoDB.Bson;
@@ -261,6 +262,7 @@ namespace BrainShare.Controllers
 
         public ActionResult Inbox()
         {
+            var z = UrlUtility.ApplicationBaseUrl;
             Title("Входящие");
             var user = _users.GetById(UserId);
             var model = new InboxViewModel();

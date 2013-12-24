@@ -27,5 +27,15 @@ namespace BrainShare.Utilities
         {
             get { return ApplicationBaseUrl + HttpContext.Current.Request.Url.PathAndQuery; }
         }
+
+        public static string GetProfileLink(string userId)
+        {
+            return ApplicationBaseUrl + "/profile/view/" + userId;
+        }
+
+        public static string GetBookLink(string bookId)
+        {
+            return ApplicationBaseUrl + "/books/info/" + bookId;
+        }
     }
 }
