@@ -343,6 +343,8 @@ namespace BrainShare.Controllers
             var user = _users.GetById(UserId);
             var doc = bookDto.BuildDocument(user);
 
+            OzParser.GetIsbnByOzBookId(doc.OzBookId);
+
             _wishBooks.Save(doc);
 
             _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));

@@ -98,6 +98,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Facebook.6.4.2\lib\net45\Facebook.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.0.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -262,6 +265,7 @@
     <Compile Include="Documents\Data\UserSettings.cs" />
     <Compile Include="Documents\News.cs" />
     <Compile Include="Infostructure\AsyncTaskScheduler.cs" />
+    <Compile Include="Infostructure\OzParser.cs" />
     <Compile Include="Services\NewsService.cs" />
     <Compile Include="Utilities\NewsMaker.cs" />
     <Compile Include="Utilities\StringUtility.cs" />
