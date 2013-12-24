@@ -3,6 +3,8 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 using BrainShare.Documents;
+using BrainShare.EmailMessaging;
+using BrainShare.EmailMessaging.ViewModels;
 using BrainShare.ViewModels;
 using BrainShare.ViewModels.Email;
 using RazorEngine;
@@ -21,8 +23,8 @@ namespace BrainShare.Services
 
         public void SendWelcomeMessage(User newUser)
         {
-           var body = GetStringFromRazor("WelcomeMessage", newUser);
-           Send(newUser.Email, newUser.FullName, "BrainShare : Благодарим за регистрацию на BrainShare!", body);
+            var body = GetStringFromRazor("WelcomeMessage", newUser);
+            Send(newUser.Email, newUser.FullName, "BrainShare : Благодарим за регистрацию на BrainShare!", body);
         }
 
         public void SendGiftExchangeMessage(Book book, User owner, User receiver)
@@ -35,9 +37,12 @@ namespace BrainShare.Services
 
         public void EmailUserMessage(string message, User sender, User receiver)
         {
-            var model = new EmailUserMessageViewModel {Message = message, Sender = sender};
-            var body = GetStringFromRazor("EmailUserMessage", model);
-            Send(receiver.Email, receiver.FullName, "BrainShare : Новое сообщение", body);
+            //var model = new EmailUserMessageViewModel {Message = message, Sender = sender};
+            //var body = GetStringFromRazor("EmailUserMessage", model);
+            //Send(receiver.Email, receiver.FullName, "BrainShare : Новое сообщение", body);
+
+            Emailer mailer = new Emailer("noreply@brainshare.me", "name");
+            mailer.EmailUserMessage(new UserMessage{ Message = message , SenderFullName = sender.FullName, SenderProfileLink = "ddf"},receiver.Email,receiver.FullName );
         }
 
         public void EmailUserHaveSearechedBook(User owner, User receiver,  Book book)

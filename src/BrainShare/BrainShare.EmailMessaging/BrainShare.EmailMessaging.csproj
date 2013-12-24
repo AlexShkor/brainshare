@@ -91,22 +91,34 @@
     <Compile Include="ViewModels\Welcome.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\UserHaveSearechedBook.cshtml" />
+    <Content Include="Views\UserHaveSearechedBook.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\UserMessage.cshtml" />
+    <Content Include="Views\UserMessage.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\ExchangeConfirm.cshtml" />
+    <Content Include="Views\ExchangeConfirm.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\GiftExchange.cshtml" />
+    <Content Include="Views\GiftExchange.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Request.cshtml" />
+    <Content Include="Views\Request.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Welcome.cshtml" />
+    <Content Include="Views\Welcome.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
