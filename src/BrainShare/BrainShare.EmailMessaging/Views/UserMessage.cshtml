@@ -1,0 +1,19 @@
+﻿@model ViewModels.UserMessage
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <div>
+        <p>Пользователь <a style="margin:0 6px 0 6px" href="@Model.SenderProfileLink">@Model.SenderFullName</a>   прислал вам сообщение</p>
+        <p style="margin:10px;background-color: lightgrey;color:black;padding: 10px">@Model.Message</p>
+    </div>
+</body>
+</html>
+

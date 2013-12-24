@@ -1,6 +1,5 @@
 using BrainShare.Documents;
 using BrainShare.Mongo;
-using Elmah.ContentSyndication;
 using MongoDB.Driver;
 
 namespace BrainShare.Services
