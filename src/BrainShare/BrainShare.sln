@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainShare", "BrainShare\Br
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainShare.EmailMessaging", "BrainShare.EmailMessaging\BrainShare.EmailMessaging.csproj", "{CF1C7829-94B5-4E73-95B9-1AF821088A45}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brainshare.Infrastructure", "Brainshare.Infrastructure\Brainshare.Infrastructure.csproj", "{2CCD280F-D3A0-4599-A77C-4295B5EF4653}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{CF1C7829-94B5-4E73-95B9-1AF821088A45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF1C7829-94B5-4E73-95B9-1AF821088A45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF1C7829-94B5-4E73-95B9-1AF821088A45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CCD280F-D3A0-4599-A77C-4295B5EF4653}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CCD280F-D3A0-4599-A77C-4295B5EF4653}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CCD280F-D3A0-4599-A77C-4295B5EF4653}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CCD280F-D3A0-4599-A77C-4295B5EF4653}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
