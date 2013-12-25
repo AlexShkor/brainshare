@@ -4,8 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using BrainShare.Documents;
-using BrainShare.Services.Validation;
 using BrainShare.ViewModels.Base;
+using Brainshare.Infrastructure.Extensions;
+using Brainshare.Infrastructure.Infrastructure;
+using Brainshare.Infrastructure.Services.Validation;
 
 namespace BrainShare.ViewModels
 {

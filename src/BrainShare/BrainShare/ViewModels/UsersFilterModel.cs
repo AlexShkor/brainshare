@@ -1,4 +1,4 @@
-﻿using BrainShare.Infostructure.Filters;
+﻿using BrainShare.Infrastructure.Infrastructure.Filters;
 using BrainShare.ViewModels.Base;
 
 namespace BrainShare.ViewModels

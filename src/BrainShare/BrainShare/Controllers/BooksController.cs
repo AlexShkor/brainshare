@@ -11,14 +11,20 @@ using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using BrainShare.Documents;
-using BrainShare.Extensions;
 using BrainShare.GoogleDto;
-using BrainShare.Hubs;
 using BrainShare.Infostructure;
+using BrainShare.Infrastructure.Documents;
+using BrainShare.Infrastructure.Documents.Data;
+using BrainShare.Infrastructure.Services;
 using BrainShare.Services;
-using BrainShare.Services.Validation;
-using BrainShare.Utilities;
 using BrainShare.ViewModels;
+using Brainshare.Infrastructure.Documents;
+using Brainshare.Infrastructure.Extensions;
+using Brainshare.Infrastructure.Hubs;
+using Brainshare.Infrastructure.Infrastructure;
+using Brainshare.Infrastructure.Services;
+using Brainshare.Infrastructure.Services.Validation;
+using Brainshare.Infrastructure.Settings;
 using MongoDB.Bson;
 
 namespace BrainShare.Controllers
@@ -29,24 +35,20 @@ namespace BrainShare.Controllers
     {
         private readonly BooksService _books;
         private readonly WishBooksService _wishBooks;
-        private readonly ActivityFeedsService _feeds;
         private readonly CloudinaryImagesService _cloudinaryImages;
         private readonly AsyncTaskScheduler _asyncTaskScheduler;
-        private readonly NewsService _newsService;
         private readonly ExchangeHistoryService _exchangeHistory;
         private readonly MailService _mailService;
         private readonly Settings _settings;
 
-        public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages, 
-            ExchangeHistoryService exchangeHistory, Settings settings, NewsService newsService, MailService mailService, AsyncTaskScheduler asyncTaskScheduler):base(users)
+        public BooksController(UsersService users, BooksService books, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages, 
+            ExchangeHistoryService exchangeHistory, Settings settings, MailService mailService, AsyncTaskScheduler asyncTaskScheduler):base(users)
         {
             _books = books;
-            _feeds = feeds;
             _wishBooks = wishBooks;
             _cloudinaryImages = cloudinaryImages;
             _exchangeHistory = exchangeHistory;
             _settings = settings;
-            _newsService = newsService;
             _mailService = mailService;
             _asyncTaskScheduler = asyncTaskScheduler;
         }

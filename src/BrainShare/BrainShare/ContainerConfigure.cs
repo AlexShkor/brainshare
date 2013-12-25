@@ -1,7 +1,8 @@
-﻿using System.Web.Mvc;
-using BrainShare.Authentication;
-using BrainShare.Mongo;
+﻿using BrainShare.Authentication;
+using BrainShare.Infrastructure.Mongo;
 using BrainShare.Services;
+using Brainshare.Infrastructure.Authentication;
+using Brainshare.Infrastructure.Settings;
 using StructureMap;
 
 namespace BrainShare

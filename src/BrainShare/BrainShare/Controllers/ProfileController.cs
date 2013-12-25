@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,18 +6,21 @@ using System.Web;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
-using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Documents.Data;
 using BrainShare.Hubs;
 using BrainShare.Infostructure;
+using BrainShare.Infrastructure.Infrastructure;
 using BrainShare.Services;
-using BrainShare.Utilities;
 using BrainShare.ViewModels;
-using Microsoft.AspNet.SignalR;
+using Brainshare.Infrastructure.Authentication;
+using Brainshare.Infrastructure.Extensions;
+using Brainshare.Infrastructure.Hubs;
+using Brainshare.Infrastructure.Services;
+using Brainshare.Infrastructure.Settings;
+using Brainshare.Infrastructure.Utilities;
 using MongoDB.Bson;
 using Thread = BrainShare.Documents.Thread;
-using BrainShare.Extensions;
 
 
 namespace BrainShare.Controllers

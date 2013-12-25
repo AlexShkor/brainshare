@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using BrainShare.Controllers;
 using BrainShare.Documents;
+using Brainshare.Infrastructure.Infrastructure;
 
 namespace BrainShare.ViewModels
 {

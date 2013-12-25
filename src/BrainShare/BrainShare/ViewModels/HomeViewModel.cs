@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using BrainShare.Documents;
+using BrainShare.Infrastructure.Documents;
 
 namespace BrainShare.ViewModels
 {

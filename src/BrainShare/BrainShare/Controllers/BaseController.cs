@@ -6,6 +6,7 @@ using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Services;
 using BrainShare.ViewModels.Base;
+using Brainshare.Infrastructure.Authentication;
 
 namespace BrainShare.Controllers
 {

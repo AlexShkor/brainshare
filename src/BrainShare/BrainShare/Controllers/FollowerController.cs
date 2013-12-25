@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
-using BrainShare.Authentication;
+using BrainShare.Infrastructure.Utilities;
 using BrainShare.Services;
-using BrainShare.Utilities;
+using Brainshare.Infrastructure.Services;
 
 namespace BrainShare.Controllers
 {

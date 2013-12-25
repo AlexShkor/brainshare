@@ -1,4 +1,5 @@
 ﻿using BrainShare.Documents;
+using Brainshare.Infrastructure.Documents;
 
 namespace BrainShare.ViewModels
 {

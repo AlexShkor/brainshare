@@ -1,25 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Metadata.Edm;
-using System.IO;
 using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
-using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Documents.Data;
-using BrainShare.Extensions;
 using BrainShare.Facebook;
-using BrainShare.Facebook.Dto;
 using BrainShare.Infostructure;
+using BrainShare.Infrastructure.Infrastructure;
 using BrainShare.Services;
-using BrainShare.Utilities;
 using BrainShare.ViewModels;
+using Brainshare.Infrastructure.Authentication;
+using Brainshare.Infrastructure.Documents;
+using Brainshare.Infrastructure.Documents.Data;
+using Brainshare.Infrastructure.Facebook;
+using Brainshare.Infrastructure.Facebook.Dto;
+using Brainshare.Infrastructure.Infrastructure;
+using Brainshare.Infrastructure.Services;
+using Brainshare.Infrastructure.Settings;
+using Brainshare.Infrastructure.Utilities;
 using Facebook;
 using MongoDB.Bson;
 using Newtonsoft.Json;
@@ -122,7 +123,7 @@ namespace BrainShare.Controllers
                                       {
                                           Id = GetIdForUser(),
                                           FirstName = model.FirstName,
-                                          Address = new AddressData(model),
+                                          Address = new AddressData(model.original_address,model.formatted_address,model.country,model.locality),
                                           LastName = model.LastName,
                                           Email = model.Email.ToLower(),
                                           Password = hashedPassword,
