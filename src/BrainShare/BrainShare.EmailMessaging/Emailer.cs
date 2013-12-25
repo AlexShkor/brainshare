@@ -92,9 +92,9 @@ namespace BrainShare.EmailMessaging
                 }
         }
 
-        private string GetStringFromRazor(string viewname, object model)
+        public string GetStringFromRazor(string viewname, object model)
         {
-            var basePath = System.AppDomain.CurrentDomain.RelativeSearchPath;
+            var basePath = AppDomain.CurrentDomain.RelativeSearchPath;
             var path = Path.Combine(basePath, "Views", viewname + ".cshtml");
 
             var fileContents = System.IO.File.ReadAllText(path);

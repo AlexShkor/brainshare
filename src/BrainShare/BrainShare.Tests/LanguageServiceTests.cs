@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Brainshare.Infrastructure.Services.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
