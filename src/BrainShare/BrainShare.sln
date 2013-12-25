@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brainshare.Infrastructure",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainShare.Tests", "BrainShare.Tests\BrainShare.Tests.csproj", "{A76F16EE-6D8E-41A8-8C69-AC4B4AFB24D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainShare.Scheduler", "BrainShare.Scheduler\BrainShare.Scheduler.csproj", "{28AEB73F-3EEC-4B41-8084-BBAC8152B6C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{A76F16EE-6D8E-41A8-8C69-AC4B4AFB24D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A76F16EE-6D8E-41A8-8C69-AC4B4AFB24D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A76F16EE-6D8E-41A8-8C69-AC4B4AFB24D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28AEB73F-3EEC-4B41-8084-BBAC8152B6C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28AEB73F-3EEC-4B41-8084-BBAC8152B6C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28AEB73F-3EEC-4B41-8084-BBAC8152B6C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28AEB73F-3EEC-4B41-8084-BBAC8152B6C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
