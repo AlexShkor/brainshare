@@ -1,61 +1,36 @@
 ﻿using System;
-using System.Threading.Tasks;
-using Castle.Components.Scheduler;
-using Castle.Components.Scheduler.JobStores;
-using Castle.Core.Logging;
+using BrainShare.Scheduler.Jobs;
+using Quartz;
+using Quartz.Impl;
 
 namespace BrainShare.Scheduler
 {
     class Program
     {
-        public static Task  Run()
+        static void Main(string[] args)
         {
-
-
-            return Task.Factory.StartNew(() =>
-                {
-
-                    IJobStore jobStore = new MemoryJobStore();
-
-                    IJobFactory jobFactory =
-                        new Castle.Components.Scheduler.WindsorExtension.WindsorJobFactory(
-                            Bootstrap.BootstrapContainer().Kernel);
-                    IJobRunner jobRunner = new DefaultJobRunner(jobFactory);
-
-
-                    DefaultScheduler scheduler = new DefaultScheduler(jobStore, jobRunner);
-                    scheduler.Logger = new ConsoleLogger();
-                    scheduler.Initialize();
-
-                    // Create some initial state information for the job.  (optional)
-                    JobData jobData = new JobData();
-                    jobData.State["Token"] = 1;
-
-                    // Create a trigger to fire at 2am local time each day.
-                    Trigger trigger =
-                        PeriodicTrigger.CreateOneShotTrigger(DateTime.Now.Date.ToUniversalTime().AddSeconds(10));
-
-                    // Create a job specification for my job.
-                    JobSpec jobSpec = new JobSpec("My job.", "A nightly maintenance job.", "SetOzBookIsbnJob", trigger);
-
-                    // Create a job.  If it already exists in the persistent store then automatically update
-                    // its definition to reflect the provided job specification.  This is a good idea when using
-                    // a scheduler cluster because the job is guaranteed to be created exactly once and kept up
-                    // to date without it ever being accidentally deleted by one instance while another instance
-                    // is processing it.
-                    scheduler.CreateJob(jobSpec, CreateJobConflictAction.Update);
-
-                    // Start the scheduler.
-                    scheduler.Start();
-                }) ;
-               
+            //Create the scheduler factory
+            ISchedulerFactory schedulerFactory = new StdSchedulerFactory();
+ 
+            //Ask the scheduler factory for a scheduler
+            IScheduler scheduler = schedulerFactory.GetScheduler();
+ 
+            //Start the scheduler so that it can start executing jobs
+            scheduler.Start();
+ 
+            // Create a job of Type WriteToConsoleJob
+            IJobDetail job = JobBuilder.Create(typeof(SetOzBookIsbn)).WithIdentity("MyJob", "MyJobGroup").Build();
+ 
+            //Schedule this job to execute every second, a maximum of 10 times
+            ITrigger trigger = TriggerBuilder.Create().WithSchedule(SimpleScheduleBuilder.RepeatSecondlyForTotalCount(10)).StartNow().WithIdentity("MyJobTrigger", "MyJobTriggerGroup").Build();
+            scheduler.ScheduleJob(job, trigger);
+ 
+            //Wait for a key press. If we don't wait the program exits and the scheduler gets destroyed
+            Console.ReadKey();
+ 
+            //A nice way to stop the scheduler, waiting for jobs that are running to finish
+            scheduler.Shutdown(true);
         }
 
-        static  void Main(string[] args)
-        {
-
-           Task.WaitAll(Run());
-           Console.WriteLine("end");
-        }
     }
 }

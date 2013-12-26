@@ -116,9 +116,6 @@
     <Compile Include="Authentication\IUserProvider.cs" />
     <Compile Include="Authentication\UserIdentity.cs" />
     <Compile Include="Authentication\UserProvider.cs" />
-    <Compile Include="DependencyResolution\IoC.cs" />
-    <Compile Include="DependencyResolution\StructureMapDependencyResolver.cs" />
-    <Compile Include="DependencyResolution\StructureMapDependencyScope.cs" />
     <Compile Include="Extensions\BootstrapExtensions.cs" />
     <Compile Include="Extensions\DateTimeExt.cs" />
     <Compile Include="Extensions\HtmlHelperExt.cs" />

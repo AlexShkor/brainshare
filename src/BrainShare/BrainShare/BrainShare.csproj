@@ -252,7 +252,6 @@
     <Compile Include="ViewModels\NewsViewModel.cs" />
     <Compile Include="ViewModels\PublisherViewModel.cs" />
     <Compile Include="Controllers\OzBookDto.cs" />
-    <Compile Include="Domain\ExchangeService.cs" />
     <Compile Include="GoogleDto\GoogleBookDto.cs" />
     <Compile Include="ViewModels\AllBooksViewModel.cs" />
     <Compile Include="ViewModels\BooksFilterModel.cs" />
