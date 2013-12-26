@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Castle.Components.Scheduler;
 using Castle.Components.Scheduler.JobStores;
@@ -59,8 +55,7 @@ namespace BrainShare.Scheduler
         {
 
            Task.WaitAll(Run());
-            Console.WriteLine("end");
-            //  Thread.Sleep(100000);
+           Console.WriteLine("end");
         }
     }
 }
