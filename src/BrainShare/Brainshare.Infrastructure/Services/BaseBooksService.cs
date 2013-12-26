@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using System.Text;
 using BinaryAnalysis.UnidecodeSharp;
-using BrainShare.Documents;
 using BrainShare.Domain.Documents;
 using BrainShare.Infrastructure.Infrastructure.Filters;
 using BrainShare.Infrastructure.Mongo;
-using Brainshare.Infrastructure.Extensions;
+using BrainShare.Utils.Extensions;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;

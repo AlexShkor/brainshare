@@ -4,7 +4,7 @@ using System.Linq;
 using BrainShare.Domain.Documents;
 using BrainShare.Infrastructure.Infrastructure.Filters;
 using BrainShare.Infrastructure.Mongo;
-using Brainshare.Infrastructure.Extensions;
+using BrainShare.Utils.Extensions;
 using Brainshare.Infrastructure.Facebook;
 using MongoDB.Bson;
 using MongoDB.Driver;
