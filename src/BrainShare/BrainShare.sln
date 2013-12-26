@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainShare.Tests", "BrainSh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainShare.Domain", "BrainShare.Domain\BrainShare.Domain.csproj", "{906FE2CC-3403-41FE-98C7-ACE3ADAAC108}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainShare.Scheduler", "BrainShare.Scheduler\BrainShare.Scheduler.csproj", "{0033D104-8FA1-438C-B46D-CA5679C1ECD5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainShare.Worker", "BrainShare.Scheduler\BrainShare.Worker.csproj", "{0033D104-8FA1-438C-B46D-CA5679C1ECD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
