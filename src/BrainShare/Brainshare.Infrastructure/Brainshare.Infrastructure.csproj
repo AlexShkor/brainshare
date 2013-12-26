@@ -134,7 +134,6 @@
     <Compile Include="Infrastructure\CryptographicHelper.cs" />
     <Compile Include="Infrastructure\Filters\BooksFilter.cs" />
     <Compile Include="Infrastructure\Filters\UsersFilter.cs" />
-    <Compile Include="Infrastructure\OzParser.cs" />
     <Compile Include="Infrastructure\SessionKeys.cs" />
     <Compile Include="Mongo\BaseFilter.cs" />
     <Compile Include="Mongo\DocumentsService.cs" />
@@ -151,6 +150,7 @@
     <Compile Include="Services\ExchangeHistoryService.cs" />
     <Compile Include="Services\MailService.cs" />
     <Compile Include="Services\NewsService.cs" />
+    <Compile Include="Services\OzIsbnService.cs" />
     <Compile Include="Services\ShellUserService.cs" />
     <Compile Include="Services\ThreadsService.cs" />
     <Compile Include="Services\UsersService.cs" />

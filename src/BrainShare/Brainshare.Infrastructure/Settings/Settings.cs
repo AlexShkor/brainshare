@@ -1,5 +1,3 @@
-using BrainShare;
-
 namespace Brainshare.Infrastructure.Settings
 {
     public class Settings
@@ -23,7 +21,22 @@ namespace Brainshare.Infrastructure.Settings
         public string AdminDisplayName { get; set; }
 
         [SettingsProperty("adminEmail")]
-        public string AdminEmail { get; set; } 
+        public string AdminEmail { get; set; }
+
+        [SettingsProperty("RabbitMQUrl")]
+        public string RabbitMQUrl { get; set; }
+
+        [SettingsProperty("RabbitMQUser")]
+        public string RabbitMQUser { get; set; }
+
+        [SettingsProperty("RabbitMQPassword")]
+        public string RabbitMQPassword { get; set; }
+
+        [SettingsProperty("RabbitMQRequestIsbnQueuName")]
+        public string RabbitMQResponceIsbnQueuName { get; set; }
+
+        [SettingsProperty("RabbitMQPassword")]
+        public string RabbitMQRequestIsbnQueuName { get; set; } 
 
     }
 }

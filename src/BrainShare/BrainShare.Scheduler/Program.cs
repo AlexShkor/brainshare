@@ -8,14 +8,14 @@ namespace BrainShare.Worker
 {
     class Program
     {
-        static readonly string ResponceQueuName = ConfigurationManager.AppSettings["RESPONCE_ISBN_QUEU_NAME"];
-        static readonly string RequestQueuName = ConfigurationManager.AppSettings["REQUEST_ISBN_QUEU_NAME"];
+        static readonly string ResponceQueuName = ConfigurationManager.AppSettings["RabbitMQResponceIsbnQueuName"];
+        static readonly string RequestQueuName = ConfigurationManager.AppSettings["RabbitMQRequestIsbnQueuName"];
 
         static readonly ConnectionFactory ConnFactory = new ConnectionFactory
             {
-                Uri = ConfigurationManager.AppSettings["CLOUDAMQP_URL"],
-                Password = ConfigurationManager.AppSettings["PASSWORD"],
-                UserName = ConfigurationManager.AppSettings["USER"],   
+                Uri = ConfigurationManager.AppSettings["RabbitMQUrl"],
+                Password = ConfigurationManager.AppSettings["RabbitMQPassword"],
+                UserName = ConfigurationManager.AppSettings["RabbitMQUser"],   
             };
 
         static void Main(string[] args)
