@@ -24,7 +24,7 @@ using MongoDB.Bson;
 namespace BrainShare.Controllers
 {
     [System.Web.Mvc.Authorize]
-    [RoutePrefix("profile")]
+    [AttributeRouting.RoutePrefix("profile")]
     public class ProfileController : BaseController
     {
         private readonly BooksService _books;

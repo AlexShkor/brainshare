@@ -25,7 +25,7 @@ using System.Linq;
 
 namespace BrainShare.Controllers
 {
-    [RoutePrefix("user")]
+    [AttributeRouting.RoutePrefix("user")]
     public class UserController : BaseController
     {
         private readonly Settings _settings;

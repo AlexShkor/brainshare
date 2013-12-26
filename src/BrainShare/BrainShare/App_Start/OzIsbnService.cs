@@ -36,11 +36,11 @@ namespace BrainShare
                     Password = _settings.RabbitMQPassword
                 };
 
-           var ownedBooks =  _booksService.GetOzIdsWithEmptyIsbn().Select( e => new OzBook{ Id = e, IsWishedBook = false}).ToList();
-           var wishedBooks = _wishBooksService.GetOzIdsWithEmptyIsbn().Select(e => new OzBook { Id = e, IsWishedBook = true });
-           ownedBooks.AddRange(wishedBooks);
+            var ownedBooks = _booksService.GetOzIdsWithEmptyIsbn().Select(e => new OzBookIsbnRequestDto { Id = e, IsWishedBook = false }).ToList();
+            var wishedBooks = _wishBooksService.GetOzIdsWithEmptyIsbn().Select(e => new OzBookIsbnRequestDto { Id = e, IsWishedBook = true });
+            ownedBooks.AddRange(wishedBooks);
 
-           _booksWithEmptyIsbn = new Queue<OzBook>(ownedBooks);
+           _booksWithEmptyIsbnQueue = new ConcurrentQueue<OzBookIsbnRequestDto>(ownedBooks);
         }
 
 
@@ -80,7 +80,7 @@ namespace BrainShare
                             await Task.Delay(5000);
                         }
 
-                        var ozBook = new OzBook();
+                        var ozBook = new OzBookIsbnRequestDto();
                         if (_booksWithEmptyIsbnQueue.TryDequeue(out ozBook))
                         {
                             // the data put on the queue must be a byte array

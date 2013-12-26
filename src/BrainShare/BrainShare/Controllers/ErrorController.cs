@@ -4,7 +4,7 @@ using AttributeRouting.Web.Mvc;
 
 namespace BrainShare.Controllers
 {
-    [RoutePrefix("Error")]
+    [AttributeRouting.RoutePrefix("Error")]
     public class ErrorController : Controller
     {
         [GET("500")]

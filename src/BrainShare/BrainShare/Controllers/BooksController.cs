@@ -27,7 +27,7 @@ using MongoDB.Bson;
 
 namespace BrainShare.Controllers
 {
-    [RoutePrefix("books")]
+    [AttributeRouting.RoutePrefix("books")]
     [Authorize]
     public class BooksController : BaseController
     {
