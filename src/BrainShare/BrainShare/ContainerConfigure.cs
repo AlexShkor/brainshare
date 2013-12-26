@@ -12,6 +12,7 @@ namespace BrainShare
         public static void Configure(IContainer container)
         {
             var settings = SettingsMapper.Map<Settings>();
+
             var database = new MongoDocumentsDatabase(settings.MongoConnectionString);
             database.EnsureIndexes();
             container.Configure(c =>
@@ -20,6 +21,7 @@ namespace BrainShare
                     c.For<Settings>().Singleton().Use(settings);
                     c.For<IAuthentication>().Transient().Use<CustomAuthentication>();
                     c.For<ICommonUserService>().Use<CommonUserService>();
+                    c.For<OzIsbnService>().Singleton().Use<OzIsbnService>();
                 });
         }
     }

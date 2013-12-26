@@ -66,6 +66,8 @@
     <Compile Include="Documents\PublicShell.cs" />
     <Compile Include="Documents\Thread.cs" />
     <Compile Include="Documents\User.cs" />
+    <Compile Include="Dto\OzBookIsbnRequestDto.cs" />
+    <Compile Include="Dto\OzBookIsbnResponceDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 using BinaryAnalysis.UnidecodeSharp;
 using BrainShare.Documents;
 using BrainShare.Domain.Documents;
@@ -132,6 +133,19 @@ namespace Brainshare.Infrastructure.Services
                  .Select(e => e.OzBookId);
         }
 
+        public IEnumerable<string> GetOzIdsWithEmptyIsbn()
+        {
+            return Items.Find(
+                Query.And(
+                     Query<Book>.EQ(b => b.FromOzBy, true),
+                     Query<Book>.NE(b => b.OzBookId, null),
+                     Query<Book>.EQ(b => b.ISBN, null)
+                 ))
+                 .SetFields(Fields<Book>.Include(b => b.OzBookId))
+                 .ToList()
+                 .Select(e => e.OzBookId);
+        }
+
         public IEnumerable<string> GetGoogleIds(string userId)
         {
             return Items.Find(
@@ -143,6 +157,6 @@ namespace Brainshare.Infrastructure.Services
                  .ToList()
                  .Select(e => e.Id);
         }
-  
+
     }
 }

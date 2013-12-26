@@ -15,5 +15,7 @@ namespace Brainshare.Infrastructure.Services
         {
             get { return Database.Books; }
         }
+
+        
     }
 }
