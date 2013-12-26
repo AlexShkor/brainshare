@@ -1,13 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BrainShare.Documents;
-using BrainShare.Hubs;
-using BrainShare.Infrastructure.Documents;
+﻿using System.Threading.Tasks;
+using BrainShare.Domain.Documents;
 using BrainShare.Infrastructure.Services;
 using BrainShare.Services;
 using BrainShare.Infrastructure.Utilities;
-using Brainshare.Infrastructure.Documents;
 using Brainshare.Infrastructure.Hubs;
 using Brainshare.Infrastructure.Services;
 

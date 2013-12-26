@@ -1,7 +1,6 @@
 using System;
-using BrainShare.Documents;
-using BrainShare.Infrastructure.Documents.Data;
-using Brainshare.Infrastructure.Documents;
+using BrainShare.Domain.Documents;
+using BrainShare.Domain.Documents.Data;
 
 namespace BrainShare.ViewModels
 {

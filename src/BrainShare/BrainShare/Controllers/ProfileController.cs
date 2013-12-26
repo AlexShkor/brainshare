@@ -6,11 +6,10 @@ using System.Web;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
-using BrainShare.Documents;
-using BrainShare.Documents.Data;
+using BrainShare.Domain.Documents;
+using BrainShare.Domain.Documents.Data;
 using BrainShare.Hubs;
 using BrainShare.Infostructure;
-using BrainShare.Infrastructure.Infrastructure;
 using BrainShare.Services;
 using BrainShare.ViewModels;
 using Brainshare.Infrastructure.Authentication;
@@ -20,7 +19,6 @@ using Brainshare.Infrastructure.Services;
 using Brainshare.Infrastructure.Settings;
 using Brainshare.Infrastructure.Utilities;
 using MongoDB.Bson;
-using Thread = BrainShare.Documents.Thread;
 
 
 namespace BrainShare.Controllers

@@ -1,6 +1,5 @@
-﻿using BrainShare.Documents;
+﻿using BrainShare.Domain.Documents;
 using Brainshare.Infrastructure.Authentication;
-using Brainshare.Infrastructure.Documents;
 
 namespace BrainShare.Infrastructure.Utilities
 {

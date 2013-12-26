@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BinaryAnalysis.UnidecodeSharp;
 using BrainShare.Documents;
+using BrainShare.Domain.Documents;
 using BrainShare.Infrastructure.Infrastructure.Filters;
 using BrainShare.Infrastructure.Mongo;
 using Brainshare.Infrastructure.Extensions;

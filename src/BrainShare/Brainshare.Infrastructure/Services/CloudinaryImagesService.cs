@@ -1,4 +1,5 @@
 ﻿using BrainShare.Documents;
+using BrainShare.Domain.Documents;
 using BrainShare.Infrastructure.Mongo;
 using MongoDB.Driver;
 

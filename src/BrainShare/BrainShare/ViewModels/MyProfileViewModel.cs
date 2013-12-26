@@ -1,6 +1,6 @@
 using System.Web;
-using Brainshare.Infrastructure.Documents;
-using Brainshare.Infrastructure.Documents.Data;
+using BrainShare.Domain.Documents;
+using BrainShare.Domain.Documents.Data;
 using Brainshare.Infrastructure.Infrastructure;
 
 namespace BrainShare.ViewModels

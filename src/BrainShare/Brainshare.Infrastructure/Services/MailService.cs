@@ -1,8 +1,7 @@
 ﻿using System.Globalization;
-using BrainShare.Documents;
+using BrainShare.Domain.Documents;
 using BrainShare.EmailMessaging;
 using BrainShare.EmailMessaging.ViewModels;
-using Brainshare.Infrastructure.Documents;
 using Brainshare.Infrastructure.Infrastructure;
 using Brainshare.Infrastructure.Utilities;
 

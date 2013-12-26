@@ -110,7 +110,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication\AuthHttpModule.cs" />
-    <Compile Include="Authentication\CommonUser.cs" />
     <Compile Include="Authentication\CustomAuthentication.cs" />
     <Compile Include="Authentication\IAuthentication.cs" />
     <Compile Include="Authentication\ICommonUserService.cs" />
@@ -120,25 +119,6 @@
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyResolver.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyScope.cs" />
-    <Compile Include="Documents\ActivityFeed.cs" />
-    <Compile Include="Documents\BaseUser.cs" />
-    <Compile Include="Documents\Book.cs" />
-    <Compile Include="Documents\CloudinaryImage.cs" />
-    <Compile Include="Documents\Data\ActivityFeedItem.cs" />
-    <Compile Include="Documents\Data\ActivityTypeEnum.cs" />
-    <Compile Include="Documents\Data\AddressData.cs" />
-    <Compile Include="Documents\Data\ChangeRequest.cs" />
-    <Compile Include="Documents\Data\ExchangeEntry.cs" />
-    <Compile Include="Documents\Data\Message.cs" />
-    <Compile Include="Documents\Data\ShellAddressData.cs" />
-    <Compile Include="Documents\Data\UserData.cs" />
-    <Compile Include="Documents\Data\UserNewsInfo.cs" />
-    <Compile Include="Documents\Data\UserSettings.cs" />
-    <Compile Include="Documents\ExchangeHistory.cs" />
-    <Compile Include="Documents\News.cs" />
-    <Compile Include="Documents\PublicShell.cs" />
-    <Compile Include="Documents\Thread.cs" />
-    <Compile Include="Documents\User.cs" />
     <Compile Include="Extensions\BootstrapExtensions.cs" />
     <Compile Include="Extensions\DateTimeExt.cs" />
     <Compile Include="Extensions\HtmlHelperExt.cs" />
@@ -157,7 +137,6 @@
     <Compile Include="Infrastructure\CryptographicHelper.cs" />
     <Compile Include="Infrastructure\Filters\BooksFilter.cs" />
     <Compile Include="Infrastructure\Filters\UsersFilter.cs" />
-    <Compile Include="Infrastructure\Location.cs" />
     <Compile Include="Infrastructure\OzParser.cs" />
     <Compile Include="Infrastructure\SessionKeys.cs" />
     <Compile Include="Mongo\BaseFilter.cs" />
@@ -193,6 +172,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BrainShare.Domain\BrainShare.Domain.csproj">
+      <Project>{906fe2cc-3403-41fe-98c7-ace3adaac108}</Project>
+      <Name>BrainShare.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BrainShare.EmailMessaging\BrainShare.EmailMessaging.csproj">
       <Project>{cf1c7829-94b5-4e73-95b9-1af821088a45}</Project>
       <Name>BrainShare.EmailMessaging</Name>

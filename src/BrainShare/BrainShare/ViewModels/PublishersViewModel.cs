@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BrainShare.Documents;
+using BrainShare.Domain.Documents;
 using BrainShare.Infrastructure.Utilities;
 using Brainshare.Infrastructure.Infrastructure;
 

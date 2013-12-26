@@ -613,6 +613,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BrainShare.Domain\BrainShare.Domain.csproj">
+      <Project>{906fe2cc-3403-41fe-98c7-ace3adaac108}</Project>
+      <Name>BrainShare.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BrainShare.EmailMessaging\BrainShare.EmailMessaging.csproj">
       <Project>{cf1c7829-94b5-4e73-95b9-1af821088a45}</Project>
       <Name>BrainShare.EmailMessaging</Name>

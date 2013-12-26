@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using BrainShare.Authentication;
 using BrainShare.Documents;
+using BrainShare.Domain.Documents;
 using BrainShare.Services;
 using BrainShare.ViewModels.Base;
 using Brainshare.Infrastructure.Authentication;

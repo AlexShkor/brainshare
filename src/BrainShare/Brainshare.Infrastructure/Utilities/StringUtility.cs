@@ -1,5 +1,6 @@
 ﻿using System;
 using BrainShare.Documents;
+using BrainShare.Domain.Documents;
 
 namespace BrainShare.Infrastructure.Utilities
 {

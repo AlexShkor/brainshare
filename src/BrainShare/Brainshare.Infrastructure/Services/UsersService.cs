@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BrainShare.Documents;
+using BrainShare.Domain.Documents;
 using BrainShare.Infrastructure.Infrastructure.Filters;
 using BrainShare.Infrastructure.Mongo;
-using Brainshare.Infrastructure.Documents;
 using Brainshare.Infrastructure.Extensions;
 using Brainshare.Infrastructure.Facebook;
 using MongoDB.Bson;

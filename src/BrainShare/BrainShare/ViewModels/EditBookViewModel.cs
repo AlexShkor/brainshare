@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
-using BrainShare.Documents;
+using BrainShare.Domain.Documents;
 using BrainShare.ViewModels.Base;
 using Brainshare.Infrastructure.Extensions;
 using Brainshare.Infrastructure.Infrastructure;
