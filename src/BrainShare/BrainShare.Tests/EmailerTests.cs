@@ -23,12 +23,12 @@ namespace BrainShare.Tests
 
         private Emailer _emailer = new Emailer("","");
 
-        [TestMethod]
-        public void SendWelcomeMessage_HtmlTemplateExist()
-        {
-            var result = _emailer.GetStringFromRazor(_welcomViewName, GetWelcomModel());
-            Assert.IsNotNull(result);        
-        }
+        //[TestMethod]
+        //public void SendWelcomeMessage_HtmlTemplateExist()
+        //{
+        //    var result = _emailer.GetStringFromRazor(_welcomViewName, GetWelcomModel());
+        //    Assert.IsNotNull(result);        
+        //}
 
         //public void SendGiftExchangeMessage_HtmlTemplateExist(GiftExchange giftExchangeModel, string email, string displayName)
         //{
