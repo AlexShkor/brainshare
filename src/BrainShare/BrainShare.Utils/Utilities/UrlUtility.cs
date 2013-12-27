@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace Brainshare.Infrastructure.Utilities
+namespace BrainShare.Utils.Utilities
 {
     public static class UrlUtility
     {

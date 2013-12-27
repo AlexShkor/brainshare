@@ -3,6 +3,7 @@ using System.Linq;
 using BrainShare.Documents;
 using BrainShare.Domain.Documents;
 using BrainShare.Infrastructure.Utilities;
+using BrainShare.Utils.Utilities;
 using Brainshare.Infrastructure.Infrastructure;
 
 namespace BrainShare.ViewModels
@@ -31,7 +32,7 @@ namespace BrainShare.ViewModels
                         Id = publisher.Id,
                         IsShell = publisher.UserType == "ShellUser",
                         TemplateName = PublisherTemplate,
-                        Status = StringUtility.GetUserStatus(publisher,userActivityTimeoutInMinutes)
+                        Status = StringUtility.GetUserStatus(publisher.LastVisited,userActivityTimeoutInMinutes)
                     });
             }
         }

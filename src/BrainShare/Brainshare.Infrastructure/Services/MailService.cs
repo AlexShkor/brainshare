@@ -2,8 +2,8 @@
 using BrainShare.Domain.Documents;
 using BrainShare.EmailMessaging;
 using BrainShare.EmailMessaging.ViewModels;
+using BrainShare.Utils.Utilities;
 using Brainshare.Infrastructure.Infrastructure;
-using Brainshare.Infrastructure.Utilities;
 
 namespace Brainshare.Infrastructure.Services
 {

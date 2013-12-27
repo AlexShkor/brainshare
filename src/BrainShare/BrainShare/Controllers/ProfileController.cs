@@ -11,12 +11,12 @@ using BrainShare.Hubs;
 using BrainShare.Infostructure;
 using BrainShare.Services;
 using BrainShare.Utils.Extensions;
+using BrainShare.Utils.Utilities;
 using BrainShare.ViewModels;
 using Brainshare.Infrastructure.Authentication;
 using Brainshare.Infrastructure.Hubs;
 using Brainshare.Infrastructure.Services;
 using Brainshare.Infrastructure.Settings;
-using Brainshare.Infrastructure.Utilities;
 using MongoDB.Bson;
 
 

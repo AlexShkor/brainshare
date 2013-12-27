@@ -1,6 +1,7 @@
 using BrainShare.Domain.Documents;
 using BrainShare.Domain.Documents.Data;
 using BrainShare.Infrastructure.Utilities;
+using BrainShare.Utils.Utilities;
 using Brainshare.Infrastructure.Infrastructure;
 
 namespace BrainShare.ViewModels
@@ -33,7 +34,7 @@ namespace BrainShare.ViewModels
             Email = user.Email;
             Info = user.Info;
             IsCurrentUserSubscribed = me.IsSubscribed(Id);
-            Status = StringUtility.GetUserStatus(user, userActivityTimeoutInMinutes);
+            Status = StringUtility.GetUserStatus(user.LastVisited, userActivityTimeoutInMinutes);
         }
     }
 }
