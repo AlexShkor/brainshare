@@ -6,7 +6,7 @@
 [Bb]in
 [Oo]bj
 [Pp]ackages/
-#src/BrainShare/BrainShare/bin/
+/src/BrainShare/BrainShare/bin/*
 #src/BrainShare/packages/
 *.[Oo]bj
 *.user
