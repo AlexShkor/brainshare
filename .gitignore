@@ -3,10 +3,11 @@
 *.DS_Store
 
 #Visual Studio files
-[Bb]in/
-[Oo]bj/
-src/BrainShare/BrainShare/bin/
-src/BrainShare/packages/
+[Bb]in
+[Oo]bj
+[Pp]ackages/
+#src/BrainShare/BrainShare/bin/
+#src/BrainShare/packages/
 *.[Oo]bj
 *.user
 *.aps
