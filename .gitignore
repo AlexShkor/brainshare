@@ -5,6 +5,9 @@
 #Visual Studio files
 [Bb]in/
 [Oo]bj/
+bin
+obj
+src/BrainShare/packages/
 *.[Oo]bj
 *.user
 *.aps
