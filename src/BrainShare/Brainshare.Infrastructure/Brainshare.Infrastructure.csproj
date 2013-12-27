@@ -161,10 +161,8 @@
     <Compile Include="Settings\SettingsMapper.cs" />
     <Compile Include="Settings\SettingsPrefixAttribute.cs" />
     <Compile Include="Settings\SettingsPropertyAttribute.cs" />
-    <Compile Include="Utilities\Mapper.cs" />
-    <Compile Include="Utilities\NewsMaker.cs" />
-    <Compile Include="Utilities\StringUtility.cs" />
-    <Compile Include="Utilities\UrlUtility.cs" />
+    <Compile Include="Mapper.cs" />
+    <Compile Include="NewsMaker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
