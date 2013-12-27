@@ -5,7 +5,7 @@
 #Visual Studio files
 [Bb]in/
 [Oo]bj/
-src/BrainShare/BrainShare/bin
+src/BrainShare/BrainShare/bin/
 src/BrainShare/packages/
 *.[Oo]bj
 *.user
