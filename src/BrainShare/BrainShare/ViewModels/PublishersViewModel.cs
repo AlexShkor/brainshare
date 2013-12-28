@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BrainShare.Documents;
-using BrainShare.Documents.Data;
-using BrainShare.Utilities;
+using BrainShare.Domain.Documents;
+using BrainShare.Infrastructure.Utilities;
+using Brainshare.Infrastructure.Infrastructure;
 
 namespace BrainShare.ViewModels
 {
@@ -13,9 +14,9 @@ namespace BrainShare.ViewModels
 
         public string UserName { get; set; }
         public bool IsMyFriends { get; set; }
- 
- 
-        public PublishersViewModel(IEnumerable<BaseUser> publishers,string userName,bool isMyFriends)
+
+
+        public PublishersViewModel(IEnumerable<BaseUser> publishers, string userName, bool isMyFriends, int userActivityTimeoutInMinutes)
         {
             Publishers = new List<PublisherViewModel>();
             UserName = userName;
@@ -30,7 +31,7 @@ namespace BrainShare.ViewModels
                         Id = publisher.Id,
                         IsShell = publisher.UserType == "ShellUser",
                         TemplateName = PublisherTemplate,
-                        Status = StringUtility.GetUserStatus(publisher)
+                        Status = StringUtility.GetUserStatus(publisher,userActivityTimeoutInMinutes)
                     });
             }
         }

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using BrainShare.Documents;
+﻿using System.ComponentModel.DataAnnotations;
+using BrainShare.Domain.Documents;
 using BrainShare.ViewModels.Base;
 
 namespace BrainShare.ViewModels

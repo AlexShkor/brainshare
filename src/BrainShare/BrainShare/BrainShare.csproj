@@ -98,6 +98,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Facebook.6.4.2\lib\net45\Facebook.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.0.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -123,11 +126,13 @@
     <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.2.0.30506.0\lib\net40\Microsoft.Web.WebPages.OAuth.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Bson">
-      <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Bson.dll</HintPath>
+    <Reference Include="MongoDB.Bson, Version=1.8.3.9, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\mongocsharpdriver.1.8.3\lib\net35\MongoDB.Bson.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Driver">
-      <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Driver.dll</HintPath>
+    <Reference Include="MongoDB.Driver, Version=1.8.3.9, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\mongocsharpdriver.1.8.3\lib\net35\MongoDB.Driver.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -240,57 +245,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Authentication\AuthHttpModule.cs" />
-    <Compile Include="Authentication\CommonUser.cs" />
-    <Compile Include="Authentication\CustomAuthentication.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Authentication\IAuthentication.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Authentication\ICommonUserService.cs" />
-    <Compile Include="Authentication\IUserProvider.cs" />
-    <Compile Include="Authentication\UserIdentity.cs" />
-    <Compile Include="Authentication\UserProvider.cs" />
-    <Compile Include="Constants.cs" />
     <Compile Include="ContainerConfigure.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FollowerController.cs" />
     <Compile Include="Controllers\MigrateController.cs" />
-    <Compile Include="Documents\BaseUser.cs" />
-    <Compile Include="Documents\Data\UserNewsInfo.cs" />
-    <Compile Include="Documents\Data\UserSettings.cs" />
-    <Compile Include="Documents\News.cs" />
-    <Compile Include="Infostructure\AsyncTaskScheduler.cs" />
-    <Compile Include="Services\NewsService.cs" />
-    <Compile Include="Utilities\NewsMaker.cs" />
-    <Compile Include="Utilities\StringUtility.cs" />
-    <Compile Include="ViewModels\BaseEmailModel.cs" />
-    <Compile Include="ViewModels\EmailUserHaveSearechedBookModel.cs" />
-    <Compile Include="ViewModels\EmailUserMessageModel.cs" />
     <Compile Include="ViewModels\NewsViewModel.cs" />
     <Compile Include="ViewModels\PublisherViewModel.cs" />
-    <Compile Include="Documents\Data\ShellAddressData.cs" />
-    <Compile Include="Documents\PublicShell.cs" />
-    <Compile Include="Facebook\Dto\FbUserMe.cs" />
     <Compile Include="Controllers\OzBookDto.cs" />
-    <Compile Include="Documents\Data\ActivityFeedItem.cs" />
-    <Compile Include="Documents\Data\ActivityTypeEnum.cs" />
-    <Compile Include="Documents\Data\AddressData.cs" />
-    <Compile Include="Documents\Data\ChangeRequest.cs" />
-    <Compile Include="Documents\ExchangeHistory.cs" />
-    <Compile Include="Documents\Data\ExchangeEntry.cs" />
-    <Compile Include="Documents\Data\Message.cs" />
-    <Compile Include="Domain\ExchangeService.cs" />
-    <Compile Include="Facebook\FacebookFriend.cs" />
     <Compile Include="GoogleDto\GoogleBookDto.cs" />
-    <Compile Include="Infostructure\CryptographicHelper.cs" />
-    <Compile Include="Infostructure\Filters\UsersFilter.cs" />
-    <Compile Include="Infostructure\Location.cs" />
-    <Compile Include="Mongo\FilterOrder.cs" />
-    <Compile Include="Services\CommonUserService.cs" />
-    <Compile Include="Services\ExchangeHistoryService.cs" />
-    <Compile Include="Services\ShellUserService.cs" />
-    <Compile Include="Utilities\Mapper.cs" />
     <Compile Include="ViewModels\AllBooksViewModel.cs" />
     <Compile Include="ViewModels\BooksFilterModel.cs" />
     <Compile Include="ViewModels\ChangePasswordModel.cs" />
@@ -305,19 +267,10 @@
     <Compile Include="ViewModels\MyProfileViewModel.cs" />
     <Compile Include="ViewModels\RequestAcceptedModel.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="ViewModels\SearchByOzViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\UsersFilterModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
-    <Compile Include="Documents\CloudinaryImage.cs" />
-    <Compile Include="Documents\Data\UserData.cs" />
-    <Compile Include="Extensions\BootstrapExtensions.cs" />
-    <Compile Include="Extensions\HtmlHelperExt.cs" />
-    <Compile Include="Extensions\HttpPostedFileBaseExtensions.cs" />
-    <Compile Include="Extensions\StringExt.cs" />
-    <Compile Include="Facebook\FacebookSelectorViewModel.cs" />
-    <Compile Include="Facebook\GetFacebookTokenMode.cs" />
-    <Compile Include="Hubs\NotificationsHub.cs" />
-    <Compile Include="Hubs\ThreadHub.cs" />
     <Content Include="Content\imgAreaSelect\border-anim-h.gif" />
     <Content Include="Content\imgAreaSelect\border-anim-v.gif" />
     <Content Include="Content\imgAreaSelect\border-h.gif" />
@@ -326,6 +279,7 @@
     <Content Include="Content\imgAreaSelect\imgareaselect-default.css" />
     <Content Include="Content\imgAreaSelect\imgareaselect-deprecated.css" />
     <Content Include="Images\book-logo-placeholder.png" />
+    <Content Include="Images\ErrorPages\500.jpg" />
     <Content Include="Images\facebook.png" />
     <Content Include="Images\fb_signup_empty.png" />
     <Content Include="Images\user-default-avatar.jpg" />
@@ -339,21 +293,7 @@
     <Content Include="Scripts\Views\Profile\SettingsViewModel.js" />
     <Content Include="Scripts\Views\User\NewsListViewModel.js" />
     <Content Include="Scripts\infrastructure\notifications.js" />
-    <Compile Include="Mongo\PagingInfo.cs" />
-    <Compile Include="Mongo\DocumentsServiceFiltered.cs" />
-    <Compile Include="Services\BaseBooksService.cs" />
-    <Compile Include="Infostructure\Filters\BooksFilter.cs" />
-    <Compile Include="Services\CloudinaryImagesService.cs" />
-    <Compile Include="Services\Validation\LanguagesService.cs" />
-    <Compile Include="Services\WishBooksService.cs" />
-    <Compile Include="SessionKeys.cs" />
-    <Compile Include="Settings\Settings.cs" />
-    <Compile Include="Facebook\FacebookAuthorizeAttribute.cs" />
-    <Compile Include="Settings\SettingsMapper.cs" />
-    <Compile Include="Settings\SettingsPrefixAttribute.cs" />
-    <Compile Include="Settings\SettingsPropertyAttribute.cs" />
     <Compile Include="StructureMapResolver.cs" />
-    <Compile Include="Utilities\UrlUtility.cs" />
     <Compile Include="ViewModels\ConsiderRequestViewModel.cs" />
     <Compile Include="ViewModels\AllThreadsViewModel.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -378,26 +318,11 @@
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyResolver.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyScope.cs" />
-    <Compile Include="Documents\ActivityFeed.cs" />
-    <Compile Include="Documents\Book.cs" />
-    <Compile Include="Documents\Thread.cs" />
-    <Compile Include="Documents\User.cs" />
-    <Compile Include="Extensions\DateTimeExt.cs" />
-    <Compile Include="Facebook\FacebookClientFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Mongo\BaseFilter.cs" />
-    <Compile Include="Mongo\DocumentsService.cs" />
-    <Compile Include="Mongo\MongoDocumentsDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ActivityFeedsService.cs" />
-    <Compile Include="Services\BooksService.cs" />
-    <Compile Include="Services\MailService.cs" />
-    <Compile Include="Services\ThreadsService.cs" />
     <Compile Include="ViewModels\ExchangeConfirmViewModel.cs" />
-    <Compile Include="ViewModels\RequestViewModel.cs" />
-    <Compile Include="Services\UsersService.cs" />
     <Compile Include="ViewModels\LoginView.cs" />
     <Compile Include="Controllers\BooksController.cs" />
   </ItemGroup>
@@ -617,9 +542,6 @@
     <Content Include="Views\Home\BookAdded.cshtml" />
     <Content Include="Views\Home\BookWanted.cshtml" />
     <Content Include="Views\Home\BooksExchanged.cshtml" />
-    <Content Include="Views\MailService\WelcomeMessage.cshtml" />
-    <Content Include="Views\MailService\ExchangeConfirmMessage.cshtml" />
-    <Content Include="Views\MailService\RequestMessage.cshtml" />
     <Content Include="Views\Books\Info.cshtml" />
     <Content Include="Views\Profile\ViewUserProfile.cshtml" />
     <Content Include="Views\Profile\Messages.cshtml" />
@@ -679,8 +601,7 @@
     <Content Include="Views\Profile\SettingsTabs\Common.cshtml" />
     <Content Include="Views\Profile\SettingsTabs\Notifications.cshtml" />
     <Content Include="Views\Profile\SettingsTabs\Privacy.cshtml" />
-    <Content Include="Views\MailService\EmailUserMessage.cshtml" />
-    <Content Include="Views\MailService\EmailUserHaveSearechedBookMessage.cshtml" />
+    <Content Include="Views\Shared\ErrorPages\500.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Views\Help\" />
@@ -689,6 +610,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BrainShare.Domain\BrainShare.Domain.csproj">
+      <Project>{906fe2cc-3403-41fe-98c7-ace3adaac108}</Project>
+      <Name>BrainShare.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrainShare.EmailMessaging\BrainShare.EmailMessaging.csproj">
+      <Project>{cf1c7829-94b5-4e73-95b9-1af821088a45}</Project>
+      <Name>BrainShare.EmailMessaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brainshare.Infrastructure\Brainshare.Infrastructure.csproj">
+      <Project>{2ccd280f-d3a0-4599-a77c-4295b5ef4653}</Project>
+      <Name>Brainshare.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

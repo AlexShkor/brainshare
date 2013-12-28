@@ -1,4 +1,4 @@
-﻿@using BrainShare.Utilities
+﻿@using Brainshare.Infrastructure.Utilities
 @using Newtonsoft.Json
 @model BrainShare.ViewModels.BookViewModel
 @section Meta{
@@ -6,7 +6,7 @@
     <meta property="og:site_name" content="BrainShare" />
     <meta property="og:title" content="@Model.Title" />
     <meta property="og:url" content="@UrlUtility.CurrentUrl" />
-    <meta property="og:description" content="@Model.SharingText" />
+    <meta property="og:description" content="@Model.SharingHaveBookText" />
     <meta property="og:type" content="website/book" />
 }
 @section Schemas{
@@ -104,7 +104,7 @@
                 </div>
 
                 <div class="span4">
-                    @Html.Partial("ShareButtons/TwShareBtn", Model.SharingText)
+                    @Html.Partial("ShareButtons/TwShareBtn", Model.SharingHaveBookText)
                 </div>
                 <div class="span4">
                     @Html.Partial("ShareButtons/VkShareBtn")

@@ -8,11 +8,8 @@ namespace BrainShare.Controllers
     [Authorize]
     public class UsersController : BaseController
     {
-        private readonly UsersService _users;
-
-        public UsersController(UsersService users)
+        public UsersController(UsersService users):base(users)
         {
-            _users = users;
         }
 
         public ActionResult Index()

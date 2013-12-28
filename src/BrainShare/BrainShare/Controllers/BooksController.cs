@@ -11,14 +11,18 @@ using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using BrainShare.Documents;
-using BrainShare.Extensions;
+using BrainShare.Domain.Documents;
+using BrainShare.Domain.Documents.Data;
 using BrainShare.GoogleDto;
-using BrainShare.Hubs;
 using BrainShare.Infostructure;
 using BrainShare.Services;
-using BrainShare.Services.Validation;
-using BrainShare.Utilities;
 using BrainShare.ViewModels;
+using Brainshare.Infrastructure.Extensions;
+using Brainshare.Infrastructure.Hubs;
+using Brainshare.Infrastructure.Infrastructure;
+using Brainshare.Infrastructure.Services;
+using Brainshare.Infrastructure.Services.Validation;
+using Brainshare.Infrastructure.Settings;
 using MongoDB.Bson;
 
 namespace BrainShare.Controllers
@@ -27,28 +31,22 @@ namespace BrainShare.Controllers
     [Authorize]
     public class BooksController : BaseController
     {
-        private readonly UsersService _users;
         private readonly BooksService _books;
         private readonly WishBooksService _wishBooks;
-        private readonly ActivityFeedsService _feeds;
         private readonly CloudinaryImagesService _cloudinaryImages;
         private readonly AsyncTaskScheduler _asyncTaskScheduler;
-        private readonly NewsService _newsService;
         private readonly ExchangeHistoryService _exchangeHistory;
         private readonly MailService _mailService;
         private readonly Settings _settings;
 
-        public BooksController(UsersService users, BooksService books, ActivityFeedsService feeds, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages, 
-            ExchangeHistoryService exchangeHistory, Settings settings, NewsService newsService, MailService mailService, AsyncTaskScheduler asyncTaskScheduler)
+        public BooksController(UsersService users, BooksService books, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages, 
+            ExchangeHistoryService exchangeHistory, Settings settings, MailService mailService, AsyncTaskScheduler asyncTaskScheduler):base(users)
         {
-            _users = users;
             _books = books;
-            _feeds = feeds;
             _wishBooks = wishBooks;
             _cloudinaryImages = cloudinaryImages;
             _exchangeHistory = exchangeHistory;
             _settings = settings;
-            _newsService = newsService;
             _mailService = mailService;
             _asyncTaskScheduler = asyncTaskScheduler;
         }
@@ -92,10 +90,19 @@ namespace BrainShare.Controllers
         [AllowAnonymous]
         public ActionResult SearchOzBy()
         {
-            var model = new List<string>();
             Response.AddHeader("Access-Control-Allow-Origin", "http://oz.by/");
             Response.AddHeader("Access-Control-Allow-Methods", "GET");
             Response.AddHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+            var wishBooksIds = _wishBooks.GetOzIds(UserId);
+            var myBooksIds = _books.GetOzIds(UserId);
+
+            var model = new SearchByOzViewModel
+                {
+                    MyBooksIds = myBooksIds,
+                    WishBooksIds = wishBooksIds
+                };
+           
 
             Title("Искать на Oz");
             return View(model);
@@ -268,11 +275,11 @@ namespace BrainShare.Controllers
 
                 _books.Save(doc);
 
-                _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
-
                 _asyncTaskScheduler.StartEmailSendSearchingUsersTask(user, doc);
 
-                _asyncTaskScheduler.StartNewsSendSearchingUsersTask(user, doc);
+                _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
+
+                _asyncTaskScheduler.UserHaveNewBookNotifyer(user, doc);
 
                 NotificationsHub.SendGenericText(UserId, "Книга добавлена",
                                                     string.Format("{0} добавлена в вашу книную полку", doc.Title));
@@ -288,7 +295,7 @@ namespace BrainShare.Controllers
         [ValidateInput(false)]
         [POST("wish/add/from-google")]
         [POST("take")]
-        public async Task<ActionResult> AddToWishBooks(GoogleBookDto bookDto)
+        public ActionResult AddToWishBooks(GoogleBookDto bookDto)
         {
             var doc = _wishBooks.GetUserBook(bookDto.GoogleBookId, UserId);
             if (doc == null)
@@ -319,7 +326,7 @@ namespace BrainShare.Controllers
 
             _asyncTaskScheduler.StartEmailSendSearchingUsersTask(user, doc);
 
-            _asyncTaskScheduler.StartNewsSendSearchingUsersTask(user, doc);
+            _asyncTaskScheduler.UserHaveNewBookNotifyer(user, doc);
 
             NotificationsHub.SendGenericText(UserId, "Книга добавлена",
                 string.Format("{0} добавлена в вашу книную полку", doc.Title));
@@ -336,9 +343,13 @@ namespace BrainShare.Controllers
             var user = _users.GetById(UserId);
             var doc = bookDto.BuildDocument(user);
 
+            OzParser.GetIsbnByOzBookId(doc.OzBookId);
+
             _wishBooks.Save(doc);
 
             _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
+
+            _asyncTaskScheduler.UserSearchedForNewBookNotifyer(user, doc);
 
             NotificationsHub.SendGenericText(UserId, "Книга добавлена в поиск",
                 string.Format("{0} добавлена в ваш список поиска", doc.Title));
@@ -495,6 +506,8 @@ namespace BrainShare.Controllers
                 _exchangeHistory.SaveGift(userId, new ExchangeEntry(me, book));
 
                 _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BooksGifted(me, book, user));
+
+                _mailService.SendGiftExchangeMessage(book, me, user);
 
                 SendRequestAcceptedAsGiftNotification(userId, book, me);
 

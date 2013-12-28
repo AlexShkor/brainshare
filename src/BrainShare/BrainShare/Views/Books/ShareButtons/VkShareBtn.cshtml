@@ -1,16 +1,17 @@
-﻿@using BrainShare.Utilities
+﻿@using Brainshare.Infrastructure.Utilities
 @model BrainShare.ViewModels.BookViewModel
-<script type="text/javascript" src="http://vkontakte.ru/js/api/share.js?9" charset="windows-1251"></script>
+<script type="text/javascript" src="http://vk.com/js/api/share.js?86" charset="windows-1251"></script>
 <script type="text/javascript">
 
     document.write(VK.Share.button(
         {
             url: "@UrlUtility.CurrentUrl",
             title: "@Model.Title",
-            description: "@Model.SharingText",
+            description: "@Model.SharingHaveBookText",
             image: "@Model.Image",
-            noparse: true
-            
+            noparse: true      
         }));
   
 </script>
+
+

@@ -1,18 +1,16 @@
 ﻿using System.Web.Mvc;
-using BrainShare.Authentication;
+using BrainShare.Infrastructure.Utilities;
 using BrainShare.Services;
-using BrainShare.Utilities;
+using Brainshare.Infrastructure.Services;
 
 namespace BrainShare.Controllers
 {
     public class FollowerController : BaseController
     {
-        private readonly UsersService _users;
         private readonly ShellUserService _shellUserService;
 
-        public FollowerController(UsersService users, ShellUserService shellUserService)
+        public FollowerController(UsersService users, ShellUserService shellUserService):base(users)
         {
-            _users = users;
             _shellUserService = shellUserService;
         }
 

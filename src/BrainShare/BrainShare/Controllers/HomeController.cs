@@ -1,24 +1,20 @@
-﻿using System;
-using System.Configuration;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
+using BrainShare.Infrastructure.Services;
 using BrainShare.Services;
 using BrainShare.ViewModels;
-using CloudinaryDotNet;
+using Brainshare.Infrastructure.Services;
 
 namespace BrainShare.Controllers
 {
     public class HomeController : BaseController
     {
         private readonly ActivityFeedsService _activityFeeds;
-        private readonly UsersService _users;
         private readonly BooksService _books;
 
-        public HomeController(ActivityFeedsService activityFeeds, UsersService users, BooksService books)
+        public HomeController(ActivityFeedsService activityFeeds, UsersService users, BooksService books):base(users)
         {
             _activityFeeds = activityFeeds;
-            _users = users;
             _books = books;
         }
 
@@ -34,7 +30,7 @@ namespace BrainShare.Controllers
                 Users = last5Users.Select(x => new UserViewModel(x)),
                 Books = last5Books.Select(x => new BookViewModel(x)),
             };
-            return View("Main", model);
+           return View("Main", model);
         }
 
         public ActionResult Activity()

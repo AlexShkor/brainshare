@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using BrainShare.Infostructure.Filters;
-using BrainShare.Services;
-using BrainShare.Services.Validation;
+using BrainShare.Infrastructure.Infrastructure.Filters;
 using BrainShare.ViewModels.Base;
+using Brainshare.Infrastructure.Services.Validation;
 
 namespace BrainShare.ViewModels
 {

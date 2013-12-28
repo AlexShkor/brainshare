@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Metadata.Edm;
-using System.IO;
 using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
-using BrainShare.Authentication;
-using BrainShare.Documents;
-using BrainShare.Documents.Data;
-using BrainShare.Extensions;
+using BrainShare.Domain.Documents;
+using BrainShare.Domain.Documents.Data;
 using BrainShare.Facebook;
-using BrainShare.Facebook.Dto;
 using BrainShare.Infostructure;
 using BrainShare.Services;
-using BrainShare.Utilities;
 using BrainShare.ViewModels;
+using Brainshare.Infrastructure.Authentication;
+using Brainshare.Infrastructure.Facebook;
+using Brainshare.Infrastructure.Facebook.Dto;
+using Brainshare.Infrastructure.Infrastructure;
+using Brainshare.Infrastructure.Services;
+using Brainshare.Infrastructure.Settings;
+using Brainshare.Infrastructure.Utilities;
 using Facebook;
 using MongoDB.Bson;
 using Newtonsoft.Json;
@@ -30,7 +28,6 @@ namespace BrainShare.Controllers
     [RoutePrefix("user")]
     public class UserController : BaseController
     {
-        private readonly UsersService _users;
         private readonly Settings _settings;
         public IAuthentication Auth { get; set; }
         private readonly FacebookClient _fb;
@@ -47,9 +44,8 @@ namespace BrainShare.Controllers
             }
         }
 
-        public UserController(IAuthentication auth, UsersService users, ShellUserService shellUserService, FacebookClientFactory fbFactory, CryptographicHelper cryptoHelper, Settings settings, NewsService news, MailService mailService)
+        public UserController(IAuthentication auth, UsersService users, ShellUserService shellUserService, FacebookClientFactory fbFactory, CryptographicHelper cryptoHelper, Settings settings, NewsService news, MailService mailService):base(users)
         {
-            _users = users;
             _settings = settings;
             _shellUserService = shellUserService;
             _cryptoHelper = cryptoHelper;
@@ -124,7 +120,7 @@ namespace BrainShare.Controllers
                                       {
                                           Id = GetIdForUser(),
                                           FirstName = model.FirstName,
-                                          Address = new AddressData(model),
+                                          Address = new AddressData(model.original_address,model.formatted_address,model.country,model.locality),
                                           LastName = model.LastName,
                                           Email = model.Email.ToLower(),
                                           Password = hashedPassword,
@@ -433,7 +429,7 @@ namespace BrainShare.Controllers
             var publishers = _users.GetByIds(user.Publishers);
 
             Title("На кого я подписан");
-            return View(new PublishersViewModel(publishers,user.FullName, userId == UserId));
+            return View(new PublishersViewModel(publishers,user.FullName, userId == UserId,_settings.ActivityTimeoutInMinutes));
         }
 
         public ActionResult GetFbFriends()

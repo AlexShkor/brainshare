@@ -1,5 +1,5 @@
 ﻿@using Newtonsoft.Json
-@model List<string>
+@model BrainShare.ViewModels.SearchByOzViewModel
 
 <script src="~/Scripts/Views/Books/AddFromOzByBookModel.js"></script>
 <script type="text/javascript">
@@ -48,8 +48,8 @@
                     </td>
                     <td style="width: 140px">
                         <div class="well well-small">
-                            <button class="btn btn-primary btn-block" data-bind="visible: !Added(), click: $root.give">У меня есть</button>
-                            <button class="btn btn-success btn-block" data-bind="visible: !Added(), click: $root.take">Мне нужна</button>
+                            <button class="btn btn-primary btn-block" data-bind="visible: ($root.owned().indexOf(Id) == -1),click: $root.give">У меня есть</button>
+                            <button class="btn btn-success btn-block" data-bind="visible: ($root.wished().indexOf(Id) == -1),click: $root.take">Мне нужна</button>
                         </div>
                     </td>
                 </tr>

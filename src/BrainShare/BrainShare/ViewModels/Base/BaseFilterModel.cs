@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using BrainShare.Mongo;
+﻿using System.Collections.Generic;
+using BrainShare.Infrastructure.Mongo;
+using Brainshare.Infrastructure.Extensions;
 
 namespace BrainShare.ViewModels.Base
 {

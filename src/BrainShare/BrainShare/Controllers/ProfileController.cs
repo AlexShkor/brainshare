@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,17 +6,19 @@ using System.Web;
 using System.Web.Mvc;
 using AttributeRouting;
 using AttributeRouting.Web.Mvc;
-using BrainShare.Authentication;
-using BrainShare.Documents;
-using BrainShare.Documents.Data;
+using BrainShare.Domain.Documents;
+using BrainShare.Domain.Documents.Data;
 using BrainShare.Hubs;
 using BrainShare.Infostructure;
 using BrainShare.Services;
 using BrainShare.ViewModels;
-using Microsoft.AspNet.SignalR;
+using Brainshare.Infrastructure.Authentication;
+using Brainshare.Infrastructure.Extensions;
+using Brainshare.Infrastructure.Hubs;
+using Brainshare.Infrastructure.Services;
+using Brainshare.Infrastructure.Settings;
+using Brainshare.Infrastructure.Utilities;
 using MongoDB.Bson;
-using Thread = BrainShare.Documents.Thread;
-using BrainShare.Extensions;
 
 
 namespace BrainShare.Controllers
@@ -29,7 +29,6 @@ namespace BrainShare.Controllers
     {
         private readonly BooksService _books;
         private readonly WishBooksService _wishBooks;
-        private readonly UsersService _users;
         private readonly ShellUserService _shellUserService;
         private readonly ThreadsService _threads;
         private readonly NewsService _news;
@@ -42,10 +41,9 @@ namespace BrainShare.Controllers
 
         public ProfileController(BooksService books, UsersService users, ShellUserService shellUserService, ThreadsService threads, WishBooksService whishBooks, 
             CloudinaryImagesService cloudinaryImages,CryptographicHelper cryptographicHelper,IAuthentication authentication, NewsService news, Settings settings,
-            MailService mailService, AsyncTaskScheduler asyncTaskScheduler)
+            MailService mailService, AsyncTaskScheduler asyncTaskScheduler):base(users)
         {
             _books = books;
-            _users = users;
             _threads = threads;
             _wishBooks = whishBooks;
             _cloudinaryImages = cloudinaryImages;
@@ -150,7 +148,7 @@ namespace BrainShare.Controllers
             var user = _users.GetById(id);
             var me = _users.GetById(UserId);
   
-            var model = new UserProfileModel(user, me);
+            var model = new UserProfileModel(user, me,_settings.ActivityTimeoutInMinutes);
 
             if (UserId.HasValue())
             {
@@ -263,6 +261,7 @@ namespace BrainShare.Controllers
 
         public ActionResult Inbox()
         {
+            var z = UrlUtility.ApplicationBaseUrl;
             Title("Входящие");
             var user = _users.GetById(UserId);
             var model = new InboxViewModel();
