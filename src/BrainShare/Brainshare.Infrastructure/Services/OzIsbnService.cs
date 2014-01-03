@@ -34,7 +34,7 @@ namespace Brainshare.Infrastructure.Services
                 };
 
             var ownedBooks = _booksService.GetOzIdsWithEmptyIsbn().Select(e => new OzBookIsbnRequestDto { Id = e, IsWishedBook = false }).ToList();
-            var wishedBooks = _wishBooksService.GetOzIdsWithEmptyIsbn().Select(e => new OzBookIsbnRequestDto { Id = e, IsWishedBook = true });
+            var wishedBooks = _wishBooksService.GetOzIdsWithEmptyIsbn().Select(e => new OzBookIsbnRequestDto { Id = e, IsWishedBook = true }).ToList();
             ownedBooks.AddRange(wishedBooks);
 
            _booksWithEmptyIsbnQueue = new ConcurrentQueue<OzBookIsbnRequestDto>(ownedBooks);
@@ -50,9 +50,9 @@ namespace Brainshare.Infrastructure.Services
 
             _isServiceStarted = true;
 
-          MonitorQueue();
+       //   MonitorQueue();
 
-          StartReceiver();
+       //   StartReceiver();
         }
 
         public void AddItem(string ozBookId, bool isWishedBook)

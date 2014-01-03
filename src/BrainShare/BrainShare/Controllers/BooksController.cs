@@ -35,6 +35,7 @@ namespace BrainShare.Controllers
         private readonly AsyncTaskScheduler _asyncTaskScheduler;
         private readonly ExchangeHistoryService _exchangeHistory;
         private readonly MailService _mailService;
+        private readonly OzIsbnService _ozIsbnService;
         private readonly Settings _settings;
 
         public BooksController(UsersService users, BooksService books, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages, 
@@ -47,6 +48,7 @@ namespace BrainShare.Controllers
             _exchangeHistory = exchangeHistory;
             _settings = settings;
             _mailService = mailService;
+            _ozIsbnService = ozIsbnService;
             _asyncTaskScheduler = asyncTaskScheduler;
         }
         
@@ -327,6 +329,8 @@ namespace BrainShare.Controllers
 
             _asyncTaskScheduler.UserHaveNewBookNotifyer(user, doc);
 
+            _ozIsbnService.AddItem(doc.OzBookId, false);
+
             NotificationsHub.SendGenericText(UserId, "Книга добавлена",
                 string.Format("{0} добавлена в вашу книную полку", doc.Title));
 
@@ -342,9 +346,9 @@ namespace BrainShare.Controllers
             var user = _users.GetById(UserId);
             var doc = bookDto.BuildDocument(user);
 
-           // OzParser.GetIsbnByOzBookId(doc.OzBookId);
-
             _wishBooks.Save(doc);
+
+            _ozIsbnService.AddItem(doc.OzBookId, true);
 
             _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
 
