@@ -50,9 +50,9 @@ namespace Brainshare.Infrastructure.Services
 
             _isServiceStarted = true;
 
-       //   MonitorQueue();
+           MonitorQueue();
 
-       //   StartReceiver();
+           StartReceiver();
         }
 
         public void AddItem(string ozBookId, bool isWishedBook)
