@@ -12,6 +12,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
+                 <td></td>
             </tr>
             <tr>
                 @foreach (var entry in item.Entries)
@@ -20,14 +21,26 @@
                         <div class="thumbnail text-center span7">
                             <img  src="@entry.AvatarUrl"/>
                             <br />
-                       @*     <a href="/profile/view/@entry.User.UserId">@entry.User.UserName</a>*@
+                             @*    <a href="/profile/view/@entry.User.UserId">@entry.User.UserName</a>*@
                         </div>
                     </td>
                     <td>
-                        <a href="@entry.BookInfoLink">@entry.BookTitle</a>
+                @*        <a href="@entry.BookInfoLink">@entry.BookTitle</a>*@
                         <br />
                         @entry.BookSubTitle
                     </td>
+
+                    if (item.Entries.IndexOf(entry) == 0)
+                    {
+                        <td>
+                            @foreach (var arrow in item.Arrows)
+                            {
+                                <p>@arrow.ArrowUrl</p>
+                            }
+                        </td>
+                    }
+
+
                 }
             </tr>
         }

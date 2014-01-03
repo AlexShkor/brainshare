@@ -34,5 +34,39 @@ namespace BrainShare.Utils.Utilities
         {
             return ApplicationBaseUrl + "/books/info/" + bookId;
         }
+
+        public static string GetExchangeArrowUrl(int direction, int color)
+        {
+            string arrow_name = "";
+
+            switch (direction)
+            {
+                case 0:
+                    arrow_name = "left";
+                    break;
+                case 1:
+                    arrow_name = "right";
+                    break;  
+                
+                default : arrow_name = "left";
+                    break;
+            }
+
+            switch (color)
+            {
+                case 0:
+                    arrow_name += "_green.png";
+                    break;
+                case 1:
+                    arrow_name += "_blue.png";
+                    break;
+
+                default: arrow_name += "_blue.png";
+                    break;
+            }
+            
+
+            return "/Images/" + arrow_name;
+        }
     }
 }

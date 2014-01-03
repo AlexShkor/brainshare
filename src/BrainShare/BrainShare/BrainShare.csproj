@@ -272,6 +272,7 @@
     <Compile Include="Controllers\MigrateController.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyResolver.cs" />
+    <Compile Include="ViewModels\Exchange\ExchangeArrowViewModel.cs" />
     <Compile Include="ViewModels\Exchange\ExchangeEntryViewModel.cs" />
     <Compile Include="ViewModels\Exchange\ExchangeHistoryViewModel.cs" />
     <Compile Include="ViewModels\NewsViewModel.cs" />
@@ -308,6 +309,8 @@
     <Content Include="Images\ErrorPages\500.jpg" />
     <Content Include="Images\facebook.png" />
     <Content Include="Images\fb_signup_empty.png" />
+    <Content Include="Images\left_green.png" />
+    <Content Include="Images\right_green.png" />
     <Content Include="Images\user-default-avatar.jpg" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />

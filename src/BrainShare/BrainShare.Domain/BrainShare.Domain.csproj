@@ -68,6 +68,9 @@
     <Compile Include="Documents\User.cs" />
     <Compile Include="Dto\OzBookIsbnRequestDto.cs" />
     <Compile Include="Dto\OzBookIsbnResponceDto.cs" />
+    <Compile Include="Enums\ExchangeArrowColor.cs" />
+    <Compile Include="Enums\ExchangeArrowDirection.cs" />
+    <Compile Include="Enums\ExchangeEntryType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

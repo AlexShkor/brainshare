@@ -12,6 +12,7 @@ using AttributeRouting.Web.Mvc;
 using BrainShare.Documents;
 using BrainShare.Domain.Documents;
 using BrainShare.Domain.Documents.Data;
+using BrainShare.Domain.Enums;
 using BrainShare.GoogleDto;
 using BrainShare.Infostructure;
 using BrainShare.Services;
@@ -506,7 +507,7 @@ namespace BrainShare.Controllers
 
                 _books.Save(book);
 
-                _exchangeHistory.SaveGift(userId, new ExchangeEntry(me, book));
+                _exchangeHistory.SaveExchange(userId, new ExchangeEntry(me, book, ExchangeEntryType.Gift), new ExchangeEntry(user));
 
                 _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BooksGifted(me, book, user));
 
