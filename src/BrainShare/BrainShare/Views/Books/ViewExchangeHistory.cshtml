@@ -1,14 +1,14 @@
-﻿@model System.Collections.Generic.IEnumerable<BrainShare.Domain.Documents.ExchangeHistory>
+﻿@model BrainShare.ViewModels.ViewExchangeHistoryViewModel
 
 <h4>История обмена</h4>
 
 
 <table class="table table-condensed table-striped">
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Items)
         {
             <tr>
-                <td>@item.Date.ToShortDateString()</td>
+                <td>@item.Date</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -17,16 +17,16 @@
                 @foreach (var entry in item.Entries)
                 {
                     <td>
-                        <div class="thumbnail text-center">
-                            <img width="64px" src="@entry.User.AvatarUrl"/>
+                        <div class="thumbnail text-center span7">
+                            <img  src="@entry.AvatarUrl"/>
                             <br />
-                            <a href="/profile/view/@entry.User.UserId">@entry.User.UserName</a>
+                       @*     <a href="/profile/view/@entry.User.UserId">@entry.User.UserName</a>*@
                         </div>
                     </td>
                     <td>
-                        <a href="/books/info/@entry.BookSnapshot.Id">@entry.BookSnapshot.Title</a>
+                        <a href="@entry.BookInfoLink">@entry.BookTitle</a>
                         <br />
-                        @entry.BookSnapshot.Subtitle
+                        @entry.BookSubTitle
                     </td>
                 }
             </tr>

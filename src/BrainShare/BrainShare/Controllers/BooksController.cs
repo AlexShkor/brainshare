@@ -377,7 +377,7 @@ namespace BrainShare.Controllers
         }
 
         [GET("take/{bookId}/from/{userId}")]
-        public ActionResult SendExchangeRequest(string bookId, string userId)
+        public async Task<ActionResult> SendExchangeRequest(string bookId, string userId)
         {
             if (userId == UserId)
             {
@@ -525,9 +525,9 @@ namespace BrainShare.Controllers
         [GET("view-exchange-history")]
         public ActionResult ViewExchangeHistory()
         {
-            var items = _exchangeHistory.GetFor(UserId);
+            var model = new ViewExchangeHistoryViewModel(_exchangeHistory.GetFor(UserId));
             Title("История обмена");
-            return View(items);
+            return View(model);
         }
 
         private void SendRequestAcceptedNotification(string userId, Book book, Book onBook, User fromUser)

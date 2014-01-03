@@ -272,6 +272,8 @@
     <Compile Include="Controllers\MigrateController.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyResolver.cs" />
+    <Compile Include="ViewModels\Exchange\ExchangeEntryViewModel.cs" />
+    <Compile Include="ViewModels\Exchange\ExchangeHistoryViewModel.cs" />
     <Compile Include="ViewModels\NewsViewModel.cs" />
     <Compile Include="ViewModels\PublisherViewModel.cs" />
     <Compile Include="Controllers\OzBookDto.cs" />
@@ -294,6 +296,7 @@
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\UsersFilterModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="ViewModels\Exchange\ViewExchangeHistoryViewModel.cs" />
     <Content Include="Content\imgAreaSelect\border-anim-h.gif" />
     <Content Include="Content\imgAreaSelect\border-anim-v.gif" />
     <Content Include="Content\imgAreaSelect\border-h.gif" />
@@ -353,7 +356,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\ExchangeConfirmViewModel.cs" />
+    <Compile Include="ViewModels\Exchange\ExchangeConfirmViewModel.cs" />
     <Compile Include="ViewModels\LoginView.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Content Include="Views\Shared\YandexMetrics.cshtml" />
