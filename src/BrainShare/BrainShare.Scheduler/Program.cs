@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
-using System.Text;
-using System.Threading.Tasks;
+using BrainShare.Domain.Dto;
+using BrainShare.Utils.Utilities;
 using RabbitMQ.Client;
 using RabbitMQ.Client.MessagePatterns;
 
@@ -34,9 +34,9 @@ namespace BrainShare.Worker
                     var message = subscription.Next();
 
                     // deserialize the message body
-                    var text = Encoding.UTF8.GetString(message.Body);
+                    var request = SerializeUtility.Deserialize<OzBookIsbnRequestDto>(message.Body);
 
-                    SendIsbnResponce(text);
+                    SendIsbnResponce(request);
 
                     // ack the message, ie. confirm that we have processed it
                     // otherwise it will be requeued a bit later
@@ -45,23 +45,23 @@ namespace BrainShare.Worker
             }
         }
 
-        private static void SendIsbnResponce(string ozBookId)
+        private static void SendIsbnResponce(OzBookIsbnRequestDto request)
         {
-            Task.Factory.StartNew(() =>
-                {
-                    var isbn = OzParser.OzParser.GetIsbnByOzBookId(ozBookId);
-                    Send(isbn);
-                });
+          //  Task.Factory.StartNew(() =>
+          //      {
+                    var isbn = OzParser.OzParser.GetIsbnByOzBookId(request.Id);
+                    Send(new OzBookIsbnResponceDto{ Id = request.Id, Isbn = isbn, IsWishedBook =  request.IsWishedBook});
+         //       });
         }
 
-        private static void Send(string responce)
+        private static void Send(OzBookIsbnResponceDto responce)
         {
             // Open up a connection and a channel (a connection may have many channels)
             using (var conn = ConnFactory.CreateConnection())
             using (var channel = conn.CreateModel()) // Note, don't share channels between threads
             {
                 // the data put on the queue must be a byte array
-                var data = Encoding.UTF8.GetBytes(responce);
+                var data = SerializeUtility.Serialize(responce);
 
                 // ensure that the queue exists before we publish to it
                 channel.QueueDeclare(ResponceQueuName, false, false, false, null);

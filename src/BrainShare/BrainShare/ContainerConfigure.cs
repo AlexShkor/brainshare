@@ -2,6 +2,7 @@
 using BrainShare.Infrastructure.Mongo;
 using BrainShare.Services;
 using Brainshare.Infrastructure.Authentication;
+using Brainshare.Infrastructure.Services;
 using Brainshare.Infrastructure.Settings;
 using StructureMap;
 

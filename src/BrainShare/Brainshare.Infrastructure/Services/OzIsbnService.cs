@@ -1,4 +1,9 @@
-﻿using System.Text;
+﻿using System.Collections.Concurrent;
+using System.Linq;
+using System.Threading.Tasks;
+using BrainShare.Domain.Dto;
+using BrainShare.Services;
+using BrainShare.Utils.Utilities;
 using RabbitMQ.Client;
 using RabbitMQ.Client.MessagePatterns;
 
@@ -6,68 +11,135 @@ namespace Brainshare.Infrastructure.Services
 {
     public class OzIsbnService
     {
-        private readonly BooksService _booksService;
+        private bool _isServiceStarted;
         private readonly Settings.Settings _settings;
         private readonly ConnectionFactory _connFactory;
 
-        public OzIsbnService(BooksService books, Settings.Settings settings)
+        private readonly BooksService _booksService;
+        private readonly WishBooksService _wishBooksService;
+
+        private readonly ConcurrentQueue<OzBookIsbnRequestDto> _booksWithEmptyIsbnQueue;
+
+        public OzIsbnService(Settings.Settings settings, BooksService booksService, WishBooksService wishBooksService)
         {
-            _booksService = books;
+            _settings = settings;
+            _booksService = booksService;
+            _wishBooksService = wishBooksService;
             _connFactory = new ConnectionFactory
-            {
-                Uri = _settings.RabbitMQUrl,
-                Password = _settings.RabbitMQPassword,
-                UserName = _settings.RabbitMQUser,
-            };
-        }
-
-        public void UpdateIsbn(string ozBookId)
-        {
-            Send(ozBookId);
-        }
-
-        private  void Send(string ozBookId)
-        {
-            // Open up a connection and a channel (a connection may have many channels)
-            using (var conn = _connFactory.CreateConnection())
-            using (var channel = conn.CreateModel()) // Note, don't share channels between threads
-            {
-                // the data put on the queue must be a byte array
-                var data = Encoding.UTF8.GetBytes(ozBookId);
-
-                // ensure that the queue exists before we publish to it
-                channel.QueueDeclare(_settings.RabbitMQRequestIsbnQueuName, false, false, false, null);
-
-                // publish to the "default exchange", with the queue name as the routing key
-                channel.BasicPublish("", _settings.RabbitMQRequestIsbnQueuName, null, data);
-            }
-        }
-
-        private string Receive()
-        {
-            using (var conn = _connFactory.CreateConnection())
-            using (var channel = conn.CreateModel())
-            {
-                // ensure that the queue exists before we access it
-                channel.QueueDeclare(_settings.RabbitMQResponceIsbnQueuName, false, false, false, null);
-
-                // subscribe to the queue
-                var subscription = new Subscription(channel, _settings.RabbitMQResponceIsbnQueuName);
-                while (true)
                 {
-                    // this will block until a messages has landed in the queue
-                    var message = subscription.Next();
+                    Uri = _settings.RabbitMQUrl,
+                    UserName = _settings.RabbitMQUser,
+                    Password = _settings.RabbitMQPassword
+                };
 
-                    // deserialize the message body
-                    var text = Encoding.UTF8.GetString(message.Body);
+            var ownedBooks = _booksService.GetOzIdsWithEmptyIsbn().Select(e => new OzBookIsbnRequestDto { Id = e, IsWishedBook = false }).ToList();
+            var wishedBooks = _wishBooksService.GetOzIdsWithEmptyIsbn().Select(e => new OzBookIsbnRequestDto { Id = e, IsWishedBook = true });
+            ownedBooks.AddRange(wishedBooks);
 
-
-                    // ack the message, ie. confirm that we have processed it
-                    // otherwise it will be requeued a bit later
-                    subscription.Ack(message);
-                }
-            }
+           _booksWithEmptyIsbnQueue = new ConcurrentQueue<OzBookIsbnRequestDto>(ownedBooks);
         }
+
+
+        public void Run()
+        {
+            if (_isServiceStarted)
+            {
+                return;
+            }
+
+            _isServiceStarted = true;
+
+            MonitorQueue();
+
+      //      StartReceiver();
+        }
+
+        public void AddItem(string ozBookId, bool isWishedBook)
+        {
+            _booksWithEmptyIsbnQueue.Enqueue(new OzBookIsbnRequestDto { Id = ozBookId, IsWishedBook = isWishedBook });
+        }
+
+        private Task MonitorQueue()
+        {
+           return Task.Factory.StartNew(async() =>
+            {
+                using (var conn = _connFactory.CreateConnection())
+                using (var channel = conn.CreateModel())
+                {
+                    // ensure that the queue exists before we access it
+                    channel.QueueDeclare(_settings.RabbitMQRequestIsbnQueuName, false, false, false, null);
+
+                    while (true)
+                    {
+                        if (_booksWithEmptyIsbnQueue.Count == 0)
+                        {
+                            await Task.Delay(5000);
+                            continue;
+                        }
+
+                        var ozBook = new OzBookIsbnRequestDto();
+                        if (_booksWithEmptyIsbnQueue.TryDequeue(out ozBook))
+                        {
+                            // the data put on the queue must be a byte array
+                            var data = SerializeUtility.Serialize(ozBook);
+
+                            // publish to the "default exchange", with the queue name as the routing key
+                            channel.BasicPublish("", _settings.RabbitMQRequestIsbnQueuName, null, data);
+                        }
+                        else
+                        {
+                            await Task.Delay(100);
+                        }
+                        
+                    }
+                }
+            },
+            TaskCreationOptions.LongRunning);
+        }
+
+        private Task StartReceiver()
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                using (var conn = _connFactory.CreateConnection())
+                using (var channel = conn.CreateModel())
+                {
+                    // ensure that the queue exists before we access it
+                    channel.QueueDeclare(_settings.RabbitMQResponceIsbnQueuName, false, false, false, null);
+
+                    // subscribe to the queue
+                    var subscription = new Subscription(channel, _settings.RabbitMQResponceIsbnQueuName);
+                    while (true)
+                    {
+                        // this will block until a messages has landed in the queue
+                        var message = subscription.Next();
+
+                        // deserialize the message body
+                        var responce = SerializeUtility.Deserialize<OzBookIsbnResponceDto>(message.Body);
+
+                        if (responce.IsWishedBook)
+                        {
+                            Update(_wishBooksService, responce);
+                        }
+                        else
+                        {
+                            Update(_booksService, responce);
+                        }
+
+                        // ack the message, ie. confirm that we have processed it
+                        // otherwise it will be requeued a bit later
+                        subscription.Ack(message);
+                    }
+                }
+            },
+            TaskCreationOptions.LongRunning);
+        }
+   
+        private void Update(BaseBooksService service,OzBookIsbnResponceDto dto)
+        {
+            var book = service.GetById(dto.Id);
+            book.ISBN.Add(dto.Isbn);
+            service.Save(book);
         }
     }
-
+}
