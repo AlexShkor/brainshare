@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using BrainShare.Domain.Dto;
@@ -49,9 +50,9 @@ namespace Brainshare.Infrastructure.Services
 
             _isServiceStarted = true;
 
-            MonitorQueue();
+          MonitorQueue();
 
-      //      StartReceiver();
+          StartReceiver();
         }
 
         public void AddItem(string ozBookId, bool isWishedBook)
@@ -73,7 +74,7 @@ namespace Brainshare.Infrastructure.Services
                     {
                         if (_booksWithEmptyIsbnQueue.Count == 0)
                         {
-                            await Task.Delay(5000);
+                            await Task.Delay(10000);
                             continue;
                         }
 
@@ -117,18 +118,26 @@ namespace Brainshare.Infrastructure.Services
                         // deserialize the message body
                         var responce = SerializeUtility.Deserialize<OzBookIsbnResponceDto>(message.Body);
 
-                        if (responce.IsWishedBook)
+                        try
                         {
-                            Update(_wishBooksService, responce);
-                        }
-                        else
-                        {
-                            Update(_booksService, responce);
-                        }
 
-                        // ack the message, ie. confirm that we have processed it
-                        // otherwise it will be requeued a bit later
-                        subscription.Ack(message);
+                            if (responce.IsWishedBook)
+                            {
+                                Update(_wishBooksService, responce);
+                            }
+                            else
+                            {
+                                Update(_booksService, responce);
+                            }
+
+                            // ack the message, ie. confirm that we have processed it
+                            // otherwise it will be requeued a bit later
+                            subscription.Ack(message);
+                        }
+                        catch (Exception)
+                        {
+
+                        }
                     }
                 }
             },
@@ -137,9 +146,12 @@ namespace Brainshare.Infrastructure.Services
    
         private void Update(BaseBooksService service,OzBookIsbnResponceDto dto)
         {
-            var book = service.GetById(dto.Id);
-            book.ISBN.Add(dto.Isbn);
-            service.Save(book);
+            var book = service.GetByOzBookId(dto.Id);
+            if (!book.ISBN.Contains(dto.Isbn))
+            {
+                book.ISBN.Add(dto.Isbn);
+                service.Save(book);
+            }          
         }
     }
 }

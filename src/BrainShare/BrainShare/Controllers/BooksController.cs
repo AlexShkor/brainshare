@@ -38,7 +38,8 @@ namespace BrainShare.Controllers
         private readonly Settings _settings;
 
         public BooksController(UsersService users, BooksService books, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages, 
-            ExchangeHistoryService exchangeHistory, Settings settings, MailService mailService, AsyncTaskScheduler asyncTaskScheduler):base(users)
+            ExchangeHistoryService exchangeHistory, Settings settings, MailService mailService, AsyncTaskScheduler asyncTaskScheduler,
+            OzIsbnService ozIsbnService):base(users)
         {
             _books = books;
             _wishBooks = wishBooks;

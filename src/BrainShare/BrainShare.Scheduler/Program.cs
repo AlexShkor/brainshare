@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using System.Threading.Tasks;
 using BrainShare.Domain.Dto;
 using BrainShare.Utils.Utilities;
 using RabbitMQ.Client;
@@ -47,11 +48,11 @@ namespace BrainShare.Worker
 
         private static void SendIsbnResponce(OzBookIsbnRequestDto request)
         {
-          //  Task.Factory.StartNew(() =>
-          //      {
+            Task.Factory.StartNew(() =>
+                {
                     var isbn = OzParser.OzParser.GetIsbnByOzBookId(request.Id);
-                    Send(new OzBookIsbnResponceDto{ Id = request.Id, Isbn = isbn, IsWishedBook =  request.IsWishedBook});
-         //       });
+                    Send(new OzBookIsbnResponceDto { Id = request.Id, Isbn = isbn, IsWishedBook = request.IsWishedBook });
+                });
         }
 
         private static void Send(OzBookIsbnResponceDto responce)

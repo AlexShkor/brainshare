@@ -100,6 +100,11 @@ namespace Brainshare.Infrastructure.Services
             return Items.Find(Query<Book>.EQ(b => b.GoogleBookId, googleBookId));
         }
 
+        public Book GetByOzBookId(string ozBookId)
+        {
+            return Items.FindOne(Query<Book>.EQ(b => b.OzBookId, ozBookId));
+        }
+
         public Book GetUserBook(string googleBookId, string userId)
         {
             return
@@ -136,7 +141,6 @@ namespace Brainshare.Infrastructure.Services
             return Items.Find(
                 Query.And(
                      Query<Book>.EQ(b => b.FromOzBy, true),
-                     Query<Book>.NE(b => b.OzBookId, null),
                      Query<Book>.Size(b => b.ISBN, 0)
                  ))
                  .SetFields(Fields<Book>.Include(b => b.OzBookId))
