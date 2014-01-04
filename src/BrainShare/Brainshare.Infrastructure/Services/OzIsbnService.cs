@@ -135,7 +135,6 @@ namespace Brainshare.Infrastructure.Services
                         }
                         catch (Exception)
                         {
-
                         }
                     }
                 }
