@@ -309,7 +309,9 @@
     <Content Include="Images\ErrorPages\500.jpg" />
     <Content Include="Images\facebook.png" />
     <Content Include="Images\fb_signup_empty.png" />
+    <Content Include="Images\left_blue.png" />
     <Content Include="Images\left_green.png" />
+    <Content Include="Images\right_blue.png" />
     <Content Include="Images\right_green.png" />
     <Content Include="Images\user-default-avatar.jpg" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />

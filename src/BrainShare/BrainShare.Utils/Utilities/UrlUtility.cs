@@ -42,10 +42,10 @@ namespace BrainShare.Utils.Utilities
             switch (direction)
             {
                 case 0:
-                    arrow_name = "left";
+                    arrow_name = "right";
                     break;
                 case 1:
-                    arrow_name = "right";
+                    arrow_name = "left";
                     break;  
                 
                 default : arrow_name = "left";
