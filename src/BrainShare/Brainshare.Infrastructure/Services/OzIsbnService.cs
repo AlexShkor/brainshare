@@ -34,7 +34,9 @@ namespace Brainshare.Infrastructure.Services
                 };
 
             var ownedBooks = _booksService.GetOzIdsWithEmptyIsbn().Select(e => new OzBookIsbnRequestDto { Id = e, IsWishedBook = false }).ToList();
-            var wishedBooks = _wishBooksService.GetOzIdsWithEmptyIsbn().Select(e => new OzBookIsbnRequestDto { Id = e, IsWishedBook = true }).ToList();
+            ownedBooks.Clear();
+
+            var wishedBooks = _wishBooksService.GetOzIdsWithEmptyIsbn().Select(e => new OzBookIsbnRequestDto { Id = e, IsWishedBook = true }).Where(e => e.Id == "103002").ToList();
             ownedBooks.AddRange(wishedBooks);
 
            _booksWithEmptyIsbnQueue = new ConcurrentQueue<OzBookIsbnRequestDto>(ownedBooks);
@@ -50,9 +52,11 @@ namespace Brainshare.Infrastructure.Services
 
             _isServiceStarted = true;
 
-         //  MonitorQueue();
+            var conn = _connFactory.CreateConnection();
 
-         //  StartReceiver();
+         //  MonitorQueue(conn);
+
+         //  StartReceiver(conn);
         }
 
         public void AddItem(string ozBookId, bool isWishedBook)
@@ -60,18 +64,19 @@ namespace Brainshare.Infrastructure.Services
             _booksWithEmptyIsbnQueue.Enqueue(new OzBookIsbnRequestDto { Id = ozBookId, IsWishedBook = isWishedBook });
         }
 
-        private Task MonitorQueue()
+        private Task MonitorQueue(IConnection conn)
         {
            return Task.Factory.StartNew(async() =>
             {
-                using (var conn = _connFactory.CreateConnection())
                 using (var channel = conn.CreateModel())
                 {
+                    channel.ModelShutdown += ModelShutdownEventHandler;
                     // ensure that the queue exists before we access it
                     channel.QueueDeclare(_settings.RabbitMQRequestIsbnQueuName, false, false, false, null);
 
                     while (true)
                     {
+
                         if (_booksWithEmptyIsbnQueue.Count == 0)
                         {
                             await Task.Delay(10000);
@@ -98,11 +103,10 @@ namespace Brainshare.Infrastructure.Services
             TaskCreationOptions.LongRunning);
         }
 
-        private Task StartReceiver()
+        private Task StartReceiver(IConnection conn)
         {
             return Task.Factory.StartNew(() =>
             {
-                using (var conn = _connFactory.CreateConnection())
                 using (var channel = conn.CreateModel())
                 {
                     // ensure that the queue exists before we access it
@@ -150,6 +154,11 @@ namespace Brainshare.Infrastructure.Services
                 book.ISBN.Add(dto.Isbn);
                 service.Save(book);
             }          
+        }
+
+        private void ModelShutdownEventHandler(RabbitMQ.Client.IModel model, RabbitMQ.Client.ShutdownEventArgs reason)
+        {
+            var i = 3;
         }
     }
 }

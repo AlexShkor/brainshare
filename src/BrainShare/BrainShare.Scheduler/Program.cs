@@ -21,29 +21,29 @@ namespace BrainShare.Worker
 
         static void Main(string[] args)
         {
-            using (var conn = ConnFactory.CreateConnection())
-            using (var channel = conn.CreateModel())
-            {
-                // ensure that the queue exists before we access it
-                channel.QueueDeclare(RequestQueuName, false, false, false, null);
+            //using (var conn = ConnFactory.CreateConnection())
+            //using (var channel = conn.CreateModel())
+            //{
+            //    // ensure that the queue exists before we access it
+            //    channel.QueueDeclare(RequestQueuName, false, false, false, null);
 
-                // subscribe to the queue
-                var subscription = new Subscription(channel, RequestQueuName);
-                while (true)
-                {
-                    // this will block until a messages has landed in the queue
-                    var message = subscription.Next();
+            //    // subscribe to the queue
+            //    var subscription = new Subscription(channel, RequestQueuName);
+            //    while (true)
+            //    {
+            //        // this will block until a messages has landed in the queue
+            //        var message = subscription.Next();
 
-                    // deserialize the message body
-                    var request = SerializeUtility.Deserialize<OzBookIsbnRequestDto>(message.Body);
+            //        // deserialize the message body
+            //        var request = SerializeUtility.Deserialize<OzBookIsbnRequestDto>(message.Body);
 
-                    SendIsbnResponce(request,conn);
+            //        SendIsbnResponce(request,conn);
 
-                    // ack the message, ie. confirm that we have processed it
-                    // otherwise it will be requeued a bit later
-                    subscription.Ack(message);
-                }
-            }
+            //        // ack the message, ie. confirm that we have processed it
+            //        // otherwise it will be requeued a bit later
+            //        subscription.Ack(message);
+            //    }
+            //}
         }
 
         private static void SendIsbnResponce(OzBookIsbnRequestDto request,IConnection conn)
