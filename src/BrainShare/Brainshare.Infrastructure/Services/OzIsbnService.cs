@@ -52,7 +52,7 @@ namespace Brainshare.Infrastructure.Services
 
             _isServiceStarted = true;
 
-            var conn = _connFactory.CreateConnection();
+         //   var conn = _connFactory.CreateConnection();
 
            //MonitorQueue(conn);
 

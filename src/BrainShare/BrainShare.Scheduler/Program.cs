@@ -12,12 +12,12 @@ namespace BrainShare.Worker
         static readonly string ResponceQueuName = ConfigurationManager.AppSettings["RabbitMQResponceIsbnQueuName"];
         static readonly string RequestQueuName = ConfigurationManager.AppSettings["RabbitMQRequestIsbnQueuName"];
 
-        static readonly ConnectionFactory ConnFactory = new ConnectionFactory
-            {
-                Uri = ConfigurationManager.AppSettings["RabbitMQUrl"],
-                Password = ConfigurationManager.AppSettings["RabbitMQPassword"],
-                UserName = ConfigurationManager.AppSettings["RabbitMQUser"],   
-            };
+        //static readonly ConnectionFactory ConnFactory = new ConnectionFactory
+        //    {
+        //        Uri = ConfigurationManager.AppSettings["RabbitMQUrl"],
+        //        Password = ConfigurationManager.AppSettings["RabbitMQPassword"],
+        //        UserName = ConfigurationManager.AppSettings["RabbitMQUser"],   
+        //    };
 
         static void Main(string[] args)
         {
@@ -46,28 +46,28 @@ namespace BrainShare.Worker
             //}
         }
 
-        private static void SendIsbnResponce(OzBookIsbnRequestDto request,IConnection conn)
-        {
-            Task.Factory.StartNew(() =>
-                {
-                    var isbn = OzParser.OzParser.GetIsbnByOzBookId(request.Id);
-                    Send(new OzBookIsbnResponceDto { Id = request.Id, Isbn = isbn, IsWishedBook = request.IsWishedBook },conn);
-                });
-        }
+        //private static void SendIsbnResponce(OzBookIsbnRequestDto request,IConnection conn)
+        //{
+        //    Task.Factory.StartNew(() =>
+        //        {
+        //            var isbn = OzParser.OzParser.GetIsbnByOzBookId(request.Id);
+        //            Send(new OzBookIsbnResponceDto { Id = request.Id, Isbn = isbn, IsWishedBook = request.IsWishedBook },conn);
+        //        });
+        //}
 
-        private static void Send(OzBookIsbnResponceDto responce, IConnection conn)
-        {
-            using (var channel = conn.CreateModel()) // Note, don't share channels between threads
-            {
-                // the data put on the queue must be a byte array
-                var data = SerializeUtility.Serialize(responce);
+        //private static void Send(OzBookIsbnResponceDto responce, IConnection conn)
+        //{
+        //    using (var channel = conn.CreateModel()) // Note, don't share channels between threads
+        //    {
+        //        // the data put on the queue must be a byte array
+        //        var data = SerializeUtility.Serialize(responce);
 
-                // ensure that the queue exists before we publish to it
-                channel.QueueDeclare(ResponceQueuName, false, false, false, null);
+        //        // ensure that the queue exists before we publish to it
+        //        channel.QueueDeclare(ResponceQueuName, false, false, false, null);
 
-                // publish to the "default exchange", with the queue name as the routing key
-                channel.BasicPublish("", ResponceQueuName, null, data);
-            }
-        }
+        //        // publish to the "default exchange", with the queue name as the routing key
+        //        channel.BasicPublish("", ResponceQueuName, null, data);
+        //    }
+        //}
     }
 }
