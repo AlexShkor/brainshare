@@ -120,7 +120,6 @@ namespace Brainshare.Infrastructure.Services
 
                         try
                         {
-
                             if (responce.IsWishedBook)
                             {
                                 Update(_wishBooksService, responce);
