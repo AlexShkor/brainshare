@@ -54,7 +54,7 @@ namespace Brainshare.Infrastructure.Services
                 using (var channel = conn.CreateModel())
                 {
                     // ensure that the queue exists before we access it
-                    channel.QueueDeclare(_settings.RabbitMQRequestIsbnQueuName, false, false, false, null);
+                    channel.QueueDeclare(_settings.RabbitMQIsbnQueu, false, false, false, null);
 
                     while (true)
                     {
@@ -72,7 +72,7 @@ namespace Brainshare.Infrastructure.Services
                             var data = SerializeUtility.Serialize(ozBook);
 
                             // publish to the "default exchange", with the queue name as the routing key
-                            channel.BasicPublish("", _settings.RabbitMQRequestIsbnQueuName, null, data);
+                            channel.BasicPublish("", _settings.RabbitMQIsbnQueu, null, data);
                         }
                         else
                         {

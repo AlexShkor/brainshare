@@ -32,10 +32,7 @@ namespace Brainshare.Infrastructure.Settings
         [SettingsProperty("RabbitMQPassword")]
         public string RabbitMQPassword { get; set; }
 
-        [SettingsProperty("RabbitMQResponceIsbnQueuName")]
-        public string RabbitMQResponceIsbnQueuName { get; set; }
-
-        [SettingsProperty("RabbitMQRequestIsbnQueuName")]
-        public string RabbitMQRequestIsbnQueuName { get; set; } 
+        [SettingsProperty("RabbitMQIsbnQueue")]
+        public string RabbitMQIsbnQueu { get; set; } 
     }
 }
