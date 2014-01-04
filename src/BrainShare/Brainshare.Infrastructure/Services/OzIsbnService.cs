@@ -54,9 +54,9 @@ namespace Brainshare.Infrastructure.Services
 
             var conn = _connFactory.CreateConnection();
 
-         //  MonitorQueue(conn);
+           //MonitorQueue(conn);
 
-         //  StartReceiver(conn);
+           //StartReceiver(conn);
         }
 
         public void AddItem(string ozBookId, bool isWishedBook)

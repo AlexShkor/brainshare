@@ -37,7 +37,7 @@ namespace BrainShare.Worker
             //        // deserialize the message body
             //        var request = SerializeUtility.Deserialize<OzBookIsbnRequestDto>(message.Body);
 
-            //        SendIsbnResponce(request,conn);
+            //        SendIsbnResponce(request, conn);
 
             //        // ack the message, ie. confirm that we have processed it
             //        // otherwise it will be requeued a bit later
