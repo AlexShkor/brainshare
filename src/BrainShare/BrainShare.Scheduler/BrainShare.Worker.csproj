@@ -64,6 +64,10 @@
       <Project>{906fe2cc-3403-41fe-98c7-ace3adaac108}</Project>
       <Name>BrainShare.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Brainshare.Infrastructure\Brainshare.Infrastructure.csproj">
+      <Project>{2ccd280f-d3a0-4599-a77c-4295b5ef4653}</Project>
+      <Name>Brainshare.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BrainShare.Utils\BrainShare.Utils.csproj">
       <Project>{87976832-5cab-413a-b127-af7976bb1446}</Project>
       <Name>BrainShare.Utils</Name>
