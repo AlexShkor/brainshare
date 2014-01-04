@@ -37,7 +37,7 @@ namespace BrainShare.Worker
                     // deserialize the message body
                     var request = SerializeUtility.Deserialize<OzBookIsbnRequestDto>(message.Body);
 
-                    SendIsbnResponce(request);
+                    SendIsbnResponce(request,conn);
 
                     // ack the message, ie. confirm that we have processed it
                     // otherwise it will be requeued a bit later
@@ -46,19 +46,17 @@ namespace BrainShare.Worker
             }
         }
 
-        private static void SendIsbnResponce(OzBookIsbnRequestDto request)
+        private static void SendIsbnResponce(OzBookIsbnRequestDto request,IConnection conn)
         {
             Task.Factory.StartNew(() =>
                 {
                     var isbn = OzParser.OzParser.GetIsbnByOzBookId(request.Id);
-                    Send(new OzBookIsbnResponceDto { Id = request.Id, Isbn = isbn, IsWishedBook = request.IsWishedBook });
+                    Send(new OzBookIsbnResponceDto { Id = request.Id, Isbn = isbn, IsWishedBook = request.IsWishedBook },conn);
                 });
         }
 
-        private static void Send(OzBookIsbnResponceDto responce)
+        private static void Send(OzBookIsbnResponceDto responce, IConnection conn)
         {
-            // Open up a connection and a channel (a connection may have many channels)
-            using (var conn = ConnFactory.CreateConnection())
             using (var channel = conn.CreateModel()) // Note, don't share channels between threads
             {
                 // the data put on the queue must be a byte array
