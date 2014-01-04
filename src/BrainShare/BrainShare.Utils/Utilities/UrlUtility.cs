@@ -3,8 +3,7 @@
 namespace BrainShare.Utils.Utilities
 {
     public static class UrlUtility
-    {
-        
+    {       
         public static string ApplicationBaseUrl
         {
             get
