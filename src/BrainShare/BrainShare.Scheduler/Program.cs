@@ -13,7 +13,7 @@ namespace BrainShare.Worker
 {
     class Program
     {
-        static readonly string RequestQueuName = ConfigurationManager.AppSettings["RabbitMQRequestIsbnQueuName"];
+        static readonly string RequestQueuName = ConfigurationManager.AppSettings["RabbitMQIsbnQueue"];
 
         static readonly BooksService _booksService = new BooksService(new MongoDocumentsDatabase(ConfigurationManager.AppSettings["MongoConnectionString"]));
         static readonly WishBooksService _wishBooksService = new WishBooksService(new MongoDocumentsDatabase(ConfigurationManager.AppSettings["MongoConnectionString"]));
