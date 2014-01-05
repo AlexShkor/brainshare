@@ -37,7 +37,7 @@ namespace Brainshare.Infrastructure.Services
 
             _isServiceStarted = true;
 
-          //  MonitorQueue();
+            MonitorQueue();
         }
 
         public void AddItem(string ozBookId, bool isWishedBook)
