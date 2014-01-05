@@ -8,6 +8,12 @@ namespace Brainshare.Infrastructure.Settings
         [SettingsProperty("FacebookSecretKey")]
         public string FacebookSecretKey { get; set; }
 
+        [SettingsProperty("VkAppId")]
+        public string VkAppId { get; set; }
+
+        [SettingsProperty("VkSecretKey")]
+        public string VkSecretKey { get; set; }
+
         [SettingsProperty("mongo_connection_string")]
         public string MongoConnectionString { get; set; }
 

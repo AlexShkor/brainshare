@@ -163,6 +163,8 @@
     <Compile Include="Settings\SettingsPropertyAttribute.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="NewsMaker.cs" />
+    <Compile Include="VK\VkCallbackMode.cs" />
+    <Compile Include="VK\VkClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -187,6 +189,7 @@
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

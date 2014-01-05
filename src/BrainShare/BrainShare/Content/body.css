@@ -99,6 +99,15 @@ body {
     font-weight: bold;
     color: white;
 }
+
+.btn-vk {
+    text-decoration: none;
+    background-image: url(/Images/vk_signup_empty.png);
+    padding: 8px 10px 8px 45px;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+}
 .btn-facebook:hover {
     text-decoration:none;
     color:azure;

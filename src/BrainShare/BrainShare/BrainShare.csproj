@@ -268,6 +268,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="ContainerConfigure.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\FacebookLoginController.cs" />
     <Compile Include="Controllers\FollowerController.cs" />
     <Compile Include="Controllers\MigrateController.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
@@ -315,6 +316,7 @@
     <Content Include="Images\right_green.png" />
     <Content Include="Images\user-default-avatar.jpg" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="Images\vk_signup_empty.png" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
