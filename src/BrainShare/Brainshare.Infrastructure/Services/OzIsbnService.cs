@@ -37,9 +37,7 @@ namespace Brainshare.Infrastructure.Services
 
             _isServiceStarted = true;
 
-            var conn = _connFactory.CreateConnection();
-
-            MonitorQueue(conn);
+            MonitorQueue();
         }
 
         public void AddItem(string ozBookId, bool isWishedBook)
@@ -47,14 +45,15 @@ namespace Brainshare.Infrastructure.Services
             _booksWithEmptyIsbnQueue.Enqueue(new OzBookIsbnRequestDto { Id = ozBookId, IsWishedBook = isWishedBook });
         }
 
-        private Task MonitorQueue(IConnection conn)
+        private Task MonitorQueue()
         {
            return Task.Factory.StartNew(async() =>
             {
+                using(var conn = _connFactory.CreateConnection())
                 using (var channel = conn.CreateModel())
                 {
                     // ensure that the queue exists before we access it
-                    channel.QueueDeclare(_settings.RabbitMQIsbnQueu, false, false, false, null);
+                    channel.QueueDeclare(_settings.RabbitMQIsbnQueue, false, false, false, null);
 
                     while (true)
                     {
@@ -72,7 +71,7 @@ namespace Brainshare.Infrastructure.Services
                             var data = SerializeUtility.Serialize(ozBook);
 
                             // publish to the "default exchange", with the queue name as the routing key
-                            channel.BasicPublish("", _settings.RabbitMQIsbnQueu, null, data);
+                            channel.BasicPublish("", _settings.RabbitMQIsbnQueue, null, data);
                         }
                         else
                         {
