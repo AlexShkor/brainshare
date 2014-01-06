@@ -170,9 +170,7 @@
     <Compile Include="Settings\SettingsPropertyAttribute.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="NewsMaker.cs" />
-    <Compile Include="VK\OAuthResponce.cs" />
-    <Compile Include="VK\VkCallbackMode.cs" />
-    <Compile Include="VK\VkHelper.cs" />
+    <Compile Include="VkCallbackMode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

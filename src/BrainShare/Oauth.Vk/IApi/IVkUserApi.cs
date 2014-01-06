@@ -1,13 +1,9 @@
-﻿namespace Brainshare.Infrastructure.VK
+﻿namespace Oauth.Vk.IApi
 {
-    public interface IVkApi:IVkUserApi
-    {
-    }
-
     public interface IVkUserApi
     {
         T IsAppUser<T>();
-        T Users_Get<T>();
+        T Users_Get<T>(params string[] uids);
         T Users_Search<T>();
         T GetUserSettings<T>();
         T LikesGetList<T>();

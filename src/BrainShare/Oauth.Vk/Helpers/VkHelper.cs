@@ -1,8 +1,6 @@
-﻿using System;
-using System.Text;
-using Brainshare.Infrastructure.Infrastructure;
+﻿using Oauth.Vk.Infrastructure;
 
-namespace Brainshare.Infrastructure.VK
+namespace Oauth.Vk.Helpers
 {
     public class VkHelper
     {
