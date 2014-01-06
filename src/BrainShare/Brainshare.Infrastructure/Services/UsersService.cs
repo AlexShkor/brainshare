@@ -35,6 +35,12 @@ namespace BrainShare.Services
                 Items.FindOne(Query<User>.EQ(x => x.FacebookId, facebookId));
         }
 
+        public User GetByVkId(string vkId)
+        {
+            return
+                Items.FindOne(Query<User>.EQ(x => x.VkId, vkId));
+        }
+
         public void AddUser(User user)
         {
             Items.Save(user);

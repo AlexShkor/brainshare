@@ -141,6 +141,7 @@
     <Compile Include="Infrastructure\CryptographicHelper.cs" />
     <Compile Include="Infrastructure\Filters\BooksFilter.cs" />
     <Compile Include="Infrastructure\Filters\UsersFilter.cs" />
+    <Compile Include="Infrastructure\MyWebRequest.cs" />
     <Compile Include="Infrastructure\SessionKeys.cs" />
     <Compile Include="Mongo\BaseFilter.cs" />
     <Compile Include="Mongo\DocumentsService.cs" />
@@ -169,6 +170,7 @@
     <Compile Include="Settings\SettingsPropertyAttribute.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="NewsMaker.cs" />
+    <Compile Include="VK\OAuthResponce.cs" />
     <Compile Include="VK\VkCallbackMode.cs" />
     <Compile Include="VK\VkHelper.cs" />
   </ItemGroup>

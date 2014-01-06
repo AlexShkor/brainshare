@@ -18,6 +18,9 @@ namespace BrainShare.Domain.Documents
 
         public string FacebookId { get; set; }
         public string FacebookAccessToken { get; set; }
+
+        public string VkId { get; set; }
+        public string VkAccessToken { get; set; }
         
         public AddressData Address { get; set; }
 

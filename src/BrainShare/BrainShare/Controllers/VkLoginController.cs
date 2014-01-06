@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
+using BrainShare.Infostructure;
 using BrainShare.Services;
 using BrainShare.Utils.Utilities;
 using Brainshare.Infrastructure.Infrastructure;
 using Brainshare.Infrastructure.Settings;
 using Brainshare.Infrastructure.VK;
 using Brainshare.VK;
+using Newtonsoft.Json;
 
 
 namespace BrainShare.Controllers
@@ -13,6 +16,7 @@ namespace BrainShare.Controllers
     public class VkLoginController:BaseController
     {
         private readonly Settings _settings;
+        private readonly CryptographicHelper _cryptographicHelper;
         const string Scope = "offline";
 
         public string VkCallbackUri
@@ -23,9 +27,10 @@ namespace BrainShare.Controllers
             }
         }
 
-        public VkLoginController(UsersService usersService, Settings settings) : base(usersService)
+        public VkLoginController(UsersService usersService, Settings settings,CryptographicHelper cryptographicHelper) : base(usersService)
         {
             _settings = settings;
+            _cryptographicHelper = cryptographicHelper;
         }
 
         public ActionResult LoginWithVk()
@@ -63,54 +68,40 @@ namespace BrainShare.Controllers
 
         private ActionResult RunVkCallback(VkCallbackMode mode, string returnUrl = null)
         {
-            var csrfToken = Guid.NewGuid().ToString();
+            var csrfToken = _cryptographicHelper.GetCsrfToken();
 
             Session[SessionKeys.VkCsrfToken] = csrfToken;
             Session[SessionKeys.VkCallbackMode] = mode;
             Session[SessionKeys.VkReturnUrl] = returnUrl;
 
-            var vkLoginUrl = VkHelper.BuildAuthorizeUrl(_settings.VkAppId,Scope, VkCallbackUri,"code");
+            var vkLoginUrl = VkHelper.BuildAuthorizeUrl(_settings.VkAppId,Scope, VkCallbackUri,"code",csrfToken);
 
             return Redirect(vkLoginUrl);
         }
 
 
-        public ActionResult VkCallback(string code)
+        public ActionResult VkCallback(string code, string state)
         {
-   
-            var vkCallbackMode = (VkCallbackMode)Session[SessionKeys.VkCallbackMode];
-            var vkReturnUrl = (string)Session[SessionKeys.VkReturnUrl];
-
             if (string.IsNullOrWhiteSpace(code))
             {
                 throw new Exception("Can't process vk. No code");
             }
 
-            return null;
 
-            // first validate the csrf token
-            //dynamic decodedState;
-            //try
-            //{
-            //    decodedState = _fb.DeserializeJson(Encoding.UTF8.GetString(Convert.FromBase64String(state)), null);
-            //    var exepectedCsrfToken = Session[SessionKeys.FbCsrfToken] as string;
+            var exepectedCsrfToken = Session[SessionKeys.VkCsrfToken] as string;
 
-            //    // make the fb_csrf_token invalid
-            //    Session[SessionKeys.FbCsrfToken] = null;
-            //    Session[SessionKeys.FbCallbackMode] = null;
-            //    Session[SessionKeys.FbReturnUrl] = null;
+            if (state == null || !state.Equals(exepectedCsrfToken))
+            {
+                throw new Exception("invalid csrf token");
+            }
 
-            //    if (!(decodedState is IDictionary<string, object>) || !decodedState.ContainsKey("csrf") || string.IsNullOrWhiteSpace(exepectedCsrfToken) || exepectedCsrfToken != decodedState.csrf)
-            //    {
-            //        throw new Exception(string.Format("Can't process facebook. No decodedState or exepectedCsrfToken or exepectedCsrfToken != decodedState.csrf, decodedState: {0}, exepectedCsrfToken: {1}", decodedState, exepectedCsrfToken));
-            //    }
-            //}
-            //catch (Exception exception)
-            //{
-            //    // log exception
-            //    throw new Exception(string.Format("Can't process facebook.  fbCallbackMode: {0}, fbReturnUrl: {1}", fbCallbackMode, fbReturnUrl), exception);
-            //}
+            // make the fb_csrf_token invalid
+            Session[SessionKeys.FbCsrfToken] = null;
+            Session[SessionKeys.FbCallbackMode] = null;
+            Session[SessionKeys.FbReturnUrl] = null;
 
+            var json = VkHelper.GetAccessToken(_settings.VkAppId, _settings.VkSecretKey, VkCallbackUri, code);
+            var tmp = JsonConvert.DeserializeObject<OAuthResponce>(json);
             //try
             //{
             //    dynamic result = _fb.Post("oauth/access_token",
@@ -141,6 +132,7 @@ namespace BrainShare.Controllers
             //    throw new Exception(string.Format("Can't process facebook.  fbCallbackMode: {0}, fbReturnUrl: {1}", fbCallbackMode, fbReturnUrl), exception);
             //    return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
             //}
+            return null;
         }
 
         private ActionResult ProcessVkontakte(VkCallbackMode mode, string returnUrl = null)

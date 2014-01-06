@@ -39,5 +39,10 @@ namespace BrainShare.Infostructure
             // Represent the hash value as a base64-encoded string, 
             return Convert.ToBase64String(byteHash);
         }
+
+        public string GetCsrfToken()
+        {
+            return GenerateSalt();
+        }
     }
 }
