@@ -1,28 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
-using AttributeRouting;
 using AttributeRouting.Web.Mvc;
 using BrainShare.Domain.Documents;
 using BrainShare.Domain.Documents.Data;
-using BrainShare.Facebook;
 using BrainShare.Infostructure;
 using BrainShare.Services;
 using BrainShare.Utils.Utilities;
 using BrainShare.ViewModels;
 using Brainshare.Infrastructure.Authentication;
-using Brainshare.Infrastructure.Facebook;
-using Brainshare.Infrastructure.Facebook.Dto;
-using Brainshare.Infrastructure.Infrastructure;
 using Brainshare.Infrastructure.Services;
 using Brainshare.Infrastructure.Settings;
-using Brainshare.Infrastructure.VK;
-using Brainshare.VK;
-using Facebook;
 using MongoDB.Bson;
-using Newtonsoft.Json;
 using System.Linq;
 
 namespace BrainShare.Controllers
@@ -32,20 +21,10 @@ namespace BrainShare.Controllers
     {
         private readonly Settings _settings;
         public IAuthentication Auth { get; set; }
-        private readonly FacebookClient _fb;
-        private readonly VkClient _vk;
         private readonly ShellUserService _shellUserService;
         private readonly NewsService _news;
         private readonly MailService _mailService;
         private readonly CryptographicHelper _cryptoHelper;
-
-        public string FacebookCallbackUri
-        {
-            get
-            {
-                return UrlUtility.ApplicationBaseUrl + Url.Action("FacebookCallback");
-            }
-        }
 
         public string VkCallbackUri
         {
@@ -55,7 +34,7 @@ namespace BrainShare.Controllers
             }
         }
 
-        public UserController(IAuthentication auth, UsersService users, ShellUserService shellUserService, FacebookClientFactory fbFactory, CryptographicHelper cryptoHelper, Settings settings, NewsService news, MailService mailService):base(users)
+        public UserController(IAuthentication auth, UsersService users, ShellUserService shellUserService, CryptographicHelper cryptoHelper, Settings settings, NewsService news, MailService mailService):base(users)
         {
             _settings = settings;
             _shellUserService = shellUserService;
@@ -63,7 +42,6 @@ namespace BrainShare.Controllers
             _news = news;
             _mailService = mailService;
             Auth = auth;
-            _fb = fbFactory.GetClient();
         }
 
         private CommonUser CurrentUser
@@ -207,193 +185,7 @@ namespace BrainShare.Controllers
         }
 
 
-        //public ActionResult LoginWithVk()
-        //{
-        //    return ProcessVk(VkCallbackMode.AuthorizeWithVk);
-        //}
-
-        //private ActionResult ProcessVk(VkCallbackMode mode, string returnUrl = null)
-        //{
-        //    var vkToken = Session[SessionKeys.VkAccessToken] as string;
-
-        //    if (mode == VkCallbackMode.AuthorizeWithVk)
-        //    {
-        //        if (vkToken == null)
-        //        {
-        //            return RunVkCallback(VkCallbackMode.AuthorizeWithVk,returnUrl);
-        //        }
-
-        //        return ProcessVkontakte(VkCallbackMode.AuthorizeWithVk);
-        //    }
-
-        //    if (mode == VkCallbackMode.UpdateVkFields)
-        //    {
-        //        if (vkToken == null)
-        //        {
-        //            return RunVkCallback(VkCallbackMode.UpdateVkFields, returnUrl);
-        //        }
-
-        //        return ProcessVkontakte(VkCallbackMode.UpdateVkFields, returnUrl);
-        //    }
-
-        //    return null;
-        //}
-
-
-        //private ActionResult RunVkCallback(VkCallbackMode mode, string returnUrl = null)
-        //{
-        //    var csrfToken = Guid.NewGuid().ToString();
-
-        //    Session[SessionKeys.VkCsrfToken] = csrfToken;
-        //    Session[SessionKeys.VkCallbackMode] = mode;
-        //    Session[SessionKeys.VkReturnUrl] = returnUrl;
-
-        //    const string scope = "offline ";
-        //    var vkLoginUrl = VkClient.GetLoginUrl(_settings.VkAppId, _settings.VkSecretKey, VkCallbackUri, scope);
-        //    return Redirect(vkLoginUrl);
-        //}
-
-
-        //public ActionResult VkCallback(string code, string state)
-        //{
-        //    var fbCallbackMode = (FacebookCallbackMode)Session[SessionKeys.FbCallbackMode];
-        //    var fbReturnUrl = (string)Session[SessionKeys.FbReturnUrl];
-
-        //    if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(state))
-        //    {
-        //        throw new Exception(string.Format("Can't process facebook. No code or state, code: {0}, state: {1}", code, state));
-        //    }
-
-        //    // first validate the csrf token
-        //    dynamic decodedState;
-        //    try
-        //    {
-        //        decodedState = _fb.DeserializeJson(Encoding.UTF8.GetString(Convert.FromBase64String(state)), null);
-        //        var exepectedCsrfToken = Session[SessionKeys.FbCsrfToken] as string;
-
-        //        // make the fb_csrf_token invalid
-        //        Session[SessionKeys.FbCsrfToken] = null;
-        //        Session[SessionKeys.FbCallbackMode] = null;
-        //        Session[SessionKeys.FbReturnUrl] = null;
-
-        //        if (!(decodedState is IDictionary<string, object>) || !decodedState.ContainsKey("csrf") || string.IsNullOrWhiteSpace(exepectedCsrfToken) || exepectedCsrfToken != decodedState.csrf)
-        //        {
-        //            throw new Exception(string.Format("Can't process facebook. No decodedState or exepectedCsrfToken or exepectedCsrfToken != decodedState.csrf, decodedState: {0}, exepectedCsrfToken: {1}", decodedState, exepectedCsrfToken));
-        //        }
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        // log exception
-        //        throw new Exception(string.Format("Can't process facebook.  fbCallbackMode: {0}, fbReturnUrl: {1}", fbCallbackMode, fbReturnUrl), exception);
-        //    }
-
-        //    try
-        //    {
-        //        dynamic result = _fb.Post("oauth/access_token",
-        //                                  new
-        //                                  {
-        //                                      client_id = _settings.FacebookAppId,
-        //                                      client_secret = _settings.FacebookSecretKey,
-        //                                      redirect_uri = FacebookCallbackUri,
-        //                                      code = code
-        //                                  });
-
-        //        Session[SessionKeys.FbAccessToken] = result.access_token;
-        //        if (result.ContainsKey("expires"))
-        //            Session[SessionKeys.FbExpiresIn] = DateTime.Now.AddSeconds(result.expires);
-
-        //        if (decodedState.ContainsKey("returnUrl") && decodedState.ContainsKey("mode"))
-        //        {
-        //            return ProcessFacebook((FacebookCallbackMode)decodedState.mode, decodedState.returnUrl);
-        //        }
-
-        //        return ProcessFacebook(FacebookCallbackMode.AuthorizeWithFacebook);
-
-        //        // return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        // log exception
-        //        throw new Exception(string.Format("Can't process facebook.  fbCallbackMode: {0}, fbReturnUrl: {1}", fbCallbackMode, fbReturnUrl), exception);
-        //        return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
-        //    }
-        //}
-
-        //private ActionResult ProcessVkontakte(VkCallbackMode mode, string returnUrl = null)
-        //{
-        //    _fb.AccessToken = Session[SessionKeys.FbAccessToken] as string;
-        //    var fbUser = _fb.Get<FbUserMe>("me");
-        //    var facebookId = fbUser.id;
-
-        //    if (mode == VkCallbackMode.AuthorizeWithVk)
-        //    {
-        //        var userByFacebookId = _users.GetByFacebookId(facebookId);
-        //        if (userByFacebookId == null)
-        //        {
-        //            var address = new AddressData(fbUser.location.name);
-        //            var newUser = new User
-        //            {
-        //                Id = ObjectId.GenerateNewId().ToString(),
-        //                Email = fbUser.email,
-        //                FacebookId = fbUser.id,
-        //                FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string,
-        //                FirstName = fbUser.first_name,
-        //                LastName = fbUser.last_name,
-        //                Address = address,
-        //                AvatarUrl = string.Format("https://graph.facebook.com/{0}/picture?width=250&height=250", fbUser.id),
-        //                Registered = DateTime.Now,
-        //            };
-
-        //            _users.Save(newUser);
-        //            Auth.LoginUser(newUser.Id, true);
-
-        //            if (Url.IsLocalUrl(returnUrl))
-        //            {
-        //                return Redirect(returnUrl);
-        //            }
-
-        //            return RedirectToAction("Index", "Home");
-        //        }
-
-        //        else
-        //        {
-        //            userByFacebookId.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
-        //            _users.Save(userByFacebookId);
-        //            Auth.LoginUser(userByFacebookId.Email, true);
-
-        //            if (Url.IsLocalUrl(returnUrl))
-        //            {
-        //                return Redirect(returnUrl);
-        //            }
-
-        //            return RedirectToAction("Index", "Home");
-        //        }
-        //    }
-
-        //    if (mode == VkCallbackMode.UpdateVkFields)
-        //    {
-        //        var userByFacebookId = _users.GetByFacebookId(facebookId);
-
-        //        if (userByFacebookId == null || userByFacebookId.Id == UserId)
-        //        {
-        //            var currentUser = _users.GetById(UserId);
-        //            currentUser.FacebookId = facebookId;
-        //            currentUser.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
-        //            _users.Save(currentUser);
-
-        //            if (Url.IsLocalUrl(returnUrl))
-        //            {
-        //                return Redirect(returnUrl);
-        //            }
-
-        //            return RedirectToAction("Index", "Home");
-        //        }
-
-        //        return View("UserWithFbIdAlreadyExist");
-        //    }
-
-        //    return RedirectToAction("Index", "Home");
-        //}
+      
 
 
         [GET("News")]
