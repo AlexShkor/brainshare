@@ -178,7 +178,7 @@ namespace BrainShare.Controllers
 
             if (mode == FacebookCallbackMode.AuthorizeWithFacebook)
             {
-                var userByFacebookId = _users.GetByFacebookId(facebookId);
+                var userByFacebookId = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Facebook, facebookId);
                 if (userByFacebookId == null)
                 {
                     var address = new AddressData(fbUser.location.name);
@@ -227,7 +227,7 @@ namespace BrainShare.Controllers
 
             if (mode == FacebookCallbackMode.UpdateFacebookFields)
             {
-                var userByFacebookId = _users.GetByFacebookId(facebookId);
+                var userByFacebookId = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Facebook, facebookId);
 
                 if (userByFacebookId == null || userByFacebookId.Id == UserId)
                 {

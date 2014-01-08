@@ -140,13 +140,12 @@ namespace BrainShare.Controllers
             var vkUser = dto.First();
             if (mode == VkCallbackMode.AuthorizeWithVk)
             {
-                var userByVkId = _users.GetByVkId(vkId);
+                var userByVkId = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Vk, vkId);
                 if (userByVkId == null)
                 {
                     var newUser = new User
                     {
                         Id = ObjectId.GenerateNewId().ToString(),
-                        VkId = vkUser.UserId,
                         FacebookAccessToken = Session[SessionKeys.VkAccessToken] as string,
                         FirstName = vkUser.FirstName,
                         LastName = vkUser.LastName,

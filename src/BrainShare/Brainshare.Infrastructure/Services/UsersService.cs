@@ -38,17 +38,6 @@ namespace BrainShare.Services
             return Items.Aggregate(pipeline).ResultDocuments.Select(BsonSerializer.Deserialize<User>).SingleOrDefault();
         }
 
-        public User GetByFacebookId(string facebookId)
-        {
-            return
-                Items.FindOne(Query<User>.EQ(x => x.FacebookId, facebookId));
-        }
-
-        public User GetByVkId(string vkId)
-        {
-            return
-                Items.FindOne(Query<User>.EQ(x => x.VkId, vkId));
-        }
 
         public void AddUser(User user)
         {
