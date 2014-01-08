@@ -196,7 +196,7 @@ namespace BrainShare.Controllers
                     };
 
                     _users.Save(newUser);
-                    _auth.LoginUser(newUser.Id, true);
+                    _auth.LoginUser(newUser.Email, true);
 
                     if (Url.IsLocalUrl(returnUrl))
                     {

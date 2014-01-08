@@ -21,6 +21,8 @@ namespace BrainShare.Domain.Documents
 
         public string VkId { get; set; }
         public string VkAccessToken { get; set; }
+
+        public List<LoginService> LoginServices { get; set; } 
         
         public AddressData Address { get; set; }
 
@@ -49,6 +51,7 @@ namespace BrainShare.Domain.Documents
             Followers = new List<string>();
             News = new List<UserNewsInfo>();
             Settings = new UserSettings();
+            LoginServices = new List<LoginService>();
         }
 
         public void SetVote(string setterId, int value)

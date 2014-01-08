@@ -273,10 +273,10 @@
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="ContainerConfigure.cs" />
+    <Compile Include="Controllers\DevToolsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FacebookLoginController.cs" />
     <Compile Include="Controllers\FollowerController.cs" />
-    <Compile Include="Controllers\MigrateController.cs" />
     <Compile Include="Controllers\VkLoginController.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyResolver.cs" />
@@ -374,6 +374,7 @@
     <Compile Include="ViewModels\LoginView.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Content Include="Views\Shared\YandexMetrics.cshtml" />
+    <Content Include="Views\DevTools\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\big-loading.gif" />
