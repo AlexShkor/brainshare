@@ -212,9 +212,11 @@ namespace BrainShare.Controllers
 
                 else
                 {
-                    userByFacebookId.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
+                    var loginService = userByFacebookId.LoginServices.Single(l => l.LoginType == LoginServiceTypeEnum.Facebook && l.ServiceUserId == fbUser.id);
+                    loginService.AccessToken = Session[SessionKeys.FbAccessToken] as string;
+
                     _users.Save(userByFacebookId);
-                    _auth.LoginUser(LoginServiceTypeEnum.Facebook, userByFacebookId.FacebookId, true);
+                    _auth.LoginUser(LoginServiceTypeEnum.Facebook, fbUser.id, true);
 
                     if (Url.IsLocalUrl(returnUrl))
                     {
@@ -232,8 +234,11 @@ namespace BrainShare.Controllers
                 if (userByFacebookId == null || userByFacebookId.Id == UserId)
                 {
                     var currentUser = _users.GetById(UserId);
-                    currentUser.FacebookId = facebookId;
-                    currentUser.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
+                    var loginService = currentUser.LoginServices.Single(l => l.LoginType == LoginServiceTypeEnum.Facebook);
+
+                    loginService.ServiceUserId = fbUser.id;
+                    loginService.AccessToken = Session[SessionKeys.FbAccessToken] as string;
+
                     _users.Save(currentUser);
 
                     if (Url.IsLocalUrl(returnUrl))
