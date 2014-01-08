@@ -64,15 +64,15 @@ namespace BrainShare.Controllers
                 return ProcessVkontakte(VkCallbackMode.AuthorizeWithVk);
             }
 
-            //if (mode == VkCallbackMode.UpdateVkFields)
-            //{
-            //    if (vkToken == null)
-            //    {
-            //        return RunVkCallback(VkCallbackMode.UpdateVkFields, returnUrl);
-            //    }
+            if (mode == VkCallbackMode.UpdateVkFields)
+            {
+                if (vkToken == null)
+                {
+                    return RunVkCallback(VkCallbackMode.UpdateVkFields, returnUrl);
+                }
 
-            //    return ProcessVkontakte(VkCallbackMode.UpdateVkFields, returnUrl);
-            //}
+                return ProcessVkontakte(VkCallbackMode.UpdateVkFields, returnUrl);
+            }
 
             return null;
         }
@@ -129,7 +129,7 @@ namespace BrainShare.Controllers
             return ProcessVkontakte(VkCallbackMode.AuthorizeWithVk);
         }
 
-        private ActionResult ProcessVkontakte(VkCallbackMode mode)
+        private ActionResult ProcessVkontakte(VkCallbackMode mode, string returnUrl = null)
         {
             var accessToken = Session[SessionKeys.VkAccessToken] as string;
             var vkId = Session[SessionKeys.VkUserId] as string;
@@ -143,67 +143,76 @@ namespace BrainShare.Controllers
                 var userByVkId = _users.GetByVkId(vkId);
                 if (userByVkId == null)
                 {
-                   // var address = new AddressData(fbUser.location.name);
                     var newUser = new User
                     {
                         Id = ObjectId.GenerateNewId().ToString(),
-                   //     Email = fbUser.email,
                         VkId = vkUser.UserId,
                         FacebookAccessToken = Session[SessionKeys.VkAccessToken] as string,
                         FirstName = vkUser.FirstName,
                         LastName = vkUser.LastName,
-                     //   Address = address,
-                   //     AvatarUrl = string.Format("https://graph.facebook.com/{0}/picture?width=250&height=250", fbUser.id),
                         Registered = DateTime.Now,
                     };
 
+                    newUser.LoginServices.Add(new LoginService
+                        {
+                            LoginType = LoginServiceTypeEnum.Vk,
+                            AccessToken = accessToken,
+                            ServiceUserId = vkUser.UserId
+                        });
+
                     _users.Save(newUser);
+
                     _auth.LoginUser(LoginServiceTypeEnum.Vk,vkUser.UserId, true);
 
-                    //if (Url.IsLocalUrl(returnUrl))
-                    //{
-                    //    return Redirect(returnUrl);
-                    //}
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
 
                     return RedirectToAction("Index", "Home");
                 }
 
-                //else
-                //{
-                //    userByVkId.VkAccessToken = Session[SessionKeys.VkAccessToken] as string;
-                //    _users.Save(userByVkId);
-                //    _auth.LoginUser(userByFacebookId.Email, true);
+                else
+                {
+                    var loginService = userByVkId.LoginServices.Single(l => l.LoginType == LoginServiceTypeEnum.Vk && l.ServiceUserId == vkUser.UserId);
+                    loginService.AccessToken = Session[SessionKeys.VkAccessToken] as string;
 
-                //    if (Url.IsLocalUrl(returnUrl))
-                //    {
-                //        return Redirect(returnUrl);
-                //    }
+                    _users.Save(userByVkId);
+                    _auth.LoginUser(LoginServiceTypeEnum.Vk, vkUser.UserId, true);
 
-                //    return RedirectToAction("Index", "Home");
-                //}
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
-        //    if (mode == VkCallbackMode.UpdateVkFields)
-        //    {
-        //        var userByFacebookId = _users.GetByFacebookId(facebookId);
+            if (mode == VkCallbackMode.UpdateVkFields)
+            {
+                var user = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Vk, vkUser.UserId);
 
-        //        if (userByFacebookId == null || userByFacebookId.Id == UserId)
-        //        {
-        //            var currentUser = _users.GetById(UserId);
-        //            currentUser.FacebookId = facebookId;
-        //            currentUser.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
-        //            _users.Save(currentUser);
+                if (user == null || user.Id == UserId)
+                {
+                    var currentUser = _users.GetById(UserId);
+                    var loginService = currentUser.LoginServices.Single(l => l.LoginType == LoginServiceTypeEnum.Vk);
 
-        //            if (Url.IsLocalUrl(returnUrl))
-        //            {
-        //                return Redirect(returnUrl);
-        //            }
+                    loginService.ServiceUserId = vkUser.UserId;
+                    loginService.AccessToken = Session[SessionKeys.FbAccessToken] as string;
 
-        //            return RedirectToAction("Index", "Home");
-        //        }
+                    _users.Save(currentUser);
 
-        //        return View("UserWithFbIdAlreadyExist");
-        //    }
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    return RedirectToAction("Index", "Home");
+                }
+
+                return View("UserWithVkIdAlreadyExist");
+            }
 
             return RedirectToAction("Index", "Home");
         }
