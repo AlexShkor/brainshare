@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
 using AttributeRouting.Web.Mvc;
@@ -95,7 +96,7 @@ namespace BrainShare.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -111,15 +112,13 @@ namespace BrainShare.Controllers
                                           FirstName = model.FirstName,
                                           Address = new AddressData(model.original_address,model.formatted_address,model.country,model.locality),
                                           LastName = model.LastName,
-                                          Email = model.Email.ToLower(),
-                                          Password = hashedPassword,
                                           Registered = DateTime.Now,
-                                          Salt = salt
                                       };
+                    newUser.LoginServices.Add(new LoginService{ AccessToken = hashedPassword, LoginType = LoginServiceTypeEnum.Email, Salt = salt, ServiceUserId = model.Email.ToLower()});
 
                     _users.AddUser(newUser);
 
-                    _mailService.SendWelcomeMessage(newUser);
+                    _mailService.SendWelcomeMessage(newUser.FullName, model.Email);
                 }
                 else
                 {

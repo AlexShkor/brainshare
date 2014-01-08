@@ -5,5 +5,6 @@
         public LoginServiceTypeEnum LoginType { get; set; }
         public string ServiceUserId { get; set; }
         public string AccessToken { get; set; }
+        public string Salt { get; set; }
     }
 }

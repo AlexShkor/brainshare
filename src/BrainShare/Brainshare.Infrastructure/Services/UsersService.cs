@@ -28,8 +28,6 @@ namespace BrainShare.Services
 
         public User GetUserByLoginServiceInfo(LoginServiceTypeEnum loginServiceType, string serviceId)
         {
-          //  return Items.FindOne(Query<User>.In(x => x.LoginServices, new List<LoginService>{ new LoginService { LoginType = loginServiceType, ServiceUserId = serviceId}}));
-
             var match = new BsonDocument 
                 { 
                     { "$match",   new BsonDocument {  {"LoginServices.LoginType", loginServiceType },{"LoginServices.ServiceUserId",serviceId} }} ,

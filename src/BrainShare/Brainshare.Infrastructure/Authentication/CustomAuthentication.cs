@@ -44,10 +44,7 @@ namespace BrainShare.Authentication
                 return null;
             }
 
-            password = _cryptoHelper.GetPasswordHash(password, retUser.Salt);
-
-
-            if (retUser.LoginServices.Any(e => e.LoginType == LoginServiceTypeEnum.Email &&  e.ServiceUserId == email && e.AccessToken == password))
+            if (retUser.LoginServices.Any(e => e.LoginType == LoginServiceTypeEnum.Email &&  e.ServiceUserId == email && e.AccessToken == _cryptoHelper.GetPasswordHash(password, e.Salt)))
             {
                 CreateCookie(LoginServiceTypeEnum.Email, email, isPersistent);
                 return retUser;

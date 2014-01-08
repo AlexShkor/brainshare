@@ -68,7 +68,8 @@ namespace BrainShare.Controllers
                     var loginEntry = new LoginService
                     {
                         LoginType = LoginServiceTypeEnum.Email,
-                        ServiceUserId = user.Email
+                        ServiceUserId = user.Email,
+                        AccessToken = user.Password
                     };
 
                     user.LoginServices.Add(loginEntry);
