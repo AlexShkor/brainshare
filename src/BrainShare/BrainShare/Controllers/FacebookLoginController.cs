@@ -185,15 +185,19 @@ namespace BrainShare.Controllers
                     var newUser = new User
                     {
                         Id = ObjectId.GenerateNewId().ToString(),
-                        Email = fbUser.email,
-                        FacebookId = fbUser.id,
-                        FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string,
                         FirstName = fbUser.first_name,
                         LastName = fbUser.last_name,
                         Address = address,
                         AvatarUrl = string.Format("https://graph.facebook.com/{0}/picture?width=250&height=250", fbUser.id),
                         Registered = DateTime.Now,
                     };
+
+                    newUser.LoginServices.Add(new LoginService
+                        {
+                            LoginType = LoginServiceTypeEnum.Facebook,
+                            AccessToken = Session[SessionKeys.FbAccessToken] as string,
+                            ServiceUserId = fbUser.id
+                        });
 
                     _users.Save(newUser);
                     _auth.LoginUser(LoginServiceTypeEnum.Facebook, fbUser.id, true);
