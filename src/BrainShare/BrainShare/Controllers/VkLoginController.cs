@@ -158,7 +158,7 @@ namespace BrainShare.Controllers
                     };
 
                     _users.Save(newUser);
-                    _auth.LoginUser(newUser.Id, true);
+                    _auth.LoginUser(LoginServiceTypeEnum.Vk,vkUser.UserId, true);
 
                     //if (Url.IsLocalUrl(returnUrl))
                     //{

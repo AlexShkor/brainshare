@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using BrainShare.Domain.Documents;
+using BrainShare.Domain.Documents.Data;
 using BrainShare.Infrastructure.Infrastructure.Filters;
 using BrainShare.Infrastructure.Mongo;
 using BrainShare.Utils.Extensions;
 using Brainshare.Infrastructure.Facebook;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
@@ -24,9 +26,18 @@ namespace BrainShare.Services
             get { return Database.Users; }
         }
 
-        public User GetUserByEmail(string email)
+        public User GetUserByLoginServiceInfo(LoginServiceTypeEnum loginServiceType, string serviceId)
         {
-            return Items.FindOne(Query<User>.EQ(x => x.Email, email.ToLower()));
+          //  return Items.FindOne(Query<User>.In(x => x.LoginServices, new List<LoginService>{ new LoginService { LoginType = loginServiceType, ServiceUserId = serviceId}}));
+
+            var match = new BsonDocument 
+                { 
+                    { "$match",   new BsonDocument {  {"LoginServices.LoginType", loginServiceType },{"LoginServices.ServiceUserId",serviceId} }} ,
+                };
+
+            var pipeline = new[] { match };
+
+            return Items.Aggregate(pipeline).ResultDocuments.Select(BsonSerializer.Deserialize<User>).SingleOrDefault();
         }
 
         public User GetByFacebookId(string facebookId)

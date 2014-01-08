@@ -1,4 +1,5 @@
 ﻿using System.Security.Principal;
+using BrainShare.Domain.Documents.Data;
 
 namespace Brainshare.Infrastructure.Authentication
 {
@@ -35,12 +36,13 @@ namespace Brainshare.Infrastructure.Authentication
             }
         }
 
-        public void Init (string email, ICommonUserService usersService)
+        public void Init(LoginServiceTypeEnum loginServiceType, string serviceId, ICommonUserService usersService)
         {
-            if (!string.IsNullOrEmpty(email))
+            if (serviceId != null && loginServiceType != null)
             {
-                User = usersService.GetUserByEmail(email);
+                  User = usersService.GetUserByLoginServiceInfo(loginServiceType,serviceId);
             }
+           
         }
     }
 }

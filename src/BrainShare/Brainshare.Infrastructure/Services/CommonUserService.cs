@@ -1,4 +1,5 @@
 ﻿using System;
+using BrainShare.Domain.Documents.Data;
 using BrainShare.Infrastructure.Utilities;
 using Brainshare.Infrastructure.Authentication;
 using Brainshare.Infrastructure.Services;
@@ -16,10 +17,10 @@ namespace BrainShare.Services
             _usersService = usersService;
         }
 
-        public CommonUser GetUserByEmail(string email)
+        public CommonUser GetUserByLoginServiceInfo(LoginServiceTypeEnum loginServiceType, string serviceId)
         {
-            var result = _usersService.GetUserByEmail(email).MapUser();
-            return result ?? _shellUserService.GetUserByEmail(email).MapShellUser();
+            var result = _usersService.GetUserByLoginServiceInfo(loginServiceType,serviceId).MapUser();
+            return result ?? _shellUserService.GetUserByLoginServiceInfo(loginServiceType, serviceId).MapShellUser();
         }
 
         public CommonUser GetById(string id)

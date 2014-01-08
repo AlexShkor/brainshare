@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Security.Principal;
+using BrainShare.Domain.Documents.Data;
 
 namespace Brainshare.Infrastructure.Authentication
 {
     public class UserProvider : IPrincipal
     {
 
-        public UserProvider(string name, ICommonUserService commonUserService, string userData = "")
+        public UserProvider(LoginServiceTypeEnum loginServiceType, string serviceId, ICommonUserService commonUserService)
         {
             userIdentity = new UserIdentity();
 
-            userIdentity.Init(name, commonUserService);
+            userIdentity.Init(loginServiceType, serviceId, commonUserService);
         }
 
 

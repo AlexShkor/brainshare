@@ -196,7 +196,7 @@ namespace BrainShare.Controllers
                     };
 
                     _users.Save(newUser);
-                    _auth.LoginUser(newUser.Email, true);
+                    _auth.LoginUser(LoginServiceTypeEnum.Facebook, fbUser.id, true);
 
                     if (Url.IsLocalUrl(returnUrl))
                     {
@@ -210,7 +210,7 @@ namespace BrainShare.Controllers
                 {
                     userByFacebookId.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
                     _users.Save(userByFacebookId);
-                    _auth.LoginUser(userByFacebookId.Email, true);
+                    _auth.LoginUser(LoginServiceTypeEnum.Facebook, userByFacebookId.FacebookId, true);
 
                     if (Url.IsLocalUrl(returnUrl))
                     {

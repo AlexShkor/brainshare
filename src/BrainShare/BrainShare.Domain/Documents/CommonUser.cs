@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using BrainShare.Domain.Documents.Data;
 
 namespace Brainshare.Infrastructure.Authentication
 {
@@ -13,5 +15,6 @@ namespace Brainshare.Infrastructure.Authentication
         public bool IsFacebookAccount { get; set; }
         public string FullName  { get; set; }
         public string AvatarUrl { get; set; }
+        public List<LoginService> LoginServices { get; set; }
     }
 }

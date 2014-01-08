@@ -22,6 +22,7 @@ namespace BrainShare.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult MigratePasswords()
         {
             var allUsers = _users.GetAll().Where(e => e.Salt == null).ToList();
@@ -42,6 +43,7 @@ namespace BrainShare.Controllers
             return Json(string.Format("success: total changes {0}", total), JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public ActionResult MigrateAccounts()
         {
             var allUsers = _users.GetAll().ToList();

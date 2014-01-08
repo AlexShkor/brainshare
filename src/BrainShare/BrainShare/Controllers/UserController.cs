@@ -99,7 +99,7 @@ namespace BrainShare.Controllers
         {
             if (ModelState.IsValid)
             {
-                var anyUser = _users.GetUserByEmail(model.Email);
+                var anyUser = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Email, model.Email);
                 if (anyUser == null)
                 {
                     var salt = _cryptoHelper.GenerateSalt();
@@ -134,7 +134,7 @@ namespace BrainShare.Controllers
         {
             if (ModelState.IsValid)
             {
-                var anyUser = _users.GetUserByEmail(model.Email);
+                var anyUser = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Email, model.Email);
                 if (anyUser == null)
                 {
                     var salt = _cryptoHelper.GenerateSalt();

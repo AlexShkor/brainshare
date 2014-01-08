@@ -1,5 +1,6 @@
 ﻿using System.Security.Principal;
 using System.Web;
+using BrainShare.Domain.Documents.Data;
 
 namespace Brainshare.Infrastructure.Authentication
 {
@@ -7,9 +8,8 @@ namespace Brainshare.Infrastructure.Authentication
     {
         HttpContext HttpContext { get; set; }
         CommonUser Login(string login, string password, bool isPersistent);
-        CommonUser Login(string login);
         void Logout();
         IPrincipal CurrentUser { get; }
-        void LoginUser(string email, bool isPersistent);
+        void LoginUser(LoginServiceTypeEnum loginServiceType, string serviceId, bool isPersistent);
     }
 }
