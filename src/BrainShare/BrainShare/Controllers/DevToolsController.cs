@@ -47,6 +47,7 @@ namespace BrainShare.Controllers
         public ActionResult MigrateAccounts()
         {
             var allUsers = _users.GetAll().ToList();
+            int count = 0;
 
             foreach (var user in allUsers)
             {
@@ -58,26 +59,28 @@ namespace BrainShare.Controllers
                             LoginType = LoginServiceTypeEnum.Facebook,
                             ServiceUserId = user.FacebookId
                         };
+                    count++;
 
                     user.LoginServices.Add(loginEntry);
                     _users.Save(user);
                 }
 
-                if (user.Email != null && user.LoginServices.All(e => e.LoginType != LoginServiceTypeEnum.Email))
+                if (user.Email != null && user.FacebookId == null && user.LoginServices.All(e => e.LoginType != LoginServiceTypeEnum.Email))
                 {
                     var loginEntry = new LoginService
                     {
                         LoginType = LoginServiceTypeEnum.Email,
                         ServiceUserId = user.Email,
-                        AccessToken = user.Password
+                        AccessToken = user.Password,
+                        Salt = user.Salt
                     };
-
+                    count++;
                     user.LoginServices.Add(loginEntry);
                     _users.Save(user);
                 }
             }
 
-           return RedirectToAction("Index");
+            return Json(string.Format("success: total changes {0}", count), JsonRequestBehavior.AllowGet);
         }
     }
 }
