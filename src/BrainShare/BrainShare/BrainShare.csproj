@@ -160,6 +160,9 @@
     <Reference Include="RazorEngine">
       <HintPath>..\packages\RazorEngine.3.4.0\lib\net45\RazorEngine.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.103.4\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
     </Reference>
@@ -241,6 +244,9 @@
     <Reference Include="UnidecodeSharp">
       <HintPath>..\libs\UnidecodeSharp.dll</HintPath>
     </Reference>
+    <Reference Include="VkSharp">
+      <HintPath>..\packages\VkSharp.1.0.1\lib\VkSharp.dll</HintPath>
+    </Reference>
     <Reference Include="WebActivator">
       <HintPath>..\packages\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
     </Reference>
@@ -267,11 +273,16 @@
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="ContainerConfigure.cs" />
+    <Compile Include="Controllers\DevToolsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\FacebookLoginController.cs" />
     <Compile Include="Controllers\FollowerController.cs" />
-    <Compile Include="Controllers\MigrateController.cs" />
+    <Compile Include="Controllers\VkLoginController.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyResolver.cs" />
+    <Compile Include="ViewModels\Exchange\ExchangeArrowViewModel.cs" />
+    <Compile Include="ViewModels\Exchange\ExchangeEntryViewModel.cs" />
+    <Compile Include="ViewModels\Exchange\ExchangeHistoryViewModel.cs" />
     <Compile Include="ViewModels\NewsViewModel.cs" />
     <Compile Include="ViewModels\PublisherViewModel.cs" />
     <Compile Include="Controllers\OzBookDto.cs" />
@@ -294,6 +305,7 @@
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\UsersFilterModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="ViewModels\Exchange\ViewExchangeHistoryViewModel.cs" />
     <Content Include="Content\imgAreaSelect\border-anim-h.gif" />
     <Content Include="Content\imgAreaSelect\border-anim-v.gif" />
     <Content Include="Content\imgAreaSelect\border-h.gif" />
@@ -305,9 +317,14 @@
     <Content Include="Images\ErrorPages\500.jpg" />
     <Content Include="Images\facebook.png" />
     <Content Include="Images\fb_signup_empty.png" />
+    <Content Include="Images\left_blue.png" />
+    <Content Include="Images\left_green.png" />
+    <Content Include="Images\right_blue.png" />
+    <Content Include="Images\right_green.png" />
     <Content Include="Images\user-default-avatar.jpg" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="robots.txt" />
+    <Content Include="Images\vk_signup_empty.png" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -354,10 +371,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\ExchangeConfirmViewModel.cs" />
+    <Compile Include="ViewModels\Exchange\ExchangeConfirmViewModel.cs" />
     <Compile Include="ViewModels\LoginView.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Content Include="Views\Shared\YandexMetrics.cshtml" />
+    <Content Include="Views\DevTools\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\big-loading.gif" />
@@ -650,6 +668,10 @@
     <ProjectReference Include="..\BrainShare.Utils\BrainShare.Utils.csproj">
       <Project>{87976832-5cab-413a-b127-af7976bb1446}</Project>
       <Name>BrainShare.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Oauth.Vk\Oauth.Vk.csproj">
+      <Project>{ef0d1ba5-8862-4d79-a82c-3d948ccb788a}</Project>
+      <Name>Oauth.Vk</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

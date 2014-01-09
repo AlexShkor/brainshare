@@ -26,19 +26,6 @@ namespace Brainshare.Infrastructure.Services
                          Id = GenerateId(),
                          Entries = new List<ExchangeEntry>{firstUser,secondUser},
                          Initiator = initiatorId,
-                         Gift = false,
-                         Date = DateTime.Now
-                     });
-        }
-
-        public void SaveGift(string initiatorId, ExchangeEntry entry)
-        {
-            Save(new ExchangeHistory
-                     {
-                         Id = GenerateId(),
-                         Entries = new List<ExchangeEntry> { entry },
-                         Initiator = initiatorId,
-                         Gift = true,
                          Date = DateTime.Now
                      });
         }

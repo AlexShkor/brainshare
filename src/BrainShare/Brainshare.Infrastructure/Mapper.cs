@@ -38,7 +38,8 @@ namespace BrainShare.Infrastructure.Utilities
                 AvatarUrl = user.AvatarUrl,
                 Password = user.Password,
                 Salt = user.Salt,
-                IsFacebookAccount = user.IsFacebookAccount
+                IsFacebookAccount = user.IsFacebookAccount,
+                LoginServices = user.LoginServices
             };
         }
 

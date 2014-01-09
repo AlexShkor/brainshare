@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Security;
+using BrainShare.Domain.Documents.Data;
 using BrainShare.Infostructure;
 using BrainShare.Services;
 using Brainshare.Infrastructure.Authentication;
@@ -35,45 +37,42 @@ namespace BrainShare.Authentication
 
         public CommonUser Login(string email, string password, bool isPersistent)
         {
-            var retUser = _commonUserService.GetUserByEmail(email.ToLower());
+            var retUser = _commonUserService.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Email, email);
 
             if (retUser == null)
             {
                 return null;
             }
 
-            password = _cryptoHelper.GetPasswordHash(password, retUser.Salt);
-
-
-            if (retUser.Password.Equals(password))
+            if (retUser.LoginServices.Any(e => e.LoginType == LoginServiceTypeEnum.Email &&  e.ServiceUserId == email && e.AccessToken == _cryptoHelper.GetPasswordHash(password, e.Salt)))
             {
-                CreateCookie(email.ToLower(), isPersistent, Constants.ShellUserFlag);
+                CreateCookie(LoginServiceTypeEnum.Email, email, isPersistent);
                 return retUser;
             }
 
             return null;
         }
 
-        public CommonUser Login(string email)
+        public CommonUser Login(LoginServiceTypeEnum loginServiceType, string serviceId)
         {
-            var retUser = _commonUserService.GetUserByEmail(email.ToLower());
+            var retUser = _commonUserService.GetUserByLoginServiceInfo(loginServiceType,serviceId);
             if (retUser != null)
             {
-                CreateCookie(email.ToLower());
+                CreateCookie(loginServiceType,serviceId);
             }
 
             return retUser;
         }
 
-        private void CreateCookie(string email, bool isPersistent = false, string userData = "")
+        private void CreateCookie(LoginServiceTypeEnum loginServiceType, string serviceId, bool isPersistent = false)
         {
             var ticket = new FormsAuthenticationTicket(
                 1,
-                email,
+                serviceId,
                 DateTime.Now,
                 DateTime.Now.Add(FormsAuthentication.Timeout),
                 isPersistent,
-                userData,
+                ((int)loginServiceType).ToString(),
                 FormsAuthentication.FormsCookiePath);
 
             // Encrypt ticket
@@ -112,18 +111,18 @@ namespace BrainShare.Authentication
                         if (authCookie != null && !string.IsNullOrEmpty(authCookie.Value))
                         {
                             var ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                            _currentUser = new UserProvider(ticket.Name, _commonUserService, ticket.UserData);
+                            _currentUser = new UserProvider((LoginServiceTypeEnum)int.Parse(ticket.UserData),ticket.Name, _commonUserService);
                         }
 
                         else
                         {
-                            _currentUser = new UserProvider(null, null,null);
+                            _currentUser = new UserProvider(LoginServiceTypeEnum.Email, null,null);
                         }
                     }
 
                     catch(Exception)
                     {
-                        _currentUser = new UserProvider(null, null,null);
+                        _currentUser = new UserProvider(LoginServiceTypeEnum.Email, null, null);
                     }
                 }
 
@@ -131,9 +130,9 @@ namespace BrainShare.Authentication
             }
         }
 
-        public void LoginUser(string email, bool isPersistent)
+        public void LoginUser(LoginServiceTypeEnum loginServiceType, string serviceId,  bool isPersistent)
         {
-            CreateCookie(email.ToLower(),isPersistent);
+            CreateCookie(loginServiceType,serviceId,isPersistent);
         }
     }
 }

@@ -19,7 +19,10 @@
     <div class="span6">
         <div class="control-group">
             <div class="controls">
-                 <a class="btn-facebook" id="btn-facebook" href="@Url.Action("LoginWithFacebook", "User")">Войти</a>
+                <a class="btn-facebook" href="@Url.Action("LoginWithFacebook","FacebookLogin")">Войти</a>
+                <a  href="@Url.Action("LoginWithVk", "VkLogin")">
+                   <img src="/Images/vk-btn.png" />
+                </a>
             </div>
         </div>
         <div class="control-group">

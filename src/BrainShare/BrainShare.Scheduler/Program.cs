@@ -1,7 +1,11 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Threading.Tasks;
 using BrainShare.Domain.Dto;
+using BrainShare.Infrastructure.Mongo;
+using BrainShare.Services;
 using BrainShare.Utils.Utilities;
+using Brainshare.Infrastructure.Services;
 using RabbitMQ.Client;
 using RabbitMQ.Client.MessagePatterns;
 
@@ -9,14 +13,16 @@ namespace BrainShare.Worker
 {
     class Program
     {
-        static readonly string ResponceQueuName = ConfigurationManager.AppSettings["RabbitMQResponceIsbnQueuName"];
-        static readonly string RequestQueuName = ConfigurationManager.AppSettings["RabbitMQRequestIsbnQueuName"];
+        static readonly string RequestQueuName = ConfigurationManager.AppSettings["RabbitMQIsbnQueue"];
+
+        static readonly BooksService _booksService = new BooksService(new MongoDocumentsDatabase(ConfigurationManager.AppSettings["MongoConnectionString"]));
+        static readonly WishBooksService _wishBooksService = new WishBooksService(new MongoDocumentsDatabase(ConfigurationManager.AppSettings["MongoConnectionString"]));
 
         static readonly ConnectionFactory ConnFactory = new ConnectionFactory
             {
                 Uri = ConfigurationManager.AppSettings["RabbitMQUrl"],
                 Password = ConfigurationManager.AppSettings["RabbitMQPassword"],
-                UserName = ConfigurationManager.AppSettings["RabbitMQUser"],   
+                UserName = ConfigurationManager.AppSettings["RabbitMQUser"],
             };
 
         static void Main(string[] args)
@@ -37,7 +43,7 @@ namespace BrainShare.Worker
                     // deserialize the message body
                     var request = SerializeUtility.Deserialize<OzBookIsbnRequestDto>(message.Body);
 
-                    SendIsbnResponce(request);
+                    Save(request);
 
                     // ack the message, ie. confirm that we have processed it
                     // otherwise it will be requeued a bit later
@@ -46,29 +52,37 @@ namespace BrainShare.Worker
             }
         }
 
-        private static void SendIsbnResponce(OzBookIsbnRequestDto request)
+        private static void Save(OzBookIsbnRequestDto request)
         {
             Task.Factory.StartNew(() =>
                 {
-                    var isbn = OzParser.OzParser.GetIsbnByOzBookId(request.Id);
-                    Send(new OzBookIsbnResponceDto { Id = request.Id, Isbn = isbn, IsWishedBook = request.IsWishedBook });
+                    string isbn;
+                    try
+                    {
+                       isbn = OzParser.OzParser.GetIsbnByOzBookId(request.Id);
+
+                       if (request.IsWishedBook)
+                       {
+                           Update(_wishBooksService, request.Id, isbn);
+                       }
+                       else
+                       {
+                           Update(_booksService, request.Id, isbn);
+                       } 
+                    }
+                    catch
+                    {    
+                    }
                 });
         }
 
-        private static void Send(OzBookIsbnResponceDto responce)
+        static void Update(BaseBooksService service, string id, string isbn)
         {
-            // Open up a connection and a channel (a connection may have many channels)
-            using (var conn = ConnFactory.CreateConnection())
-            using (var channel = conn.CreateModel()) // Note, don't share channels between threads
+            var book = service.GetByOzBookId(id);
+            if (!book.ISBN.Contains(isbn))
             {
-                // the data put on the queue must be a byte array
-                var data = SerializeUtility.Serialize(responce);
-
-                // ensure that the queue exists before we publish to it
-                channel.QueueDeclare(ResponceQueuName, false, false, false, null);
-
-                // publish to the "default exchange", with the queue name as the routing key
-                channel.BasicPublish("", ResponceQueuName, null, data);
+                book.ISBN.Add(isbn);
+                service.Save(book);
             }
         }
     }

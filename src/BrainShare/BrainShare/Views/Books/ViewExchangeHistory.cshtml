@@ -1,35 +1,80 @@
-﻿@model System.Collections.Generic.IEnumerable<BrainShare.Domain.Documents.ExchangeHistory>
+﻿@using BrainShare.Domain.Enums
+@model BrainShare.ViewModels.ViewExchangeHistoryViewModel
 
 <h4>История обмена</h4>
 
 
 <table class="table table-condensed table-striped">
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Items)
         {
             <tr>
-                <td>@item.Date.ToShortDateString()</td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td colspan="4">@item.Date</td>
             </tr>
             <tr>
                 @foreach (var entry in item.Entries)
                 {
-                    <td>
-                        <div class="thumbnail text-center">
-                            <img width="64px" src="@entry.User.AvatarUrl"/>
+                    <td class="span2">
+                        <div class="thumbnail text-center span12">
+                            <img  src="@entry.AvatarUrl"/>
                             <br />
-                            <a href="/profile/view/@entry.User.UserId">@entry.User.UserName</a>
+                            @*    <a href="/profile/view/@entry.User.UserId">@entry.User.UserName</a>*@
                         </div>
                     </td>
-                    <td>
-                        <a href="/books/info/@entry.BookSnapshot.Id">@entry.BookSnapshot.Title</a>
-                        <br />
-                        @entry.BookSnapshot.Subtitle
-                    </td>
+
+                    if (item.Entries.IndexOf(entry) == 0)
+                    {
+                        <td class="relative">
+                            @if (item.Entries.Count == 1 || item.Entries.Any(e => e.ExchangeEntryType == ExchangeEntryType.Gift))
+                            {
+                                <a href="@entry.BookInfoLink">@entry.BookTitle</a> <br/>
+                            }
+                            else
+                            {
+                                var first = item.Entries[0];
+                                var second = item.Entries[0];
+                                
+                                <a class="top-left" href="@first.BookInfoLink">@first.BookTitle</a>
+                                <a class="down-right" href="@second.BookInfoLink">@second.BookTitle</a>
+                            }
+                           
+                            <div class="arrow-container">
+                                @foreach (var arrow in item.Arrows)
+                                {
+                                    <img src="@arrow.ArrowUrl"/>
+                                    <br/>
+                                }
+                            </div>
+                        </td>
+                    }
                 }
             </tr>
         }
     </tbody>
 </table>
+
+
+<style>
+ .arrow-container {
+     /*margin: 0 auto;*/
+     display: inline-block;
+ }
+  .table td {
+        vertical-align: middle;
+      text-align: center;
+   }
+  .top-left {
+      position: absolute;
+      top: 5px;
+      left: 5px;   
+  }
+
+  .down-right {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;   
+  }
+  .relative {
+      position: relative;   
+  }
+</style>

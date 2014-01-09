@@ -1,5 +1,7 @@
-﻿using BrainShare.Documents;
+﻿using System.Collections.Generic;
+using BrainShare.Documents;
 using BrainShare.Domain.Documents;
+using BrainShare.Domain.Documents.Data;
 using BrainShare.Infrastructure.Mongo;
 using MongoDB.Driver.Builders;
 
@@ -26,6 +28,11 @@ namespace Brainshare.Infrastructure.Services
         protected override MongoDB.Driver.MongoCollection<ShellUser> Items
         {
             get { return Database.ShellUsers; }
+        }
+
+        public ShellUser GetUserByLoginServiceInfo(LoginServiceTypeEnum loginServiceType, string serviceId)
+        {
+            return Items.FindOne(Query<ShellUser>.In(x => x.LoginServices, new List<LoginService> { new LoginService { LoginType = loginServiceType, ServiceUserId = serviceId } }));
         }
     }
 }

@@ -15,8 +15,6 @@ namespace BrainShare.Domain.Documents
 
         public List<ExchangeEntry> Entries { get; set; }
 
-        public bool Gift { get; set; }
-
         public DateTime Date { get; set; }
 
         public ExchangeHistory()

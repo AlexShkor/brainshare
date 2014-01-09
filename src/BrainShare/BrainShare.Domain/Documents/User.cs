@@ -46,6 +46,7 @@ namespace BrainShare.Domain.Documents
             Followers = new List<string>();
             News = new List<UserNewsInfo>();
             Settings = new UserSettings();
+            LoginServices = new List<LoginService>();
         }
 
         public void SetVote(string setterId, int value)

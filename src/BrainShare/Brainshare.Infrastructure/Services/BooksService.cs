@@ -1,4 +1,3 @@
-using BrainShare.Documents;
 using BrainShare.Domain.Documents;
 using BrainShare.Infrastructure.Mongo;
 using MongoDB.Driver;
@@ -14,8 +13,6 @@ namespace Brainshare.Infrastructure.Services
         protected override MongoCollection<Book> Items
         {
             get { return Database.Books; }
-        }
-
-        
+        }      
     }
 }

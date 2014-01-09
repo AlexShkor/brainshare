@@ -18,13 +18,13 @@ namespace Brainshare.Infrastructure.Services
             _emailer = new Emailer(_settings.AdminEmail,_settings.AdminDisplayName);
         }
 
-        public void SendWelcomeMessage(User newUser)
+        public void SendWelcomeMessage(string fullName, string email)
         {
            _emailer.SendWelcomeMessage(new Welcome
                {
-                   ReceiverName = newUser.FullName
-               }, 
-               newUser.Email,newUser.FullName);
+                   ReceiverName = fullName
+               },
+               email, fullName);
         }
 
         public void SendGiftExchangeMessage(Book book, User owner, User receiver)

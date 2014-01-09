@@ -56,6 +56,8 @@
     <Compile Include="Documents\Data\ChangeRequest.cs" />
     <Compile Include="Documents\Data\ExchangeEntry.cs" />
     <Compile Include="Documents\Data\Location.cs" />
+    <Compile Include="Documents\Data\LoginService.cs" />
+    <Compile Include="Documents\Data\LoginServiceTypeEnum.cs" />
     <Compile Include="Documents\Data\Message.cs" />
     <Compile Include="Documents\Data\ShellAddressData.cs" />
     <Compile Include="Documents\Data\UserData.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="Documents\User.cs" />
     <Compile Include="Dto\OzBookIsbnRequestDto.cs" />
     <Compile Include="Dto\OzBookIsbnResponceDto.cs" />
+    <Compile Include="Enums\ExchangeEntryType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
