@@ -323,7 +323,11 @@
     <Content Include="Images\right_green.png" />
     <Content Include="Images\user-default-avatar.jpg" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+<<<<<<< HEAD
     <Content Include="robots.txt" />
+=======
+    <Content Include="Images\vk-btn.png" />
+>>>>>>> add MongoSessionProvider.cs (from github), views fix
     <Content Include="Images\vk_signup_empty.png" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />

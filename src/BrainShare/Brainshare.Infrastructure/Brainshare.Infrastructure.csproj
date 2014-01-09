@@ -141,6 +141,7 @@
     <Compile Include="Infrastructure\CryptographicHelper.cs" />
     <Compile Include="Infrastructure\Filters\BooksFilter.cs" />
     <Compile Include="Infrastructure\Filters\UsersFilter.cs" />
+    <Compile Include="Infrastructure\MongoSessionProvider.cs" />
     <Compile Include="Infrastructure\MyWebRequest.cs" />
     <Compile Include="Infrastructure\SessionKeys.cs" />
     <Compile Include="Mongo\BaseFilter.cs" />
