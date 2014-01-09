@@ -307,6 +307,7 @@
     <Content Include="Images\fb_signup_empty.png" />
     <Content Include="Images\user-default-avatar.jpg" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
