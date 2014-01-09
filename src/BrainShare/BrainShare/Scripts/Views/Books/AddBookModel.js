@@ -1,5 +1,5 @@
 ﻿
-var AddBookModel = function (ownedItems) {
+var AddBookModel = function (model) {
     var self = this;
 
     this.postfix = "&key=AIzaSyAFFukdkjHMHh5WmucwuxVGt18XA9LEJ1I&maxResults=20&country=ru";
@@ -23,7 +23,9 @@ var AddBookModel = function (ownedItems) {
 
     this.pages = ko.observableArray();
 
-    this.owned = ko.observableArray(ownedItems);
+    this.ownedBooks = ko.observableArray(model.MyBooksIds);
+    
+    this.wishedBooks = ko.observableArray(model.WishBooksIds);
 
     this.startIndex = ko.observable(0);
 
@@ -91,8 +93,7 @@ var AddBookModel = function (ownedItems) {
     };
 
     this.give = function (item) {
-        debugger;
-        self.owned.push(item.GoogleBookId);
+        self.ownedBooks.push(item.GoogleBookId);
        
         //var data = {
         //    bookDto: ko.toJS(item),

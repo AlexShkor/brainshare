@@ -29,8 +29,8 @@
                     <td style="width: 140px">
                         <div class="well well-small">
                             @*<a href="#" class="btn btn-info btn-block" data-bind="click: $root.info">Информация</a>*@
-                            <button class="btn btn-primary btn-block" data-bind="visible: ($root.owned().indexOf(GoogleBookId) == -1), click: $root.give">У меня есть</button>
-                            <button class="btn btn-success btn-block" data-bind="click: $root.take">Мне нужна</button>
+                            <button class="btn btn-primary btn-block" data-bind="visible: ($root.ownedBooks().indexOf(GoogleBookId) == -1), click: $root.give">У меня есть</button>
+                            <button class="btn btn-success btn-block" data-bind="visible: ($root.wishedBooks().indexOf(GoogleBookId) == -1), click: $root.take">Мне нужна</button>
                         </div>
                     </td>
                 </tr>

@@ -79,10 +79,12 @@ namespace BrainShare.Controllers
         [AllowAnonymous]
         public ActionResult Search()
         {
-            var model = new List<string>();
+            var model = new SearchByGoogleViewModel();
+
             if (UserId != null)
             {
-                model = _books.GetUserBooks(UserId).Select(x => x.GoogleBookId).ToList();
+                model.MyBooksIds = _books.GetUserBooks(UserId).Select(x => x.GoogleBookId).ToList();
+                model.WishBooksIds = _wishBooks.GetUserBooks(UserId).Select(x => x.GoogleBookId).ToList();
             }
 
             Title("Искать на Google Books");
