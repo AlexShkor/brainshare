@@ -378,6 +378,7 @@
     <Compile Include="Controllers\BooksController.cs" />
     <Content Include="Views\Shared\YandexMetrics.cshtml" />
     <Content Include="Views\DevTools\Index.cshtml" />
+    <Content Include="Views\User\ConfirmEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\big-loading.gif" />

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace BrainShare.Infostructure
 {
@@ -15,7 +17,9 @@ namespace BrainShare.Infostructure
     //   3. Compare the hash of the given password with the hash from the database. If they match, the password is correct. Otherwise, the password is incorrect.
     public class CryptographicHelper
     {
-        public const int SaltSize = 24;
+        private const int SaltSize = 24;
+        private const int Keysize = 256;
+        private const string InitVector = "xx89geji340t89u2";
 
         public string GenerateSalt()
         {
@@ -43,6 +47,43 @@ namespace BrainShare.Infostructure
         public string GetCsrfToken()
         {
             return GenerateSalt();
+        }
+
+        public static string Encrypt(string plainText, string passPhrase)
+        {
+            byte[] initVectorBytes = Encoding.UTF8.GetBytes(InitVector);
+            byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+            PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null);
+            byte[] keyBytes = password.GetBytes(Keysize / 8);
+            RijndaelManaged symmetricKey = new RijndaelManaged();
+            symmetricKey.Mode = CipherMode.CBC;
+            ICryptoTransform encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes);
+            MemoryStream memoryStream = new MemoryStream();
+            CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write);
+            cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
+            cryptoStream.FlushFinalBlock();
+            byte[] cipherTextBytes = memoryStream.ToArray();
+            memoryStream.Close();
+            cryptoStream.Close();
+            return Convert.ToBase64String(cipherTextBytes);
+        }
+
+        public static string Decrypt(string plainText, string passPhrase)
+        {
+            byte[] initVectorBytes = Encoding.ASCII.GetBytes(InitVector);
+            byte[] cipherTextBytes = Convert.FromBase64String(plainText);
+            PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null);
+            byte[] keyBytes = password.GetBytes(Keysize / 8);
+            RijndaelManaged symmetricKey = new RijndaelManaged();
+            symmetricKey.Mode = CipherMode.CBC;
+            ICryptoTransform decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes);
+            MemoryStream memoryStream = new MemoryStream(cipherTextBytes);
+            CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
+            byte[] plainTextBytes = new byte[cipherTextBytes.Length];
+            int decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
+            memoryStream.Close();
+            cryptoStream.Close();
+            return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
         }
     }
 }

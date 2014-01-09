@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Security.Policy;
+using System.Web;
 
 namespace BrainShare.Utils.Utilities
 {
@@ -34,6 +35,11 @@ namespace BrainShare.Utils.Utilities
             return ApplicationBaseUrl + "/books/info/" + bookId;
         }
 
+        public static string EmailApproveLink(string hashedUserId,string email)
+        {
+            return ApplicationBaseUrl + string.Format("/user/confirmemail?userId={0}&&email={1}", HttpUtility.UrlEncode(hashedUserId), HttpUtility.UrlEncode(email));
+        }
+
         public static string GetExchangeArrowUrl(int direction, int color)
         {
             string arrow_name = "";
@@ -67,5 +73,6 @@ namespace BrainShare.Utils.Utilities
 
             return "/Images/" + arrow_name;
         }
+   
     }
 }

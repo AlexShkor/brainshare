@@ -2,6 +2,7 @@
 using BrainShare.Domain.Documents;
 using BrainShare.EmailMessaging;
 using BrainShare.EmailMessaging.ViewModels;
+using BrainShare.Infostructure;
 using BrainShare.Utils.Utilities;
 using Brainshare.Infrastructure.Infrastructure;
 
@@ -18,11 +19,12 @@ namespace Brainshare.Infrastructure.Services
             _emailer = new Emailer(_settings.AdminEmail,_settings.AdminDisplayName);
         }
 
-        public void SendWelcomeMessage(string fullName, string email)
+        public void SendWelcomeMessage(string fullName, string email,string confirmLink = null)
         {
            _emailer.SendWelcomeMessage(new Welcome
                {
-                   ReceiverName = fullName
+                   ReceiverName = fullName,
+                   ConfirmLink = confirmLink
                },
                email, fullName);
         }

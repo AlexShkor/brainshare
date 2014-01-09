@@ -196,7 +196,8 @@ namespace BrainShare.Controllers
                         {
                             LoginType = LoginServiceTypeEnum.Facebook,
                             AccessToken = Session[SessionKeys.FbAccessToken] as string,
-                            ServiceUserId = fbUser.id
+                            ServiceUserId = fbUser.id,
+                            ServiceLinkedEmail = fbUser.email,
                         });
 
                     _users.Save(newUser);
@@ -214,6 +215,7 @@ namespace BrainShare.Controllers
                 {
                     var loginService = userByFacebookId.LoginServices.Single(l => l.LoginType == LoginServiceTypeEnum.Facebook && l.ServiceUserId == fbUser.id);
                     loginService.AccessToken = Session[SessionKeys.FbAccessToken] as string;
+                    loginService.ServiceLinkedEmail = fbUser.email;
 
                     _users.Save(userByFacebookId);
                     _auth.LoginUser(LoginServiceTypeEnum.Facebook, fbUser.id, true);

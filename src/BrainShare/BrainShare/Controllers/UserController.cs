@@ -95,6 +95,26 @@ namespace BrainShare.Controllers
             return View(new RegisterViewModel());
         }
 
+        [GET("confirmemail")]
+        public ActionResult ConfirmEmail(string userId, string email)
+        {
+            var user = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Email, email);
+            if (user != null)
+            {
+                var loginService = user.LoginServices.SingleOrDefault(l => l.ServiceUserId == email.ToLower());
+                var decryptedUserId = CryptographicHelper.Decrypt(userId, loginService.Salt);
+
+                if (decryptedUserId == user.Id)
+                {
+                    loginService.EmailConfirmed = true;
+                    _users.Save(user);
+
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            return View();
+        }
+
         [HttpPost]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -114,11 +134,20 @@ namespace BrainShare.Controllers
                                           LastName = model.LastName,
                                           Registered = DateTime.Now,
                                       };
-                    newUser.LoginServices.Add(new LoginService{ AccessToken = hashedPassword, LoginType = LoginServiceTypeEnum.Email, Salt = salt, ServiceUserId = model.Email.ToLower()});
+                    newUser.LoginServices.Add(new LoginService
+                        {
+                            AccessToken = hashedPassword, 
+                            LoginType = LoginServiceTypeEnum.Email, 
+                            Salt = salt, 
+                            ServiceUserId = model.Email.ToLower(),
+                            EmailConfirmed = false
+                        });
 
                     _users.AddUser(newUser);
+                    
+                    var confirmLink = UrlUtility.EmailApproveLink(CryptographicHelper.Encrypt(newUser.Id,salt), model.Email);
 
-                    _mailService.SendWelcomeMessage(newUser.FullName, model.Email);
+                    _mailService.SendWelcomeMessage(newUser.FullName, model.Email,confirmLink);
                 }
                 else
                 {
