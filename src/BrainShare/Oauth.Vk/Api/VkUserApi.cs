@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -18,9 +19,9 @@ namespace Oauth.Vk.Api
             throw new NotImplementedException();
         }
 
-        public T Users_Get<T>(params string[]uids)
+        public T Users_Get<T>(string[] fields, string[]uids)
         {
-            var parametrs = new NameValueCollection {{"uids", string.Join(",", uids)}};
+            var parametrs = new NameValueCollection { { "uids", string.Join(",", uids) }, { "fields", string.Join(",", fields) } };
             var json = Call("users.get", parametrs, AccessToken);
 
             json = JObject.Parse(json).SelectToken("response").ToString();

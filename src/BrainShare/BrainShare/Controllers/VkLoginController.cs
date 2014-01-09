@@ -6,6 +6,7 @@ using BrainShare.Domain.Documents;
 using BrainShare.Domain.Documents.Data;
 using BrainShare.Infostructure;
 using BrainShare.Services;
+using BrainShare.Utils.Extensions;
 using BrainShare.Utils.Utilities;
 using Brainshare.Infrastructure.Authentication;
 using Brainshare.Infrastructure.Facebook.Dto;
@@ -16,6 +17,7 @@ using Brainshare.VK;
 using MongoDB.Bson;
 using Newtonsoft.Json;
 using Oauth.Vk.Api;
+using Oauth.Vk.Dto.Geolocation;
 using Oauth.Vk.Dto.VkUserApi;
 using Oauth.Vk.Helpers;
 
@@ -135,14 +137,20 @@ namespace BrainShare.Controllers
             var vkId = Session[SessionKeys.VkUserId] as string;
 
             var vkUserApi = new VkUserApi(accessToken);
+            var vkGeoApi = new VkGeolocationApi(accessToken);
 
-            var dto = vkUserApi.Users_Get<List<VkUser>>(vkId);
+            var dto = vkUserApi.Users_Get<List<VkUser>>(new[] {"city","country"},new []{ vkId } );
             var vkUser = dto.First();
             if (mode == VkCallbackMode.AuthorizeWithVk)
             {
                 var userByVkId = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Vk, vkId);
                 if (userByVkId == null)
                 {
+                    var country = vkUser.Country.HasValue() ? vkGeoApi.Places_GetCountryById<List<VkCountry>>(vkUser.Country).First().Name : "Belarus";
+                    var city = vkUser.City.HasValue() ? vkGeoApi.Places_GetCityById<List<VkCity>>(vkUser.City).First().Name : "Minsk";
+
+                    var address = new AddressData(country, city);
+
                     var newUser = new User
                     {
                         Id = ObjectId.GenerateNewId().ToString(),
@@ -150,7 +158,10 @@ namespace BrainShare.Controllers
                         FirstName = vkUser.FirstName,
                         LastName = vkUser.LastName,
                         Registered = DateTime.Now,
+                        AvatarUrl = vkUser.AvatarUrl,
+                        Address = address
                     };
+
 
                     newUser.LoginServices.Add(new LoginService
                         {

@@ -23,6 +23,11 @@ namespace BrainShare.Domain.Documents.Data
             
         }
 
+        public AddressData(string vkCountry, string vkCity)
+            : this(string.Format("{0},{1}", vkCountry, vkCity), string.Format("{0},{1}", vkCountry, vkCity),vkCountry,vkCity)
+        {   
+        }
+
         public AddressData(string fbLocationData)
         {
             Original = fbLocationData;
