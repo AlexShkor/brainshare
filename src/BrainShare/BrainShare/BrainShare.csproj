@@ -316,6 +316,7 @@
     <Content Include="Content\imgAreaSelect\imgareaselect-animated.css" />
     <Content Include="Content\imgAreaSelect\imgareaselect-default.css" />
     <Content Include="Content\imgAreaSelect\imgareaselect-deprecated.css" />
+    <Content Include="Images\alert.png" />
     <Content Include="Images\socialIcons32\vk_32.png" />
     <Content Include="Images\socialIcons32\blogger_32.png" />
     <Content Include="Images\socialIcons32\delicious_32.png" />

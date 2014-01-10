@@ -13,7 +13,7 @@
 </script>
 <!-- ko with: model -->
 <div class="notifications-content">
-    <p class="notification-settings-label">Настройка оповещений по email</p>
+    <p class="notification-settings-label">Настройка оповещений</p>
     
     <table class="table email-settings-table">
         <tr>
@@ -21,7 +21,7 @@
             <td><input type="checkbox" data-bind="checked:NotifyByEmailIfAnybodyAddedMyWishBook,event: { change: $root.ItemChanged }"/></td>
         </tr>
         <tr>
-            <td class="span6">Дублировать личные сообщения на почту</td>
+            <td class="span6">Дублировать личные сообщения</td>
             <td><input type="checkbox" data-bind="checked:DuplicateMessagesToEmail,event: { change: $root.ItemChanged }"/></td>
         </tr>
     </table>
@@ -30,15 +30,45 @@
 </div>
 
 <div class="notifications-content">
-    <p class="notification-settings-label">Настройка сервисов для оповещения</p>
+    <p class="notification-settings-label">Укажите сервисы для оповещения</p>
     
     <table class="table email-settings-table" data-bind="foreach: Services">
         <tr>
             <td class="span6"><img data-bind="attr: { src: LogoUrl }"/></td> 
-            <td><input type="checkbox" data-bind="checked: IsChecked, event: { change: $root.ItemChanged }"/></td> 
+            <td  data-bind="template: { name: IsEmailConfirmed() ? 'check-service-template' : 'alert-template' }"></td> 
         </tr>
     </table>
     
     <button class="btn btn-success apply-btn" data-bind="enable: $root.applyButtonIsVisible, click: $root.applySettings">Применить</button>
 </div>
 <!-- /ko-->
+
+<script type="text/html" id="check-service-template">
+  <input type="checkbox" data-bind="checked: IsChecked, event: { change: $root.ItemChanged }"/>
+</script>
+
+<script type="text/html" id="alert-template">
+    <img class="alert-image" src="/Images/alert.png" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="" />
+</script>
+
+<style>
+    .alert-image {
+        max-width: none;
+    }
+</style>
+<script>
+    $('.alert-image').popover(
+        {
+            content: function () {
+                 return $($("#alert-body")[0]).html();
+            },
+            html:true
+        });
+</script>
+
+<script type="text/html" id="alert-body">
+    <div style="text-align: justify">
+         <p>Мы не шлём уведомления на непроверенные почтовые ящики во избежание спама. Нажмите ссылку ниже для получения подтверждающего письма. </p>
+         <a href="#">Получить линк подтверждения</a>
+    </div>  
+</script>

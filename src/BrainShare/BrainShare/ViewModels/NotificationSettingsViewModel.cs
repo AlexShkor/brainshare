@@ -30,7 +30,7 @@ namespace BrainShare.ViewModels
                     {
                         IsChecked = loginService.UseForNotifications,
                         LogoUrl = UrlHelper.GetServiceLogoUrl(loginService.LoginType,StringUtility.GetEmailSuffix(loginService.ServiceUserId)),
-                        IsEmailConfirmed = loginService.EmailConfirmed,
+                        IsEmailConfirmed = loginService.LoginType != LoginServiceTypeEnum.Email || loginService.EmailConfirmed,
                         ServiceId = loginService.ServiceUserId
                     });
             }
