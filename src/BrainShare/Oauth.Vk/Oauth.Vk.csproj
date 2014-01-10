@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\PrivateMessaging\VkMessaging.cs" />
     <Compile Include="Api\VkGeolocationApi.cs" />
     <Compile Include="Api\VkUserApi.cs" />
     <Compile Include="Dto\Geolocation\VkCity.cs" />
@@ -51,12 +52,18 @@
     <Compile Include="IApi\IVkApi.cs" />
     <Compile Include="IApi\IVkGeolocation.cs" />
     <Compile Include="IApi\IVkUserApi.cs" />
+    <Compile Include="IApi\PrivateMessaging\IVkMessaging.cs" />
     <Compile Include="Infrastructure\BaseVkApi.cs" />
+    <Compile Include="Infrastructure\Enums\MessageScopeEnum.cs" />
+    <Compile Include="Infrastructure\Enums\VkMediaTypeEnum.cs" />
     <Compile Include="Infrastructure\MyWebRequest.cs" />
     <Compile Include="Infrastructure\OAuthResponce.cs" />
+    <Compile Include="Infrastructure\VkAttachment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Dto\Messaging\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
