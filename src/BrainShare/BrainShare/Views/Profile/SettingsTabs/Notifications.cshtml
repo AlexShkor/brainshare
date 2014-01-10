@@ -1,5 +1,5 @@
 ﻿@using Newtonsoft.Json
-@model BrainShare.Domain.Documents.Data.NotificationSettings
+@model BrainShare.ViewModels.NotificationSettingsViewModel
 @{
     Layout = null;
 }
@@ -26,6 +26,19 @@
         </tr>
     </table>
     
-    <button class="btn btn-success apply-btn" data-bind="enable:$root.applyButtonIsVisible,click:$root.applySettings">Применить</button>
+   @* <button class="btn btn-success apply-btn" data-bind="enable:$root.emailApplyButtonIsVisible,click:$root.applySettings">Применить</button>*@
+</div>
+
+<div class="notifications-content">
+    <p class="notification-settings-label">Настройка сервисов для оповещения</p>
+    
+    <table class="table email-settings-table" data-bind="foreach: Services">
+        <tr>
+            <td class="span6"><img data-bind="attr: { src: LogoUrl }"/></td> 
+            <td><input type="checkbox" data-bind="checked: IsChecked, event: { change: $root.ItemChanged }"/></td> 
+        </tr>
+    </table>
+    
+    <button class="btn btn-success apply-btn" data-bind="enable: $root.applyButtonIsVisible, click: $root.applySettings">Применить</button>
 </div>
 <!-- /ko-->

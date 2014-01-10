@@ -7,6 +7,7 @@
         public string ServiceLinkedEmail { get; set; }
         public string AccessToken { get; set; }
         public bool EmailConfirmed { get; set; }
+        public bool UseForNotifications { get; set; }
         public string Salt { get; set; }
     }
 }

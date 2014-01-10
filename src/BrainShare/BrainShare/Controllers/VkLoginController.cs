@@ -167,7 +167,8 @@ namespace BrainShare.Controllers
                         {
                             LoginType = LoginServiceTypeEnum.Vk,
                             AccessToken = accessToken,
-                            ServiceUserId = vkUser.UserId
+                            ServiceUserId = vkUser.UserId,
+                            UseForNotifications = false
                         });
 
                     _users.Save(newUser);

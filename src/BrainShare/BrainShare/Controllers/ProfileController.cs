@@ -312,7 +312,7 @@ namespace BrainShare.Controllers
                 case "common":
                     return View("SettingsTabs/Common", user.Settings.CommonSettings);
                 case "notifications":
-                    return View("SettingsTabs/Notifications", user.Settings.NotificationSettings);
+                    return View("SettingsTabs/Notifications", new NotificationSettingsViewModel(user.Settings.NotificationSettings,user.LoginServices));
                 case "privacy":
                     return View("SettingsTabs/Privacy", user.Settings.PrivacySettings);
 
@@ -321,10 +321,16 @@ namespace BrainShare.Controllers
         }
 
         [POST("settings/update/notifications")]
-        public ActionResult UpdateNotificationsSettings(NotificationSettings notificationSettings)
+        public ActionResult UpdateNotificationsSettings(NotificationSettingsViewModel notificationSettings)
         {
             var user = _users.GetById(UserId);
-            user.Settings.NotificationSettings = notificationSettings;
+            user.Settings.NotificationSettings = notificationSettings.GetNotificationSettings();
+
+            foreach (var service in notificationSettings.Services)
+            {
+                user.LoginServices.First(s => s.ServiceUserId == service.ServiceId).UseForNotifications =
+                    service.IsChecked;
+            }
             _users.Save(user);
 
             return Json("");

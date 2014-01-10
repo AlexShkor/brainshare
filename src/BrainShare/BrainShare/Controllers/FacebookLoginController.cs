@@ -198,6 +198,7 @@ namespace BrainShare.Controllers
                             AccessToken = Session[SessionKeys.FbAccessToken] as string,
                             ServiceUserId = fbUser.id,
                             ServiceLinkedEmail = fbUser.email,
+                            UseForNotifications = false
                         });
 
                     _users.Save(newUser);

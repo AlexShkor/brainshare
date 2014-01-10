@@ -2,7 +2,7 @@
     var self = this;
 
     self.model = ko.mapping.fromJS(data);
-
+    
     self.applyButtonIsVisible = ko.observable(false);
 
     self.ItemChanged = function () {
@@ -10,6 +10,7 @@
             self.applyButtonIsVisible(true);
         }
     };
+    
 
     self.applySettings = function () {
         sendJson("/Profile/Settings/Update/Notifications", self.model, function () {

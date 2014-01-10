@@ -140,7 +140,8 @@ namespace BrainShare.Controllers
                             LoginType = LoginServiceTypeEnum.Email, 
                             Salt = salt, 
                             ServiceUserId = model.Email.ToLower(),
-                            EmailConfirmed = false
+                            EmailConfirmed = false,
+                            UseForNotifications = false
                         });
 
                     _users.AddUser(newUser);
