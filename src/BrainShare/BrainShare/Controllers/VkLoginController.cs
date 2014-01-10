@@ -139,7 +139,7 @@ namespace BrainShare.Controllers
             var vkUserApi = new VkUserApi(accessToken);
             var vkGeoApi = new VkGeolocationApi(accessToken);
 
-            var dto = vkUserApi.Users_Get<List<VkUser>>(new[] {"city","country"},new []{ vkId } );
+            var dto = vkUserApi.Users_Get<List<VkUser>>(new[] { "city", "country", "photo_200" }, new[] { vkId });
             var vkUser = dto.First();
             if (mode == VkCallbackMode.AuthorizeWithVk)
             {
@@ -210,7 +210,7 @@ namespace BrainShare.Controllers
                     var loginService = currentUser.LoginServices.Single(l => l.LoginType == LoginServiceTypeEnum.Vk);
 
                     loginService.ServiceUserId = vkUser.UserId;
-                    loginService.AccessToken = Session[SessionKeys.FbAccessToken] as string;
+                    loginService.AccessToken = Session[SessionKeys.VkAccessToken] as string;
 
                     _users.Save(currentUser);
 
