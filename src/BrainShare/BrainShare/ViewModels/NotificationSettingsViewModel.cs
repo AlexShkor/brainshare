@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using BrainShare.Domain.Documents.Data;
 using BrainShare.Helpers;
+using BrainShare.Utils.Extensions;
+using BrainShare.Utils.Utilities;
 
 namespace BrainShare.ViewModels
 {
@@ -27,7 +29,7 @@ namespace BrainShare.ViewModels
                 Services.Add(new Service
                     {
                         IsChecked = loginService.UseForNotifications,
-                        LogoUrl = UrlHelper.GetServiceLogoUrl(loginService.LoginType),
+                        LogoUrl = UrlHelper.GetServiceLogoUrl(loginService.LoginType,StringUtility.GetEmailSuffix(loginService.ServiceUserId)),
                         IsEmailConfirmed = loginService.EmailConfirmed,
                         ServiceId = loginService.ServiceUserId
                     });

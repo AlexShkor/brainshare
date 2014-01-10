@@ -5,15 +5,31 @@ namespace BrainShare.Helpers
     public class UrlHelper
     {
         private const string BaseImagesPath = "/Images/socialIcons32/";
-        public static string GetServiceLogoUrl(LoginServiceTypeEnum serviceType)
+        private const string DefaultServiceLogo = BaseImagesPath + "xxx_32.png";
+
+        public static string GetServiceLogoUrl(LoginServiceTypeEnum serviceType,string emailSuffix = null)
         {
             switch (serviceType)
             {
                 case LoginServiceTypeEnum.Facebook:
                     return BaseImagesPath + "facebook_32.png";
+                case LoginServiceTypeEnum.Vk:
+                    return BaseImagesPath + "vk_32.png";
+                case LoginServiceTypeEnum.Email:
+                    return GetEmailServiceLogoUrl(emailSuffix);
             }
 
-            return BaseImagesPath + "facebook_32.png";
+            return DefaultServiceLogo;
+        }
+
+        public static string GetEmailServiceLogoUrl(string emailSuffix)
+        {
+            switch (emailSuffix)
+            {
+                case "gmail":
+                    return BaseImagesPath + "google_32.png";
+            }
+            return DefaultServiceLogo;
         }
     }
 }
