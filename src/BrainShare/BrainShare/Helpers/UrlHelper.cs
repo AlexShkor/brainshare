@@ -5,7 +5,7 @@ namespace BrainShare.Helpers
     public class UrlHelper
     {
         private const string BaseImagesPath = "/Images/socialIcons32/";
-        private const string DefaultServiceLogo = BaseImagesPath + "xxx_32.png";
+        private const string DefaultServiceLogo = "/Images/" + "email_32.png";
 
         public static string GetServiceLogoUrl(LoginServiceTypeEnum serviceType,string emailSuffix = null)
         {

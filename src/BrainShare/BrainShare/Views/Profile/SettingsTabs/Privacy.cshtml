@@ -1,7 +1,20 @@
-﻿@model BrainShare.Domain.Documents.Data.PrivacySettings
+﻿@model BrainShare.ViewModels.ProfileSettings.PrivacySettingsViewModel
 @{
     Layout = null;
 }
 
+<p>Ваши привязанные аккаунты</p>
+@foreach (var logo in Model.ExistingAccounts)
+{
+    <img src="@logo.LogoUrl"/>
+}
+<br/>
+<br/>
+<p>Вы можете привязать произвольное количество аакаунтов следующих сервисов :</p>
+@foreach (var logo in Model.SupportedServices)
+{
+    <a href="@logo.LogoLink">
+         <img src="@logo.LogoUrl"/>
+    </a>
+}
 
-<h2>Privacy</h2>

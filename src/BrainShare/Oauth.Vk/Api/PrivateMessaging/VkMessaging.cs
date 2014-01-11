@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Oauth.Vk.IApi.PrivateMessaging;
@@ -37,7 +36,7 @@ namespace Oauth.Vk.Api.PrivateMessaging
             }
 
 
-            var json = Call("messages.send", parametrs, AccessToken);
+            var json = Call("messages.send", parametrs);
 
             json = JObject.Parse(json).SelectToken("response").ToString();
 

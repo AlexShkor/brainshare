@@ -24,6 +24,7 @@ using Oauth.Vk.Helpers;
 
 namespace BrainShare.Controllers
 {
+   // [Authorize]
     public class VkLoginController:BaseController
     {
         private readonly Settings _settings;
@@ -47,9 +48,16 @@ namespace BrainShare.Controllers
             _auth = authentication;
         }
 
+        [AllowAnonymous]
         public ActionResult LoginWithVk()
         {
             return ProcessVk(VkCallbackMode.AuthorizeWithVk);
+        }
+
+        [AllowAnonymous]
+        public ActionResult AddVkAccount()
+        {
+            return ProcessVk(VkCallbackMode.LinkNewAccount);
         }
 
         private ActionResult ProcessVk(VkCallbackMode mode, string returnUrl = null)
@@ -74,6 +82,11 @@ namespace BrainShare.Controllers
                 }
 
                 return ProcessVkontakte(VkCallbackMode.UpdateVkFields, returnUrl);
+            }
+
+            if (mode == VkCallbackMode.LinkNewAccount)
+            {
+                return RunVkCallback(VkCallbackMode.LinkNewAccount, returnUrl);
             }
 
             return null;
@@ -103,6 +116,7 @@ namespace BrainShare.Controllers
 
 
             var exepectedCsrfToken = Session[SessionKeys.VkCsrfToken] as string;
+            var mode = (VkCallbackMode)Session[SessionKeys.VkCallbackMode];
 
             if (state == null || !state.Equals(exepectedCsrfToken))
             {
@@ -128,7 +142,7 @@ namespace BrainShare.Controllers
             //    return ProcessFacebook((FacebookCallbackMode)decodedState.mode, decodedState.returnUrl);
             //}
 
-            return ProcessVkontakte(VkCallbackMode.AuthorizeWithVk);
+            return ProcessVkontakte(mode);
         }
 
         private ActionResult ProcessVkontakte(VkCallbackMode mode, string returnUrl = null)
@@ -202,15 +216,25 @@ namespace BrainShare.Controllers
 
             if (mode == VkCallbackMode.UpdateVkFields)
             {
+                UpdateVkFields(vkUser.UserId);
+            }
+
+            if (mode == VkCallbackMode.LinkNewAccount)
+            {
                 var user = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Vk, vkUser.UserId);
 
-                if (user == null || user.Id == UserId)
+                if (user == null)
                 {
                     var currentUser = _users.GetById(UserId);
-                    var loginService = currentUser.LoginServices.Single(l => l.LoginType == LoginServiceTypeEnum.Vk);
+                    var loginService = new LoginService
+                        {
+                            AccessToken = Session[SessionKeys.VkAccessToken] as string,
+                            LoginType = LoginServiceTypeEnum.Vk,
+                            ServiceUserId = vkUser.UserId,
+                            UseForNotifications = false
+                        };
 
-                    loginService.ServiceUserId = vkUser.UserId;
-                    loginService.AccessToken = Session[SessionKeys.VkAccessToken] as string;
+                    currentUser.LoginServices.Add(loginService);
 
                     _users.Save(currentUser);
 
@@ -222,10 +246,25 @@ namespace BrainShare.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                return View("UserWithVkIdAlreadyExist");
+                UpdateVkFields(vkUser.UserId);
             }
 
             return RedirectToAction("Index", "Home");
+        }
+
+        private void UpdateVkFields(string vkUserId)
+        {
+            var user = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Vk, vkUserId);
+
+            if (user != null)
+            {
+                var loginService = user.LoginServices.Single(l => l.LoginType == LoginServiceTypeEnum.Vk && l.ServiceUserId == vkUserId);
+
+                loginService.ServiceUserId = vkUserId;
+                loginService.AccessToken = Session[SessionKeys.VkAccessToken] as string;
+
+                _users.Save(user);
+            }
         }
     }
 }

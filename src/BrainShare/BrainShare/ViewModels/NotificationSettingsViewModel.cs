@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using BrainShare.Domain.Documents.Data;
 using BrainShare.Helpers;
-using BrainShare.Utils.Extensions;
 using BrainShare.Utils.Utilities;
 
 namespace BrainShare.ViewModels

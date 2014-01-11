@@ -286,6 +286,7 @@
     <Compile Include="ViewModels\Exchange\ExchangeHistoryViewModel.cs" />
     <Compile Include="ViewModels\NewsViewModel.cs" />
     <Compile Include="ViewModels\NotificationSettingsViewModel.cs" />
+    <Compile Include="ViewModels\ProfileSettings\PrivacySettingsViewModel.cs" />
     <Compile Include="ViewModels\PublisherViewModel.cs" />
     <Compile Include="Controllers\OzBookDto.cs" />
     <Compile Include="GoogleDto\GoogleBookDto.cs" />
@@ -317,6 +318,7 @@
     <Content Include="Content\imgAreaSelect\imgareaselect-default.css" />
     <Content Include="Content\imgAreaSelect\imgareaselect-deprecated.css" />
     <Content Include="Images\alert.png" />
+    <Content Include="Images\email_32.png" />
     <Content Include="Images\socialIcons32\vk_32.png" />
     <Content Include="Images\socialIcons32\blogger_32.png" />
     <Content Include="Images\socialIcons32\delicious_32.png" />

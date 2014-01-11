@@ -60,7 +60,7 @@ namespace Oauth.Vk.Api
         public T Places_GetCityById<T>(params string[] cids)
         {
             var parametrs = new NameValueCollection { { "cids", string.Join(",", cids) } };
-            var json = Call("places.getCityById", parametrs, AccessToken);
+            var json = Call("places.getCityById", parametrs);
 
             json = JObject.Parse(json).SelectToken("response").ToString();
 
@@ -70,7 +70,7 @@ namespace Oauth.Vk.Api
         public T Places_GetCountryById<T>(params string[] cids)
         {
             var parametrs = new NameValueCollection { { "cids", string.Join(",", cids) } };
-            var json = Call("places.getCountryById", parametrs, AccessToken);
+            var json = Call("places.getCountryById", parametrs);
 
             json = JObject.Parse(json).SelectToken("response").ToString();
 

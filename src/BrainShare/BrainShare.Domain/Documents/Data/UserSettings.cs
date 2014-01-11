@@ -28,6 +28,7 @@
     public class PrivacySettings
     {
         public bool IsProfilePublic { get; set; }
+
     }
 
 }

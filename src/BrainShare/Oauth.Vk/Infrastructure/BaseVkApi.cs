@@ -13,8 +13,10 @@ namespace Oauth.Vk.Infrastructure
             AccessToken = accessToken;
         }
 
-        protected string Call(string methodName, NameValueCollection parametrs, string accessToken, string method = "POST")
+        protected string Call(string methodName, NameValueCollection parametrs, string method = "POST")
         {
+            parametrs.Add("access_token",AccessToken);
+
             var postData = new StringBuilder();
 
             foreach (var key in parametrs.AllKeys)

@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using BrainShare.Domain.Documents.Data;
 using BrainShare.Infostructure;
 using BrainShare.Services;
+using Oauth.Vk.Api.PrivateMessaging;
 
 namespace BrainShare.Controllers
 {
@@ -81,6 +82,20 @@ namespace BrainShare.Controllers
             }
 
             return Json(string.Format("success: total changes {0}", count), JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        public ActionResult SendVkMessages()
+        {
+            var user = _users.GetById(UserId);
+
+            var loginService = user.LoginServices.First(e => e.LoginType == LoginServiceTypeEnum.Vk);
+            var vkMessanger = new VkMessaging(loginService.AccessToken);
+
+            var result = vkMessanger.Messages_Send<string>(loginService.ServiceUserId, "Brainshare test message");
+
+            return Json(string.Format("success: result = {0}", result), JsonRequestBehavior.AllowGet);
         }
     }
 }

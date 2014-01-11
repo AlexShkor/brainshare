@@ -22,7 +22,7 @@ namespace Oauth.Vk.Api
         public T Users_Get<T>(string[] fields, string[]uids)
         {
             var parametrs = new NameValueCollection { { "uids", string.Join(",", uids) }, { "fields", string.Join(",", fields) } };
-            var json = Call("users.get", parametrs, AccessToken);
+            var json = Call("users.get", parametrs);
 
             json = JObject.Parse(json).SelectToken("response").ToString();
 

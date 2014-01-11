@@ -13,6 +13,7 @@ using BrainShare.Services;
 using BrainShare.Utils.Extensions;
 using BrainShare.Utils.Utilities;
 using BrainShare.ViewModels;
+using BrainShare.ViewModels.ProfileSettings;
 using Brainshare.Infrastructure.Authentication;
 using Brainshare.Infrastructure.Hubs;
 using Brainshare.Infrastructure.Services;
@@ -314,7 +315,7 @@ namespace BrainShare.Controllers
                 case "notifications":
                     return View("SettingsTabs/Notifications", new NotificationSettingsViewModel(user.Settings.NotificationSettings,user.LoginServices));
                 case "privacy":
-                    return View("SettingsTabs/Privacy", user.Settings.PrivacySettings);
+                    return View("SettingsTabs/Privacy", new PrivacySettingsViewModel(user.LoginServices, user.Settings.PrivacySettings));
 
                 default: return View("SettingsTabs/Common", user.Settings.CommonSettings);
             }
