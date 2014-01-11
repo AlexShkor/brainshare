@@ -25,7 +25,8 @@ namespace BrainShare.ViewModels.ProfileSettings
 
             SupportedServices.Add(new LogoImage
                 {
-                    LogoUrl = UrlHelper.GetServiceLogoUrl(LoginServiceTypeEnum.Facebook)
+                    LogoUrl = UrlHelper.GetServiceLogoUrl(LoginServiceTypeEnum.Facebook),
+                    LogoLink = "/Facebooklogin/AddFbAccount"
                 });
             SupportedServices.Add(new LogoImage
             {

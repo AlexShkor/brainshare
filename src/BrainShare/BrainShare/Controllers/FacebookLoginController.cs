@@ -47,6 +47,11 @@ namespace BrainShare.Controllers
             return ProcessFb(FacebookCallbackMode.AuthorizeWithFacebook);
         }
 
+        public ActionResult AddFbAccount()
+        {
+            return ProcessFb(FacebookCallbackMode.LinkNewAccount);
+        }
+
         public ActionResult UpdateFacebookFields()
         {
             return ProcessFb(FacebookCallbackMode.UpdateFacebookFields, Request.UrlReferrer.AbsolutePath);
@@ -74,6 +79,11 @@ namespace BrainShare.Controllers
                 }
 
                 return ProcessFacebook(FacebookCallbackMode.UpdateFacebookFields, returnUrl);
+            }
+
+            if (mode == FacebookCallbackMode.LinkNewAccount)
+            {
+                return RunFacebookCallback(FacebookCallbackMode.LinkNewAccount, returnUrl);
             }
 
             return null;
@@ -110,7 +120,6 @@ namespace BrainShare.Controllers
             if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(state))
             {
                 throw new Exception(string.Format("Can't process facebook. No code or state, code: {0}, state: {1}", code, state));
-                return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
             }
 
             // first validate the csrf token
@@ -118,6 +127,7 @@ namespace BrainShare.Controllers
             try
             {
                 decodedState = _fb.DeserializeJson(Encoding.UTF8.GetString(Convert.FromBase64String(state)), null);
+
                 var exepectedCsrfToken = Session[SessionKeys.FbCsrfToken] as string;
 
                 // make the fb_csrf_token invalid
@@ -128,14 +138,12 @@ namespace BrainShare.Controllers
                 if (!(decodedState is IDictionary<string, object>) || !decodedState.ContainsKey("csrf") || string.IsNullOrWhiteSpace(exepectedCsrfToken) || exepectedCsrfToken != decodedState.csrf)
                 {
                     throw new Exception(string.Format("Can't process facebook. No decodedState or exepectedCsrfToken or exepectedCsrfToken != decodedState.csrf, decodedState: {0}, exepectedCsrfToken: {1}", decodedState, exepectedCsrfToken));
-                    return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
                 }
             }
             catch (Exception exception)
             {
                 // log exception
                 throw new Exception(string.Format("Can't process facebook.  fbCallbackMode: {0}, fbReturnUrl: {1}", fbCallbackMode, fbReturnUrl), exception);
-                return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
             }
 
             try
@@ -153,20 +161,13 @@ namespace BrainShare.Controllers
                 if (result.ContainsKey("expires"))
                     Session[SessionKeys.FbExpiresIn] = DateTime.Now.AddSeconds(result.expires);
 
-                if (decodedState.ContainsKey("returnUrl") && decodedState.ContainsKey("mode"))
-                {
-                    return ProcessFacebook((FacebookCallbackMode)decodedState.mode, decodedState.returnUrl);
-                }
+                return ProcessFacebook(fbCallbackMode, decodedState.returnUrl);
 
-                return ProcessFacebook(FacebookCallbackMode.AuthorizeWithFacebook);
-
-                // return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
             }
             catch (Exception exception)
             {
                 // log exception
                 throw new Exception(string.Format("Can't process facebook.  fbCallbackMode: {0}, fbReturnUrl: {1}", fbCallbackMode, fbReturnUrl), exception);
-                return RunFacebookCallback(fbCallbackMode, fbReturnUrl);
             }
         }
 
@@ -232,15 +233,25 @@ namespace BrainShare.Controllers
 
             if (mode == FacebookCallbackMode.UpdateFacebookFields)
             {
-                var userByFacebookId = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Facebook, facebookId);
+                UpdateFbFields(fbUser.id);
+            }
 
-                if (userByFacebookId == null || userByFacebookId.Id == UserId)
+            if (mode == FacebookCallbackMode.LinkNewAccount)
+            {
+                var user = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Facebook, fbUser.id);
+
+                if (user == null)
                 {
                     var currentUser = _users.GetById(UserId);
-                    var loginService = currentUser.LoginServices.Single(l => l.LoginType == LoginServiceTypeEnum.Facebook);
+                    var loginService = new LoginService
+                    {
+                        AccessToken = Session[SessionKeys.FbAccessToken] as string,
+                        LoginType = LoginServiceTypeEnum.Facebook,
+                        ServiceUserId = fbUser.id,
+                        UseForNotifications = false
+                    };
 
-                    loginService.ServiceUserId = fbUser.id;
-                    loginService.AccessToken = Session[SessionKeys.FbAccessToken] as string;
+                    currentUser.LoginServices.Add(loginService);
 
                     _users.Save(currentUser);
 
@@ -252,10 +263,25 @@ namespace BrainShare.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                return View("UserWithFbIdAlreadyExist");
+                UpdateFbFields(fbUser.id);
             }
 
             return RedirectToAction("Index", "Home");
+        }
+
+        private void UpdateFbFields(string facebookId)
+        {
+            var userByFacebookId = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Facebook, facebookId);
+
+            if (userByFacebookId != null )
+            {
+                var currentUser = _users.GetById(UserId);
+                var loginService = currentUser.LoginServices.Single(l => l.LoginType == LoginServiceTypeEnum.Facebook && l.ServiceUserId == facebookId);
+
+                loginService.AccessToken = Session[SessionKeys.FbAccessToken] as string;
+
+                _users.Save(currentUser);
+            }
         }
 
         public ActionResult GetFbFriends()
