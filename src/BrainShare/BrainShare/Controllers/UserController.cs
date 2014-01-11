@@ -62,6 +62,51 @@ namespace BrainShare.Controllers
             return View(new LoginView());
         }
 
+        [HttpGet]
+        public ActionResult LinkAccount()
+        {
+            Title("Добавления аккаунта");
+            return View(new LinkAccountViewModel());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> LinkAccount(LinkAccountViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Email, model.Email);
+
+                if (user != null)
+                {
+                    ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
+                    return JsonModel(model);
+                }
+               
+                user = _users.GetById(UserId);
+
+                var salt = _cryptoHelper.GenerateSalt();
+                var hashedPassword = _cryptoHelper.GetPasswordHash(model.Password, salt);
+
+                user.LoginServices.Add(new LoginService
+                    {
+                        AccessToken = hashedPassword,
+                        LoginType = LoginServiceTypeEnum.Email,
+                        Salt = salt,
+                        ServiceUserId = model.Email.ToLower(),
+                        EmailConfirmed = false,
+                        UseForNotifications = false
+                    });
+
+                _users.AddUser(user);
+
+                var confirmLink = UrlUtility.EmailApproveLink(CryptographicHelper.Encrypt(user.Id, salt), model.Email);
+
+                _mailService.SendWelcomeMessage(user.FullName, model.Email, confirmLink);
+            }
+
+            return JsonModel(model);
+        }
+
         [HttpPost]
         public ActionResult Login(LoginView loginView)
         {

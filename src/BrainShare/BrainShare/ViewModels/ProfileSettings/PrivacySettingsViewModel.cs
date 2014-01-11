@@ -34,7 +34,8 @@ namespace BrainShare.ViewModels.ProfileSettings
             });
             SupportedServices.Add(new LogoImage
             {
-                LogoUrl = UrlHelper.GetServiceLogoUrl(LoginServiceTypeEnum.Email)
+                LogoUrl = UrlHelper.GetServiceLogoUrl(LoginServiceTypeEnum.Email),
+                LogoLink = "/User/LinkAccount"
             });
         }
     }

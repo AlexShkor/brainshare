@@ -284,6 +284,7 @@
     <Compile Include="ViewModels\Exchange\ExchangeArrowViewModel.cs" />
     <Compile Include="ViewModels\Exchange\ExchangeEntryViewModel.cs" />
     <Compile Include="ViewModels\Exchange\ExchangeHistoryViewModel.cs" />
+    <Compile Include="ViewModels\LinkAccountViewModel.cs" />
     <Compile Include="ViewModels\NewsViewModel.cs" />
     <Compile Include="ViewModels\NotificationSettingsViewModel.cs" />
     <Compile Include="ViewModels\ProfileSettings\PrivacySettingsViewModel.cs" />
@@ -380,6 +381,7 @@
     <Content Include="Scripts\Views\Home\Main.js" />
     <Content Include="Scripts\Views\Profile\SettingsTabs\NotificationSettingsViewModel.js" />
     <Content Include="Scripts\Views\Profile\SettingsViewModel.js" />
+    <Content Include="Scripts\Views\User\LinkAccountViewModel.js" />
     <Content Include="Scripts\Views\User\NewsListViewModel.js" />
     <Content Include="Scripts\infrastructure\notifications.js" />
     <Compile Include="StructureMapResolver.cs" />
@@ -415,6 +417,7 @@
     <Content Include="Views\Shared\YandexMetrics.cshtml" />
     <Content Include="Views\DevTools\Index.cshtml" />
     <Content Include="Views\User\ConfirmEmail.cshtml" />
+    <Content Include="Views\User\LinkAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\big-loading.gif" />
