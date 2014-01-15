@@ -23,11 +23,13 @@ using Brainshare.Infrastructure.Services;
 using Brainshare.Infrastructure.Services.Validation;
 using Brainshare.Infrastructure.Settings;
 using MongoDB.Bson;
+using Sitemaps;
 
 namespace BrainShare.Controllers
 {
     [AttributeRouting.RoutePrefix("books")]
     [Authorize]
+    [Sitemap]
     public class BooksController : BaseController
     {
         private readonly BooksService _books;

@@ -128,6 +128,7 @@
     <Compile Include="Authentication\IUserProvider.cs" />
     <Compile Include="Authentication\UserIdentity.cs" />
     <Compile Include="Authentication\UserProvider.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Facebook\Dto\FbUserMe.cs" />
     <Compile Include="Facebook\FacebookAuthorizeAttribute.cs" />
     <Compile Include="Facebook\FacebookClientFactory.cs" />

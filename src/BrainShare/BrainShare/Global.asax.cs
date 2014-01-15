@@ -5,6 +5,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using BrainShare.DependencyResolution;
 using Microsoft.AspNet.SignalR;
+using Sitemaps;
 using StructureMap;
 
 namespace BrainShare
@@ -31,6 +32,7 @@ namespace BrainShare
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             RabbitMQ.Start();
+            SitemapService.Register();
         }
 
         protected void Application_BeginRequest(Object sender, EventArgs e)
