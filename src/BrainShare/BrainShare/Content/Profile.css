@@ -89,4 +89,6 @@ button.vote {
 
     .vote.down:hover:disabled {
         color: rgb(109, 109, 109);
+        /*color: #2c3e50;
+        color: #ffa500*/
     }
