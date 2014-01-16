@@ -1,7 +1,7 @@
 ﻿@using Newtonsoft.Json
 @model BrainShare.ViewModels.UserProfileModel
 
-<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Profile/userProfile.js")"></script>
+<script type="text/javascript" src="~/Scripts/Views/Profile/UserProfileModel.js"></script>
 <script type="text/javascript">
     $(function () {
         var model = new UserProfileModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
@@ -52,6 +52,9 @@
                     <div class="control-group">
                         <button class="btn btn-info" data-bind="click: sendMessage">Отправить сообщение</button>
                     </div>
+                    <div class="control-group" data-bind="template: { name: templateName()}">
+ 
+                    </div>
                 }
 
             </div>
@@ -66,6 +69,10 @@
                 <i class="icon-chevron-down icon-3x"></i>
             </button>
         </div>
+        
+       <div class="pull-left status"></div>
+          <span class="status-text" data-bind="text:status"></span>
+        
     </div>
 
 
@@ -119,4 +126,12 @@
         </div>
     </div>
 </div>
+
+<script id="subscribe-template" type="text/html">
+        <button class="btn btn-info subscribe-button" data-bind="click: subscribe">Подписаться</button>
+</script>
+<script id="subscribed-template" type="text/html">
+    <span class="">Вы подписаны  <a href="#" data-bind="click: unsubscribe" class="unsubscribe-link">Отписаться</a></span>
+</script>
+
 

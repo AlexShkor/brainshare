@@ -1,0 +1,50 @@
+﻿@model BrainShare.EmailMessaging.ViewModels.UserHaveSearechedBook
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+    <body>
+        <div>
+            <p>У пользователя  <a href="@Model.OwnerProfileLink">@Model.OwnerFullName</a> появилась разыскиваемая вами книга</p>
+            <p><strong>@Model.BookTitle</strong></p>
+        
+            <div style="float:left">
+               <img style="margin:10px;height: 250px;" src="@Model.BookImage" />     
+            </div>
+
+            <div style="float:left">
+                <div >
+                    <p style="width: 190px;display: inline-block;font-weight: bold">Название:</p>
+                    <p style="display: inline-block;"> @Model.BookTitle</p>
+                </div>
+                <div >
+                    <p style="width: 190px;display: inline-block;font-weight: bold">Авторы:</p>
+                    <p style="display: inline-block;">@Model.Authors</p>
+                </div>
+                <div >
+                    <p style="width: 190px;display: inline-block;font-weight: bold">Издательство:</p>
+                    <p style="display: inline-block" >@Model.Publisher</p>
+                </div>
+                <div>
+                    <p style="width: 190px;display: inline-block;font-weight: bold">Дата издания:</p>
+                    <p style="display: inline-block">@Model.PublishedDate</p>
+                </div>
+                <div  >
+                    <p style="width: 190px;display: inline-block;font-weight: bold">Количество страниц:</p>
+                    <p style="display: inline-block">@Model.PageCount</p>
+                </div>
+                <div >
+                    <p style="width: 190px;display: inline-block;font-weight: bold">Местонахождение книги:</p>
+                    <p style="display: inline-block" >@Model.OwnerLocality</p>
+                </div>
+            </div>
+       </div>
+</html>
+
+

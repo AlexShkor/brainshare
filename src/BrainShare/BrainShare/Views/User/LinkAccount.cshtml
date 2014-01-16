@@ -1,0 +1,46 @@
+﻿@model BrainShare.ViewModels.LinkAccountViewModel
+@using Newtonsoft.Json
+@{
+    ViewBag.Title = "LinkAccount";
+}
+<script src="~/Scripts/Views/User/LinkAccountViewModel.js"></script>
+<!-- ko with: model-->
+<form style="padding-top: 1em;" class="form-horizontal" data-bind="submit: $root.save">
+
+    @Html.Partial("KnockoutSummary")
+
+    <div class="span6">
+        <div class="control-group">
+            <label class="control-label" for="FirstName">
+                Email
+            </label>
+            <div class="controls">
+                <input type="text" data-bind="value: Email">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="LastName">
+                Пароль
+            </label>
+            <div class="controls">
+                <input type="text" data-bind="value: Password" >
+            </div>
+        </div>
+    </div>
+ 
+    <div class="clearfix"></div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+            Готово
+        </button>
+        @Html.ActionLink("Отмена", "Index", "Profile", null, new { @class = "btn btn-danger" })
+    </div>
+</form>
+<!-- /ko -->
+<script type="text/javascript">
+    $(function () {
+        var model = new LinkAccountViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)),"/User/LinkAccount");
+        ko.applyBindings(model);
+    });
+
+</script>

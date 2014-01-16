@@ -1,33 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using BrainShare.Services;
 
 namespace BrainShare.Controllers
 {
     public class HelpController : BaseController
     {
+        public HelpController(UsersService userService):base(userService)
+        {
+
+        }
+
         public ActionResult Index()
         {
+            Title("Помощь");
             return View();
         }
 
         public ActionResult HowToAddBook()
         {
-            Subtitle("Как добавить книгу в коллекцию?");
+            Title("Как добавить книгу в коллекцию?");
             return View();
         }
 
         public ActionResult HowToSearchBook()
         {
-            Subtitle("Как найти нужную вам книгу?");
+            Title("Как найти нужную вам книгу?");
             return View();
         }
 
         public ActionResult HowToExchangeBook()
         {
-            Subtitle("Как обменяться книгами?");
+            Title("Как обменяться книгами?");
             return View();
         }
     }

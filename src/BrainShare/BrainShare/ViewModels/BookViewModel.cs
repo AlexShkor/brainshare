@@ -1,6 +1,5 @@
-﻿using System.Web.Mvc;
-using BrainShare.Controllers;
-using BrainShare.Documents;
+﻿using BrainShare.Domain.Documents;
+using Brainshare.Infrastructure.Infrastructure;
 
 namespace BrainShare.ViewModels
 {
@@ -21,13 +20,20 @@ namespace BrainShare.ViewModels
         public string UserId { get; set; }
         public string UserName { get; set; }
         public string UserProfile { get; set; }
+        public string UserLocality { get; set; }
         public string AvatarUrl { get; set; }
+        public bool IsUserReadMe { get; set; }
 
         public string CurrentUserId { get; set; }
 
-        public string SharingText
+        public string SharingSearchBookText
         {
             get { return UserName + " ищет книгу \"" + Title + "\" на BrainShare"; }
+        }
+
+        public string SharingHaveBookText
+        {
+            get { return "У пользователя " + UserName + " есть книга \"" + Title + "\" на BrainShare"; }
         }
 
         public BookViewModel(Book book)
@@ -47,7 +53,9 @@ namespace BrainShare.ViewModels
             UserId = book.UserData.UserId;
             UserName = book.UserData.UserName;
             UserProfile = "/profile/view/" + book.UserData.UserId;
+            UserLocality = book.UserData.Address.Locality;
             AvatarUrl = book.UserData.AvatarUrl;
+            IsUserReadMe = book.IsUserReadMe;
         }
 
         public BookViewModel()

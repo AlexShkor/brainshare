@@ -1,10 +1,12 @@
 #OS junk files
+bin/
 [Tt]humbs.db
 *.DS_Store
 
 #Visual Studio files
 [Bb]in/
 [Oo]bj/
+[Pp]ackages/
 *.[Oo]bj
 *.user
 *.aps

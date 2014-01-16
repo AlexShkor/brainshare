@@ -1,0 +1,18 @@
+﻿@model BrainShare.EmailMessaging.ViewModels.Request
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <div>
+        <p>Ваш запрос к пользователю <a style="margin:0 6px 0 6px" href="@Model.RequestedUserProfileLink">@Model.RequestedUserFullName </a>  на книгу <a href="@Model.BookLink" style="font-weight:bold;margin:0 6px 0 6px">@Model.BookTitle</a> отправлен.</p>
+    </div>
+</body>
+</html>

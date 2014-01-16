@@ -1,31 +1,7 @@
-﻿@model BrainShare.ViewModels.HomeViewModel
-
-<style type="text/css">
-    /* Main marketing message and sign up button */
-    .jumbotron {
-        margin: 60px 0;
-        text-align: center;
-    }
-
-        .jumbotron h1 {
-            font-size: 72px;
-            line-height: 1;
-        }
-
-        .jumbotron .btn {
-            font-size: 21px;
-            padding: 14px 24px;
-        }
-
-    /* Supporting marketing content */
-    .marketing {
-        margin: 60px 0;
-    }
-
-        .marketing p + h4 {
-            margin-top: 28px;
-        }
-</style>
+﻿
+@using BrainShare.Utils.Extensions
+@model BrainShare.ViewModels.HomeViewModel
+<script src="~/Scripts/Views/Home/Main.js"></script>
 
 @if (!Request.IsAuthenticated)
 {
@@ -36,9 +12,17 @@
         <br />
             Регистрируйтесь и добавляйте свои книги на сайт и указывайе книги которые вы ищите.
         </p>
-        <a class="btn btn-large btn-success" href="/User/LoginWithFacebook">Войти</a>
+        <a class="btn btn-large btn-success" href="/User/Login">Войти</a>
     </div>
 }
+
+<div class="search-outer-container">
+    <div class="search-container">
+        <input type="text" id="search" /> 
+        <button type="submit" class="btn btn-success"  onclick="searchRedirect()">Искать</button>
+    </div>
+</div>
+
 <h4>5 последних Книг</h4>
 <div>
     <ul class="thumbnails" data-bind="foreach: items">
@@ -92,3 +76,5 @@
         }
     </tbody>
 </table>
+
+

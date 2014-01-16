@@ -1,0 +1,68 @@
+﻿
+
+<div style="padding-top: 1.5em" class="row" data-bind="template:{name: TemplateName()}">
+</div>
+
+<script id="publisherTemplate" type="text/html">
+    <div class="span1"></div>
+    <div style="padding-top: 0" class="avatar-container span2">
+        <img  alt="аватар" class="avatar-image" data-bind="attr:{src:AvatarUrl}"/>
+    </div>
+    <div class="span4" >
+        <p data-bind="text:FullName"></p>
+        <p data-bind="text:Status"></p>
+    </div>
+    <div class="form-horizontal span5">
+        <div>
+            <div class="span2"></div>
+            <div class="span10">
+                <ul class="nav nav-stacked friend-options">
+                    <li class="active" data-bind="css:{'display-none':!$root.model.IsMyFriends()}"><a href="#" data-bind="click:$root.sendMessage">Написать сообщение</a></li>
+                    <li><a href="#" data-bind="click:$root.showProfile">Посмотреть профиль</a></li>
+                    <li><a href="#" data-bind="click:$root.showPublishers">Посмотреть друзей</a></li>
+                    <li data-bind="css:{'display-none':!$root.model.IsMyFriends()}"><a href="#" data-bind="click:$root.unsubscribe">Убрать из друзей</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="publisherDeletedTemplate" type="text/html">
+    <div class="deleted-publisher"><span class="deleted-publisher-link" data-bind="click:$root.subscribe">Вернуться в подписчики</span></div>
+</script>
+
+<style>
+    .avatar-image {
+        height: 120px;
+        text-align: left;
+    }
+
+    .friend-options {
+        float: right;
+        padding-top: 7px;
+    }
+     .friend-options li {
+         padding: 2px;
+     }
+
+      .friend-options li a {
+          padding: 2px 13px 2px 5px;
+          color: #2B587A;
+      }
+      .deleted-publisher{
+          padding: 30px 0;
+          text-align: center;
+          width: 100%;   
+      }
+      .deleted-publisher-link {
+          color: chocolate;   
+      }
+      .deleted-publisher-link:hover {
+          background-color: lightgray;
+          padding: 5px 2px;
+      }
+      .display-none {
+          display: none;   
+      }
+
+</style>

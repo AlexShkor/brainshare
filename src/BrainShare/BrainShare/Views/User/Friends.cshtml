@@ -1,0 +1,43 @@
+﻿@using Newtonsoft.Json
+@model BrainShare.ViewModels.PublishersViewModel
+@{
+    ViewBag.Title = "Friends";
+    Layout = "~/Views/Profile/_ProfileLayout.cshtml";
+}
+
+<script type="text/javascript" src="~/Scripts/Views/User/PublishersViewModel.js"></script>
+
+@if (!Model.PublishersExist)
+{
+    if (Model.IsMyFriends)
+    {
+        <h4>У вас 0 друзей. Воспользуйтесь формой поиска и найдите своих друзей.</h4>
+    }
+    else
+    {
+        <h4>У пользователя <span>@Model.UserName</span> нет друзей</h4>
+    }
+}
+else
+{
+    if (!Model.IsMyFriends)
+    {
+        <h4>Друзья пользователя <span>@Model.UserName</span></h4>
+    }
+    else
+    {
+        <a class="btn-primary btn" href="@Url.Action("GetFbFriends")">Показать друзей с фейсбука</a>
+    }
+    <!-- ko foreach: model.Publishers-->
+        @Html.Partial("_PublisherListItem")
+    <!-- /ko -->
+}
+
+<script type="text/javascript">
+    $(function () {
+
+        var model = new PublishersViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+        ko.applyBindings(model);
+    });
+</script>
+

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using BrainShare.Documents;
+using BrainShare.Domain.Documents;
 using MongoDB.Bson;
 
 namespace BrainShare.GoogleDto

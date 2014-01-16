@@ -1,4 +1,4 @@
-﻿@using BrainShare.Utilities
+﻿@using BrainShare.Utils.Utilities
 @using Newtonsoft.Json
 @model BrainShare.ViewModels.BookViewModel
 @section Meta{
@@ -6,14 +6,14 @@
     <meta property="og:site_name" content="BrainShare" />
     <meta property="og:title" content="@Model.Title" />
     <meta property="og:url" content="@UrlUtility.CurrentUrl" />
-    <meta property="og:description" content="@Model.SharingText" />
+    <meta property="og:description" content="@Model.SharingHaveBookText" />
     <meta property="og:type" content="website/book" />
 }
 @section Schemas{
     xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"
 }
 @section Scripts{
-    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/info.js")"></script>
+    <script type="text/javascript" src="~/Scripts/Views/Books/InfoModel.js"></script>
     <script>
         $(function () {
             var model = new InfoModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
@@ -104,7 +104,7 @@
                 </div>
 
                 <div class="span4">
-                    @Html.Partial("ShareButtons/TwShareBtn", Model.SharingText)
+                    @Html.Partial("ShareButtons/TwShareBtn", Model.SharingHaveBookText)
                 </div>
                 <div class="span4">
                     @Html.Partial("ShareButtons/VkShareBtn")

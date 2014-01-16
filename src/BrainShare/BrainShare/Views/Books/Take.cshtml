@@ -2,7 +2,7 @@
 @model BrainShare.ViewModels.TakeBookViewModel
 
 @section Scripts{
-    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/take.js")"></script>
+    <script type="text/javascript" src="~/Scripts/Views/Books/TakeModel.js"></script>
     <script type="text/javascript">
         $(function () {
             var model = new TakeModel(@Html.Raw(JsonConvert.SerializeObject(Model)));

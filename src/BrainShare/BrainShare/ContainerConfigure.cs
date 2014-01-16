@@ -1,7 +1,9 @@
-﻿using System.Web.Mvc;
-using BrainShare.Authentication;
-using BrainShare.Mongo;
+﻿using BrainShare.Authentication;
+using BrainShare.Infrastructure.Mongo;
 using BrainShare.Services;
+using Brainshare.Infrastructure.Authentication;
+using Brainshare.Infrastructure.Services;
+using Brainshare.Infrastructure.Settings;
 using StructureMap;
 
 namespace BrainShare
@@ -11,6 +13,7 @@ namespace BrainShare
         public static void Configure(IContainer container)
         {
             var settings = SettingsMapper.Map<Settings>();
+
             var database = new MongoDocumentsDatabase(settings.MongoConnectionString);
             database.EnsureIndexes();
             container.Configure(c =>
@@ -18,6 +21,8 @@ namespace BrainShare
                     c.For<MongoDocumentsDatabase>().Singleton().Use(database);
                     c.For<Settings>().Singleton().Use(settings);
                     c.For<IAuthentication>().Transient().Use<CustomAuthentication>();
+                    c.For<ICommonUserService>().Use<CommonUserService>();
+                    c.For<OzIsbnService>().Singleton().Use<OzIsbnService>();
                 });
         }
     }

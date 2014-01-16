@@ -5,7 +5,7 @@
 }
 
 @section Scripts{
-    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Profile/wishList.js")"></script>
+    <script type="text/javascript" src="~/Scripts/Views/Profile/WishListModel.js"></script>
     <script type="text/javascript">
         $(function () {
             var model = new WishListModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
