@@ -54,24 +54,6 @@ var AddBookModel = function (model) {
                         });
                     }
                 });
-            
-            //$.ajax({
-            //    dataType: "jsonp",
-            //    url: self.baseUrl + encodeURIComponent(self.query()) + self.postfix,
-            //    crossDomain: true,
-            //    success: function (data) {
-            //        if (response.items) {
-            //            self.items.removeAll();
-            //            $.each(response.items, function (index, item) {
-            //                self.items.push(new BookViewModel(item, self));
-            //            });
-            //        }
-            //        self.loading(false);
-            //    },
-            //    error: function () {
-            //        console.log(arguments)
-            //    }
-            //});
         }
     };
 
@@ -99,19 +81,10 @@ var AddBookModel = function (model) {
         });
     };
 
-
-    this.info = function (item) {
-        var callback = function (response) {
-            window.location = "/Profile/WishList";
-        };
-        send("/books/info", item, callback);
-    };
-
-
     this.take = function (item) {
 
         send("/books/take", item, function (response) {
-            window.location = "/books/take/" + response.Id;
+            window.location = "/Profile/WishList";
         });
     };
 
