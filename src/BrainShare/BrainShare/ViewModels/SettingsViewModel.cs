@@ -1,33 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using BrainShare.Domain.Documents.Data;
 
 namespace BrainShare.ViewModels
 {
     public class SettingsViewModel
     {
-        public SettingsViewModel()
-        {
-            Tabs = new List<Tab>();
+        public bool NotifyByEmailIfAnybodyAddedMyWishBook { get; set; }
+        public bool DuplicateMessagesToEmail { get; set; }
 
-            Tabs.Add(new Tab("Общие","common",true));
-            Tabs.Add(new Tab("Оповещения","notifications"));
-            Tabs.Add(new Tab("Приватность","privacy"));
-        }
-        public List<Tab> Tabs { get; set; }
-    }
-
-    public class Tab
-    {
-        public Tab(string title,string name, bool isActive = false)
+        public NotificationSettings GetNotificationSettings()
         {
-            Name = name;
-            IsActive = isActive;
-            Title = title;
+            return new NotificationSettings
+                {
+                    NotifyByEmailIfAnybodyAddedMyWishBook = NotifyByEmailIfAnybodyAddedMyWishBook,
+                    DuplicateMessagesToEmail = DuplicateMessagesToEmail
+                };
         }
-        public string Name { get; set; }
-        public string Title { get; set; }
-        public bool IsActive { get; set; }
     }
 }

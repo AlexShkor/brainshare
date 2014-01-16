@@ -13,7 +13,6 @@ using BrainShare.Services;
 using BrainShare.Utils.Extensions;
 using BrainShare.Utils.Utilities;
 using BrainShare.ViewModels;
-using BrainShare.ViewModels.ProfileSettings;
 using Brainshare.Infrastructure.Authentication;
 using Brainshare.Infrastructure.Hubs;
 using Brainshare.Infrastructure.Services;
@@ -299,39 +298,19 @@ namespace BrainShare.Controllers
         [GET("settings")]
         public ActionResult Settings()
         {
-            Title("настройки");
-            return View(new SettingsViewModel());
-        }
-
-        [GET("settings/tabs/{tabname}")]
-        public ActionResult GetSettingTab(string tabname)
-        {
             var user = _users.GetById(UserId);
-
-            switch (tabname)
-            {
-                case "common":
-                    return View("SettingsTabs/Common", user.Settings.CommonSettings);
-                //case "notifications":
-                //    return View("SettingsTabs/Notifications", new NotificationSettingsViewModel(user.Settings.NotificationSettings,user.LoginServices));
-                //case "privacy":
-                //    return View("SettingsTabs/Privacy", new PrivacySettingsViewModel(user.LoginServices, user.Settings.PrivacySettings));
-
-                default: return View("SettingsTabs/Common", user.Settings.CommonSettings);
-            }
+            var seetings = user.Settings.NotificationSettings;
+            
+            Title("настройки");
+            return View(new SettingsViewModel { DuplicateMessagesToEmail = seetings .DuplicateMessagesToEmail, NotifyByEmailIfAnybodyAddedMyWishBook = seetings.NotifyByEmailIfAnybodyAddedMyWishBook});
         }
 
         [POST("settings/update/notifications")]
-        public ActionResult UpdateNotificationsSettings(NotificationSettingsViewModel notificationSettings)
+        public ActionResult UpdateSettings(SettingsViewModel notificationSettings)
         {
             var user = _users.GetById(UserId);
             user.Settings.NotificationSettings = notificationSettings.GetNotificationSettings();
 
-            foreach (var service in notificationSettings.Services)
-            {
-                //user.LoginServices.First(s => s.ServiceUserId == service.ServiceId).UseForNotifications =
-                //    service.IsChecked;
-            }
             _users.Save(user);
 
             return Json("");

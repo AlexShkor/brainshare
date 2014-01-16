@@ -183,6 +183,14 @@ namespace BrainShare.Controllers
                 if (userByFacebookId == null)
                 {
                     var address = new AddressData(fbUser.location.name);
+                    var settings = new UserSettings
+                    {
+                        NotificationSettings = new NotificationSettings
+                        {
+                            DuplicateMessagesToEmail = true,
+                            NotifyByEmailIfAnybodyAddedMyWishBook = true
+                        },
+                    };
                     var newUser = new User
                     {
                         Id = ObjectId.GenerateNewId().ToString(),
@@ -194,6 +202,7 @@ namespace BrainShare.Controllers
                         FacebookId = fbUser.id,
                         FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string,
                         FacebookEmail = fbUser.email,
+                        Settings = settings
                     };
 
                     _users.Save(newUser);

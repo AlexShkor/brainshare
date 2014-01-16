@@ -286,8 +286,6 @@
     <Compile Include="ViewModels\Exchange\ExchangeHistoryViewModel.cs" />
     <Compile Include="ViewModels\LinkAccountViewModel.cs" />
     <Compile Include="ViewModels\NewsViewModel.cs" />
-    <Compile Include="ViewModels\NotificationSettingsViewModel.cs" />
-    <Compile Include="ViewModels\ProfileSettings\PrivacySettingsViewModel.cs" />
     <Compile Include="ViewModels\PublisherViewModel.cs" />
     <Compile Include="Controllers\OzBookDto.cs" />
     <Compile Include="GoogleDto\GoogleBookDto.cs" />
@@ -383,7 +381,6 @@
     <Content Include="Scripts\infrastructure\counting.js" />
     <Content Include="Scripts\infrastructure\globalErrorHandler.js" />
     <Content Include="Scripts\Views\Home\Main.js" />
-    <Content Include="Scripts\Views\Profile\SettingsTabs\NotificationSettingsViewModel.js" />
     <Content Include="Scripts\Views\Profile\SettingsViewModel.js" />
     <Content Include="Scripts\Views\User\LinkAccountViewModel.js" />
     <Content Include="Scripts\Views\User\NewsListViewModel.js" />
@@ -685,9 +682,6 @@
     <Content Include="Views\Profile\ChangePassword.cshtml" />
     <Content Include="Views\User\News.cshtml" />
     <Content Include="Views\Profile\Settings.cshtml" />
-    <Content Include="Views\Profile\SettingsTabs\Common.cshtml" />
-    <Content Include="Views\Profile\SettingsTabs\Notifications.cshtml" />
-    <Content Include="Views\Profile\SettingsTabs\Privacy.cshtml" />
     <Content Include="Views\Shared\ErrorPages\500.cshtml" />
   </ItemGroup>
   <ItemGroup>

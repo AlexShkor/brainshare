@@ -49,17 +49,17 @@ namespace BrainShare.Services
 
         public User GetUserByEmail(string email)
         {
-            return Items.FindOne(Query<ShellUser>.EQ(x => x.Email, email));
+            return Items.FindOne(Query<User>.EQ(x => x.Email, email));
         }
 
         public User GetUserByVkId(string id)
         {
-            return Items.FindOne(Query<ShellUser>.EQ(x => x.VkId, id));
+            return Items.FindOne(Query<User>.EQ(x => x.VkId, id));
         }
 
         public User GetUserByFbId(string id)
         {
-            return Items.FindOne(Query<ShellUser>.EQ(x => x.FacebookId, id));
+            return Items.FindOne(Query<User>.EQ(x => x.FacebookId, id));
         }
 
 

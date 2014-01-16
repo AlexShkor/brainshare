@@ -164,6 +164,14 @@ namespace BrainShare.Controllers
                     var city = vkUser.City.HasValue() ? vkGeoApi.Places_GetCityById<List<VkCity>>(vkUser.City).First().Name : "Minsk";
 
                     var address = new AddressData(country, city);
+                    var settings = new UserSettings
+                        {
+                          NotificationSettings = new NotificationSettings
+                                {
+                                    DuplicateMessagesToEmail = true,
+                                    NotifyByEmailIfAnybodyAddedMyWishBook = true
+                                },                               
+                        };
 
                     var newUser = new User
                     {
@@ -174,7 +182,8 @@ namespace BrainShare.Controllers
                         LastName = vkUser.LastName,
                         Registered = DateTime.Now,
                         AvatarUrl = vkUser.AvatarUrl,
-                        Address = address
+                        Address = address,
+                        Settings = settings
                     };
 
                     _users.Save(newUser);

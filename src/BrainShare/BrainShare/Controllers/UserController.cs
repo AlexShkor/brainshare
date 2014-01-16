@@ -170,6 +170,15 @@ namespace BrainShare.Controllers
                     var salt = _cryptoHelper.GenerateSalt();
                     var hashedPassword = _cryptoHelper.GetPasswordHash(model.Password,salt);
 
+                    var settings = new UserSettings
+                    {
+                        NotificationSettings = new NotificationSettings
+                        {
+                            DuplicateMessagesToEmail = true,
+                            NotifyByEmailIfAnybodyAddedMyWishBook = true
+                        },
+                    };
+
                     var newUser = new User()
                                       {
                                           Id = GetIdForUser(),
@@ -179,7 +188,8 @@ namespace BrainShare.Controllers
                                           Registered = DateTime.Now,
                                           Email = model.Email.ToLower(),
                                           Password = hashedPassword,
-                                          Salt = salt
+                                          Salt = salt,
+                                          Settings = settings
                                       };
 
                     _users.AddUser(newUser);

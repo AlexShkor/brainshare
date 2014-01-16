@@ -2,28 +2,33 @@
     ViewBag.Title = "Settings";
     Layout = "~/Views/Profile/_ProfileLayout.cshtml";
 }
-
-
 @using Newtonsoft.Json
 @model BrainShare.ViewModels.SettingsViewModel
 
 <script src="~/Scripts/Views/Profile/SettingsViewModel.js"></script>
-
-<div class="settings-header-wrapper">
-    <!-- ko with: model -->
-        <ul class="nav nav-tabs">
-            <!-- ko foreach: Tabs -->
-            <li data-bind="css:{ active :IsActive},click:$root.switchTab"><a href="#" data-bind="text:Title">Общие</a></li>
-            <!-- /ko-->
-        </ul>
-    <!-- /ko-->
-</div>
-
-<div class="settings-body-wrapper"></div>
-
 <script type="text/javascript">
     $(function () {
         var model = new SettingsViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
-        ko.applyBindings(model, $(".settings-header-wrapper")[0]);
+        console.log(model);
+        ko.applyBindings(model, $(".notifications-content")[0]);
     });
 </script>
+<div class="notifications-content">
+    <!-- ko with: model -->
+    <p class="notification-settings-label">Настройка оповещений</p>
+    
+    <table class="table email-settings-table">
+        <tr>
+            <td class="span6">Уведомлять о появление книг которее я ищу</td> 
+            <td><input type="checkbox" data-bind="checked: NotifyByEmailIfAnybodyAddedMyWishBook, event: { change: $root.ItemChanged }"/></td>
+        </tr>
+        <tr>
+            <td class="span6">Дублировать личные сообщения</td>
+            <td><input type="checkbox" data-bind="checked: DuplicateMessagesToEmail, event: { change: $root.ItemChanged }"/></td>
+        </tr>
+    </table>
+    
+    <button class="btn btn-success apply-btn" data-bind="enable: $root.applyButtonIsVisible, click: $root.applySettings">Применить</button>
+    <!-- /ko-->
+</div>
+
