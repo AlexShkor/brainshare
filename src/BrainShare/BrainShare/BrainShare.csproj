@@ -320,6 +320,8 @@
     <Content Include="Content\imgAreaSelect\imgareaselect-deprecated.css" />
     <Content Include="Images\alert.png" />
     <Content Include="Images\email_32.png" />
+    <Content Include="Images\socialIcons32\vk1_32.png" />
+    <Content Include="Images\socialIcons32\vk2_32.png" />
     <Content Include="Images\socialIcons32\vk_32.png" />
     <Content Include="Images\socialIcons32\blogger_32.png" />
     <Content Include="Images\socialIcons32\delicious_32.png" />

@@ -14,7 +14,7 @@ namespace BrainShare.Helpers
                 case LoginServiceTypeEnum.Facebook:
                     return BaseImagesPath + "facebook_32.png";
                 case LoginServiceTypeEnum.Vk:
-                    return BaseImagesPath + "vk_32.png";
+                    return BaseImagesPath + "vk1_32.png";
                 case LoginServiceTypeEnum.Email:
                     return GetEmailServiceLogoUrl(emailSuffix);
             }
