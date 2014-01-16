@@ -6,7 +6,7 @@
 
     this.whoHas = function(book) {
         
-        window.location = "/Books/Take/" + book.Id;
+        window.location = "/Books/Index#search/Search=" + book.Title;
        
     };
     
