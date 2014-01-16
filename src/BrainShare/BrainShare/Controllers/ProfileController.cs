@@ -439,8 +439,7 @@ namespace BrainShare.Controllers
             if (!IsShellUser)
             {
                  var user = _users.GetById(UserId);
-                //replaces with all book requests, not only new
-                return Json(new { Result = user.Inbox.Count });
+                return Json(new { Result = user.Inbox.Count(e => !e.Viewed) });
             }
             //Todo: Realize logic for shell user
             return Json(new { Result = 0 });
