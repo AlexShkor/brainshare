@@ -1,1 +1,156 @@
-﻿
+﻿/*Main page*/
+
+  /* Main marketing message and sign up button */
+    .jumbotron {
+        margin: 60px 0;
+        text-align: center;
+    }
+
+    .jumbotron h1 {
+        font-size: 72px;
+        line-height: 1;
+    }
+
+    .jumbotron .btn {
+        font-size: 21px;
+        padding: 14px 24px;
+    }
+
+    /* Supporting marketing content */
+    .marketing {
+        margin: 60px 0;
+    }
+
+    .marketing p + h4 {
+        margin-top: 28px;
+    }
+
+
+
+    .autocomplete-image {
+        height: 50px;
+        text-align: left;
+        vertical-align: top;
+        float: left;
+    }
+    .name {
+        margin-left: 10px;
+        display: inline; 
+    }
+    .owner {
+        float: right;   
+    }
+    .selectize-input {
+        width: 600px;
+        border: 2px solid #dce4ec;
+        border-radius: 6px;
+    }
+    .selectize-input input {
+        font-size: 17px;
+        line-height: 21px;
+        color: rgb(44,62,80);   
+    }
+
+    .selectize-input.focus {
+        border-color: rgb(26, 188, 156);           
+        border-radius: 6px;
+          
+    }
+    .selectize-control {
+        display: inline-block;
+    }
+
+    .title {
+        font-weight: bold;
+            
+    }
+    .search-container {
+        display: inline;
+        text-align: initial;
+     
+    }
+    .search-outer-container {
+            text-align: center;
+        margin-top: 30px;
+    }
+    .search-container button {
+        font-size: 18px;
+        font-weight: bold;
+        padding: 12px 36px;  
+        margin: 0px 0px 33px 20px;
+    }
+
+    /*books list*/
+
+    .books .span3 {
+        margin-left: 0px;
+        margin-right: 20px;
+    }
+    /*searchOzby*/
+
+    .page-range-input {
+        width: 60px;   
+    }
+    .range-contatainer {
+        display: inline-block;
+         float: right;   
+    }
+
+    /*view user profile*/
+    .unsubscribe-link {
+        margin-left: 14px;
+        font-size: 13px;   
+    }
+
+    .subscribe-button {
+        width: 206px;
+        position: relative;
+        top: -13px;
+    }
+    .status-text {
+        float: right;  
+    }
+
+    /*Profile/Settings*/
+
+    .settings-header-wrapper .nav-tabs>li>a {
+        padding-top:0px;
+        padding-bottom: 0px;
+        line-height: 21px;
+        font-size: 12px;
+        font-weight: bold;
+      
+    }
+    .settings-header-wrapper .nav-tabs>.active>a, .settings-header-wrapper .nav-tabs>.active>a:hover, .settings-header-wrapper .nav-tabs>.active>a:focus {
+        background-color: #2c3e50;
+        color: white;
+    }
+
+    /*profile/Settings/notifications*/
+
+    .notification-settings-label {
+        font-weight: bold;
+    }
+    .notifications-content {
+        padding: 20px 200px;   
+    }
+    .apply-btn {
+        float: right;   
+    }
+
+    /*bootstrap layout*/
+    .facebook-link {
+        padding-top: 10px;
+        margin-left: 4px;
+    }
+    .facebook-link  a {
+        background-image: url(/Images/socialIcons32/facebook1_32.png);
+    }
+
+    .vk-link {
+        padding-top: 11px;
+        margin-left: 4px;
+    }
+    .vk-link  a {
+        background-image: url(/Images/socialIcons32/vk2_32.png);
+    }

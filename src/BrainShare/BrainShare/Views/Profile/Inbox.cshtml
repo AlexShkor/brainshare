@@ -5,7 +5,7 @@
 }
 
 @section Scripts {
-    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Profile/inbox.js")"></script>
+    <script type="text/javascript" src="~/Scripts/Views/Profile/InboxModel.js"></script>
     <script type="text/javascript">
         $(function () {
             var model = new InboxModel(@Html.Raw(JsonConvert.SerializeObject(Model)));

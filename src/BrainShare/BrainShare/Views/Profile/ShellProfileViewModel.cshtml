@@ -1,0 +1,105 @@
+﻿@model BrainShare.ViewModels.MyShellProfileViewModel
+
+@{
+    Layout = "_ShellProfileLayout.cshtml";
+}
+
+@section Scripts{
+
+    <script src="@Url.Content("~/Scripts/jquery.form.js")" type="text/javascript"></script>
+    <script src="~/Scripts/Views/Profile/MyShellProfileViewModel.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/imgAreaSelect/jquery.imgareaselect.pack.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        var myShellProfileViewModel = new MyShellProfileViewModel();
+        ko.applyBindings(myShellProfileViewModel, $("#profileBody")[0]);
+    </script>
+}
+
+<div class="row">
+    <p class="error-mesage"></p>
+    <div id="overlay" style="display: none" data-bind="visible: ShowOverlay"></div>
+
+    <div class="span7">
+
+        <div class="form-horizontal span6 offset2">
+            <div>
+                <div class="control-group">
+                    <div>
+                        <span class="color-black">Название полки</span>
+                    </div>
+                    <div>
+                        <span>@Model.Name</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div>
+                        <span class="color-black">Адрес полки</span>
+                    </div>
+                    <div>
+                        <span>@Model.Address.Formatted</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div>
+                        <span class="color-black">Уточнённое положение</span>
+                    </div>
+                    <div>
+                        @if (string.IsNullOrEmpty(Model.Address.LocalPath))
+                        {
+                            <span>Положение не уточнено</span>
+                        }
+                        else
+                        {
+                            <span>@Model.Address.LocalPath</span>
+                        }
+                        
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <a class="btn btn-primary" href="/Profile/EditProfile">Редактировать</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="span4">
+
+        <div>
+            <div id="avatarContainer" style="text-align: center;">
+                <div class="avatar-container">
+                    <img style="width: 250px; height: 250px" alt="аватар" class="pics" src="@Model.AvatarUrl"/>
+                </div>
+
+                <a href="#" data-bind="visible: ShowChangeAvatarButton, click: UploadImg" style="display: block;">Выбрать аватар</a>
+            </div>
+        </div>
+
+        <div style="display: none">
+            @using (Html.BeginForm("UploadShellImage", "Profile", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
+            {
+                @Html.TextBox("UploadedFile", Model.UploadedFile, new { type = "file", id = "file" })
+                @Html.ValidationMessage("UploadedFile")
+                <button type="submit" id="uploadImage" class="btn btn-primary">Upload</button>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="previewContainer" style="display: none; min-width: 300px" data-bind="visible: ShowPreviewControls">
+    <div id="imgPreviewContainer"></div>
+    <input type="hidden" id="avatarId" />
+    <input type="hidden" id="avatarFormat" />
+
+    <div>
+        <button class="btn btn-primary btn-danger" style="float: left; margin-left: 7%; margin-top: 5%" data-bind="click: CancelImg">Отмена</button>
+        <button class="btn btn-primary btn-success" style="float: right; margin-right: 7%; margin-top: 5%" data-bind="click: CropImg">Готово</button>
+    </div>
+</div>
+
+

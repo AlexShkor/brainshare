@@ -1,0 +1,21 @@
+﻿@model BrainShare.EmailMessaging.ViewModels.Welcome
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <div>
+        <p>Здравствуйте @Model.ReceiverName !</p> 
+        <p>Добро пожаловать на наш портал! Здесь вы можете обмениваться книгами и журналами с другими пользоватлями.</p>
+        <p>Подтвердите ваш email для возможного получения уведомлений (выставляется в настройках аккаунта)</p>
+        <a href="@Model.ConfirmLink">Подтвердить</a>
+    </div>
+</body>
+</html>

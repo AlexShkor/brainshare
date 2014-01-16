@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
-using BrainShare.Documents;
-using BrainShare.Services.Validation;
+using BrainShare.Domain.Documents;
+using BrainShare.Utils.Extensions;
 using BrainShare.ViewModels.Base;
+using Brainshare.Infrastructure.Infrastructure;
+using Brainshare.Infrastructure.Services.Validation;
 
 namespace BrainShare.ViewModels
 {
@@ -26,15 +28,18 @@ namespace BrainShare.ViewModels
         public string Publisher { get; set; }
         public string Subtitle { get; set; }
         public string Image { get; set; }
-        [Required]
         public string Language { get; set; }
+        public string UserComment{ get; set; }
         public bool IsWhishBook { get; set; }
         public IEnumerable<LanguageInfo> Languages { get; set; }
 
-        public EditBookViewModel(Book book, IEnumerable<LanguageInfo> languages)
+        public EditBookViewModel(Book book, IEnumerable<LanguageInfo> languages):this()
         {
             Id = book.Id;
-            ISBNs = book.ISBN.Select(x => new StringItem(x)).ToList();
+            if (book.ISBN.Any())
+            {
+                ISBNs = book.ISBN.Select(x => new StringItem(x)).ToList();
+            }
             Title = book.Title;
             SearchInfo = book.SearchInfo;
             PageCount = book.PageCount;
@@ -42,7 +47,11 @@ namespace BrainShare.ViewModels
             Publisher = book.Publisher;
             Subtitle = book.Subtitle;
             Image = book.Image;
-            Authors = book.Authors.Select(x => new StringItem(x)).ToList();
+            UserComment = book.UserComment;
+            if (book.Authors.Any())
+            {
+                Authors = book.Authors.Select(x => new StringItem(x)).ToList();
+            }
             Language = book.Language;
             Languages = languages;
         }
@@ -64,25 +73,36 @@ namespace BrainShare.ViewModels
         public void UpdateBook(Book book)
         {
             book.Title = Title;
-            book.ISBN = ISBNs.Select(x => x.Value).ToList();
+            if (ISBNs != null && ISBNs.Any(x => x.Value.HasValue()))
+            {
+                book.ISBN = ISBNs .Select(x => x.Value).ToList();
+            }
             book.SearchInfo = SearchInfo;
             book.Title = Title;
             book.Language = Language;
-            book.Authors = Authors.Select(x => x.Value).ToList();
+            if (Authors != null && Authors.Any(x => x.Value.HasValue()))
+            {
+                book.Authors = Authors.Select(x => x.Value).ToList();
+            }
             book.Image = Image;
             book.Subtitle = Subtitle;
             book.Publisher = Publisher;
             book.PageCount = PageCount;
+            book.UserComment = UserComment;
+            try
+            {
+                DateTime dt = DateTime.ParseExact(PublishedDate,
+                    DateFormat,
+                    Culture,
+                    DateTimeStyles.None);
 
-            DateTime dt;
-            DateTime.TryParseExact(PublishedDate,
-                                   DateFormat,
-                                   Culture,
-                                   DateTimeStyles.None,
-                                   out dt);
-
-            book.PublishedYear = dt.Date.Year;
-            book.PublishedMonth = dt.Date.Month;
+                book.PublishedYear = dt.Date.Year;
+                book.PublishedMonth = dt.Date.Month;
+            }
+            catch
+            {
+                book.PublishedYear = DateTime.Now.Year;
+            }
         }
     }
 

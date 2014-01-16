@@ -7,6 +7,7 @@
 
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
 <script src="~/Scripts/jquery.geocomplete.min.js"></script>
+<script src="~/Scripts/Views/Profile/EditProfileModel.js"></script>
 
 <!-- ko with: model-->
 <form style="padding-top: 1em;" class="form-horizontal" data-bind="submit: $root.save">
@@ -78,50 +79,7 @@
 <!-- /ko -->
 
 <script type="text/javascript">
-    
-    function EditProfileModel (data, submitUrl) {
-        var self = this;
-        
-        this.model = ko.mapping.fromJS(data);
-        this.save = function () {
-            
-            var formatted_address = $("#formatted_address").val();
-            var country = $("#country").val();
-            var locality = $("#locality").val();
-
-            self.model.formatted_address(formatted_address);
-            self.model.country(country);
-            self.model.locality(locality);
-
-
-            sendModel(submitUrl, self.model, function (model) {
-                debugger;
-                if (model.Errors.length == 0) {
-                    window.location.href = "/Profile/Index";
-                }
-            });
-        };
-
-        this.ShowLocationInput = ko.observable(false);
-
-        this.AddressInputChanged = function() {
-          
-
-        };
-
-        this.EditLocation = function() {
-            self.ShowLocationInput(true);
-
-            self.model.original_address(null);
-            self.model.formatted_address(null);
-            self.model.country(null);
-            self.model.locality(null);
-        };
-    }
-    
-
     $(function () {
-
         var model = new EditProfileModel(@Html.Raw(JsonConvert.SerializeObject(Model)), "/Profile/EditProfile");
         ko.applyBindings(model);
 

@@ -85,3 +85,30 @@ body {
     cursor: pointer;
     background-color: lightcyan!important;
 }
+.required-field-symbol {
+    color:red;
+    font-size: 18px;
+    margin: 0px 5px 0px 5px;
+}
+
+.btn-facebook {
+    text-decoration: none;
+    background-image: url(/Images/fb_signup_empty.png);
+    padding: 8px 10px 8px 45px;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+}
+
+.btn-vk {
+    text-decoration: none;
+    background-image: url(/Images/vk-btn.png);
+    padding: 8px 10px 8px 45px;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+}
+.btn-facebook:hover {
+    text-decoration:none;
+    color:azure;
+}

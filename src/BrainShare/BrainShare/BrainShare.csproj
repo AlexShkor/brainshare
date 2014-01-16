@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,9 +46,9 @@
     <Reference Include="ActionMailer.Net.Mvc">
       <HintPath>..\packages\ActionMailer.0.7.4\lib\Net40\ActionMailer.Net.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Antlr3.Runtime, Version=3.3.1.7705, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="AttributeRouting">
       <HintPath>..\packages\AttributeRouting.Core.3.5.6\lib\net40\AttributeRouting.dll</HintPath>
@@ -58,32 +59,33 @@
     <Reference Include="AttributeRouting.Web.Mvc">
       <HintPath>..\packages\AttributeRouting.3.5.6\lib\net40\AttributeRouting.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="CloudinaryDotNet">
-      <HintPath>..\packages\CloudinaryDotNet.1.0.5\lib\net35\CloudinaryDotNet.dll</HintPath>
+    <Reference Include="CloudinaryDotNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CloudinaryDotNet.1.0.12\lib\net40\CloudinaryDotNet.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.AspNet, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DotNetOpenAuth.AspNet.4.3.0.13117\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
+      <HintPath>..\packages\DotNetOpenAuth.AspNet.4.3.4.13329\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DotNetOpenAuth.Core.4.3.0.13117\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
+      <HintPath>..\packages\DotNetOpenAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.OAuth, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DotNetOpenAuth.OAuth.Core.4.3.0.13117\lib\net45-full\DotNetOpenAuth.OAuth.dll</HintPath>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DotNetOpenAuth.OAuth.Consumer.4.3.0.13117\lib\net45-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Consumer.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.OpenId, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DotNetOpenAuth.OpenId.Core.4.3.0.13117\lib\net45-full\DotNetOpenAuth.OpenId.dll</HintPath>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.3.0.13117\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
     </Reference>
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
@@ -91,63 +93,93 @@
     <Reference Include="Elmah.MongoDB">
       <HintPath>..\packages\elmah.mongodb.1.7\lib\net35\Elmah.MongoDB.dll</HintPath>
     </Reference>
-    <Reference Include="Elmah.Mvc">
-      <HintPath>..\packages\Elmah.MVC.2.0.2\lib\net40\Elmah.Mvc.dll</HintPath>
+    <Reference Include="Elmah.Mvc, Version=2.0.0.29988, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Elmah.MVC.2.1.1\lib\net40\Elmah.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Facebook.6.4.2\lib\net45\Facebook.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Core">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.1.1.2\lib\net40\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Owin">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.Owin.1.1.2\lib\net45\Microsoft.AspNet.SignalR.Owin.dll</HintPath>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.0.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.1.1.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.0.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Owin.Host.SystemWeb">
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.1.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.2.0.2\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=2.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.0.2\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.0.2\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.2.0.30506.0\lib\net40\Microsoft.Web.WebPages.OAuth.dll</HintPath>
+    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.3.0.0\lib\net45\Microsoft.Web.WebPages.OAuth.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Bson">
-      <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Bson.dll</HintPath>
+    <Reference Include="MongoDB.Bson, Version=1.8.3.9, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\mongocsharpdriver.1.8.3\lib\net35\MongoDB.Bson.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Driver">
-      <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Driver.dll</HintPath>
+    <Reference Include="MongoDB.Driver, Version=1.8.3.9, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\mongocsharpdriver.1.8.3\lib\net35\MongoDB.Driver.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.5.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\packages\RabbitMQ.Client.3.2.1\lib\net30\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorEngine">
+      <HintPath>..\packages\RazorEngine.3.4.0\lib\net45\RazorEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.103.4\lib\net4\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http.Extensions">
-      <HintPath>..\packages\Microsoft.Net.Http.2.1.10\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.18.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\net45\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Primitives">
-      <HintPath>..\packages\Microsoft.Net.Http.2.1.10\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.18.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\net45\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -155,35 +187,41 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
+    <Reference Include="System.Web.Http, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.0.0\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.30506.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    <Reference Include="System.Web.Http.WebHost, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.0.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.2\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
@@ -203,56 +241,61 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
-    <Reference Include="System.Web.Optimization">
-      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    <Reference Include="UnidecodeSharp">
+      <HintPath>..\libs\UnidecodeSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="VkSharp">
+      <HintPath>..\packages\VkSharp.1.0.1\lib\VkSharp.dll</HintPath>
     </Reference>
     <Reference Include="WebActivator">
       <HintPath>..\packages\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
     </Reference>
-    <Reference Include="WebGrease, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WebGrease.1.3.0\lib\WebGrease.dll</HintPath>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
-    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    <Reference Include="WebMatrix.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.3.0.0\lib\net45\WebMatrix.Data.dll</HintPath>
     </Reference>
-    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.30506.0\lib\net40\WebMatrix.WebData.dll</HintPath>
+    <Reference Include="WebMatrix.WebData, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.3.0.0\lib\net45\WebMatrix.WebData.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AttributeRoutingConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\RabbitMQ.cs" />
+    <Compile Include="App_Start\SignaRConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Authentication\AuthHttpModule.cs" />
-    <Compile Include="Authentication\CustomAuthentication.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Authentication\IAuthentication.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Authentication\IUserProvider.cs" />
-    <Compile Include="Authentication\UserIdentity.cs" />
-    <Compile Include="Authentication\UserProvider.cs" />
-    <Compile Include="Constants.cs" />
     <Compile Include="ContainerConfigure.cs" />
-    <Compile Include="Documents\Data\ActivityFeedItem.cs" />
-    <Compile Include="Documents\Data\ActivityTypeEnum.cs" />
-    <Compile Include="Documents\Data\AddressData.cs" />
-    <Compile Include="Documents\Data\ChangeRequest.cs" />
-    <Compile Include="Documents\ExchangeHistory.cs" />
-    <Compile Include="Documents\Data\ExchangeEntry.cs" />
-    <Compile Include="Documents\Data\Message.cs" />
-    <Compile Include="Domain\ExchangeService.cs" />
-    <Compile Include="Facebook\FacebookFriend.cs" />
-    <Compile Include="Mongo\FilterOrder.cs" />
-    <Compile Include="Services\ExchangeHistoryService.cs" />
+    <Compile Include="Controllers\DevToolsController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\FacebookLoginController.cs" />
+    <Compile Include="Controllers\FollowerController.cs" />
+    <Compile Include="Controllers\VkLoginController.cs" />
+    <Compile Include="DependencyResolution\IoC.cs" />
+    <Compile Include="DependencyResolution\StructureMapDependencyResolver.cs" />
+    <Compile Include="Helpers\UrlHelper.cs" />
+    <Compile Include="ViewModels\Exchange\ExchangeArrowViewModel.cs" />
+    <Compile Include="ViewModels\Exchange\ExchangeEntryViewModel.cs" />
+    <Compile Include="ViewModels\Exchange\ExchangeHistoryViewModel.cs" />
+    <Compile Include="ViewModels\LinkAccountViewModel.cs" />
+    <Compile Include="ViewModels\NewsViewModel.cs" />
+    <Compile Include="ViewModels\PublisherViewModel.cs" />
+    <Compile Include="Controllers\OzBookDto.cs" />
+    <Compile Include="GoogleDto\GoogleBookDto.cs" />
     <Compile Include="ViewModels\AllBooksViewModel.cs" />
     <Compile Include="ViewModels\BooksFilterModel.cs" />
+    <Compile Include="ViewModels\ChangePasswordModel.cs" />
+    <Compile Include="ViewModels\EditShellProfileViewModel.cs" />
+    <Compile Include="ViewModels\PublishersViewModel.cs" />
+    <Compile Include="ViewModels\MyShellProfileViewModel.cs" />
+    <Compile Include="ViewModels\CreateShellViewModel.cs" />
     <Compile Include="ViewModels\EditBookViewModel.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="ViewModels\EditProfileViewModel.cs" />
@@ -260,18 +303,12 @@
     <Compile Include="ViewModels\MyProfileViewModel.cs" />
     <Compile Include="ViewModels\RequestAcceptedModel.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="ViewModels\SearchByGoogleViewModel.cs" />
+    <Compile Include="ViewModels\SearchByOzViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\UsersFilterModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
-    <Compile Include="Documents\CloudinaryImage.cs" />
-    <Compile Include="Documents\Data\UserData.cs" />
-    <Compile Include="Extensions\BootstrapExtensions.cs" />
-    <Compile Include="Extensions\HtmlHelperExt.cs" />
-    <Compile Include="Extensions\HttpPostedFileBaseExtensions.cs" />
-    <Compile Include="Extensions\StringExt.cs" />
-    <Compile Include="Facebook\FacebookSelectorViewModel.cs" />
-    <Compile Include="Facebook\GetFacebookTokenMode.cs" />
-    <Compile Include="GoogleDto\GoogleBookDto.cs" />
-    <Compile Include="Hubs\NotificationsHub.cs" />
-    <Compile Include="Hubs\ThreadHub.cs" />
+    <Compile Include="ViewModels\Exchange\ViewExchangeHistoryViewModel.cs" />
     <Content Include="Content\imgAreaSelect\border-anim-h.gif" />
     <Content Include="Content\imgAreaSelect\border-anim-v.gif" />
     <Content Include="Content\imgAreaSelect\border-h.gif" />
@@ -279,27 +316,76 @@
     <Content Include="Content\imgAreaSelect\imgareaselect-animated.css" />
     <Content Include="Content\imgAreaSelect\imgareaselect-default.css" />
     <Content Include="Content\imgAreaSelect\imgareaselect-deprecated.css" />
+    <Content Include="Images\alert.png" />
+    <Content Include="Images\email_32.png" />
+    <Content Include="Images\socialIcons32\facebook1_32.png" />
+    <Content Include="Images\socialIcons32\facebook_32.gif" />
+    <Content Include="Images\socialIcons32\vk1_32.png" />
+    <Content Include="Images\socialIcons32\vk2_32.png" />
+    <Content Include="Images\socialIcons32\vk_32.png" />
+    <Content Include="Images\socialIcons32\blogger_32.png" />
+    <Content Include="Images\socialIcons32\delicious_32.png" />
+    <Content Include="Images\socialIcons32\digg_32.png" />
+    <Content Include="Images\socialIcons32\ebay_32.png" />
+    <Content Include="Images\socialIcons32\facebook_32.png" />
+    <Content Include="Images\socialIcons32\feed_32.png" />
+    <Content Include="Images\socialIcons32\flickr_32.png" />
+    <Content Include="Images\socialIcons32\friendfeed_32.png" />
+    <Content Include="Images\socialIcons32\friendster_32.png" />
+    <Content Include="Images\socialIcons32\furl_32.png" />
+    <Content Include="Images\socialIcons32\google_32.png" />
+    <Content Include="Images\socialIcons32\lastfm_32.png" />
+    <Content Include="Images\socialIcons32\linkedin_32.png" />
+    <Content Include="Images\socialIcons32\livejournal_32.png" />
+    <Content Include="Images\socialIcons32\magnolia_32.png" />
+    <Content Include="Images\socialIcons32\mixx_32.png" />
+    <Content Include="Images\socialIcons32\myspace_32.png" />
+    <Content Include="Images\socialIcons32\netvibes_32.png" />
+    <Content Include="Images\socialIcons32\newsvine_32.png" />
+    <Content Include="Images\socialIcons32\picasa_32.png" />
+    <Content Include="Images\socialIcons32\pownce_32.png" />
+    <Content Include="Images\socialIcons32\reddit_32.png" />
+    <Content Include="Images\socialIcons32\stumbleupon_32.png" />
+    <Content Include="Images\socialIcons32\technorati_32.png" />
+    <Content Include="Images\socialIcons32\twitter_32.png" />
+    <Content Include="Images\socialIcons32\vimeo_32.png" />
+    <Content Include="Images\socialIcons32\webshots_32.png" />
+    <Content Include="Images\socialIcons32\wordpress_32.png" />
+    <Content Include="Images\socialIcons32\yelp_32.png" />
+    <Content Include="Images\socialIcons32\youtube_32.png" />
     <Content Include="Images\book-logo-placeholder.png" />
+    <Content Include="Images\ErrorPages\500.jpg" />
+    <Content Include="Images\facebook.png" />
+    <Content Include="Images\fb_signup_empty.png" />
+    <Content Include="Images\left_blue.png" />
+    <Content Include="Images\left_green.png" />
+    <Content Include="Images\right_blue.png" />
+    <Content Include="Images\right_green.png" />
     <Content Include="Images\user-default-avatar.jpg" />
-    <Content Include="Scripts\custom\allusers.js" />
-    <Content Include="Scripts\custom\Books\EditBookViewModel.js" />
-    <Content Include="Scripts\custom\counting.js" />
-    <Content Include="Scripts\custom\notifications.js" />
-    <Compile Include="Mongo\PagingInfo.cs" />
-    <Compile Include="Mongo\DocumentsServiceFiltered.cs" />
-    <Compile Include="Services\BaseBooksService.cs" />
-    <Compile Include="Services\BooksFilter.cs" />
-    <Compile Include="Services\CloudinaryImagesService.cs" />
-    <Compile Include="Services\Validation\LanguagesService.cs" />
-    <Compile Include="Services\WishBooksService.cs" />
-    <Compile Include="SessionKeys.cs" />
-    <Compile Include="Settings\Settings.cs" />
-    <Compile Include="Facebook\FacebookAuthorizeAttribute.cs" />
-    <Compile Include="Settings\SettingsMapper.cs" />
-    <Compile Include="Settings\SettingsPrefixAttribute.cs" />
-    <Compile Include="Settings\SettingsPropertyAttribute.cs" />
+    <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="robots.txt" />
+    <Content Include="Images\vk-btn.png" />
+    <Content Include="Images\vk_signup_empty.png" />
+    <Content Include="Scripts\jquery-2.0.3.js" />
+    <Content Include="Scripts\jquery-2.0.3.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-3.0.0.debug.js" />
+    <Content Include="Scripts\knockout-3.0.0.js" />
+    <Content Include="Scripts\modernizr-2.7.1.js" />
+    <Content Include="Scripts\Plugins\autocomplete\selectize.css" />
+    <Content Include="Scripts\Plugins\autocomplete\selectize.js" />
+    <Content Include="Scripts\Views\Books\AllUsersModel.js" />
+    <Content Include="Scripts\infrastructure\counting.js" />
+    <Content Include="Scripts\infrastructure\globalErrorHandler.js" />
+    <Content Include="Scripts\Views\Home\Main.js" />
+    <Content Include="Scripts\Views\Profile\SettingsViewModel.js" />
+    <Content Include="Scripts\Views\User\LinkAccountViewModel.js" />
+    <Content Include="Scripts\Views\User\NewsListViewModel.js" />
+    <Content Include="Scripts\infrastructure\notifications.js" />
     <Compile Include="StructureMapResolver.cs" />
-    <Compile Include="Utilities\UrlUtility.cs" />
     <Compile Include="ViewModels\ConsiderRequestViewModel.cs" />
     <Compile Include="ViewModels\AllThreadsViewModel.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -321,31 +407,18 @@
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="ViewModels\UserItemViewModel.cs" />
-    <Compile Include="DependencyResolution\IoC.cs" />
-    <Compile Include="DependencyResolution\StructureMapDependencyResolver.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyScope.cs" />
-    <Compile Include="Documents\ActivityFeed.cs" />
-    <Compile Include="Documents\Book.cs" />
-    <Compile Include="Documents\Thread.cs" />
-    <Compile Include="Documents\User.cs" />
-    <Compile Include="Extensions\DateTimeExt.cs" />
-    <Compile Include="Facebook\FacebookClientFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Mongo\BaseFilter.cs" />
-    <Compile Include="Mongo\DocumentsService.cs" />
-    <Compile Include="Mongo\MongoDocumentsDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ActivityFeedsService.cs" />
-    <Compile Include="Services\BooksService.cs" />
-    <Compile Include="Services\MailService.cs" />
-    <Compile Include="Services\ThreadsService.cs" />
-    <Compile Include="ViewModels\ExchangeConfirmViewModel.cs" />
-    <Compile Include="ViewModels\RequestViewModel.cs" />
-    <Compile Include="Services\UsersService.cs" />
+    <Compile Include="ViewModels\Exchange\ExchangeConfirmViewModel.cs" />
     <Compile Include="ViewModels\LoginView.cs" />
     <Compile Include="Controllers\BooksController.cs" />
+    <Content Include="Views\Shared\YandexMetrics.cshtml" />
+    <Content Include="Views\DevTools\Index.cshtml" />
+    <Content Include="Views\User\ConfirmEmail.cshtml" />
+    <Content Include="Views\User\LinkAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\big-loading.gif" />
@@ -415,109 +488,108 @@
     <Content Include="Scripts\bootstrap.file-input.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\cloudinary\jquery.cloudinary.js" />
-    <Content Include="Scripts\cloudinary\jquery.fileupload.js" />
-    <Content Include="Scripts\cloudinary\jquery.iframe-transport.js" />
-    <Content Include="Scripts\cloudinary\jquery.ui.widget.js" />
-    <Content Include="Scripts\custom\addbook.js" />
-    <Content Include="Scripts\custom\Books\acceptRequestFrom.js" />
-    <Content Include="Scripts\custom\Books\info.js" />
-    <Content Include="Scripts\custom\Books\take.js" />
-    <Content Include="Scripts\custom\allbooks.js" />
-    <Content Include="Scripts\custom\Profile\allMessages.js" />
-    <Content Include="Scripts\custom\common.js" />
-    <Content Include="Scripts\custom\Profile\inbox.js" />
-    <Content Include="Scripts\custom\Profile\myBooks.js" />
-    <Content Include="Scripts\custom\Profile\myProfile.js" />
-    <Content Include="Scripts\custom\Profile\userProfile.js" />
-    <Content Include="Scripts\custom\Profile\viewThread.js" />
-    <Content Include="Scripts\custom\Profile\wishList.js" />
-    <None Include="Scripts\jquery-2.0.1.intellisense.js" />
-    <Content Include="Scripts\datepicker\css\datepicker.css" />
-    <Content Include="Scripts\datepicker\js\bootstrap-datepicker.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.ar.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.bg.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.ca.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.cs.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.da.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.de.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.el.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.es.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.et.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.fi.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.fr.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.he.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.hr.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.hu.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.id.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.is.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.it.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.ja.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.ka.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.kr.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.lt.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.lv.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.mk.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.ms.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.nb.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.nl.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.no.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.pl.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.pt-BR.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.pt.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.ro.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.rs-latin.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.rs.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.ru.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.sk.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.sl.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.sq.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.sv.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.sw.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.th.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.tr.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.uk.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.zh-CN.js" />
-    <Content Include="Scripts\datepicker\js\locales\bootstrap-datepicker.zh-TW.js" />
-    <Content Include="Scripts\imgAreaSelect\jquery.imgareaselect.pack.js" />
+    <Content Include="Scripts\Plugins\cloudinary\jquery.cloudinary.js" />
+    <Content Include="Scripts\Plugins\cloudinary\jquery.fileupload.js" />
+    <Content Include="Scripts\Plugins\cloudinary\jquery.iframe-transport.js" />
+    <Content Include="Scripts\Plugins\cloudinary\jquery.ui.widget.js" />
+    <Content Include="Scripts\Plugins\datepicker\css\datepicker.css" />
+    <Content Include="Scripts\Plugins\datepicker\js\bootstrap-datepicker.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.ar.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.bg.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.ca.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.cs.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.da.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.de.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.el.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.es.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.et.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.fi.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.fr.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.he.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.hr.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.hu.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.id.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.is.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.it.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.ja.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.ka.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.kr.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.lt.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.lv.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.mk.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.ms.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.nb.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.nl.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.no.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.pl.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.pt.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.ro.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.rs-latin.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.rs.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.ru.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.sk.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.sl.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.sq.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.sv.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.sw.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.th.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.tr.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.uk.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="Scripts\Plugins\datepicker\js\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="Scripts\Plugins\imgAreaSelect\jquery.imgareaselect.pack.js" />
     <Content Include="Scripts\infrastructure\filtering.js" />
     <Content Include="Scripts\infrastructure\ko.common.js" />
-    <Content Include="Scripts\jquery-2.0.1.js" />
-    <Content Include="Scripts\jquery-2.0.1.min.js" />
-    <Content Include="Scripts\jquery-2.0.1.min.map" />
     <Content Include="Scripts\jquery-2.0.0.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
-    <Content Include="Scripts\jquery.color.js" />
     <Content Include="Scripts\jquery.geocomplete.js" />
     <Content Include="Scripts\jquery.geocomplete.min.js" />
     <Content Include="Scripts\jquery.Jcrop.js" />
-    <Content Include="Scripts\jquery.signalR-1.1.2.js" />
-    <Content Include="Scripts\jquery.signalR-1.1.2.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.0.1.min.js" />
     <Content Include="Scripts\jquery.timeago_ru.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.form.js" />
+    <Content Include="Scripts\jquery-2.0.3.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-2.2.1.debug.js" />
-    <Content Include="Scripts\knockout-2.2.1.js" />
     <Content Include="Scripts\knockout-bootstrap.min.js" />
     <Content Include="Scripts\knockout-switch-case.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\knockout.namespaces-latest.js" />
     <Content Include="Scripts\knockout.reactor.js" />
     <Content Include="Scripts\ko.editables.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\pnotify-1.2.0\jquery.pnotify.default.css" />
-    <Content Include="Scripts\pnotify-1.2.0\jquery.pnotify.js" />
-    <Content Include="Scripts\pnotify-1.2.0\jquery.pnotify.min.js" />
-    <Content Include="Scripts\pnotify-1.2.0\use for pines style icons\jquery.pnotify.default.icons.css" />
+    <Content Include="Scripts\Plugins\pnotify-1.2.0\jquery.pnotify.default.css" />
+    <Content Include="Scripts\Plugins\pnotify-1.2.0\jquery.pnotify.js" />
+    <Content Include="Scripts\Plugins\pnotify-1.2.0\jquery.pnotify.min.js" />
+    <Content Include="Scripts\Plugins\pnotify-1.2.0\use for pines style icons\jquery.pnotify.default.icons.css" />
     <Content Include="Scripts\sammy-0.7.4.js" />
     <Content Include="Scripts\sammy-0.7.4.min.js" />
+    <Content Include="Scripts\Views\Books\AddBookModel.js" />
+    <Content Include="Scripts\Views\Books\AddFromOzByBookModel.js" />
+    <Content Include="Scripts\Views\Books\AllBooksModel.js" />
+    <Content Include="Scripts\Views\Books\ConsiderRequestViewModel.js" />
+    <Content Include="Scripts\Views\Books\InfoModel.js" />
+    <Content Include="Scripts\Views\Books\TakeModel.js" />
+    <Content Include="Scripts\Views\Profile\AllMessagesModel.js" />
+    <Content Include="Scripts\Views\Profile\ChangePasswordModel.js" />
+    <Content Include="Scripts\Views\Profile\EditProfileModel.js" />
+    <Content Include="Scripts\Views\Profile\EditShellProfile.js" />
+    <Content Include="Scripts\Views\Profile\InboxModel.js" />
+    <Content Include="Scripts\Views\Profile\MyBooksModel.js" />
+    <Content Include="Scripts\Views\Profile\MyProfileViewModel.js" />
+    <Content Include="Scripts\Views\Profile\MyShellProfileViewModel.js" />
+    <Content Include="Scripts\Views\Profile\UserProfileModel.js" />
+    <Content Include="Scripts\Views\Profile\MessagesModel.js" />
+    <Content Include="Scripts\Views\Profile\WishListModel.js" />
+    <Content Include="Scripts\Views\Shared\Disquas.js" />
+    <Content Include="Scripts\Views\Shared\EditBookViewModel.js" />
+    <Content Include="Scripts\Views\Shared\GoogleAnalytics.js" />
+    <Content Include="Scripts\Views\User\GetFbFriends.js" />
+    <Content Include="Scripts\Views\User\PublishersViewModel.js" />
+    <Content Include="Scripts\Views\User\RegisterAsShellModel.js" />
+    <Content Include="Scripts\Views\User\RegisterModel.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -554,9 +626,6 @@
     <Content Include="Views\Home\BookAdded.cshtml" />
     <Content Include="Views\Home\BookWanted.cshtml" />
     <Content Include="Views\Home\BooksExchanged.cshtml" />
-    <Content Include="Views\MailService\WelcomeMessage.html.cshtml" />
-    <Content Include="Views\MailService\ExchangeConfirmMessage.html.cshtml" />
-    <Content Include="Views\MailService\RequestMessage.html.cshtml" />
     <Content Include="Views\Books\Info.cshtml" />
     <Content Include="Views\Profile\ViewUserProfile.cshtml" />
     <Content Include="Views\Profile\Messages.cshtml" />
@@ -598,10 +667,52 @@
     <Content Include="Views\Profile\EditProfile.cshtml" />
     <Content Include="Views\Books\ViewExchangeHistory.cshtml" />
     <Content Include="Views\Home\BooksGifted.cshtml" />
+    <Content Include="Views\Books\SearchOzBY.cshtml" />
+    <Content Include="Views\User\RegisterAsBookshell.cshtml" />
+    <Content Include="Views\Shared\GoogleAnalytics.cshtml" />
+    <Content Include="Views\Profile\ShellProfileViewModel.cshtml" />
+    <Content Include="Views\Profile\_ShellProfileLayout.cshtml" />
+    <Content Include="Views\Profile\EditShellProfile.cshtml" />
+    <Content Include="Views\Profile\ShellAllMessages.cshtml" />
+    <Content Include="Views\Home\ShellFeedback.cshtml" />
+    <Content Include="Views\Books\WishInfo.cshtml" />
+    <Content Include="Views\User\ShellFriends.cshtml" />
+    <Content Include="Views\User\Friends.cshtml" />
+    <Content Include="Views\Shared\_PublisherListItem.cshtml" />
+    <Content Include="Views\Profile\ChangePassword.cshtml" />
+    <Content Include="Views\User\News.cshtml" />
+    <Content Include="Views\Profile\Settings.cshtml" />
+    <Content Include="Views\Shared\ErrorPages\500.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Scripts\Views\Help\" />
+    <Folder Include="Scripts\Views\MailService\" />
+    <Folder Include="Scripts\Views\Users\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BrainShare.Domain\BrainShare.Domain.csproj">
+      <Project>{906fe2cc-3403-41fe-98c7-ace3adaac108}</Project>
+      <Name>BrainShare.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrainShare.EmailMessaging\BrainShare.EmailMessaging.csproj">
+      <Project>{cf1c7829-94b5-4e73-95b9-1af821088a45}</Project>
+      <Name>BrainShare.EmailMessaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brainshare.Infrastructure\Brainshare.Infrastructure.csproj">
+      <Project>{2ccd280f-d3a0-4599-a77c-4295b5ef4653}</Project>
+      <Name>Brainshare.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrainShare.Utils\BrainShare.Utils.csproj">
+      <Project>{87976832-5cab-413a-b127-af7976bb1446}</Project>
+      <Name>BrainShare.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Oauth.Vk\Oauth.Vk.csproj">
+      <Project>{ef0d1ba5-8862-4d79-a82c-3d948ccb788a}</Project>
+      <Name>Oauth.Vk</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -631,7 +742,11 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.6\tools\Microsoft.Bcl.Build.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

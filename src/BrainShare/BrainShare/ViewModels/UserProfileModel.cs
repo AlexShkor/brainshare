@@ -1,4 +1,8 @@
-using BrainShare.Documents;
+using BrainShare.Domain.Documents;
+using BrainShare.Domain.Documents.Data;
+using BrainShare.Infrastructure.Utilities;
+using BrainShare.Utils.Utilities;
+using Brainshare.Infrastructure.Infrastructure;
 
 namespace BrainShare.ViewModels
 {
@@ -12,20 +16,23 @@ namespace BrainShare.ViewModels
         public string Info { get; set; }
 
         public bool IsMe { get; set; }
+        public bool IsCurrentUserSubscribed { get; set; }
         public int SummaryVotes { get; set; }
 
         public bool CanIncrease { get; set; }
         public bool CanDecrease { get; set; }
 
-        public UserProfileModel(User user, string myId)
+        public string Status { get; set; }
+
+        public UserProfileModel(User user, int userActivityTimeoutInMinutes)
         {
             Id = user.Id;
             Name = user.FullName;
-            IsMe = user.Id == myId;
             Avatar = user.AvatarUrl ?? Constants.DefaultAvatarUrl;
             Address = user.Address;
             Email = user.Email;
             Info = user.Info;
+            Status = StringUtility.GetUserStatus(user.LastVisited, userActivityTimeoutInMinutes);
         }
     }
 }

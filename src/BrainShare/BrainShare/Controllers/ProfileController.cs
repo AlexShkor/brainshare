@@ -1,59 +1,97 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using AttributeRouting;
 using AttributeRouting.Web.Mvc;
-using BrainShare.Authentication;
-using BrainShare.Documents;
+using BrainShare.Domain.Documents;
+using BrainShare.Domain.Documents.Data;
 using BrainShare.Hubs;
+using BrainShare.Infostructure;
 using BrainShare.Services;
+using BrainShare.Utils.Extensions;
+using BrainShare.Utils.Utilities;
 using BrainShare.ViewModels;
+using Brainshare.Infrastructure.Authentication;
+using Brainshare.Infrastructure.Hubs;
+using Brainshare.Infrastructure.Services;
+using Brainshare.Infrastructure.Settings;
 using MongoDB.Bson;
-using Thread = BrainShare.Documents.Thread;
-using BrainShare.Extensions;
 
 
 namespace BrainShare.Controllers
 {
     [System.Web.Mvc.Authorize]
-    [RoutePrefix("profile")]
+    [AttributeRouting.RoutePrefix("profile")]
     public class ProfileController : BaseController
     {
         private readonly BooksService _books;
         private readonly WishBooksService _wishBooks;
-        private readonly UsersService _users;
+        private readonly ShellUserService _shellUserService;
         private readonly ThreadsService _threads;
+        private readonly NewsService _news;
         private readonly CloudinaryImagesService _cloudinaryImages;
+        private readonly MailService _mailService; 
+        private readonly CryptographicHelper _cryptographicHelper;
+        private readonly IAuthentication _authentication;
+        private readonly AsyncTaskScheduler _asyncTaskScheduler;
+        private readonly Settings _settings;
 
-        public ProfileController(BooksService books, UsersService users, ThreadsService threads, WishBooksService whishBooks, CloudinaryImagesService cloudinaryImages)
+        public ProfileController(BooksService books, UsersService users, ShellUserService shellUserService, ThreadsService threads, WishBooksService whishBooks, 
+            CloudinaryImagesService cloudinaryImages,CryptographicHelper cryptographicHelper,IAuthentication authentication, NewsService news, Settings settings,
+            MailService mailService, AsyncTaskScheduler asyncTaskScheduler):base(users)
         {
             _books = books;
-            _users = users;
             _threads = threads;
             _wishBooks = whishBooks;
             _cloudinaryImages = cloudinaryImages;
+            _shellUserService = shellUserService;
+            _mailService = mailService;
+            _asyncTaskScheduler = asyncTaskScheduler;
+            _news = news;
+            _cryptographicHelper = cryptographicHelper;
+            _authentication = authentication;
+            _settings = settings;
         }
 
         public ActionResult Index()
         {
-            var user = _users.GetById(UserId);
-            Title(user.FullName + " мой аккаунт");
-            var model = new MyProfileViewModel(user);
+            if (IsShellUser)
+            {
+                var shellUser = _shellUserService.GetById(UserId);
+                Title(shellUser.Name);
+                var model = new MyShellProfileViewModel(shellUser);
 
-            return View(model);
+                return View("ShellProfileViewModel", model);
+            }
+            else
+            {
+                var user = _users.GetById(UserId);
+                Title(user.FullName + " мой аккаунт");
+
+                var model = new MyProfileViewModel(user);
+                return View(model);
+            }
         }
 
         [HttpGet]
         public ActionResult EditProfile()
         {
-            var user = _users.GetById(UserId);
-            var model = new EditProfileViewModel(user);
-            return View(model);
+            if (IsShellUser)
+            {
+                var shellUser = _shellUserService.GetById(UserId);
+                var model = new EditShellProfileViewModel(shellUser);
+                return View("EditShellProfile",model);
+
+            }
+            else
+            {
+                var user = _users.GetById(UserId);
+                var model = new EditProfileViewModel(user);
+                return View(model);
+            }
+     
         }
 
         [HttpPost]
@@ -76,21 +114,46 @@ namespace BrainShare.Controllers
             return JsonModel(model);
         }
 
+        [HttpPost]
+        public ActionResult EditShellProfile(EditShellProfileViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var shellUser = _shellUserService.GetById(UserId);
+
+                shellUser.Name = model.Name;
+                shellUser.ShellAddressData.LocalPath = model.LocalPath;
+                shellUser.ShellAddressData.Formatted = model.FormattedAddress;
+                shellUser.ShellAddressData.Country = model.Country;
+                shellUser.ShellAddressData.StreetNumber = model.StreetNumber;
+                shellUser.ShellAddressData.Route = model.Route;
+                shellUser.ShellAddressData.Location = new Location(model.Lat,model.Lng);
+
+                _shellUserService.Save(shellUser);
+            }
+
+            return JsonModel(model);
+        }
+
         [GET("view/{id}")]
+        [AllowAnonymous]
         public ActionResult ViewUserProfile(string id)
         {
             if (id == UserId)
             {
                 return RedirectToAction("Index", "Profile");
             }
-
             var user = _users.GetById(id);
-            var model = new UserProfileModel(user, UserId);
-
-            model.CanIncrease = user.GetVote(id, UserId) <= 0;
-            model.CanDecrease = user.GetVote(id, UserId) >= 0;
-            model.SummaryVotes = user.GetSummaryVotes();
-
+            var model = new UserProfileModel(user, _settings.ActivityTimeoutInMinutes);
+            if (UserId.HasValue())
+            {
+                var me = _users.GetById(UserId);
+                model.IsCurrentUserSubscribed = me.IsSubscribed(id);
+                model.IsMe = user.Id == me.Id;
+                model.CanIncrease = user.GetVote(id, UserId) <= 0;
+                model.CanDecrease = user.GetVote(id, UserId) >= 0;
+                model.SummaryVotes = user.GetSummaryVotes();
+            }
             Title(user.FullName);
             return View(model);
         }
@@ -110,6 +173,56 @@ namespace BrainShare.Controllers
 
             return Json(new { Success = "OK" });
         }
+
+        [POST]
+        public ActionResult UpdateBookStatus(string id)
+        {
+            var book = _books.GetById(id);
+            book.IsUserReadMe = !book.IsUserReadMe;
+
+            _books.Save(book);
+
+            return Json(book.IsUserReadMe);
+        }
+        
+
+        [HttpGet]
+        public ActionResult ChangePassword()
+        {
+            return View(new ChangePasswordModel{ IsFacebokAccountWithoutPassword = IsFacebookAccountWithoutPassword});
+        }
+
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var salt = _cryptographicHelper.GenerateSalt();
+                var password = _cryptographicHelper.GetPasswordHash(model.Password, salt);
+
+                if (IsShellUser)
+                {
+                    var shellUser = _shellUserService.GetById(UserId);
+                    shellUser.Password = password;
+                    shellUser.Salt = salt;
+                    _shellUserService.Save(shellUser);
+                }
+                else
+                {
+                    var user = _users.GetById(UserId);
+                    user.Password = password;
+                    user.Salt = salt;
+
+                    _users.Save(user);
+                }
+
+                _authentication.Logout();
+            }
+
+            return JsonModel(model);
+        }
+
+
 
         [POST]
         [ValidateInput(false)]
@@ -145,6 +258,7 @@ namespace BrainShare.Controllers
 
         public ActionResult Inbox()
         {
+            var z = UrlUtility.ApplicationBaseUrl;
             Title("Входящие");
             var user = _users.GetById(UserId);
             var model = new InboxViewModel();
@@ -166,11 +280,38 @@ namespace BrainShare.Controllers
         [GET("messages")]
         public ActionResult AllMessages()
         {
+            if (IsShellUser)
+            {
+                return View("ShellAllMessages");
+            }
+
             var threads = _threads.GetAllForUser(UserId).Where(x => x.Messages.Any()).OrderByDescending(x => x.Messages.Max(m => m.Posted));
             var user = _users.GetById(UserId);
             var model = new AllThreadsViewModel(threads, UserId, user);
             Title("Сообщения");
+
             return View(model);
+        }
+
+        [GET("settings")]
+        public ActionResult Settings()
+        {
+            var user = _users.GetById(UserId);
+            var seetings = user.Settings.NotificationSettings;
+            
+            Title("настройки");
+            return View(new SettingsViewModel { DuplicateMessagesToEmail = seetings .DuplicateMessagesToEmail, NotifyByEmailIfAnybodyAddedMyWishBook = seetings.NotifyByEmailIfAnybodyAddedMyWishBook});
+        }
+
+        [POST("settings/update/notifications")]
+        public ActionResult UpdateSettings(SettingsViewModel notificationSettings)
+        {
+            var user = _users.GetById(UserId);
+            user.Settings.NotificationSettings = notificationSettings.GetNotificationSettings();
+
+            _users.Save(user);
+
+            return Json("");
         }
 
 
@@ -185,11 +326,22 @@ namespace BrainShare.Controllers
                 thread = new Thread(UserId, user.FullName, recipientId, recipient.FullName);
                 _threads.Save(thread);
             }
+        
             return RedirectToAction("ViewThread", new { threadId = thread.Id });
         }
 
+        [POST("set-news-status-to-read")]
+        public ActionResult UpdateUserNewsStatus(string id)
+        {
+            var user = _users.GetById(UserId);
+            user.SetNewsReadStatusTrue(id);
+            _users.Save(user);
+
+            return Json("");
+        }
+
         [GET("thread/view/{threadId}")]
-        public ActionResult ViewThread(string threadId)
+        public async Task<ActionResult> ViewThread(string threadId)
         {
             var thread = _threads.GetById(threadId);
             if (!thread.ContainsUser(UserId))
@@ -199,14 +351,16 @@ namespace BrainShare.Controllers
             var me = _users.GetById(UserId);
             var recipient = _users.GetById(thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId);
             var model = new MessagingThreadViewModel(thread, me, recipient);
-            SetThreadIsReadAsync(UserId, threadId);
+
+            _asyncTaskScheduler.StartSetThreadIsRead(UserId, threadId);
+
             Title("Сообщения от " + recipient.FullName);
             return View("Messages", model);
         }
 
 
         [POST("thread/post")]
-        public ActionResult PostToThread(string threadId, string content)
+        public async Task<ActionResult> PostToThread(string threadId, string content)
         {
             var thread = _threads.GetById(threadId);
             if (thread != null && thread.ContainsUser(UserId))
@@ -218,7 +372,11 @@ namespace BrainShare.Controllers
                 return HttpNotFound();
             }
             var sendToUserId = thread.OwnerId == UserId ? thread.RecipientId : thread.OwnerId;
-            UpdateUnreadMessagesAsync(threadId, sendToUserId);
+
+            EmailUsermessage(sendToUserId, content);
+
+            _asyncTaskScheduler.StartUpdateUnreadMessages(threadId, sendToUserId);
+
             var model = new MessageViewModel();
             model.Init(UserId, content, DateTime.Now.ToString("o"), false);
             var callbackModel = new MessageViewModel();
@@ -228,17 +386,10 @@ namespace BrainShare.Controllers
             return Json(model);
         }
 
-        private void UpdateUnreadMessagesAsync(string threadId, string toUserId)
-        {
-            Task.Factory.StartNew(() => _users.AddThreadToUnread(toUserId, threadId));
-        }
 
-        private void SetThreadIsReadAsync(string userId, string threadId)
-        {
-            Task.Factory.StartNew(() => _users.RemoveThreadFromUnread(userId, threadId));
-        }
 
         [POST("get-user-books")]
+        [AllowAnonymous]
         public ActionResult GetUserBooks(string userId)
         {
             var books = _books.GetUserBooks(userId).Select(x => new BookViewModel(x));
@@ -246,6 +397,7 @@ namespace BrainShare.Controllers
         }
 
         [POST("get-user-wish-books")]
+        [AllowAnonymous]
         public ActionResult GetUserWishBooks(string userId)
         {
             var books = _wishBooks.GetUserBooks(userId).Select(x => new BookViewModel(x));
@@ -282,22 +434,44 @@ namespace BrainShare.Controllers
         [POST("get-new-books-count")]
         public ActionResult GetNewBooksCount()
         {
-            var user = _users.GetById(UserId);
-            //replaces with all book requests, not only new
-            return Json(new { Result = user.Inbox.Count });
+            if (!IsShellUser)
+            {
+                 var user = _users.GetById(UserId);
+                return Json(new { Result = user.Inbox.Count(e => !e.Viewed) });
+            }
+            //Todo: Realize logic for shell user
+            return Json(new { Result = 0 });
+        }
+
+        [POST("get-unread-news-count")]
+        public ActionResult GetUnreadNewsCount()
+        {
+            if (!IsShellUser)
+            {
+                var user = _users.GetById(UserId);
+                return Json(new { Result = user.News.Count(n => !n.WasRead) });
+            }
+            //Todo: Realize logic for shell user
+            return Json(new { Result = 0 });
         }
 
         [POST("get-new-messages-count")]
         public ActionResult ThreadsWithUnreadMessages()
         {
-            var user = _users.GetById(UserId);
-            return Json(new { Result = user.ThreadsWithUnreadMessages.Count });
+            if (!IsShellUser)
+            {
+                var user = _users.GetById(UserId);
+                return Json(new { Result = user.ThreadsWithUnreadMessages.Count });
+            }
+
+            //Todo: Realize logic for shell user
+            return Json(new { Result = 0 });          
         }
 
         [POST]
         public JsonResult UploadImage(HttpPostedFileBase uploadedFile)
         {
-            var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
+            var cloudinary = new CloudinaryDotNet.Cloudinary(_settings.CloudinaryUrl);
             bool isValidImage;
 
             if (uploadedFile != null)
@@ -329,10 +503,44 @@ namespace BrainShare.Controllers
         }
 
         [POST]
+        public JsonResult UploadShellImage(HttpPostedFileBase uploadedFile)
+        {
+            //var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
+            //bool isValidImage;
+
+            //if (uploadedFile != null)
+            //{
+            //    isValidImage = uploadedFile.IsValidImage(250, 250);
+            //}
+            //else
+            //{
+            //    // TODO: actions if close button pressed
+            //    return null;
+            //}
+
+            //if (isValidImage)
+            //{
+            //    uploadedFile.InputStream.Seek(0, SeekOrigin.Begin);
+
+            //    var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams()
+            //    {
+            //        File = new CloudinaryDotNet.Actions.FileDescription("filename", uploadedFile.InputStream),
+            //    };
+
+            //    var uploadResult = cloudinary.Upload(uploadParams);
+            //    string avatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(500).Height(500).Crop("limit")).BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
+
+            //    return Json(new { avatarUrl = avatarUrl, avatarId = uploadResult.PublicId, avatarFormat = uploadResult.Format });
+            //}
+
+            return Json(new { error = "Файл загруженный вами не является изображением или его размеры слишком малы" });
+        }
+
+        [POST]
         public JsonResult ResizeAvatar(string avatarId, string avatarFormat, string x, string y, string width, string height)
         {
             var user = _users.GetById(UserId);
-            var cloudinary = new CloudinaryDotNet.Cloudinary(ConfigurationManager.AppSettings.Get("cloudinary_url"));
+            var cloudinary = new CloudinaryDotNet.Cloudinary(_settings.CloudinaryUrl);
             string realAvatarUrl = cloudinary.Api.UrlImgUp.Transform(new CloudinaryDotNet.Transformation().Width(500).Height(500).Crop("limit").Chain().X(x).Y(y).Width(width).Height(height).Crop("crop")).BuildUrl(String.Format("{0}.{1}", avatarId, avatarFormat));
 
             _cloudinaryImages.AddImage(new CloudinaryImage() { Id = ObjectId.GenerateNewId().ToString(), ImageId = avatarId, ImageUrl = realAvatarUrl });
@@ -340,6 +548,17 @@ namespace BrainShare.Controllers
             _users.Save(user);
 
             return Json(new { url = realAvatarUrl });
+        }
+
+        private void EmailUsermessage(string recipientId, string message)
+        {
+            var recipient = _users.GetById(recipientId);
+            var settings = recipient.Settings.NotificationSettings;
+
+            if (settings.DuplicateMessagesToEmail)
+            {
+                _mailService.EmailUserMessage(message, _users.GetById(UserId), recipient,UrlUtility.ApplicationBaseUrl);
+            }
         }
     }
 }

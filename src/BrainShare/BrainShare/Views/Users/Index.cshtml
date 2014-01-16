@@ -1,5 +1,6 @@
 ﻿@using Newtonsoft.Json
 
+<script src="~/Scripts/Views/Books/AllUsersModel.js"></script>
 <script type="text/javascript">
     $(function () {
 
@@ -9,7 +10,31 @@
 
 </script>
 <h4>Пользователи</h4>
-<ul class="thumbnails" data-bind="foreach: items">
+
+<form class="form-inline" action="/users" method="POST" data-bind="submit: search">
+    <input type="text" data-bind="value: filter.Search" />
+    <button type="submit" class="btn btn-success" style="margin-left: 0.5em;">Искать</button>
+   <img style="width: 30px; height: 30px;" data-bind="visible: filter.Loading" src="~/Images/loading.gif" />
+
+   <ul class="nav nav-pills pull-right">
+        <li data-bind="css: { active: filter.Advanced }">
+            <a href="#" data-bind="click: $root.toggleAdvancedSearch"><i class="icon-plus"></i> Расширенный поиск</a>
+        </li>
+    </ul> 
+    <div class="clearfix"></div>
+    <div class="well" data-bind="visible: filter.Advanced">
+        <div class="container">
+            
+            <div class="span4">
+                @KO.EditRow("FirstName", modelPrefix: "filter.",displayName:"Имя")
+                @KO.EditRow("LastName", modelPrefix: "filter.",displayName:"Фамилия")
+                @KO.EditRow("Country", modelPrefix: "filter.",displayName:"Страна")
+            </div>
+        </div>
+    </div>
+</form>
+
+<ul class="thumbnails" data-bind="foreach: $root.items">
     <li class="user-icon">
         <div class="thumbnail" data-bind="click: $root.info" style="width: 140px; height: 200px; overflow: hidden;">
             <img style="width: 128px;" data-bind="attr: { src: Avatar }" />
@@ -20,3 +45,5 @@
         </div>
     </li>
 </ul>
+
+@Html.Partial("Pagination")

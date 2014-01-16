@@ -31,6 +31,8 @@ var sendModel = function (url, model, successCallback, ignoreList) {
 
 function sendJson(url, jsonOrModel, success, error) {
     var json = ko.mapping.toJS(jsonOrModel);
+    console.log("send");
+    console.log(url);
     $.ajax({
         type: 'POST',
         contentType: 'application/json,UTF-8',
@@ -39,16 +41,28 @@ function sendJson(url, jsonOrModel, success, error) {
         data: JSON.stringify(json),
         success: function (response) {
             if (success) {
+                console.log("success");
                 success(response);
             }
         },
         error: function (response) {
             if (error) {
+                console.log("error");
                 error(response);
             }
         }
     });
 }
+
+function getHtml(url, data, success) {
+    $.ajax({
+        url: url,
+        data: data,
+        success: success,
+    });
+}
+
+
 
 var parseValues = function (data, callback, prefix, postfix) {
     postfix = postfix || "";

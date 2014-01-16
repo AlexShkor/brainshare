@@ -10,6 +10,8 @@
     var ignoreList = self.filter.DoNotReturnPropertiesNames() || [];
     ignoreList.push('pages');
 
+    self.successFilterCallback = null;
+
     self.isVisiblePage = function (item) {
         var pageNumber = item.Number();
         return pageNumber == 1
@@ -117,6 +119,10 @@
         ko.mapping.fromJS(resp.Items, itemsMapping || {}, self.items);
         self.updatePagination();
         self.filter.Loading(false);
+
+        if (self.successFilterCallback) {
+            self.successFilterCallback();
+        }
     };
 
     Sammy(function () {

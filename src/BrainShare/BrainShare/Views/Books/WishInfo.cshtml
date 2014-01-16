@@ -1,0 +1,147 @@
+﻿@using BrainShare.Utils.Extensions
+@using BrainShare.Utils.Utilities
+@using Newtonsoft.Json
+@model BrainShare.ViewModels.BookViewModel
+@section Meta{
+    <meta property="og:image" content="@Model.Image" />
+    <meta property="og:site_name" content="BrainShare" />
+    <meta property="og:title" content="@Model.Title" />
+    <meta property="og:url" content="@UrlUtility.CurrentUrl" />
+    <meta property="og:description" content="@Model.SharingSearchBookText" />
+    <meta property="og:type" content="website/book" />
+}
+@section Schemas{
+    xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"
+}
+@section Scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/info.js")"></script>
+    <script>
+        $(function () {
+            var model = new InfoModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+            ko.applyBindings(model);
+        })
+    </script>
+}
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<div class="span12">
+    <p>Пользователь @(Model.UserName) ищет книгу</p>
+    <h4 style="margin-bottom: 3%">@Model.Title</h4>
+    <div>
+        <div class="span3">
+            @Html.Partial("DetailsPartial", Model)
+
+            @if (Model.UserId != Model.CurrentUserId)
+            {
+                <div style="margin-top: 10px">
+                    <button type="button" data-bind="click: give" class="btn btn-primary btn-block">У меня есть</button>
+                </div>
+            }
+            else
+            {
+                <div style="margin-top: 30px" class="text-center"><i class="icon-check icon-3x" style="color: green;" title="Книга у вас в коллекции"></i></div>
+            }
+
+        </div>
+
+        <div class="span9">
+            <div class="row-fluid">
+                <div class="span12">
+
+                    <div class="row-fluid">
+                        <div class="span9">
+                            @if (Model.Subtitle.HasValue())
+                            {
+                                <div>
+                                    <strong class="span5">Подзаголовок:</strong>
+                                    <span class="span7">@Model.Subtitle</span>
+                                </div>
+                            }
+                            <div>
+                                <strong class="span5">Авторы:</strong>
+                                <span class="span7">@Model.Authors</span>
+                            </div>
+                            <div>
+                                <strong class="span5">Издательство:</strong>
+                                <span class="span7">@Model.Publisher, @Model.PublishedDate</span>
+                            </div>
+                            <div>
+                                <strong class="span5">Местонахождение книги:</strong>
+                                <span class="span7" data-bind="text: book.Address">@Model.Address</span>
+                            </div>
+                        </div>
+
+                        <div class="span3">
+                            <div style="text-align: center">
+                                <img style="width: 130px; height: 130px;" src="@Model.AvatarUrl" />
+                                <a style="padding-top: 10px; padding-bottom: 10px; display: block;" href="@Model.UserProfile">@Model.UserName</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div>
+                <h5 class="bold">Описание</h5>
+                @Model.SearchInfo
+                <br />
+                @Model.PageCount страниц
+            </div>
+            <br />
+            <div class="clearfix"></div>
+            <div>
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" alt="64x64" style="width: 64px; height: 64px;" src="@Model.AvatarUrl">
+                    </a>
+                    <div class="media-body">
+                        <h5 class="media-heading bold">@Model.UserName</h5>
+                        @Model.UserComment
+                    </div>
+                </div>
+
+            </div>
+            <br />
+
+            <div class="clearfix"></div>
+            <div class="well">
+                <div class="span4">
+                    @Html.Partial("ShareButtons/FbShareBtn")
+                </div>
+
+                <div class="span4">
+                    @Html.Partial("ShareButtons/TwShareBtn", Model.SharingSearchBookText)
+                </div>
+                <div class="span4">
+                    @Html.Partial("ShareButtons/VkShareBtn")
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div>
+        <div class="span12">
+            <div>
+                <a href="#"></a>
+            </div>
+            <hr />
+
+            @if (Model.GoogleBookId != null)
+            {<h4>Предпросмотр</h4>
+                <div>
+                    @Html.Partial("GooglePreview", Model.GoogleBookId)
+                </div>
+            }
+        </div>
+    </div>
+    <div>
+        <div class="span12">
+            @Html.Partial("Disquas")
+        </div>
+    </div>
+</div>

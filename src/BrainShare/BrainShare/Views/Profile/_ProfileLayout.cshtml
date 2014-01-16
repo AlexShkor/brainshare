@@ -1,4 +1,5 @@
-﻿@using BrainShare.Extensions
+﻿@using BrainShare.Utils.Extensions
+
 @model dynamic
 
 @{
@@ -15,8 +16,10 @@
                     <li class="nav-header">Профиль</li>
                     @Html.MenuLink("Мой Профиль", "Index", "Profile", null)
                     @Html.MenuLink("Сообщения", "AllMessages", "Profile", null, "<span id=\"messagesCounter\" class=\"badge badge-info\" style=\"margin-left: 10px\"></span>")
-                    @Html.MenuLink("Друзья", "GetFbFriends", "User")
-                    @Html.MenuLink("Настройки", "EditProfile", "Profile")
+                    @Html.MenuLink("Друзья", "Friends", "User")
+                    @Html.MenuLink("Новости", "News", "User",null, "<span id=\"newsCounter\" class=\"badge badge-info\" style=\"margin-left: 10px\"></span>")
+                    @Html.MenuLink("Сменить пароль", "ChangePassword", "Profile")
+                    @Html.MenuLink("Настройки", "Settings", "Profile")
                     <li class="divider"></li>
                     <li class="nav-header">Другое</li>
                     @Html.MenuLink("Помощь", "HowToAddBook", "Help")
