@@ -134,19 +134,16 @@ namespace BrainShare.Controllers
             var book = id.HasValue() ? _books.GetById(id) : _wishBooks.GetById(wishBookId);
             if (book == null)
             {
-                Title("Результаты поиска отрицательны");
+                Title("Книга не найдена");
                 return View("NotFound");
             }
             var model = new BookViewModel(book);
             model.CurrentUserId = UserId;
             Title(model.Title);
-
             if (id.HasValue())
             {
                 return View("Info", model);
             }
-
-            ViewBag.Searecher = UserName;
             return View("WishInfo", model);
         }
 

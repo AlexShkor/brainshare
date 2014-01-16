@@ -36,6 +36,8 @@ namespace BrainShare.ViewModels
             get { return "У пользователя " + UserName + " есть книга \"" + Title + "\" на BrainShare"; }
         }
 
+        public string UserComment { get; set; }
+
         public BookViewModel(Book book)
         {
             Id = book.Id;
@@ -54,8 +56,9 @@ namespace BrainShare.ViewModels
             UserName = book.UserData.UserName;
             UserProfile = "/profile/view/" + book.UserData.UserId;
             UserLocality = book.UserData.Address.Locality;
-            AvatarUrl = book.UserData.AvatarUrl;
+            AvatarUrl = book.UserData.AvatarUrl ?? Constants.DefaultAvatarUrl;
             IsUserReadMe = book.IsUserReadMe;
+            UserComment = book.UserComment ?? "(нет комментария владельца)";
         }
 
         public BookViewModel()

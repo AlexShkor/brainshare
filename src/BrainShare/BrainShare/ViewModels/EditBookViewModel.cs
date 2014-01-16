@@ -29,6 +29,7 @@ namespace BrainShare.ViewModels
         public string Subtitle { get; set; }
         public string Image { get; set; }
         public string Language { get; set; }
+        public string UserComment{ get; set; }
         public bool IsWhishBook { get; set; }
         public IEnumerable<LanguageInfo> Languages { get; set; }
 
@@ -46,6 +47,7 @@ namespace BrainShare.ViewModels
             Publisher = book.Publisher;
             Subtitle = book.Subtitle;
             Image = book.Image;
+            UserComment = book.UserComment;
             if (book.Authors.Any())
             {
                 Authors = book.Authors.Select(x => new StringItem(x)).ToList();
@@ -86,7 +88,7 @@ namespace BrainShare.ViewModels
             book.Subtitle = Subtitle;
             book.Publisher = Publisher;
             book.PageCount = PageCount;
-
+            book.UserComment = UserComment;
             try
             {
                 DateTime dt = DateTime.ParseExact(PublishedDate,

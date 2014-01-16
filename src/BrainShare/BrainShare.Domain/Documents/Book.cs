@@ -25,6 +25,7 @@ namespace BrainShare.Domain.Documents
         public string Image { get; set; }
         public string Country { get; set; }
         public bool IsUserReadMe { get; set; }
+        public string UserComment { get; set; }
 
         public DateTime Added { get; set; }
 
