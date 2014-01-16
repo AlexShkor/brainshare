@@ -311,7 +311,7 @@ namespace BrainShare.Controllers
 
                 _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
 
-                NotificationsHub.SendGenericText(UserId,"my title","my message");
+                NotificationsHub.SendGenericText(UserId,"Запрос отправлен","Запрос на книгу " + doc.Title + " успешно отправлен");
             }
             return Json(new { doc.Id });
         }
@@ -400,7 +400,12 @@ namespace BrainShare.Controllers
                         BookTitle = book.Title
                     });
                 _users.Save(user);
-                _mailService.SendRequestMessage(_users.GetById(UserId), user, book);
+
+                if (user.EmailConfirmed)
+                {
+                    _mailService.SendRequestMessage(_users.GetById(UserId), user, book);
+                }
+                
             }
             var model = new ChangeRequestSentModel(book);
             Title("Обмен " + model.Book.Title + " от " + user.FullName);

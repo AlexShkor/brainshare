@@ -82,7 +82,9 @@ namespace Brainshare.Infrastructure.Services
 
         public void SendExchangeConfirmMessage(User firstUser, Book firstBook, User secondUser, Book secondBook)
         {
-           _emailer.SendExchangeConfirmMessage(new ExchangeConfirm
+            if (firstUser.EmailConfirmed)
+            {
+               _emailer.SendExchangeConfirmMessage(new ExchangeConfirm
                {
                    MyBookTitle = firstBook.Title,
                    PartnerBookTitle = secondBook.Title,
@@ -90,6 +92,8 @@ namespace Brainshare.Infrastructure.Services
                    PartnerFullName = secondUser.FullName
                }, 
                firstUser.Email,firstUser.FullName);
+            }
+        
         }
     }
 
