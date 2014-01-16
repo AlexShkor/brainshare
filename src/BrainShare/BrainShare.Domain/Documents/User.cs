@@ -16,8 +16,7 @@ namespace BrainShare.Domain.Documents
 
         public Dictionary<string, int> Votes { get; set; }
 
-        public string FacebookId { get; set; }
-        public string FacebookAccessToken { get; set; }
+        public bool EmailConfirmed { get; set; }
         
         public AddressData Address { get; set; }
 
@@ -46,7 +45,7 @@ namespace BrainShare.Domain.Documents
             Followers = new List<string>();
             News = new List<UserNewsInfo>();
             Settings = new UserSettings();
-            LoginServices = new List<LoginService>();
+          //  LoginServices = new List<LoginService>();
         }
 
         public void SetVote(string setterId, int value)

@@ -15,7 +15,14 @@ namespace BrainShare.Domain.Documents
         public string Email { get; set; }
         public List<string> Followers { get; set; }
         public List<UserNewsInfo> News { get; set; }
-        public List<LoginService> LoginServices { get; set; } 
+
+        public string FacebookId { get; set; }
+        public string FacebookAccessToken { get; set; }
+        public string FacebookEmail { get; set; }
+
+        public string VkId { get; set; }
+        public string VkAccessToken { get; set; }
+  
         public string Salt { get; set; }
         public string AvatarUrl { get; set; }
         public bool IsOnline { get; set; }

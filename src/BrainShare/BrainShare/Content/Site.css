@@ -141,9 +141,10 @@
     /*bootstrap layout*/
     .facebook-link {
         padding-top: 10px;
+        margin-left: 4px;
     }
     .facebook-link  a {
-        background-image: url(/Images/socialIcons32/facebook_32.png);
+        background-image: url(/Images/socialIcons32/facebook1_32.png);
     }
 
     .vk-link {

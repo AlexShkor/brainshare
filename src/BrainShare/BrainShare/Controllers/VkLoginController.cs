@@ -168,22 +168,14 @@ namespace BrainShare.Controllers
                     var newUser = new User
                     {
                         Id = ObjectId.GenerateNewId().ToString(),
-                        FacebookAccessToken = Session[SessionKeys.VkAccessToken] as string,
+                        VkAccessToken = accessToken,
+                        VkId = vkUser.UserId,
                         FirstName = vkUser.FirstName,
                         LastName = vkUser.LastName,
                         Registered = DateTime.Now,
                         AvatarUrl = vkUser.AvatarUrl,
                         Address = address
                     };
-
-
-                    newUser.LoginServices.Add(new LoginService
-                        {
-                            LoginType = LoginServiceTypeEnum.Vk,
-                            AccessToken = accessToken,
-                            ServiceUserId = vkUser.UserId,
-                            UseForNotifications = false
-                        });
 
                     _users.Save(newUser);
 
@@ -199,8 +191,7 @@ namespace BrainShare.Controllers
 
                 else
                 {
-                    var loginService = userByVkId.LoginServices.Single(l => l.LoginType == LoginServiceTypeEnum.Vk && l.ServiceUserId == vkUser.UserId);
-                    loginService.AccessToken = Session[SessionKeys.VkAccessToken] as string;
+                    userByVkId.VkAccessToken = accessToken;
 
                     _users.Save(userByVkId);
                     _auth.LoginUser(LoginServiceTypeEnum.Vk, vkUser.UserId, true);
@@ -226,15 +217,9 @@ namespace BrainShare.Controllers
                 if (user == null)
                 {
                     var currentUser = _users.GetById(UserId);
-                    var loginService = new LoginService
-                        {
-                            AccessToken = Session[SessionKeys.VkAccessToken] as string,
-                            LoginType = LoginServiceTypeEnum.Vk,
-                            ServiceUserId = vkUser.UserId,
-                            UseForNotifications = false
-                        };
-
-                    currentUser.LoginServices.Add(loginService);
+ 
+                    currentUser.VkId = vkUser.UserId;
+                    currentUser.VkAccessToken = Session[SessionKeys.VkAccessToken] as string;
 
                     _users.Save(currentUser);
 
@@ -258,10 +243,7 @@ namespace BrainShare.Controllers
 
             if (user != null)
             {
-                var loginService = user.LoginServices.Single(l => l.LoginType == LoginServiceTypeEnum.Vk && l.ServiceUserId == vkUserId);
-
-                loginService.ServiceUserId = vkUserId;
-                loginService.AccessToken = Session[SessionKeys.VkAccessToken] as string;
+                user.VkAccessToken = Session[SessionKeys.VkAccessToken] as string;
 
                 _users.Save(user);
             }

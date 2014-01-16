@@ -44,58 +44,58 @@ namespace BrainShare.Controllers
             return Json(string.Format("success: total changes {0}", total), JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public ActionResult MigrateAccounts()
-        {
-            var allUsers = _users.GetAll().ToList();
-            int count = 0;
+        //[HttpPost]
+        //public ActionResult MigrateAccounts()
+        //{
+        //    var allUsers = _users.GetAll().ToList();
+        //    int count = 0;
 
-            foreach (var user in allUsers)
-            {
-                if (user.FacebookId != null && user.LoginServices.All(e => e.LoginType != LoginServiceTypeEnum.Facebook))
-                {
-                    var loginEntry = new LoginService
-                        {
-                            AccessToken = user.FacebookAccessToken,
-                            LoginType = LoginServiceTypeEnum.Facebook,
-                            ServiceUserId = user.FacebookId
-                        };
-                    count++;
+        //    foreach (var user in allUsers)
+        //    {
+        //        if (user.FacebookId != null && user.LoginServices.All(e => e.LoginType != LoginServiceTypeEnum.Facebook))
+        //        {
+        //            var loginEntry = new LoginService
+        //                {
+        //                    AccessToken = user.FacebookAccessToken,
+        //                    LoginType = LoginServiceTypeEnum.Facebook,
+        //                    ServiceUserId = user.FacebookId
+        //                };
+        //            count++;
 
-                    user.LoginServices.Add(loginEntry);
-                    _users.Save(user);
-                }
+        //            user.LoginServices.Add(loginEntry);
+        //            _users.Save(user);
+        //        }
 
-                if (user.Email != null && user.FacebookId == null && user.LoginServices.All(e => e.LoginType != LoginServiceTypeEnum.Email))
-                {
-                    var loginEntry = new LoginService
-                    {
-                        LoginType = LoginServiceTypeEnum.Email,
-                        ServiceUserId = user.Email,
-                        AccessToken = user.Password,
-                        Salt = user.Salt
-                    };
-                    count++;
-                    user.LoginServices.Add(loginEntry);
-                    _users.Save(user);
-                }
-            }
+        //        if (user.Email != null && user.FacebookId == null && user.LoginServices.All(e => e.LoginType != LoginServiceTypeEnum.Email))
+        //        {
+        //            var loginEntry = new LoginService
+        //            {
+        //                LoginType = LoginServiceTypeEnum.Email,
+        //                ServiceUserId = user.Email,
+        //                AccessToken = user.Password,
+        //                Salt = user.Salt
+        //            };
+        //            count++;
+        //            user.LoginServices.Add(loginEntry);
+        //            _users.Save(user);
+        //        }
+        //    }
 
-            return Json(string.Format("success: total changes {0}", count), JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(string.Format("success: total changes {0}", count), JsonRequestBehavior.AllowGet);
+        //}
 
 
-        [HttpPost]
-        public ActionResult SendVkMessages()
-        {
-            var user = _users.GetById(UserId);
+        //[HttpPost]
+        //public ActionResult SendVkMessages()
+        //{
+        //    var user = _users.GetById(UserId);
 
-            var loginService = user.LoginServices.First(e => e.LoginType == LoginServiceTypeEnum.Vk);
-            var vkMessanger = new VkMessaging(loginService.AccessToken);
+        //    var loginService = user.LoginServices.First(e => e.LoginType == LoginServiceTypeEnum.Vk);
+        //    var vkMessanger = new VkMessaging(loginService.AccessToken);
 
-            var result = vkMessanger.Messages_Send<string>(loginService.ServiceUserId, "Brainshare test message");
+        //    var result = vkMessanger.Messages_Send<string>(loginService.ServiceUserId, "Brainshare test message");
 
-            return Json(string.Format("success: result = {0}", result), JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(string.Format("success: result = {0}", result), JsonRequestBehavior.AllowGet);
+        //}
     }
 }

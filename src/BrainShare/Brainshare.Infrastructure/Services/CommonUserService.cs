@@ -19,8 +19,26 @@ namespace BrainShare.Services
 
         public CommonUser GetUserByLoginServiceInfo(LoginServiceTypeEnum loginServiceType, string serviceId)
         {
-            var result = _usersService.GetUserByLoginServiceInfo(loginServiceType,serviceId).MapUser();
+            var result = _usersService.GetUserByLoginServiceInfo(loginServiceType, serviceId).MapUser();
             return result ?? _shellUserService.GetUserByLoginServiceInfo(loginServiceType, serviceId).MapShellUser();
+        }
+
+        public CommonUser GetUserByEmail(string email)
+        {
+            var result = _usersService.GetUserByEmail(email).MapUser();
+            return result ?? _shellUserService.GetUserByEmail(email).MapShellUser();
+        }
+
+        public CommonUser GetUserByVkId(string id)
+        {
+            var result = _usersService.GetUserByVkId(id).MapUser();
+            return result ?? _shellUserService.GetUserByVkId(id).MapShellUser();
+        }
+
+        public CommonUser GetUserByFacebookId(string id)
+        {
+            var result = _usersService.GetUserByFbId(id).MapUser();
+            return result ?? _shellUserService.GetUserByFbId(id).MapShellUser();
         }
 
         public CommonUser GetById(string id)

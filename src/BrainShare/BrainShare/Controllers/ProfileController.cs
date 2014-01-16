@@ -312,10 +312,10 @@ namespace BrainShare.Controllers
             {
                 case "common":
                     return View("SettingsTabs/Common", user.Settings.CommonSettings);
-                case "notifications":
-                    return View("SettingsTabs/Notifications", new NotificationSettingsViewModel(user.Settings.NotificationSettings,user.LoginServices));
-                case "privacy":
-                    return View("SettingsTabs/Privacy", new PrivacySettingsViewModel(user.LoginServices, user.Settings.PrivacySettings));
+                //case "notifications":
+                //    return View("SettingsTabs/Notifications", new NotificationSettingsViewModel(user.Settings.NotificationSettings,user.LoginServices));
+                //case "privacy":
+                //    return View("SettingsTabs/Privacy", new PrivacySettingsViewModel(user.LoginServices, user.Settings.PrivacySettings));
 
                 default: return View("SettingsTabs/Common", user.Settings.CommonSettings);
             }
@@ -329,8 +329,8 @@ namespace BrainShare.Controllers
 
             foreach (var service in notificationSettings.Services)
             {
-                user.LoginServices.First(s => s.ServiceUserId == service.ServiceId).UseForNotifications =
-                    service.IsChecked;
+                //user.LoginServices.First(s => s.ServiceUserId == service.ServiceId).UseForNotifications =
+                //    service.IsChecked;
             }
             _users.Save(user);
 

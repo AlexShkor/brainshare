@@ -39,7 +39,7 @@ namespace BrainShare.Infrastructure.Utilities
                 Password = user.Password,
                 Salt = user.Salt,
                 IsFacebookAccount = user.IsFacebookAccount,
-                LoginServices = user.LoginServices
+            //    LoginServices = user.LoginServices
             };
         }
 

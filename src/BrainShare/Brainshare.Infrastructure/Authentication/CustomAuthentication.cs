@@ -37,14 +37,14 @@ namespace BrainShare.Authentication
 
         public CommonUser Login(string email, string password, bool isPersistent)
         {
-            var retUser = _commonUserService.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Email, email);
+            var retUser = _commonUserService.GetUserByEmail(email);
 
             if (retUser == null)
             {
                 return null;
             }
 
-            if (retUser.LoginServices.Any(e => e.LoginType == LoginServiceTypeEnum.Email &&  e.ServiceUserId == email && e.AccessToken == _cryptoHelper.GetPasswordHash(password, e.Salt)))
+            if (retUser.Password == _cryptoHelper.GetPasswordHash(password, retUser.Salt))
             {
                 CreateCookie(LoginServiceTypeEnum.Email, email, isPersistent);
                 return retUser;
@@ -53,12 +53,34 @@ namespace BrainShare.Authentication
             return null;
         }
 
-        public CommonUser Login(LoginServiceTypeEnum loginServiceType, string serviceId)
+        public CommonUser Login(string email)
         {
-            var retUser = _commonUserService.GetUserByLoginServiceInfo(loginServiceType,serviceId);
+            var retUser = _commonUserService.GetUserByEmail(email);
             if (retUser != null)
             {
-                CreateCookie(loginServiceType,serviceId);
+                CreateCookie(LoginServiceTypeEnum.Email, email);
+            }
+
+            return retUser;
+        }
+
+        public CommonUser LoginVk(string id)
+        {
+            var retUser = _commonUserService.GetUserByVkId(id);
+            if (retUser != null)
+            {
+                CreateCookie(LoginServiceTypeEnum.Vk, id);
+            }
+
+            return retUser;
+        }
+
+        public CommonUser LoginFb(string id)
+        {
+            var retUser = _commonUserService.GetUserByFacebookId(id);
+            if (retUser != null)
+            {
+                CreateCookie(LoginServiceTypeEnum.Facebook, id);
             }
 
             return retUser;

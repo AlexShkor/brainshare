@@ -191,16 +191,10 @@ namespace BrainShare.Controllers
                         Address = address,
                         AvatarUrl = string.Format("https://graph.facebook.com/{0}/picture?width=250&height=250", fbUser.id),
                         Registered = DateTime.Now,
+                        FacebookId = fbUser.id,
+                        FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string,
+                        FacebookEmail = fbUser.email,
                     };
-
-                    newUser.LoginServices.Add(new LoginService
-                        {
-                            LoginType = LoginServiceTypeEnum.Facebook,
-                            AccessToken = Session[SessionKeys.FbAccessToken] as string,
-                            ServiceUserId = fbUser.id,
-                            ServiceLinkedEmail = fbUser.email,
-                            UseForNotifications = false
-                        });
 
                     _users.Save(newUser);
                     _auth.LoginUser(LoginServiceTypeEnum.Facebook, fbUser.id, true);
@@ -215,10 +209,9 @@ namespace BrainShare.Controllers
 
                 else
                 {
-                    var loginService = userByFacebookId.LoginServices.Single(l => l.LoginType == LoginServiceTypeEnum.Facebook && l.ServiceUserId == fbUser.id);
-                    loginService.AccessToken = Session[SessionKeys.FbAccessToken] as string;
-                    loginService.ServiceLinkedEmail = fbUser.email;
-
+                    userByFacebookId.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
+                    userByFacebookId.FacebookEmail = fbUser.email;
+ 
                     _users.Save(userByFacebookId);
                     _auth.LoginUser(LoginServiceTypeEnum.Facebook, fbUser.id, true);
 
@@ -243,15 +236,9 @@ namespace BrainShare.Controllers
                 if (user == null)
                 {
                     var currentUser = _users.GetById(UserId);
-                    var loginService = new LoginService
-                    {
-                        AccessToken = Session[SessionKeys.FbAccessToken] as string,
-                        LoginType = LoginServiceTypeEnum.Facebook,
-                        ServiceUserId = fbUser.id,
-                        UseForNotifications = false
-                    };
 
-                    currentUser.LoginServices.Add(loginService);
+                    currentUser.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
+                    currentUser.FacebookId = fbUser.id;
 
                     _users.Save(currentUser);
 
@@ -276,9 +263,8 @@ namespace BrainShare.Controllers
             if (userByFacebookId != null )
             {
                 var currentUser = _users.GetById(UserId);
-                var loginService = currentUser.LoginServices.Single(l => l.LoginType == LoginServiceTypeEnum.Facebook && l.ServiceUserId == facebookId);
 
-                loginService.AccessToken = Session[SessionKeys.FbAccessToken] as string;
+                currentUser.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
 
                 _users.Save(currentUser);
             }

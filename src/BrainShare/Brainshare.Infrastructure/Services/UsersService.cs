@@ -28,14 +28,16 @@ namespace BrainShare.Services
 
         public User GetUserByLoginServiceInfo(LoginServiceTypeEnum loginServiceType, string serviceId)
         {
-            var match = new BsonDocument 
-                { 
-                    { "$match",   new BsonDocument {  {"LoginServices.LoginType", loginServiceType },{"LoginServices.ServiceUserId",serviceId} }} ,
-                };
-
-            var pipeline = new[] { match };
-
-            return Items.Aggregate(pipeline).ResultDocuments.Select(BsonSerializer.Deserialize<User>).SingleOrDefault();
+            switch (loginServiceType)
+            {
+                case LoginServiceTypeEnum.Facebook:
+                    return GetUserByFbId(serviceId);
+                case LoginServiceTypeEnum.Vk:
+                    return GetUserByVkId(serviceId);
+                case LoginServiceTypeEnum.Email:
+                    return GetUserByEmail(serviceId);
+            }
+            return null;
         }
 
 
@@ -43,6 +45,23 @@ namespace BrainShare.Services
         {
             Items.Save(user);
         }
+
+
+        public User GetUserByEmail(string email)
+        {
+            return Items.FindOne(Query<ShellUser>.EQ(x => x.Email, email));
+        }
+
+        public User GetUserByVkId(string id)
+        {
+            return Items.FindOne(Query<ShellUser>.EQ(x => x.VkId, id));
+        }
+
+        public User GetUserByFbId(string id)
+        {
+            return Items.FindOne(Query<ShellUser>.EQ(x => x.FacebookId, id));
+        }
+
 
         public IEnumerable<User> GetOwners(string id)
         {

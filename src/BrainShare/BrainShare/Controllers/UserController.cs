@@ -69,43 +69,43 @@ namespace BrainShare.Controllers
             return View(new LinkAccountViewModel());
         }
 
-        [HttpPost]
-        public async Task<ActionResult> LinkAccount(LinkAccountViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Email, model.Email);
+        //[HttpPost]
+        //public async Task<ActionResult> LinkAccount(LinkAccountViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Email, model.Email);
 
-                if (user != null)
-                {
-                    ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
-                    return JsonModel(model);
-                }
+        //        if (user != null)
+        //        {
+        //            ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
+        //            return JsonModel(model);
+        //        }
                
-                user = _users.GetById(UserId);
+        //        user = _users.GetById(UserId);
 
-                var salt = _cryptoHelper.GenerateSalt();
-                var hashedPassword = _cryptoHelper.GetPasswordHash(model.Password, salt);
+        //        var salt = _cryptoHelper.GenerateSalt();
+        //        var hashedPassword = _cryptoHelper.GetPasswordHash(model.Password, salt);
 
-                user.LoginServices.Add(new LoginService
-                    {
-                        AccessToken = hashedPassword,
-                        LoginType = LoginServiceTypeEnum.Email,
-                        Salt = salt,
-                        ServiceUserId = model.Email.ToLower(),
-                        EmailConfirmed = false,
-                        UseForNotifications = false
-                    });
+        //        user.LoginServices.Add(new LoginService
+        //            {
+        //                AccessToken = hashedPassword,
+        //                LoginType = LoginServiceTypeEnum.Email,
+        //                Salt = salt,
+        //                ServiceUserId = model.Email.ToLower(),
+        //                EmailConfirmed = false,
+        //                UseForNotifications = false
+        //            });
 
-                _users.AddUser(user);
+        //        _users.AddUser(user);
 
-                var confirmLink = UrlUtility.EmailApproveLink(CryptographicHelper.Encrypt(user.Id, salt), model.Email);
+        //        var confirmLink = UrlUtility.EmailApproveLink(CryptographicHelper.Encrypt(user.Id, salt), model.Email);
 
-                _mailService.SendWelcomeMessage(user.FullName, model.Email, confirmLink);
-            }
+        //        _mailService.SendWelcomeMessage(user.FullName, model.Email, confirmLink);
+        //    }
 
-            return JsonModel(model);
-        }
+        //    return JsonModel(model);
+        //}
 
         [HttpPost]
         public ActionResult Login(LoginView loginView)
@@ -143,15 +143,14 @@ namespace BrainShare.Controllers
         [GET("confirmemail")]
         public ActionResult ConfirmEmail(string userId, string email)
         {
-            var user = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Email, email);
+            var user = _users.GetUserByEmail(email.ToLower());
             if (user != null)
             {
-                var loginService = user.LoginServices.SingleOrDefault(l => l.ServiceUserId == email.ToLower());
-                var decryptedUserId = CryptographicHelper.Decrypt(userId, loginService.Salt);
+                var decryptedUserId = CryptographicHelper.Decrypt(userId, user.Salt);
 
                 if (decryptedUserId == user.Id)
                 {
-                    loginService.EmailConfirmed = true;
+                    user.EmailConfirmed = true;
                     _users.Save(user);
 
                     return RedirectToAction("Index", "Home");
@@ -178,16 +177,10 @@ namespace BrainShare.Controllers
                                           Address = new AddressData(model.original_address,model.formatted_address,model.country,model.locality),
                                           LastName = model.LastName,
                                           Registered = DateTime.Now,
+                                          Email = model.Email.ToLower(),
+                                          Password = hashedPassword,
+                                          Salt = salt
                                       };
-                    newUser.LoginServices.Add(new LoginService
-                        {
-                            AccessToken = hashedPassword, 
-                            LoginType = LoginServiceTypeEnum.Email, 
-                            Salt = salt, 
-                            ServiceUserId = model.Email.ToLower(),
-                            EmailConfirmed = false,
-                            UseForNotifications = false
-                        });
 
                     _users.AddUser(newUser);
                     
