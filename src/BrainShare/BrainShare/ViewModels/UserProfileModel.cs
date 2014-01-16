@@ -24,16 +24,14 @@ namespace BrainShare.ViewModels
 
         public string Status { get; set; }
 
-        public UserProfileModel(User user, User me, int userActivityTimeoutInMinutes)
+        public UserProfileModel(User user, int userActivityTimeoutInMinutes)
         {
             Id = user.Id;
             Name = user.FullName;
-            IsMe = user.Id == me.Id;
             Avatar = user.AvatarUrl ?? Constants.DefaultAvatarUrl;
             Address = user.Address;
             Email = user.Email;
             Info = user.Info;
-            IsCurrentUserSubscribed = me.IsSubscribed(Id);
             Status = StringUtility.GetUserStatus(user.LastVisited, userActivityTimeoutInMinutes);
         }
     }

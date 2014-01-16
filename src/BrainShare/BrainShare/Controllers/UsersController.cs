@@ -5,7 +5,6 @@ using BrainShare.ViewModels;
 
 namespace BrainShare.Controllers
 {
-    [Authorize]
     public class UsersController : BaseController
     {
         public UsersController(UsersService users):base(users)

@@ -143,19 +143,17 @@ namespace BrainShare.Controllers
             {
                 return RedirectToAction("Index", "Profile");
             }
-
             var user = _users.GetById(id);
-            var me = _users.GetById(UserId);
-  
-            var model = new UserProfileModel(user, me,_settings.ActivityTimeoutInMinutes);
-
+            var model = new UserProfileModel(user, _settings.ActivityTimeoutInMinutes);
             if (UserId.HasValue())
             {
+                var me = _users.GetById(UserId);
+                model.IsCurrentUserSubscribed = me.IsSubscribed(id);
+                model.IsMe = user.Id == me.Id;
                 model.CanIncrease = user.GetVote(id, UserId) <= 0;
                 model.CanDecrease = user.GetVote(id, UserId) >= 0;
                 model.SummaryVotes = user.GetSummaryVotes();
             }
-
             Title(user.FullName);
             return View(model);
         }
