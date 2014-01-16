@@ -94,24 +94,6 @@ var AddBookModel = function (model) {
 
     this.give = function (item) {
         self.ownedBooks.push(item.GoogleBookId);
-       
-        //var data = {
-        //    bookDto: ko.toJS(item),
-        //    shareOnFb: shareOnFb
-        //};
-
-
-        //$.ajax({
-        //    type: "POST",
-        //    url: "/books/give",
-        //    contentType: "application/json; charset=utf-8",
-        //    data: data,
-        //    dataType: "json",
-        //    success: function(response) {
-
-        //    }
-        //});
-
         send("/books/give", item, function (response) {
 
         });
@@ -120,7 +102,7 @@ var AddBookModel = function (model) {
 
     this.info = function (item) {
         var callback = function (response) {
-            window.location = "/books/info/" + response.Id;
+            window.location = "/Profile/WishList";
         };
         send("/books/info", item, callback);
     };
