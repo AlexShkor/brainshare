@@ -7,7 +7,7 @@ namespace BrainShare.ViewModels
     {
         public UsersFilterModel()
         {
-            ItemsPerPage = 12;
+            ItemsPerPage = 48;
         }
 
         public string Search { get; set; }
