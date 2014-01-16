@@ -20,7 +20,7 @@ namespace Brainshare.Infrastructure.Services
             _emailer = new Emailer(_settings.AdminEmail,_settings.AdminDisplayName);
         }
 
-        public void SendWelcomeMessage(string fullName, string email, string applicationBaseUrl, string confirmLink = null)
+        public void SendWelcomeMessage(string fullName, string email, string confirmLink = null)
         {
            _emailer.SendWelcomeMessage(new Welcome
                {
