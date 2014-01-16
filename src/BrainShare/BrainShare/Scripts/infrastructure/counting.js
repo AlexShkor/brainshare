@@ -10,38 +10,39 @@
         $("#messagesCounter").text(messagesCount);
     }
 
+    setTimeout(function() {
+        $.post("/profile/get-new-books-count", function (data) {
 
-    $.post("/profile/get-new-books-count", function (data) {
+            if (data.Result !== undefined) {
+                if (localStorageIsAvailable) {
+                    localStorage.setItem('booksCount', data.Result);
+                }
 
-        if (data.Result !== undefined) {
-            if (localStorageIsAvailable) {
-                localStorage.setItem('booksCount', data.Result);
+                $("#booksCounter, #navigationBooksCounter").text(data.Result);
             }
+        });
 
-            $("#booksCounter, #navigationBooksCounter").text(data.Result);
-        }
-    });
+        $.post("/profile/get-new-messages-count", function (data) {
+            if (data.Result !== undefined) {
+                if (localStorageIsAvailable) {
+                    localStorage.setItem('messagesCount', data.Result);
+                }
 
-    $.post("/profile/get-new-messages-count", function (data) {
-        if (data.Result !== undefined) {
-            if (localStorageIsAvailable) {
-                localStorage.setItem('messagesCount', data.Result);
+                $("#messagesCounter, #navigationMessagesCounter").text(data.Result);
             }
+        });
 
-            $("#messagesCounter, #navigationMessagesCounter").text(data.Result);
-        }
-    });
+        $.post("/profile/get-unread-news-count", function (data) {
+            if (data.Result !== undefined) {
+                if (localStorageIsAvailable) {
+                    localStorage.setItem('newsCount', data.Result);
+                }
+
+                $("#newsCounter").text(data.Result);
+            }
+        });
+    }, 1);
     
-    $.post("/profile/get-unread-news-count", function (data) {
-        if (data.Result !== undefined) {
-            if (localStorageIsAvailable) {
-                localStorage.setItem('newsCount', data.Result);
-            }
-
-            $("#newsCounter").text(data.Result);
-        }
-    });
-
     function isLocalStorageAvailable() {
         try {
             return 'localStorage' in window && window['localStorage'] !== null;
