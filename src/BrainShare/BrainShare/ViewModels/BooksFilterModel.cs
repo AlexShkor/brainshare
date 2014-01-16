@@ -25,7 +25,7 @@ namespace BrainShare.ViewModels
 
         public BooksFilterModel()
         {
-            ItemsPerPage = 20;
+            ItemsPerPage = 40;
         }
 
         public override BooksFilter ToFilter()

@@ -1,4 +1,5 @@
-﻿@using BrainShare.Utils.Utilities
+﻿@using BrainShare.Utils.Extensions
+@using BrainShare.Utils.Utilities
 @using Newtonsoft.Json
 @model BrainShare.ViewModels.BookViewModel
 @section Meta{
@@ -15,7 +16,7 @@
 @section Scripts{
     <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/info.js")"></script>
     <script>
-        $(function() {
+        $(function () {
             var model = new InfoModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
             ko.applyBindings(model);
         })
@@ -27,7 +28,7 @@
 }
 
 <div class="span12">
-    <p>Пользователь @(ViewBag.Searecher) ищет книгу</p>
+    <p>Пользователь @(Model.UserName) ищет книгу</p>
     <h4 style="margin-bottom: 3%">@Model.Title</h4>
     <div>
         <div class="span3">
@@ -53,50 +54,60 @@
 
                     <div class="row-fluid">
                         <div class="span9">
-                            <div>
-                                <strong class="span5">Название:</strong>
-                                <span class="span7" data-bind="text: book.Title"></span>
-                            </div>
-                            <div data-bind="visible: book.Subtitle">
-                                <strong class="span5">Подзаголовок:</strong>
-                                <span class="span7" data-bind="text: book.Subtitle"></span>
-                            </div>
+                            @if (Model.Subtitle.HasValue())
+                            {
+                                <div>
+                                    <strong class="span5">Подзаголовок:</strong>
+                                    <span class="span7">@Model.Subtitle</span>
+                                </div>
+                            }
                             <div>
                                 <strong class="span5">Авторы:</strong>
-                                <span class="span7" data-bind="text: book.Authors"></span>
+                                <span class="span7">@Model.Authors</span>
                             </div>
                             <div>
                                 <strong class="span5">Издательство:</strong>
-                                <span class="span7" data-bind="text: book.Publisher"></span>
-                            </div>
-                            <div>
-                                <strong class="span5">Дата издания:</strong>
-                                <span class="span7" data-bind="text: book.PublishedDate"></span>
-                            </div>
-                            <div>
-                                <strong class="span5">Количество страниц:</strong>
-                                <span class="span7" data-bind="text: book.PageCount"></span>
-                            </div>
-
-                            <div data-bind="visible: book.Description">
-                                <strong class="span5">Описание:</strong>
-                                <span class="span7" data-bind="text: book.Description"></span>
+                                <span class="span7">@Model.Publisher, @Model.PublishedDate</span>
                             </div>
                             <div>
                                 <strong class="span5">Местонахождение книги:</strong>
-                                <span class="span7" data-bind="text: book.Address"></span>
+                                <span class="span7" data-bind="text: book.Address">@Model.Address</span>
                             </div>
                         </div>
+
                         <div class="span3">
                             <div style="text-align: center">
-                                <img style="width: 130px; height: 130px;" data-bind="attr: { src: book.AvatarUrl != null ? book.AvatarUrl : '/images/user-default-avatar.jpg' }" />
-                                <a style="padding-top: 10px; padding-bottom: 10px; display: block;" data-bind="attr: { href: book.UserProfile }, text: book.UserName"></a>
+                                <img style="width: 130px; height: 130px;" src="@Model.AvatarUrl" />
+                                <a style="padding-top: 10px; padding-bottom: 10px; display: block;" href="@Model.UserProfile">@Model.UserName</a>
                             </div>
 
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="clearfix"></div>
+            <div>
+                <h5 class="bold">Описание</h5>
+                @Model.SearchInfo
+                <br />
+                @Model.PageCount страниц
+            </div>
+            <br />
+            <div class="clearfix"></div>
+            <div>
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" alt="64x64" style="width: 64px; height: 64px;" src="@Model.AvatarUrl">
+                    </a>
+                    <div class="media-body">
+                        <h5 class="media-heading bold">@Model.UserName</h5>
+                        @Model.UserComment
+                    </div>
+                </div>
+
+            </div>
+            <br />
 
             <div class="clearfix"></div>
             <div class="well">
@@ -120,13 +131,13 @@
                 <a href="#"></a>
             </div>
             <hr />
-            <h4>Предпросмотр</h4>
-            <div>
-                @if (Model.GoogleBookId != null)
-                {
+
+            @if (Model.GoogleBookId != null)
+            {<h4>Предпросмотр</h4>
+                <div>
                     @Html.Partial("GooglePreview", Model.GoogleBookId)
-                }
-            </div>
+                </div>
+            }
         </div>
     </div>
     <div>
