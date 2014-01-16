@@ -31,7 +31,7 @@ namespace BrainShare.Controllers
         private readonly CryptographicHelper _cryptographicHelper;
         private readonly IAuthentication _auth;
 
-        const string Scope = "offline";
+        const string Scope = "friends,photos";
 
         public string VkCallbackUri
         {
