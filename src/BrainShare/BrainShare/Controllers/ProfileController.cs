@@ -559,7 +559,7 @@ namespace BrainShare.Controllers
 
             if (settings.DuplicateMessagesToEmail)
             {
-                _mailService.EmailUserMessage(message, _users.GetById(UserId), recipient);
+                _mailService.EmailUserMessage(message, _users.GetById(UserId), recipient,UrlUtility.ApplicationBaseUrl);
             }
         }
     }

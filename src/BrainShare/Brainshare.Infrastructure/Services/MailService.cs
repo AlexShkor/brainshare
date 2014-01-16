@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Web;
 using BrainShare.Domain.Documents;
 using BrainShare.EmailMessaging;
 using BrainShare.EmailMessaging.ViewModels;
@@ -19,7 +20,7 @@ namespace Brainshare.Infrastructure.Services
             _emailer = new Emailer(_settings.AdminEmail,_settings.AdminDisplayName);
         }
 
-        public void SendWelcomeMessage(string fullName, string email,string confirmLink = null)
+        public void SendWelcomeMessage(string fullName, string email, string applicationBaseUrl, string confirmLink = null)
         {
            _emailer.SendWelcomeMessage(new Welcome
                {
@@ -29,30 +30,30 @@ namespace Brainshare.Infrastructure.Services
                email, fullName);
         }
 
-        public void SendGiftExchangeMessage(Book book, User owner, User receiver)
+        public void SendGiftExchangeMessage(Book book, User owner, User receiver, string applicationBaseUrl)
         {
             _emailer.SendGiftExchangeMessage(new GiftExchange
             {
                 OwnerFullName = owner.FullName,
-                OwnerProfileLink = UrlUtility.GetProfileLink(owner.Id),
-                BookLink = UrlUtility.GetProfileLink(book.Id),
+                OwnerProfileLink = UrlUtility.GetProfileLink(owner.Id, applicationBaseUrl),
+                BookLink = UrlUtility.GetBookLink(book.Id, applicationBaseUrl),
                 BookTitle = book.Title
             },
              receiver.Email, receiver.FullName);
         }
 
-        public void EmailUserMessage(string message, User sender, User receiver)
+        public void EmailUserMessage(string message, User sender, User receiver, string applicationBaseUrl)
         {
             _emailer.EmailUserMessage(new UserMessage
                 {
                     Message = message ,
                     SenderFullName = sender.FullName,
-                    SenderProfileLink = UrlUtility.GetProfileLink(sender.Id),                 
+                    SenderProfileLink = UrlUtility.GetProfileLink(sender.Id,applicationBaseUrl),                 
                 },
                 receiver.Email,receiver.FullName );
         }
 
-        public void EmailUserHaveSearechedBook(User owner, User receiver,  Book book)
+        public void EmailUserHaveSearechedBook(User owner, User receiver, Book book, string applicationBaseUrl)
         {
              _emailer.EmailUserHaveSearechedBook(new UserHaveSearechedBook
                  {
@@ -61,26 +62,26 @@ namespace Brainshare.Infrastructure.Services
                     BookTitle = book.Title,
                     OwnerFullName = owner.FullName,
                     OwnerLocality = owner.Address.Locality,
-                    OwnerProfileLink = UrlUtility.GetProfileLink(owner.Id),
+                    OwnerProfileLink = UrlUtility.GetProfileLink(owner.Id,applicationBaseUrl),
                     PageCount = book.PageCount.ToString(),
                     PublishedDate = book.PublishedYear != null ? book.PublishedDate.ToString("yyyy MMM", CultureInfo.GetCultureInfo("ru")) : null
                  }, 
                  receiver.Email, receiver.FullName);
         }
 
-        public void SendRequestMessage(User currentUser, User requestedUser, Book book)
+        public void SendRequestMessage(User currentUser, User requestedUser, Book book,string  applicationBaseUrl)
         {
             _emailer.SendRequestMessage(new Request
                 {
                    BookTitle = book.Title,
-                   BookLink = UrlUtility.GetBookLink(book.Id),
+                   BookLink = UrlUtility.GetBookLink(book.Id,applicationBaseUrl),
                    RequestedUserFullName = requestedUser.FullName,
-                   RequestedUserProfileLink = UrlUtility.GetProfileLink(requestedUser.Id)
+                   RequestedUserProfileLink = UrlUtility.GetProfileLink(requestedUser.Id,applicationBaseUrl)
                 },
                 requestedUser.Email,requestedUser.FullName);
         }
 
-        public void SendExchangeConfirmMessage(User firstUser, Book firstBook, User secondUser, Book secondBook)
+        public void SendExchangeConfirmMessage(User firstUser, Book firstBook, User secondUser, Book secondBook, string applicationBaseUrl)
         {
             if (firstUser.EmailConfirmed)
             {

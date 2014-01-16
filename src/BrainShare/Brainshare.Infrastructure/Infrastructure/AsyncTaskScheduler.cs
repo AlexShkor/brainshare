@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Web;
 using BrainShare.Domain.Documents;
 using BrainShare.Infrastructure.Services;
 using BrainShare.Services;
@@ -27,14 +28,14 @@ namespace BrainShare.Infostructure
             _mailService = mailService;
         }
 
-        public Task StartEmailSendSearchingUsersTask(User owner, Book newBook)
+        public Task StartEmailSendSearchingUsersTask(User owner, Book newBook, string applicationBaseUrl)
         {
             return Task.Factory.StartNew(() =>
             {
                 var wishBooks = _wishBooks.GetBooksByISBN(newBook.ISBN);
                 foreach (var wishBook in wishBooks)
                 {
-                    SendEmailSearhingUser(wishBook, owner);
+                    SendEmailSearhingUser(wishBook, owner, applicationBaseUrl);
                 }
             });
         }
@@ -125,14 +126,14 @@ namespace BrainShare.Infostructure
             _users.Save(taker);
         }
 
-        private void SendEmailSearhingUser(Book wishBook, User owner)
+        private void SendEmailSearhingUser(Book wishBook, User owner, string applicationBaseUrl)
         {
             var userData = wishBook.UserData;
             var user = _users.GetById(userData.UserId);
 
             if (user.Settings.NotificationSettings.NotifyByEmailIfAnybodyAddedMyWishBook)
             {
-                _mailService.EmailUserHaveSearechedBook(owner, user, wishBook);
+                _mailService.EmailUserHaveSearechedBook(owner, user, wishBook, applicationBaseUrl);
             }
         }
 

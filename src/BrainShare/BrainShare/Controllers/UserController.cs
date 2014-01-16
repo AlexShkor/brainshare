@@ -193,8 +193,8 @@ namespace BrainShare.Controllers
                                       };
 
                     _users.AddUser(newUser);
-                    
-                    var confirmLink = UrlUtility.EmailApproveLink(CryptographicHelper.Encrypt(newUser.Id,salt), model.Email);
+
+                    var confirmLink = UrlUtility.EmailApproveLink(CryptographicHelper.Encrypt(newUser.Id, salt), model.Email, UrlUtility.ApplicationBaseUrl);
 
                     _mailService.SendWelcomeMessage(newUser.FullName, model.Email,confirmLink);
                 }

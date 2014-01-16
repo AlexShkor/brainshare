@@ -17,6 +17,7 @@ using BrainShare.GoogleDto;
 using BrainShare.Infostructure;
 using BrainShare.Services;
 using BrainShare.Utils.Extensions;
+using BrainShare.Utils.Utilities;
 using BrainShare.ViewModels;
 using Brainshare.Infrastructure.Hubs;
 using Brainshare.Infrastructure.Services;
@@ -279,7 +280,7 @@ namespace BrainShare.Controllers
 
                 _books.Save(doc);
 
-                _asyncTaskScheduler.StartEmailSendSearchingUsersTask(user, doc);
+                _asyncTaskScheduler.StartEmailSendSearchingUsersTask(user, doc,UrlUtility.ApplicationBaseUrl);
 
                 _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
 
@@ -328,7 +329,7 @@ namespace BrainShare.Controllers
 
             _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
 
-            _asyncTaskScheduler.StartEmailSendSearchingUsersTask(user, doc);
+            _asyncTaskScheduler.StartEmailSendSearchingUsersTask(user, doc,UrlUtility.ApplicationBaseUrl);
 
             _asyncTaskScheduler.UserHaveNewBookNotifyer(user, doc);
 
@@ -403,7 +404,7 @@ namespace BrainShare.Controllers
 
                 if (user.EmailConfirmed)
                 {
-                    _mailService.SendRequestMessage(_users.GetById(UserId), user, book);
+                    _mailService.SendRequestMessage(_users.GetById(UserId), user, book,UrlUtility.ApplicationBaseUrl);
                 }
                 
             }
@@ -518,7 +519,7 @@ namespace BrainShare.Controllers
 
                 _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BooksGifted(me, book, user));
 
-                _mailService.SendGiftExchangeMessage(book, me, user);
+                _mailService.SendGiftExchangeMessage(book, me, user,UrlUtility.ApplicationBaseUrl);
 
                 SendRequestAcceptedAsGiftNotification(userId, book, me);
 
@@ -550,8 +551,8 @@ namespace BrainShare.Controllers
 
         private void SendExchangeMail(Book yourBook, User you, Book hisBook, User he)
         {
-            _mailService.SendExchangeConfirmMessage(you, yourBook, he, hisBook);
-            _mailService.SendExchangeConfirmMessage(he, hisBook, you, yourBook);        
+            _mailService.SendExchangeConfirmMessage(you, yourBook, he, hisBook,UrlUtility.ApplicationBaseUrl);
+            _mailService.SendExchangeConfirmMessage(he, hisBook, you, yourBook,UrlUtility.ApplicationBaseUrl);        
         }
 
         public JsonResult UploadBookImage(HttpPostedFileBase bookImgfile)

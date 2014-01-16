@@ -1,5 +1,6 @@
 ﻿using BrainShare.Domain.Documents.Data;
 using BrainShare.Domain.Enums;
+using BrainShare.Utils.Utilities;
 using Brainshare.Infrastructure.Infrastructure;
 
 namespace BrainShare.ViewModels
@@ -14,7 +15,7 @@ namespace BrainShare.ViewModels
             {
                 BookTitle = entry.BookSnapshot.Title;
                 BookSubTitle = entry.BookSnapshot.Subtitle;
-                BookInfoLink = Utils.Utilities.UrlUtility.GetBookLink(entry.BookSnapshot.Id);
+                BookInfoLink = UrlUtility.GetBookLink(entry.BookSnapshot.Id,UrlUtility.ApplicationBaseUrl);
             }
 
             ExchangeEntryType = entry.ExchangeEntryType;

@@ -25,19 +25,19 @@ namespace BrainShare.Utils.Utilities
             get { return ApplicationBaseUrl + HttpContext.Current.Request.Url.PathAndQuery; }
         }
 
-        public static string GetProfileLink(string userId)
+        public static string GetProfileLink(string userId, string  applicationBaseUrl)
         {
-            return ApplicationBaseUrl + "/profile/view/" + userId;
+            return applicationBaseUrl + "/profile/view/" + userId;
         }
 
-        public static string GetBookLink(string bookId)
+        public static string GetBookLink(string bookId, string applicationBaseUrl)
         {
-            return ApplicationBaseUrl + "/books/info/" + bookId;
+            return applicationBaseUrl + "/books/info/" + bookId;
         }
 
-        public static string EmailApproveLink(string hashedUserId,string email)
+        public static string EmailApproveLink(string hashedUserId, string email, string applicationBaseUrl)
         {
-            return ApplicationBaseUrl + string.Format("/user/confirmemail?userId={0}&&email={1}", HttpUtility.UrlEncode(hashedUserId), HttpUtility.UrlEncode(email));
+            return applicationBaseUrl + string.Format("/user/confirmemail?userId={0}&&email={1}", HttpUtility.UrlEncode(hashedUserId), HttpUtility.UrlEncode(email));
         }
 
         public static string GetExchangeArrowUrl(int direction, int color)
