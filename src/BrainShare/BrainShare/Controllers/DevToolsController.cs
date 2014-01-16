@@ -23,26 +23,27 @@ namespace BrainShare.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult MigratePasswords()
-        {
-            var allUsers = _users.GetAll().Where(e => e.Salt == null).ToList();
+        //[HttpPost]
+        //public ActionResult MigratePasswords()
+        //{
+        //    var allUsers = _users.GetAll().Where(e => e.Salt == null).ToList();
 
-            var total = 0;
-            foreach (var user in allUsers)
-            {
-                var salt = _cryptographicHelper.GenerateSalt();
+        //    var total = 0;
+        //    foreach (var user in allUsers)
+        //    {
+        //        var salt = _cryptographicHelper.GenerateSalt();
 
-                user.Password = _cryptographicHelper.GetPasswordHash(user.Password,salt);
-                user.Salt = salt;
+        //        user.Password = _cryptographicHelper.GetPasswordHash(user.Password,salt);
+        //        user.Salt = salt;
 
-                _users.Save(user);
+        //        _users.Save(user);
 
-                total++;
-            }
+        //        total++;
+        //    }
 
-            return Json(string.Format("success: total changes {0}", total), JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(string.Format("success: total changes {0}", total), JsonRequestBehavior.AllowGet);
+        //}
+
 
         //[HttpPost]
         //public ActionResult MigrateAccounts()
@@ -82,6 +83,7 @@ namespace BrainShare.Controllers
         //    }
 
         //    return Json(string.Format("success: total changes {0}", count), JsonRequestBehavior.AllowGet);
+
         //}
 
 
