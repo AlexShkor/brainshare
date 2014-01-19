@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<BrainShare.Domain.Documents.ActivityFeed>
+@{
+    Layout = "../Shared/_BooksLayout.cshtml";
+}
 <h4>Активность</h4>
 <table class="table table-condensed table-striped">
 
@@ -7,12 +10,8 @@
         {
             <tr>
                 <td>@Html.Partial(item.ActivityType.ToString(), item)</td>
-           </tr>
+            </tr>
         }
 
     </tbody>
 </table>
-
-
-
-
