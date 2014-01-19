@@ -47,16 +47,21 @@
     <ul class="thumbnails" data-bind="foreach: items">
         <li class="book-item">
             <div class="thumbnail" data-bind="click: $root.info">
-                <img style="width: 128px; max-height: 185px;" data-bind="attr: { src: Image }" />
-
-                <div class="caption" style="max-height: 170px; overflow: hidden;">
-                    <strong style="display: block;" class="color-black" data-bind="text: $root.CutString(Title(), 30)"></strong>
-                    <span style="display: block;" data-bind="text: $root.CutString(PublishedDate(), 30)"></span>
-                    <span style="display: block;" class="color-black" data-bind="text: $root.CutString(Authors(), 30)"></span>
-                    <div>
-                        <span class="label" data-bind="text: PageCount"></span>стр.
+                <div style="height: 235px; overflow: hidden; text-align: center"  >
+                    <img style="width: 128px; max-height: 185px; margin: auto" data-bind="attr: { src: Image }" />
+                    <div class="caption" style="max-height: 60px; overflow: hidden;">
+                        <strong style="display: block;" class="color-black" data-bind="text: $root.CutString(Title(), 30)"></strong>
                     </div>
-                    <strong style="display: block;" class="color-black" data-bind="text: $root.CutString(Address(), 30)"></strong>
+                </div>
+                <div style="height: 70px; margin-left: -5px; margin-right: -5px; padding-left: 5px; padding-right: 5px; background-color: #1dccaa; ">
+                    <div class="pull-left">
+                        <img style="height: 64px; width: 64px;" src="https://graph.facebook.com/100000412732971/picture?width=250&height=250" />
+                    </div>
+                    <div class="pull-left" style="width: 104px; text-align: center; padding-top: 5px">
+                        <strong class="color-black" data-bind="text: $root.CutString(UserName(), 12)"></strong>
+                        <br/>
+                        <strong class="color-black" data-bind="text: $root.CutString(Address(), 12)"></strong>
+                    </div>
                 </div>
             </div>
         </li>
