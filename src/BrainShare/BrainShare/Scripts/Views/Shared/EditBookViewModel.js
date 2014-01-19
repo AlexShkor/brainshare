@@ -1,5 +1,8 @@
 ﻿var EditBookViewModel = function (data, submitUrl) {
     var self = this;
+
+    this.additionalVisible = ko.observable(false);
+
     this.model = ko.mapping.fromJS(data);
 
     this.save = function () {
@@ -30,6 +33,10 @@
         if (self.model.ISBNs().length > 1) {
             self.model.ISBNs.remove(isbn);
         }
+    };
+
+    this.toggleAdditionalFiels = function() {
+        self.additionalVisible(!self.additionalVisible());
     };
 
     this.toMine = function () {

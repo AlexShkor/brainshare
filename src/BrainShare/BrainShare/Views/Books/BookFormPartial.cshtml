@@ -35,43 +35,6 @@
                 <input type="text" data-bind="value: Title" required="required" class="input-xlarge" id="Title">
             </div>
         </div>
-
-        <div class="control-group">
-            <label class="control-label" for="Subtitle">Подзаголовок</label>
-            <div class="controls">
-                <input type="text" data-bind="value: Subtitle" class="input-xlarge" id="Subtitle">
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label" for="Publisher">Издатель</label>
-            <div class="controls">
-                <input type="text" data-bind="value: Publisher" class="input-xlarge" id="Publisher">
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label" for="PublishedDate">Дата Издания</label>
-            <div class="controls">
-                <input id="PublishedDate" type="text" data-bind="value: PublishedDate" class="input-xlarge">
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="PageCount">Кол-во страниц</label>
-            <div class="controls">
-                <input type="number" min="0" data-bind="value: PageCount" class="input-xlarge" id="PageCount">
-            </div>
-        </div>
-       <div class="control-group">
-            <label class="control-label" for="ISBN">ISBN</label>
-            <div data-bind="foreach: { data: ISBNs, as: 'isbn' }">
-                <div class="controls">
-                    <input type="text" data-bind="value: isbn.Value" class="input-xlarge" id="ISBN">
-                    <button class="btn btn-mini btn-success" data-bind="click: $root.addISBN"><i class="icon-plus"></i></button>
-                    <button class="btn btn-mini btn-danger" data-bind="click: $root.removeISBN"><i class="icon-remove"></i></button>
-                </div>
-            </div>
-        </div>
         <div class="control-group">
             <label class="control-label" for="Authors">Автор(ы)</label>
             <div data-bind="foreach: { data: Authors, as: 'author' }">
@@ -84,24 +47,62 @@
 
             </div>
         </div>
-        <!-- Select Basic -->
         <div class="control-group">
             <label class="control-label" for="selectbasic">Язык</label>
             <div class="controls">
                 <select data-bind="options: Languages, optionsText: 'NativeName', value: Language, optionsCaption: 'Выберете язык...', optionsValue: 'Symbol'" class="input-xlarge" id="selectbasic"></select>
             </div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="SearchInfo">Официальное описание</label>
-            <div class="controls">
-                <textarea style="width: 300px; height: 100px" data-bind="value: SearchInfo" class="input-xlarge" id="SearchInfo">
-                </textarea>
-            </div>
-        </div>
+        
         <div class="control-group">
             <label class="control-label" for="UserComment">Ваш Комментарий</label>
             <div class="controls">
                 <textarea style="width: 300px; height: 200px" data-bind="value: UserComment" class="input-xlarge" id="UserComment"></textarea>
+            </div>
+        </div>
+
+        <a href="#" data-bind="click: $root.toggleAdditionalFiels">Дополнительные поля</a>
+
+        <div class="control-group" data-bind="visible: $root.additionalVisible">
+            <label class="control-label" for="Publisher">Издатель</label>
+            <div class="controls">
+                <input type="text" data-bind="value: Publisher" class="input-xlarge" id="Publisher">
+            </div>
+        </div>
+
+        <div class="control-group" data-bind="visible: $root.additionalVisible">
+            <label class="control-label" for="PublishedDate">Дата Издания</label>
+            <div class="controls">
+                <input id="PublishedDate" type="text" data-bind="value: PublishedDate" class="input-xlarge">
+            </div>
+        </div>
+
+        <div class="control-group" data-bind="visible: $root.additionalVisible">
+            <label class="control-label" for="ISBN">ISBN</label>
+            <div data-bind="foreach: { data: ISBNs, as: 'isbn' }">
+                <div class="controls">
+                    <input type="text" data-bind="value: isbn.Value" class="input-xlarge" id="ISBN">
+                    <button class="btn btn-mini btn-success" data-bind="click: $root.addISBN"><i class="icon-plus"></i></button>
+                    <button class="btn btn-mini btn-danger" data-bind="click: $root.removeISBN"><i class="icon-remove"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="control-group" data-bind="visible: $root.additionalVisible">
+            <label class="control-label" for="Subtitle">Подзаголовок</label>
+            <div class="controls">
+                <input type="text" data-bind="value: Subtitle" class="input-xlarge" id="Subtitle">
+            </div>
+        </div>
+        <div class="control-group" data-bind="visible: $root.additionalVisible">
+            <label class="control-label" for="PageCount">Кол-во страниц</label>
+            <div class="controls">
+                <input type="number" min="0" data-bind="value: PageCount" class="input-xlarge" id="PageCount">
+            </div>
+        </div>
+        <div class="control-group" data-bind="visible: $root.additionalVisible">
+            <label class="control-label" for="SearchInfo">Официальное описание</label>
+            <div class="controls">
+                <textarea style="width: 300px; height: 100px" data-bind="value: SearchInfo" class="input-xlarge" id="SearchInfo"></textarea>
             </div>
         </div>
         <div class="form-actions">

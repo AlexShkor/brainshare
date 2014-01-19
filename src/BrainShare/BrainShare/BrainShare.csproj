@@ -612,7 +612,6 @@
     <Content Include="Views\User\UserLogin.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
-    <Content Include="Views\Books\Take.cshtml" />
     <Content Include="Views\Books\Details.cshtml" />
     <Content Include="Views\Profile\MyBooks.cshtml" />
     <Content Include="Views\Books\ResulsViews\SendExchangeRequest.cshtml" />

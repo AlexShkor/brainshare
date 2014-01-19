@@ -221,6 +221,7 @@ namespace BrainShare.Controllers
         {
             var languages = new LanguagesService().GetAllLanguages();
             var model = new EditBookViewModel(languages);
+            model.Language = "ru";
             Title(model.Title);
             return View("Add", model);
         }
