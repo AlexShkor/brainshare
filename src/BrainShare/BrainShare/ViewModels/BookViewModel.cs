@@ -38,6 +38,7 @@ namespace BrainShare.ViewModels
         }
 
         public string UserComment { get; set; }
+        public object AvatarUrl128 { get; set; }
 
         public BookViewModel(Book book)
         {
@@ -58,6 +59,7 @@ namespace BrainShare.ViewModels
             UserProfile = "/profile/view/" + book.UserData.UserId;
             UserLocality = book.UserData.Address.Locality;
             AvatarUrl =  UrlUtility.ResizeAvatar(book.UserData.AvatarUrl, 64) ?? Constants.DefaultAvatarUrl;
+            AvatarUrl128 =  UrlUtility.ResizeAvatar(book.UserData.AvatarUrl, 126) ?? Constants.DefaultAvatarUrl;
             IsUserReadMe = book.IsUserReadMe;
             UserComment = book.UserComment ?? "(нет комментария владельца)";
         }
