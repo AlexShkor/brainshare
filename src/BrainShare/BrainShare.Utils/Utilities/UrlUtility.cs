@@ -1,4 +1,5 @@
-﻿using System.Security.Policy;
+﻿using System.Collections.Concurrent;
+using System.Security.Policy;
 using System.Web;
 
 namespace BrainShare.Utils.Utilities
@@ -76,6 +77,10 @@ namespace BrainShare.Utils.Utilities
 
         public static string ResizeAvatar(string originalUrl, int size)
         {
+            if (originalUrl == null)
+            {
+                return originalUrl;
+            }
             if (originalUrl.Contains(".vk."))
             {
                 //don't have API for doing this dynamicly
