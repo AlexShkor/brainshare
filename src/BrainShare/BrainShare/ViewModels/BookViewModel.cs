@@ -1,5 +1,6 @@
 ﻿using BrainShare.Domain.Documents;
 using Brainshare.Infrastructure.Infrastructure;
+using BrainShare.Utils.Utilities;
 
 namespace BrainShare.ViewModels
 {
@@ -56,7 +57,7 @@ namespace BrainShare.ViewModels
             UserName = book.UserData.UserName;
             UserProfile = "/profile/view/" + book.UserData.UserId;
             UserLocality = book.UserData.Address.Locality;
-            AvatarUrl = book.UserData.AvatarUrl ?? Constants.DefaultAvatarUrl;
+            AvatarUrl =  UrlUtility.ResizeAvatar(book.UserData.AvatarUrl, 64) ?? Constants.DefaultAvatarUrl;
             IsUserReadMe = book.IsUserReadMe;
             UserComment = book.UserComment ?? "(нет комментария владельца)";
         }

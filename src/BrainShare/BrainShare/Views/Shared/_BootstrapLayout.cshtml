@@ -33,7 +33,6 @@
         <script src="~/Scripts/Plugins/autocomplete/selectize.js"></script>
         @* Our Scripts*@
         <script src="~/Scripts/infrastructure/counting.js"></script>
-        <script src="~/Scripts/infrastructure/globalErrorHandler.js"></script>
 
         <script src="~/Scripts/Views/Shared/EditBookViewModel.js"></script>
         @RenderSection("head", required: false)
@@ -80,7 +79,6 @@
                         }
 
                         <ul class="nav" id="mainNav">
-                            @Html.MenuLink("Активность", "Activity", "Home")
                             @Html.MenuLink("Книги", "Index", "Books", null)
                             @Html.MenuLink("Мой Аккаунт", "Index", "Profile", null)
                             @Html.MenuLink("Пользователи", "Index", "Users")

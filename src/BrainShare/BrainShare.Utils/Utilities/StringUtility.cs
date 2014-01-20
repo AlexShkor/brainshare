@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace BrainShare.Utils.Utilities
 {
@@ -7,7 +8,7 @@ namespace BrainShare.Utils.Utilities
         public static string GetUserStatus(DateTime lastVisited, int userActivityTimeoutInMinutes)
         {
             var isUserOnline = userActivityTimeoutInMinutes > (DateTime.UtcNow - lastVisited).Minutes;
-            return isUserOnline ? "Online" : lastVisited.ToString("ddd d MMM hh:mm");
+            return isUserOnline ? "Online" : lastVisited.ToString("ddd d MMM hh:mm", CultureInfo.GetCultureInfo("ru"));
         }
 
         public static bool IsValidEmail(string email)

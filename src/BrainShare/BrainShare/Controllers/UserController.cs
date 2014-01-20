@@ -284,12 +284,6 @@ namespace BrainShare.Controllers
         [GET("Friends/{userId}")]
         public ActionResult Friends(string userId)
         {
-            if (IsShellUser)
-            {
-                //Todo: implementation will be based on future needs
-                return View("ShellFriends");
-            }
-            //Todo: future implementation will be based on user settings
             userId = userId ?? UserId;
             var user = _users.GetById(userId);
             var publishers = _users.GetByIds(user.Publishers);
