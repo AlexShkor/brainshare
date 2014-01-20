@@ -73,6 +73,20 @@ namespace BrainShare.Utils.Utilities
 
             return "/Images/" + arrow_name;
         }
-   
+
+        public static string ResizeAvatar(string originalUrl, int size)
+        {
+            if (originalUrl.Contains(".vk."))
+            {
+                //don't have API for doing this dynamicly
+                return originalUrl;
+            }
+            if (originalUrl.Contains("facebook"))
+            {
+                return originalUrl.Substring(0, originalUrl.IndexOf("?")) + string.Format("?width={0}&height={0}", size);
+            }
+            return originalUrl.Insert(originalUrl.LastIndexOf("/"), "/w_" + size/200f);
+        }
+
     }
 }

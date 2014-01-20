@@ -197,7 +197,7 @@ namespace BrainShare.Controllers
                         FirstName = fbUser.first_name,
                         LastName = fbUser.last_name,
                         Address = address,
-                        AvatarUrl = string.Format("https://graph.facebook.com/{0}/picture?width=250&height=250", fbUser.id),
+                        AvatarUrl = string.Format("https://graph.facebook.com/{0}/picture?width=200&height=200", fbUser.id),
                         Registered = DateTime.Now,
                         FacebookId = fbUser.id,
                         FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string,

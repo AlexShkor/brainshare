@@ -53,6 +53,7 @@
     <Compile Include="EmailerTests.cs" />
     <Compile Include="LanguageServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UrlUtilityTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BrainShare.EmailMessaging\BrainShare.EmailMessaging.csproj">
@@ -62,6 +63,10 @@
     <ProjectReference Include="..\Brainshare.Infrastructure\Brainshare.Infrastructure.csproj">
       <Project>{2ccd280f-d3a0-4599-a77c-4295b5ef4653}</Project>
       <Name>Brainshare.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrainShare.Utils\BrainShare.Utils.csproj">
+      <Project>{87976832-5CAB-413A-B127-AF7976BB1446}</Project>
+      <Name>BrainShare.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
