@@ -35,7 +35,8 @@ namespace BrainShare.Controllers
             }
         }
 
-        public UserController(IAuthentication auth, UsersService users, ShellUserService shellUserService, CryptographicHelper cryptoHelper, Settings settings, NewsService news, MailService mailService):base(users)
+        public UserController(IAuthentication auth, UsersService users, ShellUserService shellUserService, CryptographicHelper cryptoHelper, Settings settings, NewsService news, MailService mailService)
+            : base(users)
         {
             _settings = settings;
             _shellUserService = shellUserService;
@@ -81,7 +82,7 @@ namespace BrainShare.Controllers
         //            ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
         //            return JsonModel(model);
         //        }
-               
+
         //        user = _users.GetById(UserId);
 
         //        var salt = _cryptoHelper.GenerateSalt();
@@ -162,48 +163,47 @@ namespace BrainShare.Controllers
         [HttpPost]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+
+            var user = _users.GetUserByEmail(model.Email);
+            if (user != null)
+            {
+                ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
+            }
             if (ModelState.IsValid)
             {
-                var anyUser = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Email, model.Email);
-                if (anyUser == null)
-                {
-                    var salt = _cryptoHelper.GenerateSalt();
-                    var hashedPassword = _cryptoHelper.GetPasswordHash(model.Password,salt);
+                var salt = _cryptoHelper.GenerateSalt();
+                var hashedPassword = _cryptoHelper.GetPasswordHash(model.Password, salt);
 
-                    var settings = new UserSettings
+                var settings = new UserSettings
+                {
+                    NotificationSettings = new NotificationSettings
                     {
-                        NotificationSettings = new NotificationSettings
-                        {
-                            DuplicateMessagesToEmail = true,
-                            NotifyByEmailIfAnybodyAddedMyWishBook = true
-                        },
-                    };
+                        DuplicateMessagesToEmail = true,
+                        NotifyByEmailIfAnybodyAddedMyWishBook = true
+                    },
+                };
 
-                    var newUser = new User()
-                                      {
-                                          Id = GetIdForUser(),
-                                          FirstName = model.FirstName,
-                                          Address = new AddressData(model.original_address,model.formatted_address,model.country,model.locality),
-                                          LastName = model.LastName,
-                                          Registered = DateTime.Now,
-                                          Email = model.Email.ToLower(),
-                                          Password = hashedPassword,
-                                          Salt = salt,
-                                          Settings = settings
-                                      };
+                var newUser = new User()
+                                  {
+                                      Id = GetIdForUser(),
+                                      FirstName = model.FirstName,
+                                      Address = new AddressData(model.original_address, model.formatted_address, model.country, model.locality),
+                                      LastName = model.LastName,
+                                      Registered = DateTime.Now,
+                                      Email = model.Email.ToLower(),
+                                      Password = hashedPassword,
+                                      Salt = salt,
+                                      Settings = settings
+                                  };
 
-                    _users.AddUser(newUser);
+                _users.AddUser(newUser);
 
-                    var confirmLink = UrlUtility.EmailApproveLink(CryptographicHelper.Encrypt(newUser.Id, salt), model.Email, UrlUtility.ApplicationBaseUrl);
+                var confirmLink = UrlUtility.EmailApproveLink(CryptographicHelper.Encrypt(newUser.Id, salt), model.Email, UrlUtility.ApplicationBaseUrl);
 
-                    _mailService.SendWelcomeMessage(newUser.FullName, model.Email,confirmLink);
-                }
-                else
-                {
-                    ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
-                }
+                _mailService.SendWelcomeMessage(newUser.FullName, model.Email, confirmLink);
+                return RedirectToAction("Login", "User");
             }
-            return JsonModel(model);
+            return View(model);
         }
 
         [HttpPost]
@@ -243,7 +243,7 @@ namespace BrainShare.Controllers
 
                 ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
             }
-      
+
             return JsonModel(model);
         }
 
@@ -253,7 +253,7 @@ namespace BrainShare.Controllers
             Title("Зарегистрироваться в качестве 'полки'");
             return View(new CreateShellViewModel());
         }
-        
+
 
 
         public static string GetIdForUser()
@@ -262,7 +262,7 @@ namespace BrainShare.Controllers
         }
 
 
-      
+
 
 
         [GET("News")]
@@ -270,14 +270,14 @@ namespace BrainShare.Controllers
         {
             if (!IsShellUser)
             {
-               var user = _users.GetById(UserId);
-               var news = _news.GetByIds(user.News.Select(n => n.Id));
+                var user = _users.GetById(UserId);
+                var news = _news.GetByIds(user.News.Select(n => n.Id));
 
-               var model = new NewsViewModel(user.News, news);
-               return View(model);
+                var model = new NewsViewModel(user.News, news);
+                return View(model);
             }
-          
-        
+
+
             return View();
         }
 
@@ -289,7 +289,7 @@ namespace BrainShare.Controllers
             var publishers = _users.GetByIds(user.Publishers);
 
             Title("На кого я подписан");
-            return View(new PublishersViewModel(publishers,user.FullName, userId == UserId,_settings.ActivityTimeoutInMinutes));
+            return View(new PublishersViewModel(publishers, user.FullName, userId == UserId, _settings.ActivityTimeoutInMinutes));
         }
     }
 }
