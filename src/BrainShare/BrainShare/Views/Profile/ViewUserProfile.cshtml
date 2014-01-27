@@ -47,7 +47,7 @@
                     </div>
                 }
 
-                @if (!Model.IsMe)
+                @if (!Model.IsMe && !Model.IsNonAuthorizedRequest)
                 {
                     <div class="control-group">
                         <button class="btn btn-info" data-bind="click: sendMessage">Отправить сообщение</button>

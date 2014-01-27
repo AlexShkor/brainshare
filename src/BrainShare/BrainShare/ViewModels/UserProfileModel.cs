@@ -21,17 +21,28 @@ namespace BrainShare.ViewModels
 
         public bool CanIncrease { get; set; }
         public bool CanDecrease { get; set; }
+        public bool IsNonAuthorizedRequest { get; set; }
 
         public string Status { get; set; }
 
-        public UserProfileModel(User user, int userActivityTimeoutInMinutes)
+        public UserProfileModel(User user, User me, int userActivityTimeoutInMinutes,bool isNonAuthorizedRequest = false)
         {
+            if (isNonAuthorizedRequest)
+            {
+                IsNonAuthorizedRequest = true;
+            }
+            else
+            {
+                IsMe = user.Id == me.Id;
+                IsCurrentUserSubscribed = me.IsSubscribed(Id);
+            }
+
             Id = user.Id;
             Name = user.FullName;
             Avatar = user.AvatarUrl ?? Constants.DefaultAvatarUrl;
             Address = user.Address;
             Email = user.Email;
-            Info = user.Info;
+            Info = user.Info;          
             Status = StringUtility.GetUserStatus(user.LastVisited, userActivityTimeoutInMinutes);
         }
     }

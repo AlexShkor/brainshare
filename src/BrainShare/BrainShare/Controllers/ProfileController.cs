@@ -144,7 +144,10 @@ namespace BrainShare.Controllers
                 return RedirectToAction("Index", "Profile");
             }
             var user = _users.GetById(id);
-            var model = new UserProfileModel(user, _settings.ActivityTimeoutInMinutes);
+            var me = UserId == null ? null: _users.GetById(UserId);
+  
+            var model = new UserProfileModel(user, me,_settings.ActivityTimeoutInMinutes,me == null);
+
             if (UserId.HasValue())
             {
                 var me = _users.GetById(UserId);
