@@ -75,9 +75,9 @@ var AddBookModel = function (model) {
     };
 
     this.give = function (item) {
-        self.ownedBooks.push(item.GoogleBookId);
+  
         send("/books/give", item, function (response) {
-
+            self.ownedBooks.push(item.GoogleBookId);
         });
     };
 
