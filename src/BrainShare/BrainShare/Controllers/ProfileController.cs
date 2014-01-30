@@ -150,7 +150,6 @@ namespace BrainShare.Controllers
 
             if (UserId.HasValue())
             {
-                var me = _users.GetById(UserId);
                 model.IsCurrentUserSubscribed = me.IsSubscribed(id);
                 model.IsMe = user.Id == me.Id;
                 model.CanIncrease = user.GetVote(id, UserId) <= 0;
