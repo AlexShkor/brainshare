@@ -1,11 +1,13 @@
-﻿using System.Collections.Concurrent;
-using System.Security.Policy;
+﻿using System.Text.RegularExpressions;
 using System.Web;
+using BrainShare.Utils.Extensions;
 
 namespace BrainShare.Utils.Utilities
 {
     public static class UrlUtility
-    {       
+    {
+        public static readonly Regex UrlRegex = new Regex(@"((https?|ftp|gopher|telnet|file|notes|ms-help):((//)|(\\\\))+[\w\d:#@%/;$()~_?\+-=\\\.&]*)", RegexOptions.Compiled);
+
         public static string ApplicationBaseUrl
         {
             get
@@ -91,6 +93,11 @@ namespace BrainShare.Utils.Utilities
                 return originalUrl.Substring(0, originalUrl.IndexOf("?")) + string.Format("?width={0}&height={0}", size);
             }
             return originalUrl.Insert(originalUrl.LastIndexOf("/"), "/w_" + size/200f);
+        }
+
+        public static bool IsUrl(this string @string)
+        {
+            return @string.HasValue() && UrlRegex.IsMatch(@string);
         }
 
     }

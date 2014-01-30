@@ -139,9 +139,17 @@
     <Compile Include="Infrastructure\AsyncTaskScheduler.cs" />
     <Compile Include="Infrastructure\Constants.cs" />
     <Compile Include="Infrastructure\CryptographicHelper.cs" />
+    <Compile Include="Infrastructure\Ensure.cs" />
     <Compile Include="Infrastructure\Filters\BooksFilter.cs" />
     <Compile Include="Infrastructure\Filters\UsersFilter.cs" />
     <Compile Include="Infrastructure\MongoSessionProvider.cs" />
+    <Compile Include="Infrastructure\Multitenancy\DefaultTenantSelector.cs" />
+    <Compile Include="Infrastructure\Multitenancy\IApplicationTenant.cs" />
+    <Compile Include="Infrastructure\Multitenancy\Features\IComplexFeature.cs" />
+    <Compile Include="Infrastructure\Multitenancy\Features\IFeature.cs" />
+    <Compile Include="Infrastructure\Multitenancy\Features\IFeatureRegistry.cs" />
+    <Compile Include="Infrastructure\Multitenancy\ITenantSelector.cs" />
+    <Compile Include="Infrastructure\Multitenancy\TenantNotFoundException.cs" />
     <Compile Include="Infrastructure\MyWebRequest.cs" />
     <Compile Include="Infrastructure\SessionKeys.cs" />
     <Compile Include="Mongo\BaseFilter.cs" />
