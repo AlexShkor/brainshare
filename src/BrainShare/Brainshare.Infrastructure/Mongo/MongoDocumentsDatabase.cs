@@ -1,5 +1,6 @@
 ﻿using System;
 using BrainShare.Domain.Documents;
+using BrainShare.Domain.Multitenancy;
 using MongoDB.Driver;
 
 namespace BrainShare.Infrastructure.Mongo
@@ -59,5 +60,6 @@ namespace BrainShare.Infrastructure.Mongo
         public MongoCollection<CloudinaryImage> CloudinaryImages { get { return Database.GetCollection<CloudinaryImage>("cloudinary_images"); } }
         public MongoCollection<ExchangeHistory> ExchangeHistory { get { return Database.GetCollection<ExchangeHistory>("exchange_history"); } }
         public MongoCollection<News> News { get { return Database.GetCollection<News>("news"); } }
+        public MongoCollection<ApplicationTenant> Tenants { get { return Database.GetCollection<ApplicationTenant>("tenants"); } }
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Web.Routing;
+using BrainShare.Domain.Multitenancy;
 
 namespace Brainshare.Infrastructure.Infrastructure.Multitenancy
 {
     public interface ITenantSelector
     {
-        IEnumerable<IApplicationTenant> Tenants { get; }
+        IEnumerable<ApplicationTenant> Tenants { get; }
 
-        IApplicationTenant Select(RequestContext context);
+        ApplicationTenant Select(RequestContext context);
     }
 }

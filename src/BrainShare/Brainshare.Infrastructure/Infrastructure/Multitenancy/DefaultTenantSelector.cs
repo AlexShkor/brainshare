@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Routing;
+using BrainShare.Domain.Multitenancy;
 using BrainShare.Utils.Extensions;
 using BrainShare.Utils.Utilities;
 
@@ -10,7 +11,7 @@ namespace Brainshare.Infrastructure.Infrastructure.Multitenancy
     public class DefaultTenantSelector : ITenantSelector
     {
 
-        public DefaultTenantSelector(IEnumerable<IApplicationTenant> tenants)
+        public DefaultTenantSelector(IEnumerable<ApplicationTenant> tenants)
         {
 
             Ensure.Argument.NotNull(tenants, "tenants");
@@ -20,10 +21,10 @@ namespace Brainshare.Infrastructure.Infrastructure.Multitenancy
         }
 
 
-        public IEnumerable<IApplicationTenant> Tenants { get; private set; }
+        public IEnumerable<ApplicationTenant> Tenants { get; private set; }
 
 
-        public IApplicationTenant Select(RequestContext context)
+        public ApplicationTenant Select(RequestContext context)
         {
 
             Ensure.Argument.NotNull(context, "context");

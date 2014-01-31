@@ -118,7 +118,6 @@ namespace BrainShare.Controllers
                 {
                     return RedirectToAction("Index", "Home");
                 }
-
                 ModelState["Password"].Errors.Add("Такой e-mail или пароль не зарегистрирован");
             }
             return View(loginView);
@@ -182,6 +181,8 @@ namespace BrainShare.Controllers
                         NotifyByEmailIfAnybodyAddedMyWishBook = true
                     },
                 };
+
+                var tenantName = EmailUtility.GetTenantName(model.Email);
 
                 var newUser = new User()
                                   {
@@ -254,16 +255,10 @@ namespace BrainShare.Controllers
             return View(new CreateShellViewModel());
         }
 
-
-
         public static string GetIdForUser()
         {
             return ObjectId.GenerateNewId().ToString();
         }
-
-
-
-
 
         [GET("News")]
         public ActionResult News()
