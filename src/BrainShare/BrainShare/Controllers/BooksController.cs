@@ -23,6 +23,7 @@ using Brainshare.Infrastructure.Hubs;
 using Brainshare.Infrastructure.Services;
 using Brainshare.Infrastructure.Services.Validation;
 using Brainshare.Infrastructure.Settings;
+using Brainshare.Infrastructure.Sitemap;
 using MongoDB.Bson;
 
 namespace BrainShare.Controllers
@@ -78,6 +79,7 @@ namespace BrainShare.Controllers
         }
 
         [AllowAnonymous]
+        [Sitemap(Frequency = SitemapFrequency.Hourly, Priority = 1.0)]
         public ActionResult Search()
         {
             var model = new SearchByGoogleViewModel();
@@ -93,6 +95,7 @@ namespace BrainShare.Controllers
         }
 
         [AllowAnonymous]
+        [Sitemap(Frequency = SitemapFrequency.Hourly, Priority = 1.0)]
         public ActionResult SearchOzBy()
         {
             Response.AddHeader("Access-Control-Allow-Origin", "http://oz.by/");
