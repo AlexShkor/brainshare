@@ -279,6 +279,7 @@
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="ContainerConfigure.cs" />
+    <Compile Include="Controllers\AddVkSocietyController.cs" />
     <Compile Include="Controllers\DevToolsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FacebookLoginController.cs" />
@@ -426,6 +427,7 @@
     <Content Include="Views\DevTools\Index.cshtml" />
     <Content Include="Views\User\ConfirmEmail.cshtml" />
     <Content Include="Views\User\LinkAccount.cshtml" />
+    <Content Include="Views\AddVkSociety\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\big-loading.gif" />
