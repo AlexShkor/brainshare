@@ -5,7 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using BrainShare.Services;
 using Brainshare.Infrastructure.Settings;
+using Oauth.Vk.Api;
 using Oauth.Vk.Helpers;
+using Oauth.Vk.IApi;
+using Oauth.Vk.Infrastructure.Enums;
+using VkSharp.Entities;
 
 namespace BrainShare.Controllers
 {
@@ -13,12 +17,10 @@ namespace BrainShare.Controllers
     public class AddVkSocietyController : BaseController
     {
         private readonly Settings _settings;
-        private readonly UsersService _usersService;
 
         public AddVkSocietyController(Settings settings, UsersService usersService) : base(usersService)
         {
             _settings = settings;
-            _usersService = usersService;
         }
 
         public ActionResult Index()
@@ -33,11 +35,18 @@ namespace BrainShare.Controllers
             return Redirect(vkLoginUrl);
         }
 
+        //public ActionResult TestPost()
+        //{
+        //    var result = _vkWallApi.Wall_Post<VkPost>("-65777060", "message", null, StatusName.FromGroup,
+        //                                              GroupPostSign.Sign);
+        //    return Json(result);
+        //}
+
         public ActionResult Step2(string blankPageUrl)
         {
             var token = ExtractToken(blankPageUrl);
-            var user = _usersService.GetById(UserId);
-            user.VkAccessToken = token;
+            var user = _users.GetById(UserId);
+            user.VkMobileAccessToken = token;
             _users.Save(user);
             return RedirectToAction("Index");
         }
