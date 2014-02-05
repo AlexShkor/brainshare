@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BrainShare.Services;
 using Brainshare.Infrastructure.Settings;
-using Oauth.Vk.Api;
 using Oauth.Vk.Helpers;
-using Oauth.Vk.IApi;
-using Oauth.Vk.Infrastructure.Enums;
-using VkSharp.Entities;
 
 namespace BrainShare.Controllers
 {

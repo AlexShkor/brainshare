@@ -18,6 +18,7 @@ using Brainshare.Infrastructure.Hubs;
 using Brainshare.Infrastructure.Services;
 using Brainshare.Infrastructure.Settings;
 using MongoDB.Bson;
+using Oauth.Vk.Infrastructure.Enums;
 
 
 namespace BrainShare.Controllers
@@ -299,10 +300,19 @@ namespace BrainShare.Controllers
         public ActionResult Settings()
         {
             var user = _users.GetById(UserId);
-            var seetings = user.Settings.NotificationSettings;
+            var settings = user.Settings.NotificationSettings;
             
             Title("настройки");
-            return View(new SettingsViewModel { DuplicateMessagesToEmail = seetings .DuplicateMessagesToEmail, NotifyByEmailIfAnybodyAddedMyWishBook = seetings.NotifyByEmailIfAnybodyAddedMyWishBook});
+
+            var groupSettings = user.Settings.VkGroupsSettings;
+            groupSettings.NewGroupTemplate.PostStatus = StatusName.FromGroup.ToString();
+
+            return View(new SettingsViewModel
+                {
+                    DuplicateMessagesToEmail = settings .DuplicateMessagesToEmail,
+                    NotifyByEmailIfAnybodyAddedMyWishBook = settings.NotifyByEmailIfAnybodyAddedMyWishBook,
+                    VkGroupsSettings = groupSettings
+                });
         }
 
         [POST("settings/update/notifications")]
@@ -315,6 +325,18 @@ namespace BrainShare.Controllers
 
             return Json("");
         }
+
+        [POST("settings/update/VkGroups")]
+        public ActionResult UpdateVkGroups(NewGroupTemplate newGroup)
+        {
+            var user = _users.GetById(UserId);
+            var groupId = UrlUtility.ExtractVkGroupId(newGroup.GroupUrl);
+            user.Settings.VkGroupsSettings.Groups.Add(new VkGroup{ Id = groupId, Name = "dummy"}); 
+            _users.Save(user);
+
+            return Json("success");
+        }
+
 
 
         [GET("message/to/{recipientId}")]

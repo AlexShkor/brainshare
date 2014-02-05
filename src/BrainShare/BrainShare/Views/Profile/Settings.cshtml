@@ -29,6 +29,41 @@
     </table>
     
     <button class="btn btn-success apply-btn" data-bind="enable: $root.applyButtonIsVisible, click: $root.applySettings">Применить</button>
+   
+    <!-- ko with: VkGroupsSettings -->
+     
+    <p class="vkgroups-settings-label">Настройка оповещений  в группах</p>
+    
+    <table class="table" data-bind="foreach: Groups">
+        <tr>
+            <td class="span6" data-bind="text:Name"></td> 
+        </tr>
+    </table>
+    
+    <button class="btn btn-success apply-btn" data-bind="enable:!NewGroupTemplate.IsVisible(),click: $root.addGroupButtonFieldClick">Добавить</button>
+
+    <div class="add-group-for-publish-content" data-bind="visible: NewGroupTemplate.IsVisible">
+        <table class="width-100-percent">
+            <tr>
+                <td> <span>Url группы</span>  <input type="text" class="floatRight" data-bind="value: NewGroupTemplate.GroupUrl"/> </td>
+            </tr>
+            <tr>
+                <td> <span>Публикация от имени пользователя</span>  <input type="radio" name="any" value="FromUser" class="floatRight" data-bind="checked: NewGroupTemplate.PostStatus"/></td>
+            </tr>
+            <tr>
+                <td>  <span>Публикация от имени группы</span>  <input type="radio" name="any" value="FromGroup" class="floatRight" data-bind="checked: NewGroupTemplate.PostStatus"/> </td>
+            </tr>
+        </table>
+        <div class="form-actions add-group-form">
+            <button class="btn btn-primary btn-small" data-bind="click: $root.AddGroup"> Готово </button>
+            <button class="btn btn-danger btn-small" data-bind="click: $root.CancellGroup">Отмена </button>
+        </div>
+    </div>
+    <!-- /ko-->
     <!-- /ko-->
 </div>
+
+<style>
+    
+</style>
 

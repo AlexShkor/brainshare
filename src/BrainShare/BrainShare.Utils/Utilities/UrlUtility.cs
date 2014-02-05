@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Security.Policy;
 using System.Web;
 
@@ -91,6 +92,19 @@ namespace BrainShare.Utils.Utilities
                 return originalUrl.Substring(0, originalUrl.IndexOf("?")) + string.Format("?width={0}&height={0}", size);
             }
             return originalUrl.Insert(originalUrl.LastIndexOf("/"), "/w_" + size/200f);
+        }
+
+        public static string ExtractVkGroupId(string url)
+        {
+            for (int i = url.Length - 1; i > 0; i--)
+            {
+                if (!char.IsDigit(url,i))
+                {
+                    return url.Substring(i + 1);
+                }
+            }
+
+            throw new Exception("wrong group url format");
         }
 
     }
