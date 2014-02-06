@@ -6,6 +6,12 @@ using BrainShare.Services;
 using BrainShare.Infrastructure.Utilities;
 using Brainshare.Infrastructure.Hubs;
 using Brainshare.Infrastructure.Services;
+using Oauth.Vk.Api;
+using Oauth.Vk.Dto.Wall;
+using Oauth.Vk.IApi;
+using Oauth.Vk.Infrastructure;
+using Oauth.Vk.Infrastructure.Attachments;
+using Oauth.Vk.Infrastructure.Enums;
 
 namespace BrainShare.Infostructure
 {
@@ -17,6 +23,7 @@ namespace BrainShare.Infostructure
         private readonly ActivityFeedsService _feeds;
         private readonly NewsService _newsService;
         private readonly MailService _mailService;
+        private readonly IVkWallApi _vkWallApi;
 
         public AsyncTaskScheduler(WishBooksService wishBooks, ActivityFeedsService feeds, UsersService users, BooksService books, NewsService newsService,MailService mailService)
         {
@@ -26,6 +33,16 @@ namespace BrainShare.Infostructure
             _books = books;
             _newsService = newsService;
             _mailService = mailService;
+            _vkWallApi = new VkWallApi("18f84541b7d2c590494ad127bbc2f618902a5b04eb9a2ac5159aea30ab7e4160063c5cc167146b504f0bd");
+        }
+
+        public Task WallPostVkGroup(string url,string title,string description,string imageSrc)
+        {
+            return Task.Factory.StartNew(() =>
+                {
+                    var attachment = new LinkAttachment(url, title, description, imageSrc);
+                   _vkWallApi.Wall_Post<VkPost>("-65777060", "message", null, StatusName.FromGroup,GroupPostSign.Sign);
+            });
         }
 
         public Task StartEmailSendSearchingUsersTask(User owner, Book newBook, string applicationBaseUrl)

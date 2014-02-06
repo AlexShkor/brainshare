@@ -201,6 +201,10 @@
       <Project>{87976832-5cab-413a-b127-af7976bb1446}</Project>
       <Name>BrainShare.Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Oauth.Vk\Oauth.Vk.csproj">
+      <Project>{ef0d1ba5-8862-4d79-a82c-3d948ccb788a}</Project>
+      <Name>Oauth.Vk</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-2.0.3.intellisense.js" />

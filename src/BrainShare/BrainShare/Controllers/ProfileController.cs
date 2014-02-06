@@ -331,7 +331,12 @@ namespace BrainShare.Controllers
         {
             var user = _users.GetById(UserId);
             var groupId = UrlUtility.ExtractVkGroupId(newGroup.GroupUrl);
-            user.Settings.VkGroupsSettings.Groups.Add(new VkGroup{ Id = groupId, Name = "dummy"}); 
+            user.Settings.VkGroupsSettings.Groups.Add(new VkGroup
+                {
+                    Id = groupId,
+                    Name = "dummy",
+                    StatusName = newGroup.PostStatus
+                }); 
             _users.Save(user);
 
             return Json("success");

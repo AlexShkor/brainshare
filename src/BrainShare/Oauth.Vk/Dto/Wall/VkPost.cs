@@ -3,9 +3,9 @@
 namespace Oauth.Vk.Dto.Wall
 {
     [JsonObject]
-    class VkPost
+    public class VkPost
     {
         [JsonProperty("post_id")]
-        public string postId { get; set; }
+        public string PostId { get; set; }
     }
 }
