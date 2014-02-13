@@ -74,7 +74,8 @@
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Paging">
+    <Reference Include="Paging, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Paging.1.0.1\lib\net40\Paging.dll</HintPath>
     </Reference>
     <Reference Include="RabbitMQ.Client">
