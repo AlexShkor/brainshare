@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using BrainShare.Domain.Documents;
 using BrainShare.Infrastructure.Services;
@@ -8,6 +9,7 @@ using Brainshare.Infrastructure.Hubs;
 using Brainshare.Infrastructure.Services;
 using Oauth.Vk.Api;
 using Oauth.Vk.Dto.Wall;
+using Oauth.Vk.Helpers;
 using Oauth.Vk.IApi;
 using Oauth.Vk.Infrastructure;
 using Oauth.Vk.Infrastructure.Attachments;
@@ -23,9 +25,9 @@ namespace BrainShare.Infostructure
         private readonly ActivityFeedsService _feeds;
         private readonly NewsService _newsService;
         private readonly MailService _mailService;
-        private readonly IVkWallApi _vkWallApi;
+        private readonly LinkedGroupsService _linkedGroups;
 
-        public AsyncTaskScheduler(WishBooksService wishBooks, ActivityFeedsService feeds, UsersService users, BooksService books, NewsService newsService,MailService mailService)
+        public AsyncTaskScheduler(WishBooksService wishBooks, ActivityFeedsService feeds, UsersService users, BooksService books, NewsService newsService,MailService mailService, LinkedGroupsService linkedGroups)
         {
             _wishBooks = wishBooks;
             _feeds = feeds;
@@ -33,15 +35,21 @@ namespace BrainShare.Infostructure
             _books = books;
             _newsService = newsService;
             _mailService = mailService;
-            _vkWallApi = new VkWallApi("18f84541b7d2c590494ad127bbc2f618902a5b04eb9a2ac5159aea30ab7e4160063c5cc167146b504f0bd");
+            _linkedGroups = linkedGroups;
+          
         }
 
-        public Task WallPostVkGroup(string url,string title,string description,string imageSrc)
+        public Task WallPostVkGroup(string url, string title)
         {
             return Task.Factory.StartNew(() =>
+            {
+                var groups = _linkedGroups.GetAllAuthorized().ToList();
+                foreach (var @group in groups)
                 {
-                    var attachment = new LinkAttachment(url, title, description, imageSrc);
-                   _vkWallApi.Wall_Post<VkPost>("-65777060", "message", null, StatusName.FromGroup,GroupPostSign.Sign);
+                     var vkWallApi = new VkWallApi(@group.AccessToken);
+                    vkWallApi.Wall_Post<VkPost>("-" + @group.GroupId, title, url, StatusName.FromGroup,
+                        GroupPostSign.Sign);
+                }
             });
         }
 

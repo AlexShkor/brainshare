@@ -279,11 +279,13 @@
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="ContainerConfigure.cs" />
-    <Compile Include="Controllers\AddVkSocietyController.cs" />
+    <Compile Include="Controllers\CrosspostingController.cs" />
     <Compile Include="Controllers\DevToolsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FacebookLoginController.cs" />
     <Compile Include="Controllers\FollowerController.cs" />
+    <Compile Include="ViewModels\Crossposting\GroupAuthorizeViewModel.cs" />
+    <Compile Include="ViewModels\Crossposting\LinkedGroupItem.cs" />
     <Compile Include="Controllers\SitemapController.cs" />
     <Compile Include="Controllers\VkLoginController.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
@@ -317,6 +319,7 @@
     <Compile Include="ViewModels\UsersFilterModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\Exchange\ViewExchangeHistoryViewModel.cs" />
+    <Compile Include="ViewModels\Crossposting\LinkedGroupPreviewModel.cs" />
     <Content Include="Content\imgAreaSelect\border-anim-h.gif" />
     <Content Include="Content\imgAreaSelect\border-anim-v.gif" />
     <Content Include="Content\imgAreaSelect\border-h.gif" />
@@ -423,11 +426,15 @@
     <Compile Include="ViewModels\Exchange\ExchangeConfirmViewModel.cs" />
     <Compile Include="ViewModels\LoginView.cs" />
     <Compile Include="Controllers\BooksController.cs" />
+    <Content Include="Views\Crossposting\Authorize.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Views\Shared\YandexMetrics.cshtml" />
     <Content Include="Views\DevTools\Index.cshtml" />
     <Content Include="Views\User\ConfirmEmail.cshtml" />
     <Content Include="Views\User\LinkAccount.cshtml" />
-    <Content Include="Views\AddVkSociety\Index.cshtml" />
+    <Content Include="Views\Crossposting\Index.cshtml" />
+    <Content Include="Views\Crossposting\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\big-loading.gif" />

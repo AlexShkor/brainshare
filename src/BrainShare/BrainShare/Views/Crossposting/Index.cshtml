@@ -1,0 +1,28 @@
+﻿@using StructureMap
+@model IEnumerable<BrainShare.Controllers.LinkedGroupItem>
+@{
+    Layout = "~/Views/Profile/_ProfileLayout.cshtml";
+} 
+<table>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                @if (!item.IsAuthorized)
+                {
+                    <td><a href="/crossposting/authorize/@item.Id">Авторизировать</a></td>
+                }
+                <td><a href="/crossposting/disconnect/@item.Id">Отключить</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <form action="@Url.Action("Add")">
+        <label>Введите адрес группы вконтакте (например http://vk.com/brainshare)</label>
+        <input type="text" name="url" />
+        <button type="submit" class="btn">Добавить</button>
+    </form>
+</div>

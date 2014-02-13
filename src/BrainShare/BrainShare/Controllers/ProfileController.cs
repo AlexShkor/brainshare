@@ -304,14 +304,10 @@ namespace BrainShare.Controllers
             
             Title("настройки");
 
-            var groupSettings = user.Settings.VkGroupsSettings;
-            groupSettings.NewGroupTemplate.PostStatus = StatusName.FromGroup.ToString();
-
             return View(new SettingsViewModel
                 {
                     DuplicateMessagesToEmail = settings .DuplicateMessagesToEmail,
-                    NotifyByEmailIfAnybodyAddedMyWishBook = settings.NotifyByEmailIfAnybodyAddedMyWishBook,
-                    VkGroupsSettings = groupSettings
+                    NotifyByEmailIfAnybodyAddedMyWishBook = settings.NotifyByEmailIfAnybodyAddedMyWishBook
                 });
         }
 
@@ -325,24 +321,6 @@ namespace BrainShare.Controllers
 
             return Json("");
         }
-
-        [POST("settings/update/VkGroups")]
-        public ActionResult UpdateVkGroups(NewGroupTemplate newGroup)
-        {
-            var user = _users.GetById(UserId);
-            var groupId = UrlUtility.ExtractVkGroupId(newGroup.GroupUrl);
-            user.Settings.VkGroupsSettings.Groups.Add(new VkGroup
-                {
-                    Id = groupId,
-                    Name = "dummy",
-                    StatusName = newGroup.PostStatus
-                }); 
-            _users.Save(user);
-
-            return Json("success");
-        }
-
-
 
         [GET("message/to/{recipientId}")]
         public ActionResult MessageTo(string recipientId)

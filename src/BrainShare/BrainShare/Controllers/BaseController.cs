@@ -6,6 +6,7 @@ using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Domain.Documents;
 using BrainShare.Services;
+using BrainShare.Utils.Extensions;
 using BrainShare.ViewModels.Base;
 using Brainshare.Infrastructure.Authentication;
 
@@ -72,8 +73,10 @@ namespace BrainShare.Controllers
             ViewBag.UserName = (((UserIdentity)User.Identity).User ?? new CommonUser()).FullName;
             ViewBag.IsFacebookAccount = (((UserIdentity)User.Identity).User ?? new CommonUser()).IsFacebookAccount;
 
-            _users.SetLastVisitedDate(DateTime.UtcNow, UserId);
-
+            if (UserId.HasValue())
+            {
+                _users.SetLastVisitedDate(DateTime.UtcNow, UserId);
+            }
             base.OnActionExecuting(filterContext);
         }
 

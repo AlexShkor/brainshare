@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Oauth.Vk.IApi;
 using Oauth.Vk.Infrastructure;
+using Oauth.Vk.Infrastructure.Attachments;
 using Oauth.Vk.Infrastructure.Enums;
 
 namespace Oauth.Vk.Api
@@ -33,9 +34,16 @@ namespace Oauth.Vk.Api
             throw new NotImplementedException();
         }
 
-        public T Wall_Post<T>(string ownerId, string message, VkAttachment[] attachments, StatusName fromGroup, GroupPostSign signed)
+        public T Wall_Post<T>(string ownerId, string message, string url, StatusName fromGroup, GroupPostSign signed)
         {
-            var parametrs = new NameValueCollection { { "owner_id", ownerId }, { "message", message }, { "from_group", ((int)fromGroup).ToString() }, { "signed", ((int)signed).ToString() } };
+            var parametrs = new NameValueCollection
+            {
+                { "owner_id", ownerId }, 
+                { "message", message }, 
+                { "from_group", ((int)fromGroup).ToString() }, 
+                { "signed", ((int)signed).ToString() },
+                { "attachments" , url}
+            };
             var json = Call("wall.post", parametrs);
 
             json = JObject.Parse(json).SelectToken("response").ToString();

@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "~/Views/Profile/_ProfileLayout.cshtml";
+}
+
+@model BrainShare.LinkedGroupPreviewModel
+
+          
+<h4>Подключени к группе</h4>
+<h3>@Model.Name</h3>
+<img src="@Model.Photo"/>
+
+<div class="bar">
+
+    <a href="/crossposting/authorize/@Model.Id">Продолжить</a>
+    <a href="/crossposting/cancel/@Model.Id">Назад</a>
+</div>

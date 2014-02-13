@@ -59,5 +59,6 @@ namespace BrainShare.Infrastructure.Mongo
         public MongoCollection<CloudinaryImage> CloudinaryImages { get { return Database.GetCollection<CloudinaryImage>("cloudinary_images"); } }
         public MongoCollection<ExchangeHistory> ExchangeHistory { get { return Database.GetCollection<ExchangeHistory>("exchange_history"); } }
         public MongoCollection<News> News { get { return Database.GetCollection<News>("news"); } }
+        public MongoCollection<LinkedGroup> LinkedGroups { get { return Database.GetCollection<LinkedGroup>("linked_groups"); } }
     }
 }

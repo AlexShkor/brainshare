@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Api\PrivateMessaging\VkMessaging.cs" />
     <Compile Include="Api\VkGeolocationApi.cs" />
+    <Compile Include="Api\VkGroupApi.cs" />
     <Compile Include="Api\VkUserApi.cs" />
     <Compile Include="Api\VkWallApi.cs" />
     <Compile Include="Dto\Geolocation\VkCity.cs" />

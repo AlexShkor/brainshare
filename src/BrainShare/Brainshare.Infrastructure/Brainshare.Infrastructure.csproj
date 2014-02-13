@@ -163,6 +163,7 @@
     <Compile Include="Services\CloudinaryImagesService.cs" />
     <Compile Include="Services\CommonUserService.cs" />
     <Compile Include="Services\ExchangeHistoryService.cs" />
+    <Compile Include="Services\LinkedGroupsService.cs" />
     <Compile Include="Services\MailService.cs" />
     <Compile Include="Services\NewsService.cs" />
     <Compile Include="Services\OzIsbnService.cs" />

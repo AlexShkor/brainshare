@@ -66,6 +66,7 @@
     <Compile Include="Documents\Data\UserNewsInfo.cs" />
     <Compile Include="Documents\Data\UserSettings.cs" />
     <Compile Include="Documents\ExchangeHistory.cs" />
+    <Compile Include="Documents\LinkedGroup.cs" />
     <Compile Include="Documents\News.cs" />
     <Compile Include="Documents\PublicShell.cs" />
     <Compile Include="Documents\Thread.cs" />
