@@ -23,7 +23,7 @@ using Oauth.Vk.Infrastructure.Enums;
 
 namespace BrainShare.Controllers
 {
-    [System.Web.Mvc.Authorize]
+    [Authorize]
     [AttributeRouting.RoutePrefix("profile")]
     public class ProfileController : BaseController
     {
@@ -140,13 +140,8 @@ namespace BrainShare.Controllers
         [AllowAnonymous]
         public ActionResult ViewUserProfile(string id)
         {
-            if (id == UserId)
-            {
-                return RedirectToAction("Index", "Profile");
-            }
             var user = _users.GetById(id);
             var me = UserId == null ? null: _users.GetById(UserId);
-  
             var model = new UserProfileModel(user, me,_settings.ActivityTimeoutInMinutes,me == null);
 
             if (UserId.HasValue())

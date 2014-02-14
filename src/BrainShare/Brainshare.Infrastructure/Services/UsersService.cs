@@ -133,5 +133,10 @@ namespace BrainShare.Services
                 yield return Query<User>.Matches(x => x.Address.Country, new BsonRegularExpression(filter.Country, "i"));
             }
         }
+
+        protected override IMongoSortBy BuildSortExpression(UsersFilter filter)
+        {
+            return SortBy<User>.Descending(x => x.Registered);
+        }
     }
 }
