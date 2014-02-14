@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -26,6 +27,8 @@ namespace BrainShare.Controllers
         private readonly NewsService _news;
         private readonly MailService _mailService;
         private readonly CryptographicHelper _cryptoHelper;
+
+        private static object _registrationSync = new object();
 
         public string VkCallbackUri
         {
@@ -164,44 +167,57 @@ namespace BrainShare.Controllers
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
 
-            var user = _users.GetUserByEmail(model.Email);
-            if (user != null)
+            while (!Monitor.TryEnter(_registrationSync, TimeSpan.FromSeconds(2)))
             {
-                ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
-            }
-            if (ModelState.IsValid)
-            {
-                var salt = _cryptoHelper.GenerateSalt();
-                var hashedPassword = _cryptoHelper.GetPasswordHash(model.Password, salt);
-
-                var settings = new UserSettings
+                try
                 {
-                    NotificationSettings = new NotificationSettings
+                    var user = _users.GetUserByEmail(model.Email);
+                    if (user != null)
                     {
-                        DuplicateMessagesToEmail = true,
-                        NotifyByEmailIfAnybodyAddedMyWishBook = true
-                    },
-                };
+                        ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
+                    }
+                    if (ModelState.IsValid)
+                    {
+                        var salt = _cryptoHelper.GenerateSalt();
+                        var hashedPassword = _cryptoHelper.GetPasswordHash(model.Password, salt);
 
-                var newUser = new User()
-                                  {
-                                      Id = GetIdForUser(),
-                                      FirstName = model.FirstName,
-                                      Address = new AddressData(model.original_address, model.formatted_address, model.country, model.locality),
-                                      LastName = model.LastName,
-                                      Registered = DateTime.Now,
-                                      Email = model.Email.ToLower(),
-                                      Password = hashedPassword,
-                                      Salt = salt,
-                                      Settings = settings
-                                  };
+                        var settings = new UserSettings
+                        {
+                            NotificationSettings = new NotificationSettings
+                            {
+                                DuplicateMessagesToEmail = true,
+                                NotifyByEmailIfAnybodyAddedMyWishBook = true
+                            },
+                        };
 
-                _users.AddUser(newUser);
+                        var newUser = new User()
+                        {
+                            Id = GetIdForUser(),
+                            FirstName = model.FirstName,
+                            Address =
+                                new AddressData(model.original_address, model.formatted_address, model.country,
+                                    model.locality),
+                            LastName = model.LastName,
+                            Registered = DateTime.Now,
+                            Email = model.Email.ToLower(),
+                            Password = hashedPassword,
+                            Salt = salt,
+                            Settings = settings
+                        };
 
-                var confirmLink = UrlUtility.EmailApproveLink(CryptographicHelper.Encrypt(newUser.Id, salt), model.Email, UrlUtility.ApplicationBaseUrl);
+                        _users.AddUser(newUser);
 
-                _mailService.SendWelcomeMessage(newUser.FullName, model.Email, confirmLink);
-                return RedirectToAction("Login", "User");
+                        var confirmLink = UrlUtility.EmailApproveLink(CryptographicHelper.Encrypt(newUser.Id, salt),
+                            model.Email, UrlUtility.ApplicationBaseUrl);
+
+                        _mailService.SendWelcomeMessage(newUser.FullName, model.Email, confirmLink);
+                        return RedirectToAction("Login", "User");
+                    }
+                }
+                finally
+                {
+                    Monitor.Exit(_registrationSync);
+                }
             }
             return View(model);
         }
