@@ -31,8 +31,6 @@ namespace BrainShare.Controllers
         private readonly CryptographicHelper _cryptographicHelper;
         private readonly IAuthentication _auth;
 
-        const string Scope = "friends,photos";
-
         public string VkCallbackUri
         {
             get
@@ -101,7 +99,7 @@ namespace BrainShare.Controllers
             Session[SessionKeys.VkCallbackMode] = mode;
             Session[SessionKeys.VkReturnUrl] = returnUrl;
 
-            var vkLoginUrl = VkHelper.BuildAuthorizeUrl(_settings.VkAppId,Scope, VkCallbackUri,"code",csrfToken);
+            var vkLoginUrl = VkHelper.BuildAuthorizeUrl(_settings.VkAppId,VkHelper.Scope, VkCallbackUri,"code",csrfToken);
 
             return Redirect(vkLoginUrl);
         }

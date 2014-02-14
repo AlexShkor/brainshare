@@ -21,6 +21,7 @@ namespace BrainShare.Domain.Documents
         public string FacebookEmail { get; set; }
 
         public string VkId { get; set; }
+        public string VkMobileAccessToken { get; set; }
         public string VkAccessToken { get; set; }
   
         public string Salt { get; set; }

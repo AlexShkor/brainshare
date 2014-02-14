@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using BrainShare.Domain.Documents;
 using BrainShare.Infrastructure.Services;
@@ -6,6 +7,13 @@ using BrainShare.Services;
 using BrainShare.Infrastructure.Utilities;
 using Brainshare.Infrastructure.Hubs;
 using Brainshare.Infrastructure.Services;
+using Oauth.Vk.Api;
+using Oauth.Vk.Dto.Wall;
+using Oauth.Vk.Helpers;
+using Oauth.Vk.IApi;
+using Oauth.Vk.Infrastructure;
+using Oauth.Vk.Infrastructure.Attachments;
+using Oauth.Vk.Infrastructure.Enums;
 
 namespace BrainShare.Infostructure
 {
@@ -17,8 +25,9 @@ namespace BrainShare.Infostructure
         private readonly ActivityFeedsService _feeds;
         private readonly NewsService _newsService;
         private readonly MailService _mailService;
+        private readonly LinkedGroupsService _linkedGroups;
 
-        public AsyncTaskScheduler(WishBooksService wishBooks, ActivityFeedsService feeds, UsersService users, BooksService books, NewsService newsService,MailService mailService)
+        public AsyncTaskScheduler(WishBooksService wishBooks, ActivityFeedsService feeds, UsersService users, BooksService books, NewsService newsService,MailService mailService, LinkedGroupsService linkedGroups)
         {
             _wishBooks = wishBooks;
             _feeds = feeds;
@@ -26,6 +35,22 @@ namespace BrainShare.Infostructure
             _books = books;
             _newsService = newsService;
             _mailService = mailService;
+            _linkedGroups = linkedGroups;
+          
+        }
+
+        public Task WallPostVkGroup(string url, string title)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                var groups = _linkedGroups.GetAllAuthorized().ToList();
+                foreach (var @group in groups)
+                {
+                     var vkWallApi = new VkWallApi(@group.AccessToken);
+                    vkWallApi.Wall_Post<VkPost>("-" + @group.GroupId, title, url, StatusName.FromGroup,
+                        GroupPostSign.Sign);
+                }
+            });
         }
 
         public Task StartEmailSendSearchingUsersTask(User owner, Book newBook, string applicationBaseUrl)

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Settings";
+    ViewBag.Title = "Настройки";
     Layout = "~/Views/Profile/_ProfileLayout.cshtml";
 }
 @using Newtonsoft.Json
@@ -29,6 +29,12 @@
     </table>
     
     <button class="btn btn-success apply-btn" data-bind="enable: $root.applyButtonIsVisible, click: $root.applySettings">Применить</button>
+   
+    <a href="/crossposting">Кросспостинг в группы</a>
     <!-- /ko-->
 </div>
+
+<style>
+    
+</style>
 

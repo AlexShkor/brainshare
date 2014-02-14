@@ -1,4 +1,6 @@
-﻿namespace BrainShare.Domain.Documents.Data
+﻿using System.Collections.Generic;
+
+namespace BrainShare.Domain.Documents.Data
 {
     public class UserSettings
     {

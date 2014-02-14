@@ -281,6 +281,8 @@ namespace BrainShare.Controllers
 
                 _books.Save(doc);
 
+                _asyncTaskScheduler.WallPostVkGroup(UrlUtility.GetBookLink(doc.Id, UrlUtility.ApplicationBaseUrl), doc.Title);
+
                 _asyncTaskScheduler.StartEmailSendSearchingUsersTask(user, doc,UrlUtility.ApplicationBaseUrl);
 
                 _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));

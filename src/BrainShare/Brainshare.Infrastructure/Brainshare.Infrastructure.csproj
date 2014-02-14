@@ -74,7 +74,8 @@
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Paging">
+    <Reference Include="Paging, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Paging.1.0.1\lib\net40\Paging.dll</HintPath>
     </Reference>
     <Reference Include="RabbitMQ.Client">
@@ -162,6 +163,7 @@
     <Compile Include="Services\CloudinaryImagesService.cs" />
     <Compile Include="Services\CommonUserService.cs" />
     <Compile Include="Services\ExchangeHistoryService.cs" />
+    <Compile Include="Services\LinkedGroupsService.cs" />
     <Compile Include="Services\MailService.cs" />
     <Compile Include="Services\NewsService.cs" />
     <Compile Include="Services\OzIsbnService.cs" />
@@ -200,6 +202,10 @@
     <ProjectReference Include="..\BrainShare.Utils\BrainShare.Utils.csproj">
       <Project>{87976832-5cab-413a-b127-af7976bb1446}</Project>
       <Name>BrainShare.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Oauth.Vk\Oauth.Vk.csproj">
+      <Project>{ef0d1ba5-8862-4d79-a82c-3d948ccb788a}</Project>
+      <Name>Oauth.Vk</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

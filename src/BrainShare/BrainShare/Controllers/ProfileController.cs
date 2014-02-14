@@ -18,6 +18,7 @@ using Brainshare.Infrastructure.Hubs;
 using Brainshare.Infrastructure.Services;
 using Brainshare.Infrastructure.Settings;
 using MongoDB.Bson;
+using Oauth.Vk.Infrastructure.Enums;
 
 
 namespace BrainShare.Controllers
@@ -299,10 +300,15 @@ namespace BrainShare.Controllers
         public ActionResult Settings()
         {
             var user = _users.GetById(UserId);
-            var seetings = user.Settings.NotificationSettings;
+            var settings = user.Settings.NotificationSettings;
             
             Title("настройки");
-            return View(new SettingsViewModel { DuplicateMessagesToEmail = seetings .DuplicateMessagesToEmail, NotifyByEmailIfAnybodyAddedMyWishBook = seetings.NotifyByEmailIfAnybodyAddedMyWishBook});
+
+            return View(new SettingsViewModel
+                {
+                    DuplicateMessagesToEmail = settings .DuplicateMessagesToEmail,
+                    NotifyByEmailIfAnybodyAddedMyWishBook = settings.NotifyByEmailIfAnybodyAddedMyWishBook
+                });
         }
 
         [POST("settings/update/notifications")]
@@ -315,7 +321,6 @@ namespace BrainShare.Controllers
 
             return Json("");
         }
-
 
         [GET("message/to/{recipientId}")]
         public ActionResult MessageTo(string recipientId)

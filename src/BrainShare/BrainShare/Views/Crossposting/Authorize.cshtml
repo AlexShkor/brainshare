@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@model BrainShare.Controllers.GroupAuthorizeViewModel
+
+<p>Уважаемые пользователи, сдесь вы можете интегрировать своё сообщество в информационный поток нашего портала. К сожалению сервис vkontakte проводит
+    политику направленную на развитие desktop'ных мессенджеров и урезает функционал своего api для сайтов.Для подключения вашего сообщества вам надо сделать
+    следующие шаги:
+</p>
+
+<h4>Шаг 1.</h4>
+<p>Нажмите кнопку <span>Получить код</span></p>
+<a type="submit" href="@Model.VkBlankUrl" target="blank" class="btn btn-success">Получить код</a>
+<h4>Шаг 2.</h4>
+<p>Перейдите на новую открывшуюся вкладку</p>
+
+<h4>Шаг 3.</h4>
+<p>Скопируйте всю адресную строку</p>
+
+<h4>Шаг 4.</h4>
+<p>Вернитесь на эту страницу, вставте строку в поле ввода нажмите "Подключить"</p>
+<form method="POST" action="/crossposting/connect">
+    <button type="submit" class="btn btn-success">Подключить</button>
+    <input type="text" name="blankPageUrl" />
+    <input type="hidden" name="groupId" value="@Model.GroupId"/>
+</form>
+
+
+

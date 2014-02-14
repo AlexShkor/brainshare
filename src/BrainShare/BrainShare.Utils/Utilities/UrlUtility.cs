@@ -1,4 +1,6 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Linq;
 using System.Security.Policy;
 using System.Web;
 
@@ -93,5 +95,35 @@ namespace BrainShare.Utils.Utilities
             return originalUrl.Insert(originalUrl.LastIndexOf("/"), "/w_" + size/200f);
         }
 
+        public static string LastSegment(string url)
+        {
+            return (new Uri(url).Segments).Last();
+        }
+
+        public static string ExtractVkGroupId(string url)
+        {
+            for (int i = url.Length - 1; i > 0; i--)
+            {
+                if (!char.IsDigit(url,i))
+                {
+                    return url.Substring(i + 1);
+                }
+            }
+
+            throw new Exception("wrong group url format");
+        }
+
+
+        public static string ExtractToken(string url)
+        {
+            var uri = new Uri(url.Replace("#", "?"));
+            return HttpUtility.ParseQueryString(uri.Query).Get("access_token");
+        }
+
+        public static string ParseVkGroupId(string url)
+        {
+            var id = LastSegment(url);
+            return id;
+        }
     }
 }

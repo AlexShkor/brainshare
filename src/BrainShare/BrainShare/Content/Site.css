@@ -126,10 +126,13 @@
         color: white;
     }
 
-    /*profile/Settings/notifications*/
-
     .notification-settings-label {
         font-weight: bold;
+    }
+
+    .vkgroups-settings-label {
+        font-weight: bold;
+        margin-top: 30px;
     }
     .notifications-content {
         padding: 20px 200px;   
@@ -137,7 +140,19 @@
     .apply-btn {
         float: right;   
     }
-
+    .add-group-for-publish-content {
+        margin-top: 60px;
+        padding: 15px; 
+    }
+    .floatRight {
+        float: right;   
+    }
+    .width-100-percent {
+        width: 100%;   
+    }
+    .add-group-form {
+        padding: 10px;
+    }
     /*bootstrap layout*/
     .facebook-link {
         padding-top: 10px;
