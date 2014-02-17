@@ -14,6 +14,7 @@ namespace BrainShare.ViewModels
     public class EditBookViewModel : BaseViewModel
     {
         public const string DateFormat = "yyyy MMM";
+        public const string DateFormatLong = "dd MMM yyyy";
         public static CultureInfo Culture { get { return CultureInfo.GetCultureInfo("ru"); } }
 
         public string Id { get; set; }

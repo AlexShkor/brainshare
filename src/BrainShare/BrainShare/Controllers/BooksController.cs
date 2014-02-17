@@ -518,7 +518,7 @@ namespace BrainShare.Controllers
 
                 _books.Save(book);
 
-                _exchangeHistory.SaveExchange(userId, new ExchangeEntry(me, book, ExchangeEntryType.Gift), new ExchangeEntry(user));
+                _exchangeHistory.SaveExchange(userId, new ExchangeEntry(me, book, ExchangeActionEnum.Give), new ExchangeEntry(user));
 
                 _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BooksGifted(me, book, user));
 
@@ -537,7 +537,7 @@ namespace BrainShare.Controllers
         [GET("view-exchange-history")]
         public ActionResult ViewExchangeHistory()
         {
-            var model = new ViewExchangeHistoryViewModel(_exchangeHistory.GetFor(UserId));
+            var model = new ViewExchangeHistoryViewModel(_exchangeHistory.GetFor(UserId), UserId);
             Title("История обмена");
             return View(model);
         }

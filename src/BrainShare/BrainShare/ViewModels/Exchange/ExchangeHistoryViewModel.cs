@@ -1,33 +1,29 @@
 ﻿using System.Collections.Generic;
-using Antlr.Runtime.Misc;
 using BrainShare.Domain.Documents;
-using BrainShare.Domain.Enums;
-using BrainShare.ViewModels.Exchange;
 
-namespace BrainShare.ViewModels
+namespace BrainShare.ViewModels.Exchange
 {
     public class ExchangeHistoryViewModel
     {
-        public ExchangeHistoryViewModel(ExchangeHistory exchangeHistory)
+        private readonly string _myId;
+
+        public ExchangeHistoryViewModel(ExchangeHistory exchangeHistory, string myId)
         {
+            _myId = myId;
             Date = exchangeHistory.Date.ToShortDateString();
             Entries = new List<ExchangeEntryViewModel>();
-            Arrows = new ListStack<ExchangeArrowViewModel>();
 
-            for (int i = 0; i < exchangeHistory.Entries.Count; i++)
+            foreach (var entry in exchangeHistory.Entries)
             {
-                var entry = exchangeHistory.Entries[i];
                 Entries.Add(new ExchangeEntryViewModel(entry));
-
-                if (entry.ExchangeEntryType != ExchangeEntryType.GiftReceiver)
-                {
-                    Arrows.Add(new ExchangeArrowViewModel { ArrowUrl = Utils.Utilities.UrlUtility.GetExchangeArrowUrl(i, (int)entry.ExchangeEntryType) });
-                }
             }
         }
 
         public string Date { get; set; }
-        public List<ExchangeArrowViewModel> Arrows { get; set; }
         public List<ExchangeEntryViewModel> Entries { get; set; }
+
+        public ExchangeEntryViewModel Me { get { return Entries.Find(x => x.UserId == _myId); } }
+
+        public ExchangeEntryViewModel NotMe { get { return Entries.Find(x => x.UserId != _myId); } }
     }
 }

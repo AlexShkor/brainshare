@@ -12,42 +12,34 @@
                 <td colspan="4">@item.Date</td>
             </tr>
             <tr>
-                @foreach (var entry in item.Entries)
-                {
                     <td class="span2">
                         <div class="thumbnail text-center span12">
-                            <img  src="@entry.AvatarUrl"/>
+                            <img  src="@item.Me.AvatarUrl"/>
                             <br />
-                            @*    <a href="/profile/view/@entry.User.UserId">@entry.User.UserName</a>*@
+                              <a href="/profile/view/@item.Me.UserId">@item.Me.UserName</a>
                         </div>
                     </td>
 
-                    if (item.Entries.IndexOf(entry) == 0)
-                    {
-                        <td class="relative">
-                            @if (item.Entries.Count == 1 || item.Entries.Any(e => e.ExchangeEntryType == ExchangeEntryType.Gift))
-                            {
-                                <a href="@entry.BookInfoLink">@entry.BookTitle</a> <br/>
-                            }
-                            else
-                            {
-                                var first = item.Entries[0];
-                                var second = item.Entries[0];
-                                
-                                <a class="top-left" href="@first.BookInfoLink">@first.BookTitle</a>
-                                <a class="down-right" href="@second.BookInfoLink">@second.BookTitle</a>
-                            }
-                           
-                            <div class="arrow-container">
-                                @foreach (var arrow in item.Arrows)
-                                {
-                                    <img src="@arrow.ArrowUrl"/>
-                                    <br/>
-                                }
-                            </div>
-                        </td>
-                    }
-                }
+                <td class="relative">
+                    <a class="top-left" href="@item.Me..BookInfoLink">
+                        @item.Me.BookTitle <i class="icon-arrow-right fa-3x"></i>
+                        <br />
+                        <img src="@item.Me.BookImage"/>
+                    </a>
+                    <a class="down-right" href="@item.NotMe.BookInfoLink">
+                        <img src="@item.NotMe.BookImage"/>
+                        <br/>
+                        <i class="icon-arrow-left fa-3x"></i> @item.NotMe.BookTitle
+                    </a>
+                </td>
+                <td class="span2">
+                    <div class="thumbnail text-center span12">
+                        <img src="@item.NotMe.AvatarUrl" />
+                        <br />
+                        <a href="/profile/view/@item.NotMe.UserId">@item.NotMe.UserName</a>
+                    </div>
+                </td>
+                
             </tr>
         }
     </tbody>
@@ -67,6 +59,10 @@
       position: absolute;
       top: 5px;
       left: 5px;   
+  }
+
+  td.relative img {
+      height: 100px;  
   }
 
   .down-right {

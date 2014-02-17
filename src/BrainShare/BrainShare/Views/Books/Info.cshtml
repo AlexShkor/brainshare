@@ -37,12 +37,12 @@
             @if (Model.UserId != Model.CurrentUserId)
             {
                 <div style="margin-top: 10px">
-                    <a class="btn btn-success btn-block" href="/books/take/@Model.Id/from/@Model.UserId">Отправить запрос на обмен</a>
+                    <a class="btn btn-success btn-block" href="/books/take/@Model.Id/from/@Model.UserId">Поменяться</a>
                 </div>
             }
             else
             {
-                <div style="margin-top: 30px" class="text-center"><i class="icon-check icon-3x" style="color: green;" title="Книга у вас в коллекции"></i></div>
+                <a class="btn btn-block btn-small" href="/books/edit/@Model.Id">Редактировать</a>
             }
 
         </div>
@@ -72,7 +72,9 @@
                         </div>
 
                         <div class="span3">
+                            <strong class="label">Добавлена @Model.Added</strong>
                             <div style="text-align: center">
+                                <strong>Владелец</strong>
                                 <img style="width: 130px; height: 130px;" src="@Model.AvatarUrl128" />
                                 <a style="padding-top: 10px; padding-bottom: 10px; display: block;" href="@Model.UserProfile">@Model.UserName</a>
                             </div>
