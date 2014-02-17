@@ -7,8 +7,8 @@
     <ProjectGuid>{EF0D1BA5-8862-4D79-A82C-3D948CCB788A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Oauth.Vk</RootNamespace>
-    <AssemblyName>Oauth.Vk</AssemblyName>
+    <RootNamespace>Brainshare.Vk</RootNamespace>
+    <AssemblyName>Brainshare.Vk</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -44,26 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\PrivateMessaging\VkMessaging.cs" />
-    <Compile Include="Api\VkGeolocationApi.cs" />
-    <Compile Include="Api\VkGroupApi.cs" />
-    <Compile Include="Api\VkUserApi.cs" />
-    <Compile Include="Api\VkWallApi.cs" />
-    <Compile Include="Dto\Geolocation\VkCity.cs" />
-    <Compile Include="Dto\Geolocation\VkCountry.cs" />
-    <Compile Include="Dto\VkUserApi\VkUser.cs" />
-    <Compile Include="Dto\Wall\VkPost.cs" />
+    <Compile Include="Dto\VkGroupInfo.cs" />
+    <Compile Include="Api\VkApi.cs" />
+    <Compile Include="Dto\VkCity.cs" />
+    <Compile Include="Dto\VkCountry.cs" />
+    <Compile Include="Dto\VkUser.cs" />
+    <Compile Include="Dto\VkPost.cs" />
     <Compile Include="Helpers\VkHelper.cs" />
-    <Compile Include="IApi\IVkApi.cs" />
-    <Compile Include="IApi\IVkGeolocation.cs" />
-    <Compile Include="IApi\IVkUserApi.cs" />
-    <Compile Include="IApi\IVkWallApi.cs" />
-    <Compile Include="IApi\PrivateMessaging\IVkMessaging.cs" />
     <Compile Include="Infrastructure\Attachments\LinkAttachment.cs" />
     <Compile Include="Infrastructure\BaseVkApi.cs" />
     <Compile Include="Infrastructure\Enums\GroupPostSign.cs" />
     <Compile Include="Infrastructure\Enums\StatusName.cs" />
-    <Compile Include="Infrastructure\Enums\MessageScopeEnum.cs" />
     <Compile Include="Infrastructure\Enums\VkMediaType.cs" />
     <Compile Include="Infrastructure\MyWebRequest.cs" />
     <Compile Include="Infrastructure\OAuthResponce.cs" />
@@ -71,9 +62,7 @@
     <Compile Include="Infrastructure\VkExtendedAttachment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dto\Messaging\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

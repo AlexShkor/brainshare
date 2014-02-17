@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using BrainShare.Authentication;
 using BrainShare.Documents;
 using BrainShare.Domain.Documents;
 using BrainShare.Services;
@@ -25,7 +24,12 @@ namespace BrainShare.Controllers
         {
             get
             {
-                return (((UserIdentity)User.Identity).User ?? new CommonUser()).Id;
+                var identity = User.Identity as UserIdentity;
+                if (identity != null)
+                {
+                    return identity.Id;
+                }
+                return null;
             }
         }
 
@@ -33,25 +37,13 @@ namespace BrainShare.Controllers
         {
             get
             {
-                return (((UserIdentity)User.Identity).User ?? new CommonUser()).FullName;
+                return User.Identity.Name;
             }
         }
 
         public bool IsShellUser
         {
-            get
-            {
-                return (((UserIdentity)User.Identity).User ?? new CommonUser()).OriginalType == typeof(ShellUser);
-            }
-        }
-
-        public bool IsFacebookAccountWithoutPassword
-        {
-            get
-            {
-                var user = ((UserIdentity) User.Identity).User ?? new CommonUser();
-                return user.IsFacebookAccount && user.Password == null;
-            }
+            get { return false; }
         }
   
         protected void Title(string title)
@@ -70,8 +62,7 @@ namespace BrainShare.Controllers
             var controller = (string)RouteData.Values["controller"];
             Title(action.Equals("index", StringComparison.InvariantCultureIgnoreCase) ? controller : action);
             ViewBag.UserId = UserId;
-            ViewBag.UserName = (((UserIdentity)User.Identity).User ?? new CommonUser()).FullName;
-            ViewBag.IsFacebookAccount = (((UserIdentity)User.Identity).User ?? new CommonUser()).IsFacebookAccount;
+            ViewBag.UserName = UserName;
 
             if (UserId.HasValue())
             {

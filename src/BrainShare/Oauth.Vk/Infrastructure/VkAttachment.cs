@@ -1,4 +1,4 @@
-﻿namespace Oauth.Vk.Infrastructure
+﻿namespace Brainshare.Vk.Infrastructure
 {
     public class VkAttachment
     {

@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-namespace Oauth.Vk.Infrastructure
+namespace Brainshare.Vk.Infrastructure
 {
     public class MyWebRequest
     {

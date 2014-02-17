@@ -12,14 +12,12 @@ using Brainshare.Infrastructure.Authentication;
 using Brainshare.Infrastructure.Facebook.Dto;
 using Brainshare.Infrastructure.Infrastructure;
 using Brainshare.Infrastructure.Settings;
-using Brainshare.Infrastructure.VK;
 using Brainshare.VK;
+using Brainshare.Vk.Api;
+using Brainshare.Vk.Helpers;
+using Brainshare.Vk.Infrastructure;
 using MongoDB.Bson;
 using Newtonsoft.Json;
-using Oauth.Vk.Api;
-using Oauth.Vk.Dto.Geolocation;
-using Oauth.Vk.Dto.VkUserApi;
-using Oauth.Vk.Helpers;
 
 
 namespace BrainShare.Controllers
@@ -49,58 +47,26 @@ namespace BrainShare.Controllers
         [AllowAnonymous]
         public ActionResult LoginWithVk()
         {
-            return ProcessVk(VkCallbackMode.AuthorizeWithVk);
+            return ProcessVk();
         }
 
         [AllowAnonymous]
         public ActionResult AddVkAccount()
         {
-            return ProcessVk(VkCallbackMode.LinkNewAccount);
+            return ProcessVk();
         }
 
-        private ActionResult ProcessVk(VkCallbackMode mode, string returnUrl = null)
+        private ActionResult ProcessVk()
         {
-            var vkToken = Session[SessionKeys.VkAccessToken] as string;
-
-            if (mode == VkCallbackMode.AuthorizeWithVk)
-            {
-                if (vkToken == null)
-                {
-                    return RunVkCallback(VkCallbackMode.AuthorizeWithVk, returnUrl);
-                }
-
-                return ProcessVkontakte(VkCallbackMode.AuthorizeWithVk);
-            }
-
-            if (mode == VkCallbackMode.UpdateVkFields)
-            {
-                if (vkToken == null)
-                {
-                    return RunVkCallback(VkCallbackMode.UpdateVkFields, returnUrl);
-                }
-
-                return ProcessVkontakte(VkCallbackMode.UpdateVkFields, returnUrl);
-            }
-
-            if (mode == VkCallbackMode.LinkNewAccount)
-            {
-                return RunVkCallback(VkCallbackMode.LinkNewAccount, returnUrl);
-            }
-
-            return null;
+            return RunVkCallback();
         }
 
 
-        private ActionResult RunVkCallback(VkCallbackMode mode, string returnUrl = null)
+        private ActionResult RunVkCallback()
         {
             var csrfToken = _cryptographicHelper.GetCsrfToken();
-
             Session[SessionKeys.VkCsrfToken] = csrfToken;
-            Session[SessionKeys.VkCallbackMode] = mode;
-            Session[SessionKeys.VkReturnUrl] = returnUrl;
-
-            var vkLoginUrl = VkHelper.BuildAuthorizeUrl(_settings.VkAppId,VkHelper.Scope, VkCallbackUri,"code",csrfToken);
-
+            var vkLoginUrl = VkHelper.BuildAuthorizeUrl(_settings.VkAppId, VkCallbackUri,csrfToken);
             return Redirect(vkLoginUrl);
         }
 
@@ -111,10 +77,7 @@ namespace BrainShare.Controllers
             {
                 throw new Exception("Can't process vk. No code");
             }
-
-
             var exepectedCsrfToken = Session[SessionKeys.VkCsrfToken] as string;
-            var mode = (VkCallbackMode)Session[SessionKeys.VkCallbackMode];
 
             if (state == null || !state.Equals(exepectedCsrfToken))
             {
@@ -123,137 +86,63 @@ namespace BrainShare.Controllers
 
             // make the vk_csrf_token invalid
             Session[SessionKeys.VkCsrfToken] = null;
-            Session[SessionKeys.VkCallbackMode] = null;
-            Session[SessionKeys.VkReturnUrl] = null;
 
             var json = VkHelper.GetAccessToken(_settings.VkAppId, _settings.VkSecretKey, VkCallbackUri, code);
             var responce = JsonConvert.DeserializeObject<OAuthResponce>(json);
 
-            Session[SessionKeys.VkUserId] = responce.UserId;
-
-            Session[SessionKeys.VkAccessToken] = responce.AccessToken;
             if (responce.ExpiresIn != "0")
                 Session[SessionKeys.VkExpiresIn] = DateTime.Now.AddSeconds(int.Parse(responce.ExpiresIn));
 
-            //if (decodedState.ContainsKey("returnUrl") && decodedState.ContainsKey("mode"))
-            //{
-            //    return ProcessFacebook((FacebookCallbackMode)decodedState.mode, decodedState.returnUrl);
-            //}
-
-            return ProcessVkontakte(mode);
+            return ProcessVkontakte(responce.UserId, responce.AccessToken);
         }
 
-        private ActionResult ProcessVkontakte(VkCallbackMode mode, string returnUrl = null)
+        private ActionResult ProcessVkontakte(string vkId, string accessToken)
         {
-            var accessToken = Session[SessionKeys.VkAccessToken] as string;
-            var vkId = Session[SessionKeys.VkUserId] as string;
-
-            var vkUserApi = new VkUserApi(accessToken);
-            var vkGeoApi = new VkGeolocationApi(accessToken);
-
-            var dto = vkUserApi.Users_Get<List<VkUser>>(new[] { "city", "country", "photo_200" }, new[] { vkId });
+            var vkUserApi = new VkApi(accessToken);
+            var vkGeoApi = new VkApi(accessToken);
+            var dto = vkUserApi.GetUsers(new[] {"city", "country", "photo_200"}, new[] {vkId});
             var vkUser = dto.First();
-            if (mode == VkCallbackMode.AuthorizeWithVk)
+            var user = _users.GetUserByVkId(vkId);
+            if (user == null)
             {
-                var userByVkId = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Vk, vkId);
-                if (userByVkId == null)
+                var country = vkUser.Country.HasValue()
+                    ? vkGeoApi.GetCountry(vkUser.Country).Name
+                    : "Belarus";
+                var city = vkUser.City.HasValue()
+                    ? vkGeoApi.GetCity(vkUser.City).Name
+                    : "Minsk";
+
+                var address = new AddressData(country, city);
+                var settings = new UserSettings
                 {
-                    var country = vkUser.Country.HasValue() ? vkGeoApi.Places_GetCountryById<List<VkCountry>>(vkUser.Country).First().Name : "Belarus";
-                    var city = vkUser.City.HasValue() ? vkGeoApi.Places_GetCityById<List<VkCity>>(vkUser.City).First().Name : "Minsk";
-
-                    var address = new AddressData(country, city);
-                    var settings = new UserSettings
-                        {
-                          NotificationSettings = new NotificationSettings
-                                {
-                                    DuplicateMessagesToEmail = true,
-                                    NotifyByEmailIfAnybodyAddedMyWishBook = true
-                                },                               
-                        };
-
-                    var newUser = new User
+                    NotificationSettings = new NotificationSettings
                     {
-                        Id = ObjectId.GenerateNewId().ToString(),
-                        VkAccessToken = accessToken,
-                        VkId = vkUser.UserId,
-                        FirstName = vkUser.FirstName,
-                        LastName = vkUser.LastName,
-                        Registered = DateTime.Now,
-                        AvatarUrl = vkUser.AvatarUrl,
-                        Address = address,
-                        Settings = settings
-                    };
-
-                    _users.Save(newUser);
-
-                    _auth.LoginUser(LoginServiceTypeEnum.Vk,vkUser.UserId, true);
-
-                    if (Url.IsLocalUrl(returnUrl))
-                    {
-                        return Redirect(returnUrl);
-                    }
-
-                    return RedirectToAction("Index", "Home");
-                }
-
-                else
+                        DuplicateMessagesToEmail = true,
+                        NotifyByEmailIfAnybodyAddedMyWishBook = true
+                    },
+                };
+                user = new User
                 {
-                    userByVkId.VkAccessToken = accessToken;
-
-                    _users.Save(userByVkId);
-                    _auth.LoginUser(LoginServiceTypeEnum.Vk, vkUser.UserId, true);
-
-                    if (Url.IsLocalUrl(returnUrl))
-                    {
-                        return Redirect(returnUrl);
-                    }
-
-                    return RedirectToAction("Index", "Home");
-                }
+                    Id = ObjectId.GenerateNewId().ToString(),
+                    VkAccessToken = accessToken,
+                    VkId = vkUser.UserId,
+                    FirstName = vkUser.FirstName,
+                    LastName = vkUser.LastName,
+                    Registered = DateTime.Now,
+                    AvatarUrl = vkUser.AvatarUrl,
+                    Address = address,
+                    Settings = settings
+                };
             }
-
-            if (mode == VkCallbackMode.UpdateVkFields)
+            else
             {
-                UpdateVkFields(vkUser.UserId);
+                user.VkAccessToken = accessToken;
+          
             }
-
-            if (mode == VkCallbackMode.LinkNewAccount)
-            {
-                var user = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Vk, vkUser.UserId);
-
-                if (user == null)
-                {
-                    var currentUser = _users.GetById(UserId);
- 
-                    currentUser.VkId = vkUser.UserId;
-                    currentUser.VkAccessToken = Session[SessionKeys.VkAccessToken] as string;
-
-                    _users.Save(currentUser);
-
-                    if (Url.IsLocalUrl(returnUrl))
-                    {
-                        return Redirect(returnUrl);
-                    }
-
-                    return RedirectToAction("Index", "Home");
-                }
-
-                UpdateVkFields(vkUser.UserId);
-            }
+            _users.Save(user);
+            _auth.LoginVk(user.VkId);
 
             return RedirectToAction("Index", "Home");
-        }
-
-        private void UpdateVkFields(string vkUserId)
-        {
-            var user = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Vk, vkUserId);
-
-            if (user != null)
-            {
-                user.VkAccessToken = Session[SessionKeys.VkAccessToken] as string;
-
-                _users.Save(user);
-            }
         }
     }
 }

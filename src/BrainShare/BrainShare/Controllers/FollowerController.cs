@@ -47,11 +47,6 @@ namespace BrainShare.Controllers
         [HttpPost]
         public ActionResult Unsubscribe(string userId)
         {
-            if (IsShellUser)
-            {
-                return null;
-            }
-
             var currentUser = _users.GetById(UserId);
             currentUser.RemovePublisher(userId);
             var publisher = _users.GetById(userId);

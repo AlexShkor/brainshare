@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Brainshare.Vk.Infrastructure.Enums;
 using Newtonsoft.Json.Linq;
-using Oauth.Vk.Infrastructure.Enums;
 
-namespace Oauth.Vk.Infrastructure.Attachments
+namespace Brainshare.Vk.Infrastructure.Attachments
 {
     public class LinkAttachment : VkExtendedAttachment
     {

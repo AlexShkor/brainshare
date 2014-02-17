@@ -1,17 +1,25 @@
 ﻿using System.Security.Principal;
 using BrainShare.Domain.Documents.Data;
+using BrainShare.Utils.Extensions;
 
 namespace Brainshare.Infrastructure.Authentication
 {
-    public class UserIdentity : IIdentity, IUserProvider
+    public class UserIdentity : IIdentity
     {
-        public CommonUser User { get; set; }
+        private readonly string _userId;
+        private readonly string _userName;
+
+        public UserIdentity(string userId, string userName)
+        {
+            _userId = userId;
+            _userName = userName;
+        }
 
         public string AuthenticationType
         {
             get
             {
-                return typeof(CommonUser).ToString();
+                return "Forms";
             }
         }
 
@@ -19,7 +27,15 @@ namespace Brainshare.Infrastructure.Authentication
         {
             get
             {
-                return User != null;
+                return _userId.HasValue();
+            }
+        }
+
+        public string Id
+        {
+            get
+            {
+                return _userId;
             }
         }
 
@@ -27,22 +43,9 @@ namespace Brainshare.Infrastructure.Authentication
         {
             get
             {
-                if (User != null)
-                {
-                    return User.Email;
-                }
-
-                return "Anonym";
+                return _userName;
             }
         }
 
-        public void Init(LoginServiceTypeEnum loginServiceType, string serviceId, ICommonUserService usersService)
-        {
-            if (serviceId != null && loginServiceType != null)
-            {
-                  User = usersService.GetUserByLoginServiceInfo(loginServiceType,serviceId);
-            }
-           
-        }
     }
 }

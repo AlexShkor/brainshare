@@ -1,28 +1,22 @@
 ﻿using System;
-using System.Linq;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Security;
 using BrainShare.Domain.Documents.Data;
 using BrainShare.Infostructure;
 using BrainShare.Services;
-using Brainshare.Infrastructure.Authentication;
-using Brainshare.Infrastructure.Infrastructure;
-using Brainshare.Infrastructure.Services;
 
-namespace BrainShare.Authentication
+namespace Brainshare.Infrastructure.Authentication
 {
     public class CustomAuthentication : IAuthentication
     {
         private readonly UsersService _users;
-        private readonly ShellUserService _shellUsers;
         private readonly ICommonUserService _commonUserService;
         private readonly CryptographicHelper _cryptoHelper;
 
-        public CustomAuthentication(UsersService users, ShellUserService shellUsers, ICommonUserService commonUserService, CryptographicHelper cryptoHelper)
+        public CustomAuthentication(UsersService users, ICommonUserService commonUserService, CryptographicHelper cryptoHelper)
         {
             _users = users;
-            _shellUsers = shellUsers;
             _commonUserService = commonUserService;
             _cryptoHelper = cryptoHelper;
         }
@@ -31,83 +25,38 @@ namespace BrainShare.Authentication
 
         public HttpContext HttpContext
         {
-            get { return _httpContext; }
-            set { _httpContext = value; }
+            get { return HttpContext.Current; }
         }
 
-        public CommonUser Login(string email, string password, bool isPersistent)
+        public bool Login(string email, string password, bool isPersistent)
         {
-            var retUser = _commonUserService.GetUserByEmail(email);
-
-            if (retUser == null)
+            var user = _commonUserService.GetUserByEmail(email);
+            if (user != null && user.Password == _cryptoHelper.GetPasswordHash(password, user.Salt))
             {
-                return null;
+                LoginUser(user.Id, true);
+                return true;
             }
-
-            if (retUser.Password == _cryptoHelper.GetPasswordHash(password, retUser.Salt))
-            {
-                CreateCookie(LoginServiceTypeEnum.Email, email, isPersistent);
-                return retUser;
-            }
-
-            return null;
+            return false;
         }
 
-        public CommonUser Login(string email)
+        public void LoginVk(string id)
         {
-            var retUser = _commonUserService.GetUserByEmail(email);
-            if (retUser != null)
+            var user = _commonUserService.GetUserByVkId(id);
+            if (user != null)
             {
-                CreateCookie(LoginServiceTypeEnum.Email, email);
+                LoginUser(user.Id, true);
             }
-
-            return retUser;
         }
 
-        public CommonUser LoginVk(string id)
+        public void LoginFb(string id)
         {
-            var retUser = _commonUserService.GetUserByVkId(id);
-            if (retUser != null)
+            var user = _commonUserService.GetUserByFacebookId(id);
+            if (user != null)
             {
-                CreateCookie(LoginServiceTypeEnum.Vk, id);
+               LoginUser(user.Id,true);
             }
-
-            return retUser;
         }
-
-        public CommonUser LoginFb(string id)
-        {
-            var retUser = _commonUserService.GetUserByFacebookId(id);
-            if (retUser != null)
-            {
-                CreateCookie(LoginServiceTypeEnum.Facebook, id);
-            }
-
-            return retUser;
-        }
-
-        private void CreateCookie(LoginServiceTypeEnum loginServiceType, string serviceId, bool isPersistent = false)
-        {
-            var ticket = new FormsAuthenticationTicket(
-                1,
-                serviceId,
-                DateTime.Now,
-                DateTime.Now.Add(FormsAuthentication.Timeout),
-                isPersistent,
-                ((int)loginServiceType).ToString(),
-                FormsAuthentication.FormsCookiePath);
-
-            // Encrypt ticket
-            var encTicket = FormsAuthentication.Encrypt(ticket);
-
-            // Create the cookie
-            var authCookie = new HttpCookie(CookieName)
-                                 {
-                                     Value = encTicket,
-                                     Expires = DateTime.Now.Add(FormsAuthentication.Timeout)
-                                 };
-            HttpContext.Response.Cookies.Set(authCookie);
-        }
+        
 
         public void Logout()
         {
@@ -119,7 +68,8 @@ namespace BrainShare.Authentication
         }
 
         private IPrincipal _currentUser;
-        private HttpContext _httpContext = HttpContext.Current;
+
+        private const int CURRENT_TICKET_VERSION = 2;
 
         public IPrincipal CurrentUser
         { 
@@ -127,34 +77,50 @@ namespace BrainShare.Authentication
             {
                 if (_currentUser == null)
                 {
-                    try
-                    {
                         HttpCookie authCookie = HttpContext.Request.Cookies.Get(CookieName);
                         if (authCookie != null && !string.IsNullOrEmpty(authCookie.Value))
                         {
                             var ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                            _currentUser = new UserProvider((LoginServiceTypeEnum)int.Parse(ticket.UserData),ticket.Name, _commonUserService);
+                            if (ticket != null)
+                            {
+                                if (ticket.Version == CURRENT_TICKET_VERSION)
+                                {
+                                    _currentUser = new UserProvider(ticket.Name, ticket.UserData);
+                                }
+                                else
+                                {
+                                    FormsAuthentication.SignOut();
+                                }
+                            }
                         }
-
-                        else
-                        {
-                            _currentUser = new UserProvider(LoginServiceTypeEnum.Email, null,null);
-                        }
-                    }
-
-                    catch(Exception)
-                    {
-                        _currentUser = new UserProvider(LoginServiceTypeEnum.Email, null, null);
-                    }
                 }
-
                 return _currentUser;
             }
         }
 
-        public void LoginUser(LoginServiceTypeEnum loginServiceType, string serviceId,  bool isPersistent)
+        private void LoginUser(string userId, bool isPersistent)
         {
-            CreateCookie(loginServiceType,serviceId,isPersistent);
+            var user = _users.GetById(userId);
+            var data = user.FullName;
+            var ticket = new FormsAuthenticationTicket(
+                CURRENT_TICKET_VERSION,
+                userId,
+                DateTime.Now,
+                DateTime.Now.Add(FormsAuthentication.Timeout),
+                isPersistent,
+                data,
+                FormsAuthentication.FormsCookiePath);
+
+            // Encrypt ticket
+            var encTicket = FormsAuthentication.Encrypt(ticket);
+
+            // Create the cookie
+            var authCookie = new HttpCookie(CookieName)
+            {
+                Value = encTicket,
+                Expires = DateTime.Now.Add(FormsAuthentication.Timeout)
+            };
+            HttpContext.Response.Cookies.Set(authCookie);
         }
     }
 }

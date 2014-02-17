@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Brainshare.Infrastructure.VK
+namespace Brainshare.Vk.Infrastructure
 {
     [JsonObject]
     public class OAuthResponce

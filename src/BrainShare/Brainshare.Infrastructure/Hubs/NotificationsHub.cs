@@ -35,7 +35,7 @@ namespace Brainshare.Infrastructure.Hubs
         {
             try
             {
-               return ((UserIdentity) Context.Request.GetHttpContext().User.Identity).User.Id;
+               return ((UserIdentity) Context.Request.GetHttpContext().User.Identity).Id;
             }
             catch (Exception e)
             {

@@ -7,10 +7,10 @@ using Brainshare.Infrastructure.Services;
 using BrainShare.Services;
 using Brainshare.Infrastructure.Settings;
 using BrainShare.Utils.Utilities;
+using Brainshare.Vk.Api;
+using Brainshare.Vk.Helpers;
 using MongoDB.Bson;
 using NUnit.Framework;
-using Oauth.Vk.Api;
-using Oauth.Vk.Helpers;
 
 namespace BrainShare.Controllers
 {
@@ -19,13 +19,13 @@ namespace BrainShare.Controllers
     {
         private readonly Settings _settings;
         private readonly LinkedGroupsService _linkedGroups;
-        private readonly VkGroupApi _groupApi;
+        private readonly VkApi _groupApi;
 
         public CrosspostingController(Settings settings, UsersService usersService, LinkedGroupsService linkedGroups) : base(usersService)
         {
             _settings = settings;
             _linkedGroups = linkedGroups;
-            _groupApi = new VkGroupApi(null);
+            _groupApi = new VkApi(null);
         }
 
         public ActionResult Index()
@@ -40,7 +40,7 @@ namespace BrainShare.Controllers
             var model = new GroupAuthorizeViewModel
             {
                 GroupId = id,
-                VkBlankUrl = VkHelper.BuildAuthorizeUrlForMobile("4185172", VkHelper.MobileScope)
+                VkBlankUrl = VkHelper.BuildAuthorizeUrlForMobile("4185172")
             };
             return View(model);
         }
@@ -58,12 +58,12 @@ namespace BrainShare.Controllers
         public ActionResult Add(string url)
         {
             var id = UrlUtility.LastSegment(url);
-            var group= _groupApi.GetInfo(id);
+            var group= _groupApi.GetGroupInfo(id);
             var linkedGroup = new LinkedGroup
             {
                 Id = ObjectId.GenerateNewId().ToString(),
-                Name = group.name,
-                GroupId = group.gid,
+                Name = group.Name,
+                GroupId = group.Gid,
                 OwnerId = UserId
             };
             _linkedGroups.Save(linkedGroup);
@@ -72,7 +72,7 @@ namespace BrainShare.Controllers
                 Id = linkedGroup.Id,
                 GroupId = linkedGroup.GroupId,
                 Name = linkedGroup.Name,
-                Photo = group.photo
+                Photo = group.Photo
             };
             return View(model);
         }

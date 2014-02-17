@@ -18,7 +18,6 @@ using Brainshare.Infrastructure.Hubs;
 using Brainshare.Infrastructure.Services;
 using Brainshare.Infrastructure.Settings;
 using MongoDB.Bson;
-using Oauth.Vk.Infrastructure.Enums;
 
 
 namespace BrainShare.Controllers
@@ -187,7 +186,12 @@ namespace BrainShare.Controllers
         [HttpGet]
         public ActionResult ChangePassword()
         {
-            return View(new ChangePasswordModel{ IsFacebokAccountWithoutPassword = IsFacebookAccountWithoutPassword});
+            var user = _users.GetById(UserId);
+            return
+                View(new ChangePasswordModel
+                {
+                    IsFacebokAccountWithoutPassword = user.FacebookId.HasValue() && !user.Password.HasValue()
+                });
         }
 
         [HttpPost]
@@ -384,7 +388,7 @@ namespace BrainShare.Controllers
             var callbackModel = new MessageViewModel();
             callbackModel.Init(UserId, content, DateTime.Now.ToString("o"), true, thread.OwnerId == UserId ? thread.OwnerName : thread.RecipientName);
             ThreadHub.HubContext.Clients.Group(threadId).messageSent(callbackModel);
-            NotificationsHub.SendGenericText(sendToUserId, ((UserIdentity)User.Identity).User.FullName, content);
+            NotificationsHub.SendGenericText(sendToUserId, ((UserIdentity)User.Identity).Name, content);
             return Json(model);
         }
 

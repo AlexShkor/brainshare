@@ -1,4 +1,4 @@
-﻿namespace Oauth.Vk.Infrastructure.Enums
+﻿namespace Brainshare.Vk.Infrastructure.Enums
 {
     public enum GroupPostSign
     {

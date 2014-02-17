@@ -30,14 +30,6 @@ namespace BrainShare.Controllers
 
         private static object _registrationSync = new object();
 
-        public string VkCallbackUri
-        {
-            get
-            {
-                return UrlUtility.ApplicationBaseUrl + Url.Action("VkCallback");
-            }
-        }
-
         public UserController(IAuthentication auth, UsersService users, ShellUserService shellUserService, CryptographicHelper cryptoHelper, Settings settings, NewsService news, MailService mailService)
             : base(users)
         {
@@ -47,16 +39,6 @@ namespace BrainShare.Controllers
             _news = news;
             _mailService = mailService;
             Auth = auth;
-        }
-
-        private CommonUser CurrentUser
-        {
-            get { return ((IUserProvider)Auth.CurrentUser.Identity).User; }
-        }
-
-        public ActionResult UserLogin()
-        {
-            return View(_users.GetById(CurrentUser.Id));
         }
 
         [HttpGet]
@@ -73,51 +55,13 @@ namespace BrainShare.Controllers
             return View(new LinkAccountViewModel());
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult> LinkAccount(LinkAccountViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Email, model.Email);
-
-        //        if (user != null)
-        //        {
-        //            ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
-        //            return JsonModel(model);
-        //        }
-
-        //        user = _users.GetById(UserId);
-
-        //        var salt = _cryptoHelper.GenerateSalt();
-        //        var hashedPassword = _cryptoHelper.GetPasswordHash(model.Password, salt);
-
-        //        user.LoginServices.Add(new LoginService
-        //            {
-        //                AccessToken = hashedPassword,
-        //                LoginType = LoginServiceTypeEnum.Email,
-        //                Salt = salt,
-        //                ServiceUserId = model.Email.ToLower(),
-        //                EmailConfirmed = false,
-        //                UseForNotifications = false
-        //            });
-
-        //        _users.AddUser(user);
-
-        //        var confirmLink = UrlUtility.EmailApproveLink(CryptographicHelper.Encrypt(user.Id, salt), model.Email);
-
-        //        _mailService.SendWelcomeMessage(user.FullName, model.Email, confirmLink);
-        //    }
-
-        //    return JsonModel(model);
-        //}
-
         [HttpPost]
         public ActionResult Login(LoginView loginView)
         {
             if (ModelState.IsValid)
             {
-                var user = Auth.Login(loginView.Email, loginView.Password, loginView.IsPersistent);
-                if (user != null)
+                var success = Auth.Login(loginView.Email, loginView.Password, loginView.IsPersistent);
+                if (success)
                 {
                     return RedirectToAction("Index", "Home");
                 }
@@ -230,7 +174,7 @@ namespace BrainShare.Controllers
         {
             if (ModelState.IsValid)
             {
-                var anyUser = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Email, model.Email);
+                var anyUser = _users.GetUserByEmail(model.Email);
                 if (anyUser == null)
                 {
                     var salt = _cryptoHelper.GenerateSalt();

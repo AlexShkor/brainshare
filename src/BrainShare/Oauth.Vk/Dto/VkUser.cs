@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Oauth.Vk.Dto.VkUserApi
+namespace Brainshare.Vk.Dto
 {
     [JsonObject]
     public class VkUser

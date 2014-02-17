@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
 using BrainShare;
-using BrainShare.Authentication;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Owin;

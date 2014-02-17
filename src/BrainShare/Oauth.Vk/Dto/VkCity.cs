@@ -1,6 +1,6 @@
-﻿namespace Oauth.Vk.Dto.Geolocation
+﻿namespace Brainshare.Vk.Dto
 {
-    public class VkCountry
+    public class VkCity
     {
         public string Id { get; set; }
         public string Name { get; set; }

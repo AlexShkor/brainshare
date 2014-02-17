@@ -131,7 +131,6 @@
     <Compile Include="Authentication\CustomAuthentication.cs" />
     <Compile Include="Authentication\IAuthentication.cs" />
     <Compile Include="Authentication\ICommonUserService.cs" />
-    <Compile Include="Authentication\IUserProvider.cs" />
     <Compile Include="Authentication\UserIdentity.cs" />
     <Compile Include="Authentication\UserProvider.cs" />
     <Compile Include="Facebook\Dto\FbUserMe.cs" />
@@ -203,9 +202,9 @@
       <Project>{87976832-5cab-413a-b127-af7976bb1446}</Project>
       <Name>BrainShare.Utils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Oauth.Vk\Oauth.Vk.csproj">
+    <ProjectReference Include="..\Oauth.Vk\Brainshare.Vk.csproj">
       <Project>{ef0d1ba5-8862-4d79-a82c-3d948ccb788a}</Project>
-      <Name>Oauth.Vk</Name>
+      <Name>Brainshare.Vk</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

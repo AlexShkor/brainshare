@@ -179,7 +179,7 @@ namespace BrainShare.Controllers
 
             if (mode == FacebookCallbackMode.AuthorizeWithFacebook)
             {
-                var userByFacebookId = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Facebook, facebookId);
+                var userByFacebookId = _users.GetUserByFbId(facebookId);
                 if (userByFacebookId == null)
                 {
                     var address = new AddressData(fbUser.location.name);
@@ -206,7 +206,7 @@ namespace BrainShare.Controllers
                     };
 
                     _users.Save(newUser);
-                    _auth.LoginUser(LoginServiceTypeEnum.Facebook, fbUser.id, true);
+                    _auth.LoginFb(fbUser.id);
 
                     if (Url.IsLocalUrl(returnUrl))
                     {
@@ -222,7 +222,7 @@ namespace BrainShare.Controllers
                     userByFacebookId.FacebookEmail = fbUser.email;
  
                     _users.Save(userByFacebookId);
-                    _auth.LoginUser(LoginServiceTypeEnum.Facebook, fbUser.id, true);
+                    _auth.LoginFb(fbUser.id);
 
                     if (Url.IsLocalUrl(returnUrl))
                     {
@@ -240,7 +240,7 @@ namespace BrainShare.Controllers
 
             if (mode == FacebookCallbackMode.LinkNewAccount)
             {
-                var user = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Facebook, fbUser.id);
+                var user = _users.GetUserByFbId(fbUser.id);
 
                 if (user == null)
                 {
@@ -267,7 +267,7 @@ namespace BrainShare.Controllers
 
         private void UpdateFbFields(string facebookId)
         {
-            var userByFacebookId = _users.GetUserByLoginServiceInfo(LoginServiceTypeEnum.Facebook, facebookId);
+            var userByFacebookId = _users.GetUserByFbId(facebookId);
 
             if (userByFacebookId != null )
             {

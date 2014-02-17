@@ -1,6 +1,6 @@
-﻿using Oauth.Vk.Infrastructure;
+﻿using Brainshare.Vk.Infrastructure;
 
-namespace Oauth.Vk.Helpers
+namespace Brainshare.Vk.Helpers
 {
     public class VkHelper
     {
@@ -11,14 +11,18 @@ namespace Oauth.Vk.Helpers
         public const string MobileScope = "friends,photos,wall";
         public const string Scope = "friends,photos";
 
-        public static string BuildAuthorizeUrl(string appId, string scope,string redirectUri, string responceType, string state,string apiVersion="5.5")
+        public static string BuildAuthorizeUrl(string appId, string redirectUri, string state)
         {
-            return string.Format("{0}client_id={1}&scope={2}&redirect_uri={3}&response_type={4}&state={5}&v={6}", BaseAuthorizeUrl, appId, scope, redirectUri, responceType,state, apiVersion);
+            const string apiVersion = "5.10";
+            const string responseType = "code";
+            return string.Format("{0}client_id={1}&scope={2}&redirect_uri={3}&response_type={4}&state={5}&v={6}",
+                BaseAuthorizeUrl, appId, Scope, redirectUri, responseType, state, apiVersion);
         }
 
-        public static string BuildAuthorizeUrlForMobile(string appId, string scope, string display = "page")
+        public static string BuildAuthorizeUrlForMobile(string appId)
         {
-            return string.Format("{0}client_id={1}&scope={2}&redirect_uri={3}&display={4}&response_type=token", BaseAuthorizeUrl, appId, scope, MobileRedirectUrl, display);
+            const string display = "page";
+            return string.Format("{0}client_id={1}&scope={2}&redirect_uri={3}&display={4}&response_type=token", BaseAuthorizeUrl, appId, MobileScope, MobileRedirectUrl, display);
         }
 
         public static string GetAccessToken(string appId, string appSecret, string redirectUri, string code)

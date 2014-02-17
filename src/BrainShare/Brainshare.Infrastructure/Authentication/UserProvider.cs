@@ -6,27 +6,22 @@ namespace Brainshare.Infrastructure.Authentication
 {
     public class UserProvider : IPrincipal
     {
-
-        public UserProvider(LoginServiceTypeEnum loginServiceType, string serviceId, ICommonUserService commonUserService)
+        public UserProvider(string userId, string userName)
         {
-            userIdentity = new UserIdentity();
+            Identity = new UserIdentity(userId, userName);
 
-            userIdentity.Init(loginServiceType, serviceId, commonUserService);
         }
-
-
-        private UserIdentity userIdentity { get; set; }
 
         public bool IsInRole(string role)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
-        public IIdentity Identity { get { return userIdentity; } }
+        public IIdentity Identity { get; private set; }
 
         public override string ToString()
         {
-            return userIdentity.Name;
+            return Identity.Name;
         }
 
     }

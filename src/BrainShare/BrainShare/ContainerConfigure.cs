@@ -1,5 +1,4 @@
-﻿using BrainShare.Authentication;
-using BrainShare.Infrastructure.Mongo;
+﻿using BrainShare.Infrastructure.Mongo;
 using BrainShare.Services;
 using Brainshare.Infrastructure.Authentication;
 using Brainshare.Infrastructure.Services;

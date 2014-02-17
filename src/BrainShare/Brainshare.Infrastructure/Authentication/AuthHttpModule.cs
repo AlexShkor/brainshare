@@ -18,7 +18,6 @@ namespace BrainShare.Infrastructure.Authentication
             HttpContext context = app.Context;
 
             var auth = DependencyResolver.Current.GetService<IAuthentication>();
-            auth.HttpContext = context;
             context.User = auth.CurrentUser;
         }
 

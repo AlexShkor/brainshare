@@ -625,7 +625,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\_BootstrapLayout.cshtml" />
     <Content Include="Views\Books\Search.cshtml" />
-    <Content Include="Views\User\UserLogin.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\Books\Details.cshtml" />
@@ -724,9 +723,9 @@
       <Project>{87976832-5cab-413a-b127-af7976bb1446}</Project>
       <Name>BrainShare.Utils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Oauth.Vk\Oauth.Vk.csproj">
+    <ProjectReference Include="..\Oauth.Vk\Brainshare.Vk.csproj">
       <Project>{ef0d1ba5-8862-4d79-a82c-3d948ccb788a}</Project>
-      <Name>Oauth.Vk</Name>
+      <Name>Brainshare.Vk</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
