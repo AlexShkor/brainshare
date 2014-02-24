@@ -40,7 +40,7 @@ namespace BrainShare.Controllers
             var model = new GroupAuthorizeViewModel
             {
                 GroupId = id,
-                VkBlankUrl = VkHelper.BuildAuthorizeUrlForMobile("4185172")
+                VkBlankUrl = VkAuth.BuildAuthorizeUrlForMobile("4185172")
             };
             return View(model);
         }

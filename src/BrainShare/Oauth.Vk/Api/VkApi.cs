@@ -94,7 +94,7 @@ namespace Brainshare.Vk.Api
 
             var url = BaseApiCallurl + methodName;
 
-            var request = new MyWebRequest(url, method, postData.ToString());
+            var request = new VkWebRequest(url, method, postData.ToString());
             return request.GetResponse();
         }
     }

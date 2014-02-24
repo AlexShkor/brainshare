@@ -5,21 +5,21 @@ using System.Text;
 
 namespace Brainshare.Vk.Infrastructure
 {
-    public class MyWebRequest
+    public class VkWebRequest
     {
         private readonly WebRequest _request;
         private Stream _dataStream;
 
         public string Status { get; set; }
 
-        public MyWebRequest(string url)
+        public VkWebRequest(string url)
         {
             // Create a request using a URL that can receive a post.
 
             _request = WebRequest.Create(url);
         }
 
-        public MyWebRequest(string url, string method)
+        public VkWebRequest(string url, string method)
             : this(url)
         {
 
@@ -34,7 +34,7 @@ namespace Brainshare.Vk.Infrastructure
             }
         }
 
-        public MyWebRequest(string url, string method, string data)
+        public VkWebRequest(string url, string method, string data)
             : this(url, method)
         {
 

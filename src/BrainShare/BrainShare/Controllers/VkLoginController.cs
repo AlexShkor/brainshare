@@ -64,9 +64,7 @@ namespace BrainShare.Controllers
 
         private ActionResult RunVkCallback()
         {
-            var csrfToken = _cryptographicHelper.GetCsrfToken();
-            Session[SessionKeys.VkCsrfToken] = csrfToken;
-            var vkLoginUrl = VkHelper.BuildAuthorizeUrl(_settings.VkAppId, VkCallbackUri,csrfToken);
+            var vkLoginUrl = VkAuth.BuildAuthorizeUrl(_settings.VkAppId, VkCallbackUri);
             return Redirect(vkLoginUrl);
         }
 
@@ -77,17 +75,8 @@ namespace BrainShare.Controllers
             {
                 throw new Exception("Can't process vk. No code");
             }
-            var exepectedCsrfToken = Session[SessionKeys.VkCsrfToken] as string;
 
-            if (state == null || !state.Equals(exepectedCsrfToken))
-            {
-                throw new Exception("invalid csrf token");
-            }
-
-            // make the vk_csrf_token invalid
-            Session[SessionKeys.VkCsrfToken] = null;
-
-            var json = VkHelper.GetAccessToken(_settings.VkAppId, _settings.VkSecretKey, VkCallbackUri, code);
+            var json = VkAuth.GetAccessToken(_settings.VkAppId, _settings.VkSecretKey, VkCallbackUri, code);
             var responce = JsonConvert.DeserializeObject<OAuthResponce>(json);
 
             if (responce.ExpiresIn != "0")

@@ -51,8 +51,6 @@
     <Compile Include="Dto\VkUser.cs" />
     <Compile Include="Dto\VkPost.cs" />
     <Compile Include="Helpers\VkHelper.cs" />
-    <Compile Include="Infrastructure\Attachments\LinkAttachment.cs" />
-    <Compile Include="Infrastructure\BaseVkApi.cs" />
     <Compile Include="Infrastructure\Enums\GroupPostSign.cs" />
     <Compile Include="Infrastructure\Enums\StatusName.cs" />
     <Compile Include="Infrastructure\Enums\VkMediaType.cs" />
@@ -62,7 +60,9 @@
     <Compile Include="Infrastructure\VkExtendedAttachment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Infrastructure\Attachments\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
