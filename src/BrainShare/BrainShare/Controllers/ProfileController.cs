@@ -443,21 +443,14 @@ namespace BrainShare.Controllers
             if (!IsShellUser)
             {
                  var user = _users.GetById(UserId);
-                return Json(new { Result = user.Inbox.Count(e => !e.Viewed) });
+                return Json(new { Result = user.Inbox.Count() });
             }
-            //Todo: Realize logic for shell user
             return Json(new { Result = 0 });
         }
 
         [POST("get-unread-news-count")]
         public ActionResult GetUnreadNewsCount()
         {
-            if (!IsShellUser)
-            {
-                var user = _users.GetById(UserId);
-                return Json(new { Result = user.News.Count(n => !n.WasRead) });
-            }
-            //Todo: Realize logic for shell user
             return Json(new { Result = 0 });
         }
 
@@ -469,8 +462,6 @@ namespace BrainShare.Controllers
                 var user = _users.GetById(UserId);
                 return Json(new { Result = user.ThreadsWithUnreadMessages.Count });
             }
-
-            //Todo: Realize logic for shell user
             return Json(new { Result = 0 });          
         }
 
