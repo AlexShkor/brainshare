@@ -249,6 +249,7 @@ namespace BrainShare.Controllers
                 {
                     _books.Save(book);
                 }
+                SendBookAddedEvent(user, book, model.IsWhishBook);
             }
 
             return JsonModel(model);
@@ -281,22 +282,27 @@ namespace BrainShare.Controllers
 
                 _books.Save(doc);
 
-                _asyncTaskScheduler.WallPostVkGroup(UrlUtility.GetBookLink(doc.Id, UrlUtility.ApplicationBaseUrl), doc.Title);
+                SendBookAddedEvent(user,doc);
 
-                _asyncTaskScheduler.StartEmailSendSearchingUsersTask(user, doc,UrlUtility.ApplicationBaseUrl);
-
-                _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
-
-                _asyncTaskScheduler.UserHaveNewBookNotifyer(user, doc);
-
-                NotificationsHub.SendGenericText(UserId, "Книга добавлена",
-                                                    string.Format("{0} добавлена в вашу книную полку", doc.Title));
             }
             else
             {
                 return Json(new { Error = "Книга уже добавлена." });
             }
             return Json(new { Id = doc.Id });
+        }
+
+        private void SendBookAddedEvent(User user, Book doc, bool isWhishBook = false)
+        {
+            _asyncTaskScheduler.WallPostVkGroup(UrlUtility.GetBookLink(doc.Id, UrlUtility.ApplicationBaseUrl), string.Format("Новая книга\r\n\"{0}\"\r\n{1}", doc.Title, doc.UserData.Address.Locality));
+
+            _asyncTaskScheduler.StartEmailSendSearchingUsersTask(user, doc, UrlUtility.ApplicationBaseUrl);
+
+            _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
+
+            _asyncTaskScheduler.UserHaveNewBookNotifyer(user, doc);
+
+            NotificationsHub.SendGenericText(UserId, "Книга добавлена", string.Format("{0} добавлена в вашу книную полку", doc.Title));
         }
 
         [HttpPost]
@@ -330,16 +336,7 @@ namespace BrainShare.Controllers
 
             _books.Save(doc);
 
-            _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
-
-            _asyncTaskScheduler.StartEmailSendSearchingUsersTask(user, doc,UrlUtility.ApplicationBaseUrl);
-
-            _asyncTaskScheduler.UserHaveNewBookNotifyer(user, doc);
-
-            _ozIsbnService.AddItem(doc.OzBookId, false);
-
-            NotificationsHub.SendGenericText(UserId, "Книга добавлена",
-                string.Format("{0} добавлена в вашу книную полку", doc.Title));
+            SendBookAddedEvent(user, doc);
 
             return Json(new { Id = doc.Id });
         }
