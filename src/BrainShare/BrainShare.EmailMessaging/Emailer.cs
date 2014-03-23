@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Mail;
 using System.Net.Mime;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Hosting;
@@ -94,11 +95,14 @@ namespace BrainShare.EmailMessaging
 
         public string GetStringFromRazor(string viewname, object model)
         {
-            var basePath = AppDomain.CurrentDomain.RelativeSearchPath;
-            var path = Path.Combine(basePath, "Views", viewname + ".cshtml");
-
-            var fileContents = System.IO.File.ReadAllText(path);
-            return Razor.Parse(fileContents, model);
+            Assembly assembly = this.GetType().Assembly;
+            var name = assembly.GetName().Name + "." + "Views." + viewname + ".cshtml";
+            using (Stream stream = assembly.GetManifestResourceStream(name))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string result = reader.ReadToEnd();
+                return Razor.Parse(result, model);
+            }
         }
     }
 
