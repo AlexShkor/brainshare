@@ -252,7 +252,7 @@ namespace BrainShare.Controllers
             var publishers = _users.GetByIds(user.Publishers);
 
             Title("На кого я подписан");
-            return View(new PublishersViewModel(publishers, user.FullName, userId == UserId, _settings.ActivityTimeoutInMinutes));
+            return View(new PublishersViewModel(publishers, user.FullName, userId == UserId, int.Parse(_settings.ActivityTimeoutInMinutes)));
         }
     }
 }

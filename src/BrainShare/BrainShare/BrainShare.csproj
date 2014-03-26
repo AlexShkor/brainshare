@@ -278,7 +278,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="ContainerConfigure.cs" />
     <Compile Include="Controllers\CrosspostingController.cs" />
     <Compile Include="Controllers\DevToolsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />

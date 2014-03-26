@@ -141,7 +141,7 @@ namespace BrainShare.Controllers
         {
             var user = _users.GetById(id);
             var me = UserId == null ? null: _users.GetById(UserId);
-            var model = new UserProfileModel(user, me,_settings.ActivityTimeoutInMinutes,me == null);
+            var model = new UserProfileModel(user, me,int.Parse(_settings.ActivityTimeoutInMinutes),me == null);
 
             if (UserId.HasValue())
             {

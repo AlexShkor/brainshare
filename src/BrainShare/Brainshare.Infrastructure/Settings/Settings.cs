@@ -18,7 +18,7 @@ namespace Brainshare.Infrastructure.Settings
         public string MongoConnectionString { get; set; }
 
         [SettingsProperty("ActivityTimeoutInMinutes")]
-        public int ActivityTimeoutInMinutes { get; set; }
+        public string ActivityTimeoutInMinutes { get; set; }
 
         [SettingsProperty("cloudinary_url")]
         public string CloudinaryUrl { get; set; }

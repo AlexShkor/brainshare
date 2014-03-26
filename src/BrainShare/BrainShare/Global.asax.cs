@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using BrainShare.DependencyResolution;
+using Brainshare.Infrastructure;
 using Brainshare.Infrastructure.Sitemap;
 using Microsoft.AspNet.SignalR;
 using StructureMap;
