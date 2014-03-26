@@ -18,7 +18,7 @@
 <div class="search-outer-container">
     <div class="search-container">
         <input type="text" id="search" />
-        <button type="submit" class="btn btn-success" onclick="searchRedirect()">Искать</button>
+        <button type="submit" class="btn btn-success" onclick="searchRedirect()" style="padding-left:  40px; padding-right: 40px "><i class="icon-search"></i></button>
     </div>
 </div>
 
@@ -50,6 +50,10 @@
                 </a>
             </li>
         }
+
+        <li>
+            <a href="@Url.Action("ChooseAddMethod","Books")" title="Добавить книгу" class="btn" style="height: 185px; width: 80px; padding-top: 125px"><i class="icon-plus icon-3x"></i></a>
+        </li>
     </ul>
 </div>
 <h4>5 последних Пользователей </h4>

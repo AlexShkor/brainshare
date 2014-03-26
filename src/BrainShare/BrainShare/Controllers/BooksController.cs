@@ -211,7 +211,6 @@ namespace BrainShare.Controllers
         }
 
         [GET("choose-add-method")]
-        [AllowAnonymous]
         public ActionResult ChooseAddMethod()
         {
             Title("Выбор метода поиска");
