@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using BrainShare.Services;
+using Brainshare.Infrastructure.Services;
 using BrainShare.ViewModels;
 
 namespace BrainShare.Controllers

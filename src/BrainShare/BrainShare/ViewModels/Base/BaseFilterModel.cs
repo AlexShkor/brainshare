@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BrainShare.Infrastructure.Mongo;
+using Brainshare.Infrastructure.Mongo;
 using BrainShare.Utils.Extensions;
 
 namespace BrainShare.ViewModels.Base

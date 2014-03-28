@@ -1,5 +1,4 @@
 ﻿using System.Security.Principal;
-using BrainShare.Domain.Documents.Data;
 using BrainShare.Utils.Extensions;
 
 namespace Brainshare.Infrastructure.Authentication

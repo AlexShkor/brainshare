@@ -1,4 +1,4 @@
-﻿namespace Brainshare.VK
+﻿namespace Brainshare.Infrastructure
 {
     public enum VkCallbackMode
     {

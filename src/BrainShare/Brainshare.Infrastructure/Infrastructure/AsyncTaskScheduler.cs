@@ -1,16 +1,12 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using BrainShare.Domain.Documents;
-using BrainShare.Infrastructure.Services;
-using BrainShare.Services;
-using BrainShare.Infrastructure.Utilities;
+using Brainshare.Infrastructure.Documents;
 using Brainshare.Infrastructure.Hubs;
 using Brainshare.Infrastructure.Services;
 using Brainshare.Vk.Api;
 using Brainshare.Vk.Infrastructure.Enums;
 
-namespace BrainShare.Infostructure
+namespace Brainshare.Infrastructure.Infrastructure
 {
     public class AsyncTaskScheduler
     {

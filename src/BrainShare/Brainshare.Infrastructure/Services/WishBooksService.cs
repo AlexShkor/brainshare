@@ -1,10 +1,9 @@
-using BrainShare.Domain.Documents;
-using BrainShare.Infrastructure.Mongo;
-using Brainshare.Infrastructure.Services;
+using Brainshare.Infrastructure.Documents;
+using Brainshare.Infrastructure.Mongo;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
-namespace BrainShare.Services
+namespace Brainshare.Infrastructure.Services
 {
     public class WishBooksService : BaseBooksService
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.SignalR;
 
-namespace BrainShare.Hubs
+namespace Brainshare.Infrastructure.Hubs
 {
     public class ThreadHub: Hub
     {

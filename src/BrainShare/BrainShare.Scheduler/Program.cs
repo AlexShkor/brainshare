@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Configuration;
 using System.Threading.Tasks;
-using BrainShare.Domain.Dto;
-using BrainShare.Infrastructure.Mongo;
-using BrainShare.Services;
+using Brainshare.Infrastructure.Dto;
+using Brainshare.Infrastructure.Mongo;
 using BrainShare.Utils.Utilities;
 using Brainshare.Infrastructure.Services;
 using RabbitMQ.Client;

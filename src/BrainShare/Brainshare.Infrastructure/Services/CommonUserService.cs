@@ -1,10 +1,9 @@
 ﻿using System;
-using BrainShare.Domain.Documents.Data;
-using BrainShare.Infrastructure.Utilities;
 using Brainshare.Infrastructure.Authentication;
-using Brainshare.Infrastructure.Services;
+using Brainshare.Infrastructure.Documents;
+using Brainshare.Infrastructure.Documents.Data;
 
-namespace BrainShare.Services
+namespace Brainshare.Infrastructure.Services
 {
     public class CommonUserService :ICommonUserService
     {

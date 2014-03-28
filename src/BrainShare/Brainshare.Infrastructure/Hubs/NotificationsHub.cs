@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using BrainShare.Services;
 using Brainshare.Infrastructure.Authentication;
 using Microsoft.AspNet.SignalR;
 

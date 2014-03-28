@@ -2,9 +2,8 @@
 using System.Security.Principal;
 using System.Web;
 using System.Web.Security;
-using BrainShare.Domain.Documents.Data;
-using BrainShare.Infostructure;
-using BrainShare.Services;
+using Brainshare.Infrastructure.Infrastructure;
+using Brainshare.Infrastructure.Services;
 
 namespace Brainshare.Infrastructure.Authentication
 {

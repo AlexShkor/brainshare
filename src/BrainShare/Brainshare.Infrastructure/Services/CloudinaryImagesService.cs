@@ -1,6 +1,5 @@
-﻿using BrainShare.Documents;
-using BrainShare.Domain.Documents;
-using BrainShare.Infrastructure.Mongo;
+﻿using Brainshare.Infrastructure.Documents;
+using Brainshare.Infrastructure.Mongo;
 using MongoDB.Driver;
 
 namespace Brainshare.Infrastructure.Services

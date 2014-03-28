@@ -1,4 +1,4 @@
-namespace BrainShare.Infrastructure.Mongo
+namespace Brainshare.Infrastructure.Mongo
 {
     public class FilterOrder
     {

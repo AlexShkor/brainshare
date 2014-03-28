@@ -1,5 +1,4 @@
 using System.Web.Mvc;
-using BrainShare.Facebook;
 using Brainshare.Infrastructure.Infrastructure;
 
 namespace Brainshare.Infrastructure.Facebook

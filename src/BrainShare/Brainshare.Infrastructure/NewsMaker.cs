@@ -1,4 +1,4 @@
-﻿namespace BrainShare.Infrastructure.Utilities
+﻿namespace Brainshare.Infrastructure
 {
     public class NewsMaker
     {

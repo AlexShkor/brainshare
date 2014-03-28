@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
-using Brainshare.Infrastructure.Authentication;
 
-namespace BrainShare.Infrastructure.Authentication
+namespace Brainshare.Infrastructure.Authentication
 {
     public class AuthHttpModule : IHttpModule
     {

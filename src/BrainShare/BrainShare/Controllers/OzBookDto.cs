@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BrainShare.Documents;
-using BrainShare.Domain.Documents;
+using Brainshare.Infrastructure.Documents;
+using Brainshare.Infrastructure.Documents.Data;
 using MongoDB.Bson;
 
 namespace BrainShare.Controllers

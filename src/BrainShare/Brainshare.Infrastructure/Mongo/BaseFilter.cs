@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace BrainShare.Infrastructure.Mongo
+namespace Brainshare.Infrastructure.Mongo
 {
     public class BaseFilter
     {

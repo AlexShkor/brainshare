@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using BrainShare.Domain.Dto;
+using Brainshare.Infrastructure.Dto;
 using BrainShare.Utils.Utilities;
 using RabbitMQ.Client;
 

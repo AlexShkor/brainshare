@@ -1,8 +1,7 @@
 ﻿using Brainshare.Infrastructure.Authentication;
-using BrainShare.Infrastructure.Mongo;
+using Brainshare.Infrastructure.Mongo;
 using Brainshare.Infrastructure.Services;
 using Brainshare.Infrastructure.Settings;
-using BrainShare.Services;
 using StructureMap;
 
 namespace Brainshare.Infrastructure

@@ -1,4 +1,4 @@
-﻿namespace BrainShare.Facebook
+﻿namespace Brainshare.Infrastructure.Facebook
 {
     public enum FacebookCallbackMode
     {

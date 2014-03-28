@@ -1,6 +1,5 @@
 ﻿using System.Security.Principal;
 using System.Web;
-using BrainShare.Domain.Documents.Data;
 
 namespace Brainshare.Infrastructure.Authentication
 {

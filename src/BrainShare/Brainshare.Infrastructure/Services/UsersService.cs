@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BrainShare.Domain.Documents;
-using BrainShare.Domain.Documents.Data;
-using BrainShare.Infrastructure.Infrastructure.Filters;
-using BrainShare.Infrastructure.Mongo;
-using BrainShare.Utils.Extensions;
+using Brainshare.Infrastructure.Documents;
+using Brainshare.Infrastructure.Documents.Data;
 using Brainshare.Infrastructure.Facebook;
+using Brainshare.Infrastructure.Infrastructure.Filters;
+using Brainshare.Infrastructure.Mongo;
+using BrainShare.Utils.Extensions;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
-namespace BrainShare.Services
+namespace Brainshare.Infrastructure.Services
 {
     public class UsersService : DocumentsServiceFiltered<User,UsersFilter>
     {

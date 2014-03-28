@@ -45,39 +45,22 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Uniform">
+      <HintPath>..\..\..\libs\Uniform.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Documents\ActivityFeed.cs" />
-    <Compile Include="Documents\BaseUser.cs" />
-    <Compile Include="Documents\Book.cs" />
-    <Compile Include="Documents\CloudinaryImage.cs" />
-    <Compile Include="Documents\CommonUser.cs" />
-    <Compile Include="Documents\Data\ActivityFeedItem.cs" />
-    <Compile Include="Documents\Data\ActivityTypeEnum.cs" />
-    <Compile Include="Documents\Data\AddressData.cs" />
-    <Compile Include="Documents\Data\ChangeRequest.cs" />
-    <Compile Include="Documents\Data\ExchangeEntry.cs" />
-    <Compile Include="Documents\Data\Location.cs" />
-    <Compile Include="Documents\Data\LoginService.cs" />
-    <Compile Include="Documents\Data\LoginServiceTypeEnum.cs" />
-    <Compile Include="Documents\Data\Message.cs" />
-    <Compile Include="Documents\Data\ShellAddressData.cs" />
-    <Compile Include="Documents\Data\UserData.cs" />
-    <Compile Include="Documents\Data\UserNewsInfo.cs" />
-    <Compile Include="Documents\Data\UserSettings.cs" />
-    <Compile Include="Documents\ExchangeHistory.cs" />
-    <Compile Include="Documents\LinkedGroup.cs" />
-    <Compile Include="Documents\News.cs" />
-    <Compile Include="Documents\PublicShell.cs" />
-    <Compile Include="Documents\Thread.cs" />
-    <Compile Include="Documents\User.cs" />
-    <Compile Include="Dto\OzBookIsbnRequestDto.cs" />
-    <Compile Include="Dto\OzBookIsbnResponceDto.cs" />
-    <Compile Include="Enums\ExchangeActionEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Brainshare.Infrastructure\Brainshare.Infrastructure.csproj">
+      <Project>{2CCD280F-D3A0-4599-A77C-4295B5EF4653}</Project>
+      <Name>Brainshare.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

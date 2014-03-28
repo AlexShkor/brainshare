@@ -1,6 +1,6 @@
-﻿using BrainShare.Infrastructure.Mongo;
+﻿using Brainshare.Infrastructure.Mongo;
 
-namespace BrainShare.Infrastructure.Infrastructure.Filters
+namespace Brainshare.Infrastructure.Infrastructure.Filters
 {
     public class UsersFilter : BaseFilter
     {

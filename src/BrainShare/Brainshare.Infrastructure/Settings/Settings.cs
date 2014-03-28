@@ -39,6 +39,9 @@ namespace Brainshare.Infrastructure.Settings
         public string RabbitMQPassword { get; set; }
 
         [SettingsProperty("RabbitMQIsbnQueue")]
-        public string RabbitMQIsbnQueue { get; set; } 
+        public string RabbitMQIsbnQueue { get; set; }
+
+        public string MongoEventsConnectionString { get; set; }
+        public string MongoViewConnectionString { get; set; }
     }
 }

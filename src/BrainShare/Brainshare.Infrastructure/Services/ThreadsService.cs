@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using BrainShare.Domain.Documents;
-using BrainShare.Domain.Documents.Data;
-using BrainShare.Infrastructure.Mongo;
+using Brainshare.Infrastructure.Documents;
+using Brainshare.Infrastructure.Documents.Data;
+using Brainshare.Infrastructure.Mongo;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 

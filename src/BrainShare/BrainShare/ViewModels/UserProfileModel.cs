@@ -1,6 +1,5 @@
-using BrainShare.Domain.Documents;
-using BrainShare.Domain.Documents.Data;
-using BrainShare.Infrastructure.Utilities;
+using Brainshare.Infrastructure.Documents;
+using Brainshare.Infrastructure.Documents.Data;
 using BrainShare.Utils.Utilities;
 using Brainshare.Infrastructure.Infrastructure;
 

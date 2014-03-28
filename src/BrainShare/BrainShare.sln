@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brainshare.Infrastructure",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainShare.Tests", "BrainShare.Tests\BrainShare.Tests.csproj", "{A76F16EE-6D8E-41A8-8C69-AC4B4AFB24D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainShare.Domain", "BrainShare.Domain\BrainShare.Domain.csproj", "{906FE2CC-3403-41FE-98C7-ACE3ADAAC108}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainShare.Worker", "BrainShare.Scheduler\BrainShare.Worker.csproj", "{0033D104-8FA1-438C-B46D-CA5679C1ECD5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainShare.Utils", "BrainShare.Utils\BrainShare.Utils.csproj", "{87976832-5CAB-413A-B127-AF7976BB1446}"
@@ -39,10 +37,6 @@ Global
 		{A76F16EE-6D8E-41A8-8C69-AC4B4AFB24D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A76F16EE-6D8E-41A8-8C69-AC4B4AFB24D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A76F16EE-6D8E-41A8-8C69-AC4B4AFB24D9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{906FE2CC-3403-41FE-98C7-ACE3ADAAC108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{906FE2CC-3403-41FE-98C7-ACE3ADAAC108}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{906FE2CC-3403-41FE-98C7-ACE3ADAAC108}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{906FE2CC-3403-41FE-98C7-ACE3ADAAC108}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0033D104-8FA1-438C-B46D-CA5679C1ECD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0033D104-8FA1-438C-B46D-CA5679C1ECD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0033D104-8FA1-438C-B46D-CA5679C1ECD5}.Release|Any CPU.ActiveCfg = Release|Any CPU

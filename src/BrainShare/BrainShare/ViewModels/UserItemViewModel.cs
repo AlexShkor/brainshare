@@ -1,5 +1,5 @@
-using BrainShare.Documents;
-using BrainShare.Domain.Documents;
+using Brainshare.Infrastructure.Documents;
+using Brainshare.Infrastructure.Documents.Data;
 
 namespace BrainShare.ViewModels
 {

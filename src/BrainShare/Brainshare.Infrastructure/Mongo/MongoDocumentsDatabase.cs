@@ -1,8 +1,8 @@
 ﻿using System;
-using BrainShare.Domain.Documents;
+using Brainshare.Infrastructure.Documents;
 using MongoDB.Driver;
 
-namespace BrainShare.Infrastructure.Mongo
+namespace Brainshare.Infrastructure.Mongo
 {
     public class MongoDocumentsDatabase
     {

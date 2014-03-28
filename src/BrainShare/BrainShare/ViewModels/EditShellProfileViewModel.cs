@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using BrainShare.Domain.Documents;
+using Brainshare.Infrastructure.Documents;
 using BrainShare.ViewModels.Base;
 
 namespace BrainShare.ViewModels

@@ -2,7 +2,7 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace BrainShare.Infrastructure.Mongo
+namespace Brainshare.Infrastructure.Mongo
 {
     public abstract class DocumentsService<T>
     {

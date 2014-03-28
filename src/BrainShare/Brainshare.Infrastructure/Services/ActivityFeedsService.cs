@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using BrainShare.Domain.Documents;
-using BrainShare.Infrastructure.Mongo;
+using Brainshare.Infrastructure.Documents;
+using Brainshare.Infrastructure.Mongo;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
-namespace BrainShare.Infrastructure.Services
+namespace Brainshare.Infrastructure.Services
 {
     public class ActivityFeedsService : DocumentsService<ActivityFeed>
     {

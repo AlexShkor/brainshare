@@ -1,5 +1,5 @@
-﻿using BrainShare.Domain.Documents.Data;
-using BrainShare.Domain.Enums;
+﻿using Brainshare.Infrastructure.Documents.Data;
+using Brainshare.Infrastructure.Enums;
 using BrainShare.Utils.Utilities;
 using Brainshare.Infrastructure.Infrastructure;
 

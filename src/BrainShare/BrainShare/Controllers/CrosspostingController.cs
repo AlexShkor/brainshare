@@ -2,9 +2,8 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BrainShare.Domain.Documents;
+using Brainshare.Infrastructure.Documents;
 using Brainshare.Infrastructure.Services;
-using BrainShare.Services;
 using Brainshare.Infrastructure.Settings;
 using BrainShare.Utils.Utilities;
 using Brainshare.Vk.Api;

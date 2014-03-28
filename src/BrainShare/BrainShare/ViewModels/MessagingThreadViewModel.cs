@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using BrainShare.Domain.Documents;
+using Brainshare.Infrastructure.Documents;
 
 namespace BrainShare.ViewModels
 {

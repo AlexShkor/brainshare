@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using BrainShare.Domain.Documents.Data;
-using BrainShare.Infostructure;
-using BrainShare.Services;
+using Brainshare.Infrastructure.Infrastructure;
+using Brainshare.Infrastructure.Services;
 
 namespace BrainShare.Controllers
 {
