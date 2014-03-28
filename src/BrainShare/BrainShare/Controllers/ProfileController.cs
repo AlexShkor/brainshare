@@ -547,15 +547,19 @@ namespace BrainShare.Controllers
             return Json(new { url = realAvatarUrl });
         }
 
-        private void EmailUsermessage(string recipientId, string message)
+        private async Task EmailUsermessage(string recipientId, string message)
         {
-            var recipient = _users.GetById(recipientId);
-            var settings = recipient.Settings.NotificationSettings;
-
-            if (settings.DuplicateMessagesToEmail)
+            await Task.Factory.StartNew(() =>
             {
-                _mailService.EmailUserMessage(message, _users.GetById(UserId), recipient,UrlUtility.ApplicationBaseUrl);
-            }
+                var recipient = _users.GetById(recipientId);
+                var settings = recipient.Settings.NotificationSettings;
+
+                if (settings.DuplicateMessagesToEmail)
+                {
+                    _mailService.EmailUserMessage(message, _users.GetById(UserId), recipient,
+                        UrlUtility.ApplicationBaseUrl);
+                }
+            });
         }
     }
 }
