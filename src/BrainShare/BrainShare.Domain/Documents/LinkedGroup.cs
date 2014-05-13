@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using System;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace BrainShare.Domain.Documents
 {
@@ -13,6 +14,10 @@ namespace BrainShare.Domain.Documents
 
         public string AccessToken { get; set; }
 
+        public bool AccessTokenExpired { get; set; }
+
         public string OwnerId { get; set; }
+
+        public DateTime ExpirationDate { get; set; }
     }
 }

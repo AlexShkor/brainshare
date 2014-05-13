@@ -7,6 +7,7 @@ using Brainshare.Vk.Infrastructure;
 using Brainshare.Vk.Infrastructure.Enums;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using VkSharp;
 
 namespace Brainshare.Vk.Api
 {

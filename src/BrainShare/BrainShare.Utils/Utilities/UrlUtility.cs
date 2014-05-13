@@ -86,6 +86,13 @@ namespace BrainShare.Utils.Utilities
             return HttpUtility.ParseQueryString(uri.Query).Get("access_token");
         }
 
+        public static DateTime ExtractExpirationDate(string url)
+        {
+            var uri = new Uri(url.Replace("#", "?"));
+            var value = HttpUtility.ParseQueryString(uri.Query).Get("expires_in");
+            return DateTime.UtcNow.AddSeconds(int.Parse(value));
+        }
+
         public static string ParseVkGroupId(string url)
         {
             var id = LastSegment(url);

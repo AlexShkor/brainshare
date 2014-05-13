@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BrainShare.Domain.Documents;
 using BrainShare.Infrastructure.Mongo;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
@@ -25,6 +26,11 @@ namespace Brainshare.Infrastructure.Services
         public IEnumerable<LinkedGroup> GetAllAuthorized()
         {
             return Items.Find(Query<LinkedGroup>.NE(x => x.AccessToken, null));
+        }
+
+        public void SetAcessTokenExpired(string id)
+        {
+            Items.Update(Query.EQ("_id", id), Update<LinkedGroup>.Set(x=> x.AccessTokenExpired, true));
         }
     }
 }

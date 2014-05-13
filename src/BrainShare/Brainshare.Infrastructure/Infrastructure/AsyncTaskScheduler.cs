@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using BrainShare.Domain.Documents;
@@ -8,6 +9,7 @@ using BrainShare.Infrastructure.Utilities;
 using Brainshare.Infrastructure.Hubs;
 using Brainshare.Infrastructure.Services;
 using Brainshare.Vk.Api;
+using Brainshare.Vk.Infrastructure;
 using Brainshare.Vk.Infrastructure.Enums;
 
 namespace BrainShare.Infostructure
@@ -41,9 +43,20 @@ namespace BrainShare.Infostructure
                 var groups = _linkedGroups.GetAllAuthorized().ToList();
                 foreach (var @group in groups)
                 {
-                     var vkWallApi = new VkApi(@group.AccessToken);
-                    vkWallApi.Post("-" + @group.GroupId, title, url, StatusName.FromGroup,
-                        GroupPostSign.Sign);
+                    try
+                    {
+                        var vkWallApi = new VkApi(@group.AccessToken);
+                        vkWallApi.Post("-" + @group.GroupId, title, url, StatusName.FromGroup,
+                            GroupPostSign.Sign);
+                    }
+                    catch (VkResponseException e)
+                    {
+                        _linkedGroups.SetAcessTokenExpired(@group.Id);
+                    }
+                    catch (Exception)
+                    {
+                        
+                    }
                 }
             });
         }

@@ -49,8 +49,10 @@ namespace BrainShare.Controllers
         public ActionResult Connect(string groupId, string blankPageUrl)
         {
             var token = UrlUtility.ExtractToken(blankPageUrl);
+            var expirationDate = UrlUtility.ExtractExpirationDate(blankPageUrl);
             var linkedGroup = _linkedGroups.GetById(groupId);
             linkedGroup.AccessToken = token;
+            linkedGroup.ExpirationDate = expirationDate;
             _linkedGroups.Save(linkedGroup);
             return RedirectToAction("Index");
         }
