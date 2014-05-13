@@ -105,16 +105,81 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aggregates\User\Commands\ChangePassword.cs" />
-    <Compile Include="Aggregates\User\Commands\CreateUser.cs" />
-    <Compile Include="Aggregates\User\Commands\DeleteUser.cs" />
-    <Compile Include="Aggregates\User\Commands\ResetPassword.cs" />
-    <Compile Include="Aggregates\User\Commands\UpdateUserDetails.cs" />
-    <Compile Include="Aggregates\User\Events\PasswordChanged.cs" />
-    <Compile Include="Aggregates\User\Events\UserCreated.cs" />
-    <Compile Include="Aggregates\User\Events\UserDeleted.cs" />
-    <Compile Include="Aggregates\User\Events\UserDetailsUpdated.cs" />
-    <Compile Include="Aggregates\User\Events\UserReCreated.cs" />
+    <Compile Include="Aggregates\Registration\Commands\DeleteUserRegistation.cs" />
+    <Compile Include="Aggregates\Registration\Commands\DeleteUserRegistationWithoutContent.cs" />
+    <Compile Include="Aggregates\Registration\Commands\ExpireRegistration.cs" />
+    <Compile Include="Aggregates\Registration\Commands\FinalizeUserRegistation.cs" />
+    <Compile Include="Aggregates\Registration\Commands\InitiateUserRegisteration.cs" />
+    <Compile Include="Aggregates\Registration\Events\RegistrationExpired.cs" />
+    <Compile Include="Aggregates\Registration\Events\RegistrationTenantCreated.cs" />
+    <Compile Include="Aggregates\Registration\Events\RegistrationUserCreated.cs" />
+    <Compile Include="Aggregates\Registration\Events\UserRegistrationDeleted.cs" />
+    <Compile Include="Aggregates\Registration\Events\UserRegistrationInitiated.cs" />
+    <Compile Include="Aggregates\Registration\Events\UserRegistrationReInitiated.cs" />
+    <Compile Include="Aggregates\Registration\RegistrationAggregate.cs" />
+    <Compile Include="Aggregates\Registration\RegistrationApplicationService.cs" />
+    <Compile Include="Aggregates\Registration\RegistrationState.cs" />
+    <Compile Include="Aggregates\Tenant\Commands\AllowInviteUserFromPublicEmails.cs" />
+    <Compile Include="Aggregates\Tenant\Commands\CreateTenant.cs" />
+    <Compile Include="Aggregates\Tenant\Commands\DisallowInviteUsersFromPublicEmails.cs" />
+    <Compile Include="Aggregates\Tenant\Commands\MarkThreadAsRead.cs" />
+    <Compile Include="Aggregates\Tenant\Events\InviteUserFromPublicEmailsAllowed.cs" />
+    <Compile Include="Aggregates\Tenant\Events\InviteUserFromPublicEmailsDisallowed.cs" />
+    <Compile Include="Aggregates\Tenant\Events\TenantCreated.cs" />
+    <Compile Include="Aggregates\Tenant\Events\ThreadMarkedAsRead.cs" />
+    <Compile Include="Aggregates\Tenant\TenantAggregate.cs" />
+    <Compile Include="Aggregates\Tenant\TenantApplicationService.cs" />
+    <Compile Include="Aggregates\Tenant\TenantState.cs" />
+    <Compile Include="Aggregates\User\Commands\ActivateUser.cs" />
+    <Compile Include="Aggregates\User\Commands\AdduserRole.cs" />
+    <Compile Include="Aggregates\User\Commands\ChangePassword.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Aggregates\User\Commands\ChangeUserAvatar.cs" />
+    <Compile Include="Aggregates\User\Commands\CreateSystemUser.cs" />
+    <Compile Include="Aggregates\User\Commands\DeactivateUser.cs" />
+    <Compile Include="Aggregates\User\Commands\DeleteUser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Aggregates\User\Commands\MarkUserAsDeleted.cs" />
+    <Compile Include="Aggregates\User\Commands\RegisterUser.cs" />
+    <Compile Include="Aggregates\User\Commands\RemoveuserRole.cs" />
+    <Compile Include="Aggregates\User\Commands\ResendEmailConfirmationEmail.cs" />
+    <Compile Include="Aggregates\User\Commands\SendAlreadyMemberEmail.cs" />
+    <Compile Include="Aggregates\User\Commands\SendEmailInvitions.cs" />
+    <Compile Include="Aggregates\User\Commands\UnfeaturedUser.cs" />
+    <Compile Include="Aggregates\User\Commands\UpdateResetPasswordCode.cs" />
+    <Compile Include="Aggregates\User\Commands\UpdateUserDetails.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Aggregates\User\Data\InviteData.cs" />
+    <Compile Include="Aggregates\User\Events\EmailInvitationsSent.cs" />
+    <Compile Include="Aggregates\User\Events\ExpertConnectRequestDeclined.cs" />
+    <Compile Include="Aggregates\User\Events\ExpertConnectRequestSent.cs" />
+    <Compile Include="Aggregates\User\Events\ExpertFollowed.cs" />
+    <Compile Include="Aggregates\User\Events\ExpertsConnected.cs" />
+    <Compile Include="Aggregates\User\Events\ExpertsConnectionCreated.cs" />
+    <Compile Include="Aggregates\User\Events\ExpertsDisconnected.cs" />
+    <Compile Include="Aggregates\User\Events\ExpertUnfollowed.cs" />
+    <Compile Include="Aggregates\User\Events\PasswordChanged.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Aggregates\User\Events\ResetPasswordCodeUpdated.cs" />
+    <Compile Include="Aggregates\User\Events\SystemUserCreated.cs" />
+    <Compile Include="Aggregates\User\Events\UserActivated.cs" />
+    <Compile Include="Aggregates\User\Events\UserAvatarChanged.cs" />
+    <Compile Include="Aggregates\User\Events\UserCreated.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Aggregates\User\Events\UserDeactivated.cs" />
+    <Compile Include="Aggregates\User\Events\UserDeleted.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Aggregates\User\Events\UserDepartmentChanged.cs" />
+    <Compile Include="Aggregates\User\Events\UserFirstLastNameChanged.cs" />
+    <Compile Include="Aggregates\User\Events\UserMarkedAsDeleted.cs" />
+    <Compile Include="Aggregates\User\Events\UserRoleAdded.cs" />
+    <Compile Include="Aggregates\User\Events\UserRoleRemoved.cs" />
     <Compile Include="Aggregates\User\UserAggregate.cs" />
     <Compile Include="Aggregates\User\UserApplicationService.cs" />
     <Compile Include="Aggregates\User\UserState.cs" />
@@ -125,6 +190,7 @@
     <Compile Include="Authentication\ICommonUserService.cs" />
     <Compile Include="Authentication\UserIdentity.cs" />
     <Compile Include="Authentication\UserProvider.cs" />
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Common\Interceptors\LoggingInterceptor.cs" />
     <Compile Include="ContainerConfigure.cs" />
     <Compile Include="Databases\MongoAdminDatabase.cs" />
@@ -168,6 +234,7 @@
     <Compile Include="Facebook\FacebookSelectorViewModel.cs" />
     <Compile Include="Facebook\GetFacebookTokenMode.cs" />
     <Compile Include="Handlers\ViewHandlers\UserViewHandler.cs" />
+    <Compile Include="Handlers\WorkflowHandlers\RegistrationWorkflowHandler.cs" />
     <Compile Include="Hubs\NotificationsHub.cs" />
     <Compile Include="Hubs\ThreadHub.cs" />
     <Compile Include="Infrastructure\AsyncTaskScheduler.cs" />
@@ -263,9 +330,6 @@
     <Compile Include="Platform\Scheduling\IQuartzServer.cs" />
     <Compile Include="Platform\Scheduling\IScheduledJob.cs" />
     <Compile Include="Platform\Scheduling\SchedulerBootstrapper.cs" />
-    <Compile Include="Platform\Settings\SettingsMapper.cs" />
-    <Compile Include="Platform\Settings\SettingsPrefixAttribute.cs" />
-    <Compile Include="Platform\Settings\SettingsPropertyAttribute.cs" />
     <Compile Include="Platform\StructureMap\HttpApplicationStructureMapContext.cs" />
     <Compile Include="Platform\StructureMap\SignalrStructureMapResolver.cs" />
     <Compile Include="Platform\StructureMap\StructureMapDependencyResolver.cs" />
@@ -346,7 +410,6 @@
     <Folder Include="Handlers\IndexHandlers\" />
     <Folder Include="Handlers\SingleUseEventHandlers\SignalR\" />
     <Folder Include="Handlers\ViewHandlers\ReducedHandlers\" />
-    <Folder Include="Handlers\WorkflowHandlers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

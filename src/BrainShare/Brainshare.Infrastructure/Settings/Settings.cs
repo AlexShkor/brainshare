@@ -41,7 +41,16 @@ namespace Brainshare.Infrastructure.Settings
         [SettingsProperty("RabbitMQIsbnQueue")]
         public string RabbitMQIsbnQueue { get; set; }
 
+        [SettingsProperty("mongo.events")]
         public string MongoEventsConnectionString { get; set; }
+
+        [SettingsProperty("mongo.views")]
         public string MongoViewConnectionString { get; set; }
+
+        [SettingsProperty("mongo.logs")]
+        public string MongoLogsConnectionString { get; set; }
+
+        [SettingsProperty("mongo.admin")]
+        public string MongoAdminConnectionString { get; set; }
     }
 }

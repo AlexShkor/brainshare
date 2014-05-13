@@ -17,6 +17,7 @@
 
 using System.Web.Http;
 using System.Web.Mvc;
+using Brainshare.Infrastructure;
 using StructureMap;
 using BrainShare.DependencyResolution;
 
@@ -26,6 +27,7 @@ namespace BrainShare.App_Start {
     public static class StructuremapMvc {
         public static void Start() {
 			IContainer container = IoC.Initialize();
+            new Bootstrapper().Configure(container);
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(container));
             GlobalConfiguration.Configuration.DependencyResolver = new StructureMapDependencyResolver(container);
         }

@@ -7,7 +7,7 @@ namespace Brainshare.Infrastructure.Databases
     {
         private readonly MongoInstance _mongo;
 
-        public MongoLogsDatabase(String connectionString, bool authenticateToAdmin)
+        public MongoLogsDatabase(String connectionString, bool authenticateToAdmin = false)
         {
             _mongo = new MongoInstance(connectionString, authenticateToAdmin);
         }

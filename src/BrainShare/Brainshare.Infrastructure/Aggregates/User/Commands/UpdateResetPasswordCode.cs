@@ -2,7 +2,8 @@
 
 namespace Brainshare.Infrastructure.Aggregates.User.Commands
 {
-    public class ResetPassword : Command
+    public class UpdateResetPasswordCode : Command
     {
+        public string Code { get; set; }
     }
 }

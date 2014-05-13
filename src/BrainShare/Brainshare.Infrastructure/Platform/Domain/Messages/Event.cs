@@ -18,6 +18,8 @@ namespace Brainshare.Infrastructure.Platform.Domain.Messages
         /// </summary>
         public string Id { get; set; }
 
+        public string TenantId { get; set; }
+
         /// <summary>
         /// Metadata of event
         /// </summary>

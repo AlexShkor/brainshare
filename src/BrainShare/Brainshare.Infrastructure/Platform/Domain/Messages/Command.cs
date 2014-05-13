@@ -19,6 +19,9 @@ namespace Brainshare.Infrastructure.Platform.Domain.Messages
         public string Id { get; set; }
 
 
+
+        public string TenantId { get; set; }
+
         /// <summary>
         /// Command metadata
         /// </summary>

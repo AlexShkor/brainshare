@@ -2,8 +2,7 @@
 
 namespace Brainshare.Infrastructure.Aggregates.User.Events
 {
-    public class UserDetailsUpdated: Event
+    public class UserMarkedAsDeleted: Event
     {
-        public string UserName { get; set; }
     }
 }
