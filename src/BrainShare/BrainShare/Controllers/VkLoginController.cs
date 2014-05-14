@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using BrainShare.Domain.Documents;
@@ -9,10 +8,8 @@ using BrainShare.Services;
 using BrainShare.Utils.Extensions;
 using BrainShare.Utils.Utilities;
 using Brainshare.Infrastructure.Authentication;
-using Brainshare.Infrastructure.Facebook.Dto;
 using Brainshare.Infrastructure.Infrastructure;
 using Brainshare.Infrastructure.Settings;
-using Brainshare.VK;
 using Brainshare.Vk.Api;
 using Brainshare.Vk.Helpers;
 using Brainshare.Vk.Infrastructure;

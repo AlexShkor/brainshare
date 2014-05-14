@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using BrainShare.Domain.Documents;
 using Brainshare.Infrastructure.Services;
@@ -10,7 +8,6 @@ using BrainShare.Utils.Utilities;
 using Brainshare.Vk.Api;
 using Brainshare.Vk.Helpers;
 using MongoDB.Bson;
-using NUnit.Framework;
 
 namespace BrainShare.Controllers
 {
