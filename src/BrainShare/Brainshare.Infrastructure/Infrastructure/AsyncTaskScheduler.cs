@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using BrainShare.Domain.Documents;
@@ -10,7 +12,7 @@ using Brainshare.Infrastructure.Hubs;
 using Brainshare.Infrastructure.Services;
 using Brainshare.Vk.Api;
 using Brainshare.Vk.Infrastructure;
-using Brainshare.Vk.Infrastructure.Enums;
+using Newtonsoft.Json;
 
 namespace BrainShare.Infostructure
 {
@@ -36,7 +38,7 @@ namespace BrainShare.Infostructure
           
         }
 
-        public Task WallPostVkGroup(string url, string title)
+        public Task WallPostVkGroup(string url, string title, string imgUrl)
         {
             return Task.Factory.StartNew(() =>
             {
@@ -45,17 +47,19 @@ namespace BrainShare.Infostructure
                 {
                     try
                     {
-                        var vkWallApi = new VkApi(@group.AccessToken);
-                        vkWallApi.Post("-" + @group.GroupId, title, url, StatusName.FromGroup,
-                            GroupPostSign.Sign);
+                        var vkApi = new VkApi(@group.AccessToken);
+                        var uploadServer = vkApi.GetUploadServer(@group.GroupId);
+                        var obj = vkApi.UploadImage(imgUrl, uploadServer.upload_url);
+                        var result = vkApi.SaveWallPhoto(@group.GroupId, obj);
+                        vkApi.Post("-" + @group.GroupId, title, url, result);
                     }
                     catch (VkResponseException e)
                     {
-                        _linkedGroups.SetAcessTokenExpired(@group.Id);
+                        _linkedGroups.SetFaild(@group.Id);
                     }
                     catch (Exception)
                     {
-                        
+
                     }
                 }
             });
@@ -172,4 +176,5 @@ namespace BrainShare.Infostructure
 
         #endregion
     }
+
 }

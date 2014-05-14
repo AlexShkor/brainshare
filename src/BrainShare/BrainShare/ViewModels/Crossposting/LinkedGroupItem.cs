@@ -8,8 +8,6 @@ namespace BrainShare.Controllers
         public string Id { get; set; }
 
         public string Name { get; set; }
-        
-        public string ExpirationDate { get; set; }
 
         public bool IsAuthorized { get; set; }
 
@@ -18,7 +16,6 @@ namespace BrainShare.Controllers
             Id = linkedGroup.Id;
             Name = linkedGroup.Name;
             IsAuthorized = linkedGroup.AccessToken.HasValue();
-            ExpirationDate = linkedGroup.ExpirationDate.ToString();
         }
     }
 }

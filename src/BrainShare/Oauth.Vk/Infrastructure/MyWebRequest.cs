@@ -78,12 +78,6 @@ namespace Brainshare.Vk.Infrastructure
             // Read the content fully up to the end.
             string responseFromServer = reader.ReadToEnd();
 
-            if (responseFromServer.StartsWith("{\"error\""))
-            {
-                var error = JsonConvert.DeserializeObject(responseFromServer);
-                throw new VkResponseException(responseFromServer);
-            }
-
             // Clean up the streams.
             reader.Close();
             _dataStream.Close();

@@ -8,7 +8,7 @@ namespace Brainshare.Vk.Helpers
         private const string BaseAccessTokenUrl = "https://oauth.vk.com/access_token";
         public const string MobileRedirectUrl = "http://oauth.vk.com/blank.html";
 
-        public const string MobileScope = "photos,wall";
+        public const string MobileScope = "photos,wall,offline";
         public const string Scope = "photos";
 
         public static string BuildAuthorizeUrl(string appId, string redirectUri)

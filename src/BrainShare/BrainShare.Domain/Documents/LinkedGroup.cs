@@ -14,10 +14,8 @@ namespace BrainShare.Domain.Documents
 
         public string AccessToken { get; set; }
 
-        public bool AccessTokenExpired { get; set; }
+        public bool Faild { get; set; }
 
         public string OwnerId { get; set; }
-
-        public DateTime ExpirationDate { get; set; }
     }
 }

@@ -293,7 +293,7 @@ namespace BrainShare.Controllers
 
         private void SendBookAddedEvent(User user, Book doc, bool isWhishBook = false)
         {
-            _asyncTaskScheduler.WallPostVkGroup(UrlUtility.GetBookLink(doc.Id, UrlUtility.ApplicationBaseUrl), string.Format("Новая книга\r\n\"{0}\"\r\n{1}", doc.Title, doc.UserData.Address.Locality));
+            _asyncTaskScheduler.WallPostVkGroup(UrlUtility.GetBookLink(doc.Id, UrlUtility.ApplicationBaseUrl), string.Format("Новая книга\r\n\"{0}\"\r\n{1}", doc.Title, doc.UserData.Address.Locality), doc.Image);
 
             _asyncTaskScheduler.StartEmailSendSearchingUsersTask(user, doc, UrlUtility.ApplicationBaseUrl);
 

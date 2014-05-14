@@ -28,9 +28,9 @@ namespace Brainshare.Infrastructure.Services
             return Items.Find(Query<LinkedGroup>.NE(x => x.AccessToken, null));
         }
 
-        public void SetAcessTokenExpired(string id)
+        public void SetFaild(string id)
         {
-            Items.Update(Query.EQ("_id", id), Update<LinkedGroup>.Set(x=> x.AccessTokenExpired, true));
+            Items.Update(Query.EQ("_id", id), Update<LinkedGroup>.Set(x=> x.Faild, true));
         }
     }
 }
