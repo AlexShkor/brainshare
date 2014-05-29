@@ -17,5 +17,9 @@ namespace BrainShare.Domain.Documents
         public bool Faild { get; set; }
 
         public string OwnerId { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public bool AllBooksPosted { get; set; }
     }
 }

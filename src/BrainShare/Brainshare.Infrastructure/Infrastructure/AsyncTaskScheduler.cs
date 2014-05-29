@@ -10,6 +10,7 @@ using BrainShare.Services;
 using BrainShare.Infrastructure.Utilities;
 using Brainshare.Infrastructure.Hubs;
 using Brainshare.Infrastructure.Services;
+using BrainShare.Utils.Utilities;
 using Brainshare.Vk.Api;
 using Brainshare.Vk.Infrastructure;
 using Newtonsoft.Json;
@@ -38,6 +39,12 @@ namespace BrainShare.Infostructure
           
         }
 
+        public Task WallPostVkGroup(Book doc)
+        {
+            return WallPostVkGroup(UrlUtility.GetBookLink(doc.Id, UrlUtility.ApplicationBaseUrl),
+                string.Format("Новая книга\r\n\"{0}\"\r\n{1}", doc.Title, doc.UserData.Address.Locality), doc.Image);
+        }
+
         public Task WallPostVkGroup(string url, string title, string imgUrl)
         {
             return Task.Factory.StartNew(() =>
@@ -45,24 +52,35 @@ namespace BrainShare.Infostructure
                 var groups = _linkedGroups.GetAllAuthorized().ToList();
                 foreach (var @group in groups)
                 {
-                    try
-                    {
-                        var vkApi = new VkApi(@group.AccessToken);
-                        var uploadServer = vkApi.GetUploadServer(@group.GroupId);
-                        var obj = vkApi.UploadImage(imgUrl, uploadServer.upload_url);
-                        var result = vkApi.SaveWallPhoto(@group.GroupId, obj);
-                        vkApi.Post("-" + @group.GroupId, title, url, result);
-                    }
-                    catch (VkResponseException e)
-                    {
-                        _linkedGroups.SetFaild(@group.Id);
-                    }
-                    catch (Exception)
-                    {
-
-                    }
+                    PostToGroup(@group, url, title, imgUrl);
                 }
             });
+        }
+
+        public void PostToGroup(LinkedGroup @group, Book doc)
+        {
+            PostToGroup(@group, UrlUtility.GetBookLink(doc.Id, UrlUtility.ApplicationBaseUrl),
+                string.Format("Новая книга\r\n\"{0}\"\r\n{1}", doc.Title, doc.UserData.Address.Locality), doc.Image);
+        }
+
+        public void PostToGroup(LinkedGroup @group, string url, string title, string imgUrl)
+        {
+            try
+            {
+                var vkApi = new VkApi(@group.AccessToken);
+                var uploadServer = vkApi.GetUploadServer(@group.GroupId);
+                var obj = vkApi.UploadImage(imgUrl, uploadServer.upload_url);
+                var result = vkApi.SaveWallPhoto(@group.GroupId, obj);
+                vkApi.Post("-" + @group.GroupId, title, url, result);
+            }
+            catch (VkResponseException e)
+            {
+                _linkedGroups.SetFaild(@group.Id);
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         public Task StartEmailSendSearchingUsersTask(User owner, Book newBook, string applicationBaseUrl)
