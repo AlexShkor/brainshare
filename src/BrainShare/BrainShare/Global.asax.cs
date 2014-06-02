@@ -37,12 +37,12 @@ namespace BrainShare
      
         }
 
-        protected void Application_BeginRequest(Object sender, EventArgs e)
-        {
-            if (Request.Url.Host.Equals("brainshare.apphb.com", StringComparison.InvariantCultureIgnoreCase))
-            {
-                Response.RedirectPermanent("http://brainshare.me");
-            }
-        }
+        //protected void Application_BeginRequest(Object sender, EventArgs e)
+        //{
+        //    if (Request.Url.Host.Equals("brainshare.apphb.com", StringComparison.InvariantCultureIgnoreCase))
+        //    {
+        //        Response.RedirectPermanent("http://brainshare.me");
+        //    }
+        //}
     }
 }
