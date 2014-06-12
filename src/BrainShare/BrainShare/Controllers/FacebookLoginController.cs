@@ -202,7 +202,7 @@ namespace BrainShare.Controllers
                         Registered = DateTime.Now,
                         FacebookId = fbUser.id,
                         FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string,
-                        FacebookEmail = fbUser.email,
+                        Email = fbUser.email,
                         Settings = settings
                     };
 
@@ -216,11 +216,9 @@ namespace BrainShare.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
-
                 else
                 {
                     userByFacebookId.FacebookAccessToken = Session[SessionKeys.FbAccessToken] as string;
-                    userByFacebookId.FacebookEmail = fbUser.email;
  
                     _users.Save(userByFacebookId);
                     _auth.LoginFb(fbUser.id);

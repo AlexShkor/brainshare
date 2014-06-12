@@ -296,15 +296,21 @@ namespace BrainShare.Controllers
 
         private void SendBookAddedEvent(User user, Book doc, bool isWhishBook = false)
         {
-            _asyncTaskScheduler.WallPostVkGroup(doc);
-
-            _asyncTaskScheduler.StartEmailSendSearchingUsersTask(user, doc, UrlUtility.ApplicationBaseUrl);
-
-            _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
-
-            _asyncTaskScheduler.UserHaveNewBookNotifyer(user, doc);
-
-            NotificationsHub.SendGenericText(UserId, "Книга добавлена", string.Format("{0} добавлена в вашу книную полку", doc.Title));
+            if (isWhishBook)
+            {
+                _asyncTaskScheduler.WallPostVkGroup(doc, string.Format(user.FullName + " ищет книгу\r\n\"{0}\"\r\n{1}", doc.Title, doc.UserData.Address.Locality));
+                _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
+                NotificationsHub.SendGenericText(UserId, "Книга добавлена в поиск", string.Format("{0} добавлена в ваш список поиска", doc.Title));
+                _asyncTaskScheduler.UserSearchedForNewBookNotifyer(user, doc);
+            }
+            else
+            {
+                _asyncTaskScheduler.WallPostVkGroup(doc, string.Format("Новая книга\r\n\"{0}\"\r\n{1}", doc.Title, doc.UserData.Address.Locality));
+                _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookAdded(doc.Id, doc.Title, user.Id, user.FullName));
+                NotificationsHub.SendGenericText(UserId, "Книга добавлена", string.Format("{0} добавлена в вашу книную полку", doc.Title));
+                _asyncTaskScheduler.UserHaveNewBookNotifyer(user, doc);
+                _asyncTaskScheduler.StartEmailSendSearchingUsersTask(user, doc, UrlUtility.ApplicationBaseUrl);
+            }
         }
 
         [HttpPost]
@@ -320,10 +326,7 @@ namespace BrainShare.Controllers
 
                 doc = bookDto.BuildDocument(user);
                 _wishBooks.Save(doc);
-
-                _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
-
-                NotificationsHub.SendGenericText(UserId,"Запрос отправлен","Запрос на книгу " + doc.Title + " успешно отправлен");
+                SendBookAddedEvent(user, doc, true);
             }
             return Json(new { doc.Id });
         }
@@ -351,35 +354,10 @@ namespace BrainShare.Controllers
         {
             var user = _users.GetById(UserId);
             var doc = bookDto.BuildDocument(user);
-
             _wishBooks.Save(doc);
-
             _ozIsbnService.AddItem(doc.OzBookId, true);
-
-            _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BookWanted(doc.Id, doc.Title, user.Id, user.FullName));
-
-            _asyncTaskScheduler.UserSearchedForNewBookNotifyer(user, doc);
-
-            NotificationsHub.SendGenericText(UserId, "Книга добавлена в поиск",
-                string.Format("{0} добавлена в ваш список поиска", doc.Title));
-
+            SendBookAddedEvent(user, doc, true);
             return Json(new { Id = doc.Id });
-        }
-
-        [HttpGet]
-        [ActionName("Take")]
-        public ActionResult SimilarTo(string id)
-        {
-            var model = new TakeBookViewModel();
-            model.Id = id;
-            var book = _wishBooks.GetById(id);
-            if (book != null)
-            {
-                model.Book = new BookViewModel(book);
-                Title(model.Book.Title);
-                model.Owners = _books.GetByGoogleBookId(book.GoogleBookId).Select(x => new UserItemViewModel(x)).ToList();
-            }
-            return View(model);
         }
 
         [GET("take/{bookId}/from/{userId}")]

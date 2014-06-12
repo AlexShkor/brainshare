@@ -301,10 +301,7 @@
     <Compile Include="ViewModels\AllBooksViewModel.cs" />
     <Compile Include="ViewModels\BooksFilterModel.cs" />
     <Compile Include="ViewModels\ChangePasswordModel.cs" />
-    <Compile Include="ViewModels\EditShellProfileViewModel.cs" />
     <Compile Include="ViewModels\PublishersViewModel.cs" />
-    <Compile Include="ViewModels\MyShellProfileViewModel.cs" />
-    <Compile Include="ViewModels\CreateShellViewModel.cs" />
     <Compile Include="ViewModels\EditBookViewModel.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="ViewModels\EditProfileViewModel.cs" />

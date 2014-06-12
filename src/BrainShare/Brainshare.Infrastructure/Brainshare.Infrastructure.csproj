@@ -118,7 +118,6 @@
     <Compile Include="Services\MailService.cs" />
     <Compile Include="Services\NewsService.cs" />
     <Compile Include="Services\OzIsbnService.cs" />
-    <Compile Include="Services\ShellUserService.cs" />
     <Compile Include="Sitemap\ISitemapService.cs" />
     <Compile Include="Sitemap\SitemapAttribute.cs" />
     <Compile Include="Sitemap\SitemapExtensions.cs" />

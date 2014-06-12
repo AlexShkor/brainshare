@@ -23,18 +23,16 @@ namespace BrainShare.Controllers
     {
         private readonly Settings _settings;
         public IAuthentication Auth { get; set; }
-        private readonly ShellUserService _shellUserService;
         private readonly NewsService _news;
         private readonly MailService _mailService;
         private readonly CryptographicHelper _cryptoHelper;
 
         private static object _registrationSync = new object();
 
-        public UserController(IAuthentication auth, UsersService users, ShellUserService shellUserService, CryptographicHelper cryptoHelper, Settings settings, NewsService news, MailService mailService)
+        public UserController(IAuthentication auth, UsersService users, CryptographicHelper cryptoHelper, Settings settings, NewsService news, MailService mailService)
             : base(users)
         {
             _settings = settings;
-            _shellUserService = shellUserService;
             _cryptoHelper = cryptoHelper;
             _news = news;
             _mailService = mailService;
@@ -169,79 +167,18 @@ namespace BrainShare.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public ActionResult RegisterAsBookShell(CreateShellViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var anyUser = _users.GetUserByEmail(model.Email);
-                if (anyUser == null)
-                {
-                    var salt = _cryptoHelper.GenerateSalt();
-                    var hashedPassword = _cryptoHelper.GetPasswordHash(model.Password, salt);
-
-                    var user = new ShellUser
-                        {
-                            Name = model.Name,
-                            ShellAddressData = new ShellAddressData
-                                {
-                                    Country = model.Country,
-                                    Formatted = model.FormattedAddress,
-                                    Location = new Location(model.Lat, model.Lng),
-                                    LocalPath = model.LocalPath,
-                                    Route = model.Route,
-                                    StreetNumber = model.StreetNumber
-                                },
-                            Created = DateTime.UtcNow,
-                            Id = ObjectId.GenerateNewId().ToString(),
-                            Password = hashedPassword,
-                            Email = model.Email.ToLower(),
-                            Salt = salt
-                        };
-
-                    _shellUserService.Save(user);
-
-                    return Json(model);
-                }
-
-                ModelState.AddModelError("Email", "Пользователь с таким e-mail уже существует");
-            }
-
-            return JsonModel(model);
-        }
-
-        [HttpGet]
-        public ActionResult RegisterAsBookshell()
-        {
-            Title("Зарегистрироваться в качестве 'полки'");
-            return View(new CreateShellViewModel());
-        }
-
-
-
         public static string GetIdForUser()
         {
             return ObjectId.GenerateNewId().ToString();
         }
 
-
-
-
-
         [GET("News")]
         public ActionResult News()
         {
-            if (!IsShellUser)
-            {
-                var user = _users.GetById(UserId);
-                var news = _news.GetByIds(user.News.Select(n => n.Id));
-
-                var model = new NewsViewModel(user.News, news);
-                return View(model);
-            }
-
-
-            return View();
+            var user = _users.GetById(UserId);
+            var news = _news.GetByIds(user.News.Select(n => n.Id));
+            var model = new NewsViewModel(user.News, news);
+            return View(model);
         }
 
         [GET("Friends/{userId}")]

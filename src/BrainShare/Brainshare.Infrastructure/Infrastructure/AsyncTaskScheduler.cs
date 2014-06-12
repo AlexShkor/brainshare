@@ -39,10 +39,9 @@ namespace BrainShare.Infostructure
           
         }
 
-        public Task WallPostVkGroup(Book doc)
+        public Task WallPostVkGroup(Book doc, string message)
         {
-            return WallPostVkGroup(UrlUtility.GetBookLink(doc.Id, UrlUtility.ApplicationBaseUrl),
-                string.Format("Новая книга\r\n\"{0}\"\r\n{1}", doc.Title, doc.UserData.Address.Locality), doc.Image);
+            return WallPostVkGroup(UrlUtility.GetBookLink(doc.Id, UrlUtility.ApplicationBaseUrl),message, doc.Image);
         }
 
         public Task WallPostVkGroup(string url, string title, string imgUrl)

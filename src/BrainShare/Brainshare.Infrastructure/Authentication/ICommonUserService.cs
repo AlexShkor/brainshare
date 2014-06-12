@@ -10,6 +10,5 @@ namespace Brainshare.Infrastructure.Authentication
         CommonUser GetUserByVkId(string id);
         CommonUser GetUserByFacebookId(string id);
         CommonUser GetById(string id);
-        object GetUserByType(Type userType, string Id);
     }
 }
