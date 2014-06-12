@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using BrainShare.Domain.Documents;
+using Brainshare.Infrastructure.Services;
 using BrainShare.Utils.Extensions;
 using BrainShare.ViewModels.Base;
 using Brainshare.Infrastructure.Infrastructure;
@@ -31,10 +32,12 @@ namespace BrainShare.ViewModels
         public string Image { get; set; }
         public string Language { get; set; }
         public string UserComment{ get; set; }
+        public string CategoryId{ get; set; }
         public bool IsWhishBook { get; set; }
         public IEnumerable<LanguageInfo> Languages { get; set; }
+        public IEnumerable<CategoryData> Categories { get; set; }
 
-        public EditBookViewModel(Book book, IEnumerable<LanguageInfo> languages):this()
+        public EditBookViewModel(Book book, IEnumerable<LanguageInfo> languages, IEnumerable<Category> categories):this()
         {
             Id = book.Id;
             if (book.ISBN.Any())
@@ -55,6 +58,7 @@ namespace BrainShare.ViewModels
             }
             Language = book.Language;
             Languages = languages;
+            Categories = categories.Select(x=> new CategoryData(x));
         }
 
         public EditBookViewModel()
@@ -64,11 +68,11 @@ namespace BrainShare.ViewModels
             Image = Constants.DefaultBookImage;
         }
 
-        public EditBookViewModel(IEnumerable<LanguageInfo> languages)
+        public EditBookViewModel(IEnumerable<LanguageInfo> languages, IEnumerable<Category> categories)
             : this()
         {
             Languages = languages;
-
+            Categories = categories.Select(x => new CategoryData(x));
         }
 
         public void UpdateBook(Book book)

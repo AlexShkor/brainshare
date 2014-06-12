@@ -40,10 +40,11 @@ namespace BrainShare.Controllers
         private readonly MailService _mailService;
         private readonly OzIsbnService _ozIsbnService;
         private readonly Settings _settings;
+        private readonly CategoriesService _categories;
 
         public BooksController(UsersService users, BooksService books, WishBooksService wishBooks, CloudinaryImagesService cloudinaryImages, 
             ExchangeHistoryService exchangeHistory, Settings settings, MailService mailService, AsyncTaskScheduler asyncTaskScheduler,
-            OzIsbnService ozIsbnService):base(users)
+            OzIsbnService ozIsbnService, CategoriesService categories):base(users)
         {
             _books = books;
             _wishBooks = wishBooks;
@@ -52,6 +53,7 @@ namespace BrainShare.Controllers
             _settings = settings;
             _mailService = mailService;
             _ozIsbnService = ozIsbnService;
+            _categories = categories;
             _asyncTaskScheduler = asyncTaskScheduler;
         }
         
@@ -156,7 +158,8 @@ namespace BrainShare.Controllers
         {
             var languages = new LanguagesService().GetAllLanguages();
             var book = id.HasValue() ? _books.GetById(id) : _wishBooks.GetById(wishBookId);
-            var model = new EditBookViewModel(book, languages);
+            var categories = _categories.GetAll();
+            var model = new EditBookViewModel(book, languages, categories);
             model.IsWhishBook = wishBookId.HasValue();
             Title(model.Title);
             return View("Edit", model);
@@ -222,7 +225,7 @@ namespace BrainShare.Controllers
         public ActionResult Add()
         {
             var languages = new LanguagesService().GetAllLanguages();
-            var model = new EditBookViewModel(languages);
+            var model = new EditBookViewModel(languages, _categories.GetAll());
             model.Language = "ru";
             Title(model.Title);
             return View("Add", model);

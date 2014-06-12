@@ -50,6 +50,7 @@
     <Compile Include="Documents\ActivityFeed.cs" />
     <Compile Include="Documents\BaseUser.cs" />
     <Compile Include="Documents\Book.cs" />
+    <Compile Include="Documents\Category.cs" />
     <Compile Include="Documents\CloudinaryImage.cs" />
     <Compile Include="Documents\CommonUser.cs" />
     <Compile Include="Documents\Data\ActivityFeedItem.cs" />

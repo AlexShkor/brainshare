@@ -41,6 +41,7 @@
     <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.0.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="MongoDB.Bson">
       <HintPath>..\packages\mongocsharpdriver.1.8.3\lib\net35\MongoDB.Bson.dll</HintPath>
     </Reference>
@@ -109,6 +110,7 @@
     <Compile Include="Services\ActivityFeedsService.cs" />
     <Compile Include="Services\BaseBooksService.cs" />
     <Compile Include="Services\BooksService.cs" />
+    <Compile Include="Services\CategoriesService.cs" />
     <Compile Include="Services\CloudinaryImagesService.cs" />
     <Compile Include="Services\CommonUserService.cs" />
     <Compile Include="Services\ExchangeHistoryService.cs" />

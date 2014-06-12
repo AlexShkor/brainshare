@@ -1,5 +1,6 @@
 ﻿using System;
 using BrainShare.Domain.Documents;
+using Brainshare.Infrastructure.Services;
 using MongoDB.Driver;
 
 namespace BrainShare.Infrastructure.Mongo
@@ -60,5 +61,6 @@ namespace BrainShare.Infrastructure.Mongo
         public MongoCollection<ExchangeHistory> ExchangeHistory { get { return Database.GetCollection<ExchangeHistory>("exchange_history"); } }
         public MongoCollection<News> News { get { return Database.GetCollection<News>("news"); } }
         public MongoCollection<LinkedGroup> LinkedGroups { get { return Database.GetCollection<LinkedGroup>("linked_groups"); } }
+        public MongoCollection<Category> Categories { get { return Database.GetCollection<Category>("categories"); } }
     }
 }

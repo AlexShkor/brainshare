@@ -28,7 +28,7 @@
                     <th><span class="@item.StatusClass">@item.Status</span></th>
                     <td>
                         <a class="btn btn-mini" href="/crossposting/authorize/@item.Id">@(item.IsAuthorized ? "Обновить" : "Авторизировать")</a>
-                        @if (item.CanPostAll)
+                        @if (item.CanPostAll && item.IsActive)
                         {
                             <a class="btn btn-mini btn-warning" href="/crossposting/postall/@item.Id">Запостить все книги с сервиса</a>
                         }
