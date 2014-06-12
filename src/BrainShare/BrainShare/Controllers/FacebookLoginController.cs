@@ -47,6 +47,7 @@ namespace BrainShare.Controllers
             return ProcessFb(FacebookCallbackMode.AuthorizeWithFacebook);
         }
 
+        [Authorize]
         public ActionResult AddFbAccount()
         {
             return ProcessFb(FacebookCallbackMode.LinkNewAccount);
@@ -256,7 +257,7 @@ namespace BrainShare.Controllers
                         return Redirect(returnUrl);
                     }
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Accounts", "Profile");
                 }
 
                 UpdateFbFields(fbUser.id);

@@ -409,6 +409,14 @@ namespace BrainShare.Controllers
             var books = _wishBooks.GetUserBooks(userId).Select(x => new BookViewModel(x));
             return Json(books);
         }
+        
+        [GET("accounts")]
+        public ActionResult Accounts()
+        {
+            var user = _users.GetById(UserId);
+            var model = new AccountsViewModel(user);
+            return View(model);
+        }
 
         public ActionResult AdjustReputation(string id, int value)
         {
@@ -499,6 +507,31 @@ namespace BrainShare.Controllers
             return Json(new { error = "Файл загруженный вами не является изображением или его размеры слишком малы" });
         }
 
+        [POST("disconnect")]
+        public ActionResult Disconnect(AccountTypeEnum type)
+        {
+            var user = _users.GetById(UserId);
+            if (user.Password.HasValue() || (user.VkId.HasValue() && user.FacebookId.HasValue()))
+            {
+                switch (type)
+                {
+                    case AccountTypeEnum.Vk:
+                        user.VkId = null;
+                        user.VkAccessToken = null;
+                        break;
+                    case AccountTypeEnum.Fb:
+                        user.FacebookId = null;
+                        user.FacebookAccessToken = null;
+                        user.FacebookEmail = null;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException("type");
+                }
+                _users.Save(user);
+            }
+            return RedirectToAction("Accounts");
+        }
+
         [POST]
         public JsonResult UploadShellImage(HttpPostedFileBase uploadedFile)
         {
@@ -561,5 +594,11 @@ namespace BrainShare.Controllers
                 }
             });
         }
+    }
+
+    public enum AccountTypeEnum
+    {
+        Vk,
+        Fb
     }
 }

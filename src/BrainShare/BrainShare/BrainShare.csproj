@@ -278,6 +278,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="ViewModels\AccountsViewModel.cs" />
     <Compile Include="Controllers\CrosspostingController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FacebookLoginController.cs" />
@@ -442,6 +443,7 @@
     <Content Include="Views\User\LinkAccount.cshtml" />
     <Content Include="Views\Crossposting\Index.cshtml" />
     <Content Include="Views\Crossposting\Add.cshtml" />
+    <Content Include="Views\Profile\Accounts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\big-loading.gif" />
