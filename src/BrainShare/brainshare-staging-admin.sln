@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainShare", "BrainShare\BrainShare.csproj", "{8B6B00B6-3983-4B85-90DC-098B2CC202D3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainShare.EmailMessaging", "BrainShare.EmailMessaging\BrainShare.EmailMessaging.csproj", "{CF1C7829-94B5-4E73-95B9-1AF821088A45}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brainshare.Infrastructure", "Brainshare.Infrastructure\Brainshare.Infrastructure.csproj", "{2CCD280F-D3A0-4599-A77C-4295B5EF4653}"
@@ -25,10 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8B6B00B6-3983-4B85-90DC-098B2CC202D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B6B00B6-3983-4B85-90DC-098B2CC202D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B6B00B6-3983-4B85-90DC-098B2CC202D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B6B00B6-3983-4B85-90DC-098B2CC202D3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CF1C7829-94B5-4E73-95B9-1AF821088A45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CF1C7829-94B5-4E73-95B9-1AF821088A45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF1C7829-94B5-4E73-95B9-1AF821088A45}.Release|Any CPU.ActiveCfg = Release|Any CPU
