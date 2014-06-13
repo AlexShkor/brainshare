@@ -1,4 +1,5 @@
 ﻿using BrainShare.Documents;
+using BrainShare.Helpers;
 using Brainshare.Infrastructure.Infrastructure;
 
 namespace BrainShare.ViewModels
@@ -9,6 +10,7 @@ namespace BrainShare.ViewModels
         public string Name { get; set; }
         public string Address { get; set; }
         public string Avatar { get; set; }
+        public string Url { get; set; }
 
         public UserDataViewModel(UserData user)
         {
@@ -16,6 +18,7 @@ namespace BrainShare.ViewModels
             Name = user.UserName;
             Address = user.Address.Locality;
             Avatar = user.AvatarUrl ?? Constants.DefaultAvatarUrl;
+            Url = UrlHelper.ProfileUrl(UserId);
         } 
     }
 }

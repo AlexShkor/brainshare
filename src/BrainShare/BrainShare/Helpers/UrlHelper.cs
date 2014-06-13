@@ -31,5 +31,10 @@ namespace BrainShare.Helpers
             }
             return DefaultServiceLogo;
         }
+
+        public static string ProfileUrl(string userId)
+        {
+            return "/profile/view/" + userId;
+        }
     }
 }

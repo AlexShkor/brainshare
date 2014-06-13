@@ -19,7 +19,7 @@
     </div>
     <div data-bind="foreach: comments">
         <div class="media">
-            <a class="pull-left" href="#">
+            <a class="pull-left" href="#" data-bind="attr: {href: User.Url}">
                 <img class="media-object" alt="64x64" style="width: 64px; height: 64px;" data-bind="attr: {src: User.Avatar}">
             </a>
             <div class="media-body">
@@ -30,7 +30,7 @@
                 </div>
                 <!-- ko foreach: Replies -->
                 <div class="media">
-                    <a class="pull-left" href="#">
+                    <a class="pull-left" href="#" data-bind="attr: {href: User.Url}">
                         <img class="media-object" alt="64x64" style="width: 64px; height: 64px;" data-bind="attr: {src: User.Avatar}">
                     </a>
                     <div class="media-body">
