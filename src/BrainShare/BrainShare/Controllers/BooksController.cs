@@ -173,7 +173,7 @@ namespace BrainShare.Controllers
             {
                 var book = !model.IsWhishBook ? _books.GetById(model.Id) : _wishBooks.GetById(model.Id);
                 model.UpdateBook(book);
-
+                book.Category = new CategoryData(_categories.GetById(model.CategoryId));
                 if (model.IsWhishBook)
                 {
                     _wishBooks.Save(book);
@@ -240,9 +240,9 @@ namespace BrainShare.Controllers
                 var book = new Book() { Id = model.Id ?? ObjectId.GenerateNewId().ToString() };
                 model.UpdateBook(book);
                 model.Id = book.Id;
-
                 var user = _users.GetById(UserId);
                 book.UserData = new UserData(user);
+                book.Category = new CategoryData(_categories.GetById(model.CategoryId));
                 if (model.IsWhishBook)
                 {
                     _wishBooks.Save(book);
@@ -255,19 +255,6 @@ namespace BrainShare.Controllers
             }
 
             return JsonModel(model);
-        }
-
-
-        [POST("info")]
-        [ValidateInput(false)]
-        public ActionResult InfoPost(GoogleBookDto dto)
-        {
-            var doc = _books.GetByGoogleBookId(dto.GoogleBookId).FirstOrDefault();
-            if (doc == null)
-            {
-                //no such books on the service
-            }
-            return Json(new { doc.Id });
         }
 
         [HttpPost]
@@ -450,12 +437,9 @@ namespace BrainShare.Controllers
 
                 _exchangeHistory.SaveExchange(userId, new ExchangeEntry(he, hisBook),
                                                                    new ExchangeEntry(you, yourBook));
-
                 _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BooksExchanged(yourBook, you, hisBook, he));
-
                 SendExchangeMail(yourBook, you, hisBook, he);
                 SendRequestAcceptedNotification(userId, yourBook, hisBook, you);
-
                 return Json(new
                 {
                     Success = true
@@ -480,29 +464,20 @@ namespace BrainShare.Controllers
             try
             {
                 var me = _users.GetById(UserId);
-
                 var user = _users.GetById(userId);
                 var book = _books.GetById(bookId);
                 if (book.UserData.UserId != UserId)
                 {
                     return JsonError("Книга уже не пренадлежит указанному пользователю.");
                 }
-
                 book.UserData = new UserData(user);
-
                 me.RemoveInboxItem(userId, bookId);
                 _users.Save(me);
-
                 _books.Save(book);
-
                 _exchangeHistory.SaveExchange(userId, new ExchangeEntry(me, book, ExchangeActionEnum.Give), new ExchangeEntry(user));
-
                 _asyncTaskScheduler.StartSaveFeedTask(ActivityFeed.BooksGifted(me, book, user));
-
                 _mailService.SendGiftExchangeMessage(book, me, user,UrlUtility.ApplicationBaseUrl);
-
                 SendRequestAcceptedAsGiftNotification(userId, book, me);
-
                 return JsonSuccess();
             }
             catch
