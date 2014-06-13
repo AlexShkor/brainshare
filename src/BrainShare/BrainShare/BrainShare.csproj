@@ -278,6 +278,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="ViewModels\AccountsViewModel.cs" />
     <Compile Include="Controllers\CrosspostingController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -312,6 +313,7 @@
     <Compile Include="ViewModels\SearchByGoogleViewModel.cs" />
     <Compile Include="ViewModels\SearchByOzViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\UserDataViewModel.cs" />
     <Compile Include="ViewModels\UsersFilterModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\Exchange\ViewExchangeHistoryViewModel.cs" />
@@ -441,6 +443,7 @@
     <Content Include="Views\Crossposting\Index.cshtml" />
     <Content Include="Views\Crossposting\Add.cshtml" />
     <Content Include="Views\Profile\Accounts.cshtml" />
+    <Content Include="Views\Shared\Comments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\big-loading.gif" />
@@ -708,6 +711,7 @@
     <Folder Include="Scripts\Views\Help\" />
     <Folder Include="Scripts\Views\MailService\" />
     <Folder Include="Scripts\Views\Users\" />
+    <Folder Include="Views\Comments\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

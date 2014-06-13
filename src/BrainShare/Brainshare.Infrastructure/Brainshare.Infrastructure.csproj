@@ -112,6 +112,7 @@
     <Compile Include="Services\BooksService.cs" />
     <Compile Include="Services\CategoriesService.cs" />
     <Compile Include="Services\CloudinaryImagesService.cs" />
+    <Compile Include="Services\CommentsService.cs" />
     <Compile Include="Services\CommonUserService.cs" />
     <Compile Include="Services\ExchangeHistoryService.cs" />
     <Compile Include="Services\LinkedGroupsService.cs" />

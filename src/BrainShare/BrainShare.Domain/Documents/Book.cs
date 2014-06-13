@@ -58,5 +58,10 @@ namespace BrainShare.Domain.Documents
             Id = category.Id;
             Name = category.Name;
         }
+
+        public CategoryData()
+        {
+            
+        }
     }
 }

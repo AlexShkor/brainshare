@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using BrainShare.Domain.Documents;
 using BrainShare.Infrastructure.Mongo;
 using MongoDB.Driver;
@@ -21,6 +22,11 @@ namespace Brainshare.Infrastructure.Services
         public Category Find(string name)
         {
             return Items.AsQueryable().FirstOrDefault(x => x.Name == name);
+        }
+
+        public new IEnumerable<Category> GetAll()
+        {
+            return base.GetAll().OrderBy(x => x.Name);
         }
     }
 }

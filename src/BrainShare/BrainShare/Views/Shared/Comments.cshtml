@@ -1,0 +1,65 @@
+﻿@using BrainShare.Utils.Extensions
+<div>
+    <div class="media-heading">
+        <div class="span12">
+            <h4>Комментарии</h4>
+        </div>
+    </div>
+    <div>
+        <form data-bind="submit: $root.sendComment">
+            <div>
+                <div>
+                    <textarea required class="span12" data-bind="value: $root.commentText" rows="4" placeholder="Ввведите ваш комментарий..."></textarea>
+                </div>
+            </div>
+            <div class="text-right">
+                <button class="btn btn-warning btn-lg" type="submit">Отправить</button>
+            </div>
+        </form>
+    </div>
+    <div data-bind="foreach: comments">
+        <div class="media">
+            <a class="pull-left" href="#">
+                <img class="media-object" alt="64x64" style="width: 64px; height: 64px;" data-bind="attr: {src: User.Avatar}">
+            </a>
+            <div class="media-body">
+                <h5 class="media-heading bold"><span data-bind="text: User.Name"></span> <span class="font-small" data-bind="text: Timespan"></span></h5>
+                <p data-bind="text: Content"></p>
+                <div>
+                    <a href="#" data-bind="click: $root.reply">Ответить</a>
+                </div>
+                <!-- ko foreach: Replies -->
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" alt="64x64" style="width: 64px; height: 64px;" data-bind="attr: {src: User.Avatar}">
+                    </a>
+                    <div class="media-body">
+                        <h5 class="media-heading bold"><span data-bind="text: User.Name"></span> <span class="font-small" data-bind="text: Timespan"></span></h5>
+                        <p data-bind="text: Content"></p>
+                    </div>
+                </div>
+                <!-- /ko -->
+                <div data-bind="visible: Id() == $root.replyId()">
+                    <div>
+                        <br />
+                        <div>
+                            <div>
+                                <textarea required class="span12" data-bind="value: $root.replyText" rows="4" placeholder="Ввведите ваш комментарий..."></textarea>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button class="btn btn-warning btn-lg" type="button" data-bind="click: $root.sendReply">Ответить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .font-small {
+        font-size: 12px;
+        font-weight: normal;
+    }
+</style>

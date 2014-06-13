@@ -52,6 +52,7 @@
     <Compile Include="Documents\Book.cs" />
     <Compile Include="Documents\Category.cs" />
     <Compile Include="Documents\CloudinaryImage.cs" />
+    <Compile Include="Documents\Comments.cs" />
     <Compile Include="Documents\CommonUser.cs" />
     <Compile Include="Documents\Data\ActivityFeedItem.cs" />
     <Compile Include="Documents\Data\ActivityTypeEnum.cs" />

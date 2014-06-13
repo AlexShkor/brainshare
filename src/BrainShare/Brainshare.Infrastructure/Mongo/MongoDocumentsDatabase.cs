@@ -61,5 +61,6 @@ namespace BrainShare.Infrastructure.Mongo
         public MongoCollection<News> News { get { return Database.GetCollection<News>("news"); } }
         public MongoCollection<LinkedGroup> LinkedGroups { get { return Database.GetCollection<LinkedGroup>("linked_groups"); } }
         public MongoCollection<Category> Categories { get { return Database.GetCollection<Category>("categories"); } }
+        public MongoCollection<CommentsDocument> Comments { get { return Database.GetCollection<CommentsDocument>("comments"); } }
     }
 }
