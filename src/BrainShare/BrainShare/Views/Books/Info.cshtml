@@ -29,7 +29,7 @@
 
 <div class="span12">
     <h4 style="margin-bottom: 3%">@Model.Title <span class="label label-info">@Model.Address</span></h4>
-  
+
     <div>
         <div class="span3">
             @Html.Partial("DetailsPartial", Model)
@@ -64,6 +64,10 @@
                             <div>
                                 <strong class="span5">Издательство:</strong>
                                 <span class="span7">@Model.Publisher, @Model.PublishedDate</span>
+                            </div>
+                            <div>
+                                <strong class="span5">Категория</strong>
+                                <span class="span7" data-bind="text: book.Category">@Model.Category</span>
                             </div>
                             <div>
                                 <strong class="span5">Местонахождение книги:</strong>
@@ -122,22 +126,26 @@
         </div>
     </div>
     <div>
-        <div class="span12">
-            <div>
-                <a href="#"></a>
+        <ul class="nav nav-tabs" id="bookInfoTabs">
+            <li class="active"><a href="#comments">Комментарии</a></li>
+            <li><a href="#preview">Предпросмотр</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="comments">
+                @Html.Partial("Comments")
             </div>
-            <hr />
-            @if (Model.GoogleBookId != null)
-            { <h4>Предпросмотр</h4>
-                <div>
+            <div class="tab-pane" id="preview">
+                @if (Model.GoogleBookId != null)
+                {
                     @Html.Partial("GooglePreview", Model.GoogleBookId)
-                </div>
-            }
-        </div>
-    </div>
-    <div>
-        <div class="span12">
-            @Html.Partial("Comments")
+                }
+            </div>
         </div>
     </div>
 </div>
+<script>
+    $('#bookInfoTabs a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    })
+</script>
