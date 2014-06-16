@@ -27,6 +27,10 @@ namespace BrainShare.Controllers
         public ActionResult Load(string id)
         {
             var data = _comments.GetById(id);
+            if (data == null)
+            {
+                return Json(new List<CommentViewModel>());
+            }
             var model = data.Comments.OrderByDescending(x=> x.Timespan).Select(x => new CommentViewModel(x));
             return Json(model);
         }

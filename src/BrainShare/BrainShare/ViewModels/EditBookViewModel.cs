@@ -50,6 +50,7 @@ namespace BrainShare.ViewModels
             PublishedDate = book.PublishedDate.ToString(DateFormat, Culture);
             Publisher = book.Publisher;
             Subtitle = book.Subtitle;
+            CategoryId = book.Category != null ? book.Category.Id : null;
             Image = book.Image;
             UserComment = book.UserComment;
             if (book.Authors.Any())
