@@ -54,6 +54,7 @@ namespace BrainShare.Controllers
             var token = UrlUtility.ExtractToken(blankPageUrl);
             var linkedGroup = _linkedGroups.GetById(groupId);
             linkedGroup.AccessToken = token;
+            linkedGroup.IsActive = true;
             _linkedGroups.Save(linkedGroup);
             return RedirectToAction("Index");
         }

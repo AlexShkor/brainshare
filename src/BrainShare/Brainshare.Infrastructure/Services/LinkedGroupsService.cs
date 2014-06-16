@@ -25,7 +25,7 @@ namespace Brainshare.Infrastructure.Services
 
         public IEnumerable<LinkedGroup> GetAllAuthorized()
         {
-            return Items.Find(Query<LinkedGroup>.NE(x => x.AccessToken, null));
+            return Items.Find(Query.And(Query<LinkedGroup>.NE(x => x.AccessToken, null), Query<LinkedGroup>.EQ(x=> x.IsActive, true)));
         }
 
         public void SetFaild(string id)
