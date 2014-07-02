@@ -61,7 +61,7 @@ namespace BrainShare.Controllers
 
         public ActionResult Add(string url)
         {
-            var id = UrlUtility.LastSegment(url);
+            var id = UrlUtility.LastSegment(url).Replace("public", "");
             var group= _groupApi.GetGroupInfo(id);
             var linkedGroup = new LinkedGroup
             {
