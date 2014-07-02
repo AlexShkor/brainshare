@@ -80,17 +80,24 @@ namespace Brainshare.Infrastructure.Authentication
                         HttpCookie authCookie = HttpContext.Request.Cookies.Get(CookieName);
                         if (authCookie != null && !string.IsNullOrEmpty(authCookie.Value))
                         {
-                            var ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                            if (ticket != null)
+                            try
                             {
-                                if (ticket.Version == CURRENT_TICKET_VERSION)
+                                var ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                                if (ticket != null)
                                 {
-                                    _currentUser = new UserProvider(ticket.Name, ticket.UserData);
+                                    if (ticket.Version == CURRENT_TICKET_VERSION)
+                                    {
+                                        _currentUser = new UserProvider(ticket.Name, ticket.UserData);
+                                    }
+                                    else
+                                    {
+                                        FormsAuthentication.SignOut();
+                                    }
                                 }
-                                else
-                                {
-                                    FormsAuthentication.SignOut();
-                                }
+                            }
+                            catch (Exception e)
+                            {
+                                FormsAuthentication.SignOut();
                             }
                         }
                 }

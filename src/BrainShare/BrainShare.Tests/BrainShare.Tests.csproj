@@ -56,10 +56,6 @@
     <Compile Include="UrlUtilityTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BrainShare.EmailMessaging\BrainShare.EmailMessaging.csproj">
-      <Project>{cf1c7829-94b5-4e73-95b9-1af821088a45}</Project>
-      <Name>BrainShare.EmailMessaging</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Brainshare.Infrastructure\Brainshare.Infrastructure.csproj">
       <Project>{2ccd280f-d3a0-4599-a77c-4295b5ef4653}</Project>
       <Name>Brainshare.Infrastructure</Name>

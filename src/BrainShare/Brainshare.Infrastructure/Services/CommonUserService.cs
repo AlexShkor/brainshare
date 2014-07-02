@@ -8,56 +8,36 @@ namespace BrainShare.Services
 {
     public class CommonUserService :ICommonUserService
     {
-        private readonly ShellUserService _shellUserService;
         private readonly UsersService _usersService;
 
-        public CommonUserService(ShellUserService shellUserService, UsersService usersService)
+        public CommonUserService(UsersService usersService)
         {
-            _shellUserService = shellUserService;
             _usersService = usersService;
         }
 
         public CommonUser GetUserByLoginServiceInfo(LoginServiceTypeEnum loginServiceType, string serviceId)
         {
-            var result = _usersService.GetUserByLoginServiceInfo(loginServiceType, serviceId).MapUser();
-            return result ?? _shellUserService.GetUserByLoginServiceInfo(loginServiceType, serviceId).MapShellUser();
+            return  _usersService.GetUserByLoginServiceInfo(loginServiceType, serviceId).MapUser();
         }
 
         public CommonUser GetUserByEmail(string email)
         {
-            var result = _usersService.GetUserByEmail(email).MapUser();
-            return result ?? _shellUserService.GetUserByEmail(email).MapShellUser();
+            return _usersService.GetUserByEmail(email).MapUser();
         }
 
         public CommonUser GetUserByVkId(string id)
         {
-            var result = _usersService.GetUserByVkId(id).MapUser();
-            return result ?? _shellUserService.GetUserByVkId(id).MapShellUser();
+            return _usersService.GetUserByVkId(id).MapUser();
         }
 
         public CommonUser GetUserByFacebookId(string id)
         {
-            var result = _usersService.GetUserByFbId(id).MapUser();
-            return result ?? _shellUserService.GetUserByFbId(id).MapShellUser();
+            return _usersService.GetUserByFbId(id).MapUser();
         }
 
         public CommonUser GetById(string id)
         {
-            var result = _usersService.GetById(id).MapUser();
-            return result ?? _shellUserService.GetById(id).MapShellUser();
-        }
-
-        public object GetUserByType(Type userType, string Id)
-        {
-            if (typeof (UsersService).Equals(userType))
-            {
-                return _usersService.GetById(Id);
-            }
-            if (typeof (ShellUserService).Equals(userType))
-            {
-                return _shellUserService.GetById(Id);
-            }
-            return null;
+            return _usersService.GetById(id).MapUser();
         }
     }
 }

@@ -9,6 +9,7 @@ using BrainShare.Services;
 
 namespace BrainShare.Admin.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly BooksService _booksService;
@@ -25,6 +26,7 @@ namespace BrainShare.Admin.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult UpdateBooksUserData()
         {
             var books = _booksService.GetAll();

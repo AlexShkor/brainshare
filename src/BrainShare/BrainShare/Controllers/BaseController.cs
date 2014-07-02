@@ -40,11 +40,6 @@ namespace BrainShare.Controllers
                 return User.Identity.Name;
             }
         }
-
-        public bool IsShellUser
-        {
-            get { return false; }
-        }
   
         protected void Title(string title)
         {

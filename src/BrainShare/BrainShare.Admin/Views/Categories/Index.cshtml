@@ -1,0 +1,14 @@
+﻿@model System.Collections.Generic.IEnumerable<BrainShare.Domain.Documents.Category>
+<h2>Categories</h2>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>@item.Name</li>
+    }
+</ul>
+
+<form action="@Url.Action("Add")" method="POST">
+    <input type="text" name="Name"/>
+    <input type="submit" value="Add"/>
+</form>

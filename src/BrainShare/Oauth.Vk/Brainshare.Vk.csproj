@@ -42,6 +42,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="VkSharp">
+      <HintPath>..\packages\VkSharp.1.0.1\lib\VkSharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dto\VkGroupInfo.cs" />
@@ -51,9 +54,6 @@
     <Compile Include="Dto\VkUser.cs" />
     <Compile Include="Dto\VkPost.cs" />
     <Compile Include="Helpers\VkHelper.cs" />
-    <Compile Include="Infrastructure\Enums\GroupPostSign.cs" />
-    <Compile Include="Infrastructure\Enums\StatusName.cs" />
-    <Compile Include="Infrastructure\Enums\VkMediaType.cs" />
     <Compile Include="Infrastructure\MyWebRequest.cs" />
     <Compile Include="Infrastructure\OAuthResponce.cs" />
     <Compile Include="Infrastructure\VkAttachment.cs" />

@@ -28,7 +28,6 @@ namespace BrainShare.Controllers
     {
         private readonly BooksService _books;
         private readonly WishBooksService _wishBooks;
-        private readonly ShellUserService _shellUserService;
         private readonly ThreadsService _threads;
         private readonly NewsService _news;
         private readonly CloudinaryImagesService _cloudinaryImages;
@@ -38,7 +37,7 @@ namespace BrainShare.Controllers
         private readonly AsyncTaskScheduler _asyncTaskScheduler;
         private readonly Settings _settings;
 
-        public ProfileController(BooksService books, UsersService users, ShellUserService shellUserService, ThreadsService threads, WishBooksService whishBooks, 
+        public ProfileController(BooksService books, UsersService users, ThreadsService threads, WishBooksService whishBooks, 
             CloudinaryImagesService cloudinaryImages,CryptographicHelper cryptographicHelper,IAuthentication authentication, NewsService news, Settings settings,
             MailService mailService, AsyncTaskScheduler asyncTaskScheduler):base(users)
         {
@@ -46,7 +45,6 @@ namespace BrainShare.Controllers
             _threads = threads;
             _wishBooks = whishBooks;
             _cloudinaryImages = cloudinaryImages;
-            _shellUserService = shellUserService;
             _mailService = mailService;
             _asyncTaskScheduler = asyncTaskScheduler;
             _news = news;
@@ -57,41 +55,18 @@ namespace BrainShare.Controllers
 
         public ActionResult Index()
         {
-            if (IsShellUser)
-            {
-                var shellUser = _shellUserService.GetById(UserId);
-                Title(shellUser.Name);
-                var model = new MyShellProfileViewModel(shellUser);
-
-                return View("ShellProfileViewModel", model);
-            }
-            else
-            {
-                var user = _users.GetById(UserId);
-                Title(user.FullName + " мой аккаунт");
-
-                var model = new MyProfileViewModel(user);
-                return View(model);
-            }
+            var user = _users.GetById(UserId);
+            Title(user.FullName + " мой аккаунт");
+            var model = new MyProfileViewModel(user);
+            return View(model);
         }
 
         [HttpGet]
         public ActionResult EditProfile()
         {
-            if (IsShellUser)
-            {
-                var shellUser = _shellUserService.GetById(UserId);
-                var model = new EditShellProfileViewModel(shellUser);
-                return View("EditShellProfile",model);
-
-            }
-            else
-            {
-                var user = _users.GetById(UserId);
-                var model = new EditProfileViewModel(user);
-                return View(model);
-            }
-     
+            var user = _users.GetById(UserId);
+            var model = new EditProfileViewModel(user);
+            return View(model);
         }
 
         [HttpPost]
@@ -111,27 +86,6 @@ namespace BrainShare.Controllers
             }
 
             model.Errors.RemoveAll(x => x.ErrorMessage != " ");
-            return JsonModel(model);
-        }
-
-        [HttpPost]
-        public ActionResult EditShellProfile(EditShellProfileViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var shellUser = _shellUserService.GetById(UserId);
-
-                shellUser.Name = model.Name;
-                shellUser.ShellAddressData.LocalPath = model.LocalPath;
-                shellUser.ShellAddressData.Formatted = model.FormattedAddress;
-                shellUser.ShellAddressData.Country = model.Country;
-                shellUser.ShellAddressData.StreetNumber = model.StreetNumber;
-                shellUser.ShellAddressData.Route = model.Route;
-                shellUser.ShellAddressData.Location = new Location(model.Lat,model.Lng);
-
-                _shellUserService.Save(shellUser);
-            }
-
             return JsonModel(model);
         }
 
@@ -187,37 +141,33 @@ namespace BrainShare.Controllers
         public ActionResult ChangePassword()
         {
             var user = _users.GetById(UserId);
-            return
-                View(new ChangePasswordModel
-                {
-                    IsFacebokAccountWithoutPassword = user.FacebookId.HasValue() && !user.Password.HasValue()
-                });
+            var model = new ChangePasswordModel
+            {
+                IsFacebokAccountWithoutPassword = user.FacebookId.HasValue() && !user.Password.HasValue(),
+                DoesNotHaveEmail = !user.Email.HasValue()
+            };
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
+            var salt = _cryptographicHelper.GenerateSalt();
+            var password = _cryptographicHelper.GetPasswordHash(model.Password, salt);
+            var user = _users.GetById(UserId);
+            if (!user.Email.HasValue() && !model.Email.HasValue())
+            {
+                ModelState.AddModelError("Email","Вы не указали Email для входа в систему.");
+            }
             if (ModelState.IsValid)
             {
-                var salt = _cryptographicHelper.GenerateSalt();
-                var password = _cryptographicHelper.GetPasswordHash(model.Password, salt);
-
-                if (IsShellUser)
+                if (!user.Email.HasValue())
                 {
-                    var shellUser = _shellUserService.GetById(UserId);
-                    shellUser.Password = password;
-                    shellUser.Salt = salt;
-                    _shellUserService.Save(shellUser);
+                    user.Email = model.Email;
                 }
-                else
-                {
-                    var user = _users.GetById(UserId);
-                    user.Password = password;
-                    user.Salt = salt;
-
-                    _users.Save(user);
-                }
-
+                user.Password = password;
+                user.Salt = salt;
+                _users.Save(user);
                 _authentication.Logout();
             }
 
@@ -282,11 +232,6 @@ namespace BrainShare.Controllers
         [GET("messages")]
         public ActionResult AllMessages()
         {
-            if (IsShellUser)
-            {
-                return View("ShellAllMessages");
-            }
-
             var threads = _threads.GetAllForUser(UserId).Where(x => x.Messages.Any()).OrderByDescending(x => x.Messages.Max(m => m.Posted));
             var user = _users.GetById(UserId);
             var model = new AllThreadsViewModel(threads, UserId, user);
@@ -409,6 +354,14 @@ namespace BrainShare.Controllers
             var books = _wishBooks.GetUserBooks(userId).Select(x => new BookViewModel(x));
             return Json(books);
         }
+        
+        [GET("accounts")]
+        public ActionResult Accounts()
+        {
+            var user = _users.GetById(UserId);
+            var model = new AccountsViewModel(user);
+            return View(model);
+        }
 
         public ActionResult AdjustReputation(string id, int value)
         {
@@ -440,12 +393,8 @@ namespace BrainShare.Controllers
         [POST("get-new-books-count")]
         public ActionResult GetNewBooksCount()
         {
-            if (!IsShellUser)
-            {
-                 var user = _users.GetById(UserId);
-                return Json(new { Result = user.Inbox.Count() });
-            }
-            return Json(new { Result = 0 });
+            var user = _users.GetById(UserId);
+            return Json(new {Result = user.Inbox.Count()});
         }
 
         [POST("get-unread-news-count")]
@@ -457,12 +406,8 @@ namespace BrainShare.Controllers
         [POST("get-new-messages-count")]
         public ActionResult ThreadsWithUnreadMessages()
         {
-            if (!IsShellUser)
-            {
-                var user = _users.GetById(UserId);
-                return Json(new { Result = user.ThreadsWithUnreadMessages.Count });
-            }
-            return Json(new { Result = 0 });          
+            var user = _users.GetById(UserId);
+            return Json(new {Result = user.ThreadsWithUnreadMessages.Count});
         }
 
         [POST]
@@ -497,6 +442,30 @@ namespace BrainShare.Controllers
             }
 
             return Json(new { error = "Файл загруженный вами не является изображением или его размеры слишком малы" });
+        }
+
+        [POST("disconnect")]
+        public ActionResult Disconnect(AccountTypeEnum type)
+        {
+            var user = _users.GetById(UserId);
+            if ((user.Email.HasValue() && user.Password.HasValue()) || (user.VkId.HasValue() && user.FacebookId.HasValue()))
+            {
+                switch (type)
+                {
+                    case AccountTypeEnum.Vk:
+                        user.VkId = null;
+                        user.VkAccessToken = null;
+                        break;
+                    case AccountTypeEnum.Fb:
+                        user.FacebookId = null;
+                        user.FacebookAccessToken = null;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException("type");
+                }
+                _users.Save(user);
+            }
+            return RedirectToAction("Accounts");
         }
 
         [POST]
@@ -547,15 +516,25 @@ namespace BrainShare.Controllers
             return Json(new { url = realAvatarUrl });
         }
 
-        private void EmailUsermessage(string recipientId, string message)
+        private async Task EmailUsermessage(string recipientId, string message)
         {
-            var recipient = _users.GetById(recipientId);
-            var settings = recipient.Settings.NotificationSettings;
-
-            if (settings.DuplicateMessagesToEmail)
+            await Task.Factory.StartNew(() =>
             {
-                _mailService.EmailUserMessage(message, _users.GetById(UserId), recipient,UrlUtility.ApplicationBaseUrl);
-            }
+                var recipient = _users.GetById(recipientId);
+                var settings = recipient.Settings.NotificationSettings;
+
+                if (settings.DuplicateMessagesToEmail)
+                {
+                    _mailService.EmailUserMessage(message, _users.GetById(UserId), recipient,
+                        UrlUtility.ApplicationBaseUrl);
+                }
+            });
         }
+    }
+
+    public enum AccountTypeEnum
+    {
+        Vk,
+        Fb
     }
 }

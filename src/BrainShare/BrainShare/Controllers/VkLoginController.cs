@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using BrainShare.Domain.Documents;
 using BrainShare.Domain.Documents.Data;
+using BrainShare.Facebook;
 using BrainShare.Infostructure;
 using BrainShare.Services;
 using BrainShare.Utils.Extensions;
 using BrainShare.Utils.Utilities;
 using Brainshare.Infrastructure.Authentication;
-using Brainshare.Infrastructure.Facebook.Dto;
 using Brainshare.Infrastructure.Infrastructure;
 using Brainshare.Infrastructure.Settings;
 using Brainshare.VK;
@@ -18,6 +17,7 @@ using Brainshare.Vk.Helpers;
 using Brainshare.Vk.Infrastructure;
 using MongoDB.Bson;
 using Newtonsoft.Json;
+using StructureMap;
 
 
 namespace BrainShare.Controllers
@@ -47,23 +47,24 @@ namespace BrainShare.Controllers
         [AllowAnonymous]
         public ActionResult LoginWithVk()
         {
-            return ProcessVk();
+            return ProcessVk(VkCallbackMode.AuthorizeWithVk);
         }
 
-        [AllowAnonymous]
+        [Authorize]
         public ActionResult AddVkAccount()
         {
-            return ProcessVk();
+            return ProcessVk(VkCallbackMode.LinkNewAccount);
         }
 
-        private ActionResult ProcessVk()
+        private ActionResult ProcessVk(VkCallbackMode mode)
         {
-            return RunVkCallback();
+            return RunVkCallback(mode);
         }
 
 
-        private ActionResult RunVkCallback()
+        private ActionResult RunVkCallback(VkCallbackMode mode)
         {
+            Session[SessionKeys.VkCallbackMode] = mode;
             var vkLoginUrl = VkAuth.BuildAuthorizeUrl(_settings.VkAppId, VkCallbackUri);
             return Redirect(vkLoginUrl);
         }
@@ -77,12 +78,17 @@ namespace BrainShare.Controllers
             }
 
             var json = VkAuth.GetAccessToken(_settings.VkAppId, _settings.VkSecretKey, VkCallbackUri, code);
-            var responce = JsonConvert.DeserializeObject<OAuthResponce>(json);
+            var response = JsonConvert.DeserializeObject<OAuthResponce>(json);
 
-            if (responce.ExpiresIn != "0")
-                Session[SessionKeys.VkExpiresIn] = DateTime.Now.AddSeconds(int.Parse(responce.ExpiresIn));
+            if (response.ExpiresIn != "0")
+                Session[SessionKeys.VkExpiresIn] = DateTime.Now.AddSeconds(int.Parse(response.ExpiresIn));
 
-            return ProcessVkontakte(responce.UserId, responce.AccessToken);
+            var mode = (VkCallbackMode) Session[SessionKeys.VkCallbackMode];
+            if (mode == VkCallbackMode.AuthorizeWithVk)
+            {
+                return ProcessVkontakte(response.UserId, response.AccessToken);
+            }
+            return LinkNewAccount(response.UserId, response.AccessToken);
         }
 
         private ActionResult ProcessVkontakte(string vkId, string accessToken)
@@ -132,6 +138,20 @@ namespace BrainShare.Controllers
             _auth.LoginVk(user.VkId);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        private ActionResult LinkNewAccount(string vkId, string accessToken)
+        {
+            var vkuser = _users.GetUserByVkId(vkId);
+            if (vkuser != null)
+            {
+                throw new InvalidOperationException("Такой пользователь Вконтакте уже зарегистрирован на сервисе");
+            }
+            var user = _users.GetById(UserId);
+            user.VkId = vkId;
+            user.VkAccessToken = accessToken;
+            _users.Save(user);
+            return RedirectToAction("Accounts", "Profile");
         }
     }
 }

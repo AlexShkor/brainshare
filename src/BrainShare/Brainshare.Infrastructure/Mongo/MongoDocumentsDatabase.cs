@@ -1,5 +1,6 @@
 ﻿using System;
 using BrainShare.Domain.Documents;
+using Brainshare.Infrastructure.Services;
 using MongoDB.Driver;
 
 namespace BrainShare.Infrastructure.Mongo
@@ -51,7 +52,6 @@ namespace BrainShare.Infrastructure.Mongo
         }
 
         public MongoCollection<User> Users { get { return Database.GetCollection<User>("users"); } }
-        public MongoCollection<ShellUser> ShellUsers { get { return Database.GetCollection<ShellUser>("shell_users"); } }
         public MongoCollection<Book> Books { get { return Database.GetCollection<Book>("books"); } }
         public MongoCollection<Book> WishBooks { get { return Database.GetCollection<Book>("wish_books"); } }
         public MongoCollection<ActivityFeed> ActivityFeeds { get { return Database.GetCollection<ActivityFeed>("feeds"); } }
@@ -60,5 +60,7 @@ namespace BrainShare.Infrastructure.Mongo
         public MongoCollection<ExchangeHistory> ExchangeHistory { get { return Database.GetCollection<ExchangeHistory>("exchange_history"); } }
         public MongoCollection<News> News { get { return Database.GetCollection<News>("news"); } }
         public MongoCollection<LinkedGroup> LinkedGroups { get { return Database.GetCollection<LinkedGroup>("linked_groups"); } }
+        public MongoCollection<Category> Categories { get { return Database.GetCollection<Category>("categories"); } }
+        public MongoCollection<CommentsDocument> Comments { get { return Database.GetCollection<CommentsDocument>("comments"); } }
     }
 }

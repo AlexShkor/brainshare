@@ -1,28 +1,65 @@
-﻿@using StructureMap
+﻿@using ActionMailer.Net.Mvc
+@using StructureMap
 @model IEnumerable<BrainShare.Controllers.LinkedGroupItem>
 @{
     Layout = "~/Views/Profile/_ProfileLayout.cshtml";
-} 
-<table>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Name</td>
-                @if (!item.IsAuthorized)
-                {
-                    <td><a href="/crossposting/authorize/@item.Id">Авторизировать</a></td>
-                }
-                <td><a href="/crossposting/disconnect/@item.Id">Отключить</a></td>
-            </tr>
-        }
-    </tbody>
-</table>
-
+}
+<h4>Кроспостинг в Вконтакте</h4>
 <div>
-    <form action="@Url.Action("Add")">
-        <label>Введите адрес группы вконтакте (например http://vk.com/brainshare)</label>
-        <input type="text" name="url" />
-        <button type="submit" class="btn">Добавить</button>
-    </form>
+    <table class="table table-striped table-condensed">
+        <thead>
+            <tr>
+                <th>
+                    Название сообщества
+                </th>
+                <th>
+                    Статус
+                </th>
+                <th>
+                    Действия
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <th><span class="@item.StatusClass">@item.Status</span></th>
+                    <td>
+                        <a class="btn btn-mini" href="/crossposting/authorize/@item.Id">@(item.IsAuthorized ? "Обновить" : "Авторизировать")</a>
+                        @if (item.CanPostAll && item.IsActive)
+                        {
+                            <a class="btn btn-mini btn-warning" href="/crossposting/postall/@item.Id">Запостить все книги с сервиса</a>
+                        }
+                        @if (item.IsActive)
+                        {
+                            <a class="btn btn-mini btn-danger" href="/crossposting/disconnect/@item.Id">Отключить</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-mini btn-success" href="/crossposting/activate/@item.Id">Включить</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="controls">
+        <form action="@Url.Action("Add")">
+            <fieldset>
+                <legend>
+                    Добавить сообщество
+                </legend>
+            <div class="control-group">
+                <input class="span8" required  type="url" name="url" />
+                <span class="help-block">Введите адрес сообщества вконтакте, например http://vk.com/brainshare </span>
+            </div>
+            <div class="form-actions">
+            <button type="submit" class="btn">Добавить</button>
+            </div>
+                </fieldset>
+        </form>
+    </div>
 </div>

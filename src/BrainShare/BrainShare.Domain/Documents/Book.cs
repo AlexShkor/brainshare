@@ -28,7 +28,7 @@ namespace BrainShare.Domain.Documents
         public string UserComment { get; set; }
 
         public DateTime Added { get; set; }
-
+        public CategoryData Category { get; set; }
         public List<string> Authors { get; set; }
         public UserData UserData { get; set; }
         public bool FromOzBy { get; set; }
@@ -44,6 +44,24 @@ namespace BrainShare.Domain.Documents
         public DateTime PublishedDate
         {
             get { return new DateTime(PublishedYear ?? 1, PublishedMonth ?? 1, PublishedDay ?? 1); }
+        }
+    }
+
+
+    public class CategoryData
+    {
+        public string Id { get; set ; }
+        public string Name { get; set; }
+
+        public CategoryData(Category category)
+        {
+            Id = category.Id;
+            Name = category.Name;
+        }
+
+        public CategoryData()
+        {
+            
         }
     }
 }

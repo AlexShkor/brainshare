@@ -50,7 +50,9 @@
     <Compile Include="Documents\ActivityFeed.cs" />
     <Compile Include="Documents\BaseUser.cs" />
     <Compile Include="Documents\Book.cs" />
+    <Compile Include="Documents\Category.cs" />
     <Compile Include="Documents\CloudinaryImage.cs" />
+    <Compile Include="Documents\Comments.cs" />
     <Compile Include="Documents\CommonUser.cs" />
     <Compile Include="Documents\Data\ActivityFeedItem.cs" />
     <Compile Include="Documents\Data\ActivityTypeEnum.cs" />
@@ -61,14 +63,12 @@
     <Compile Include="Documents\Data\LoginService.cs" />
     <Compile Include="Documents\Data\LoginServiceTypeEnum.cs" />
     <Compile Include="Documents\Data\Message.cs" />
-    <Compile Include="Documents\Data\ShellAddressData.cs" />
     <Compile Include="Documents\Data\UserData.cs" />
     <Compile Include="Documents\Data\UserNewsInfo.cs" />
     <Compile Include="Documents\Data\UserSettings.cs" />
     <Compile Include="Documents\ExchangeHistory.cs" />
     <Compile Include="Documents\LinkedGroup.cs" />
     <Compile Include="Documents\News.cs" />
-    <Compile Include="Documents\PublicShell.cs" />
     <Compile Include="Documents\Thread.cs" />
     <Compile Include="Documents\User.cs" />
     <Compile Include="Dto\OzBookIsbnRequestDto.cs" />

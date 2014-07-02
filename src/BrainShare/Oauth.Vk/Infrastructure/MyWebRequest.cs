@@ -2,6 +2,9 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using Newtonsoft.Json;
+using VkSharp;
+using VkSharp.Entities;
 
 namespace Brainshare.Vk.Infrastructure
 {
@@ -83,5 +86,13 @@ namespace Brainshare.Vk.Infrastructure
             return responseFromServer;
         }
 
+    }
+
+    public class VkResponseException : Exception
+    {
+        public VkResponseException(string message):base(message)
+        {
+            
+        }
     }
 }
