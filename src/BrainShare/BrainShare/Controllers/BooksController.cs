@@ -173,7 +173,14 @@ namespace BrainShare.Controllers
             {
                 var book = !model.IsWhishBook ? _books.GetById(model.Id) : _wishBooks.GetById(model.Id);
                 model.UpdateBook(book);
-                book.Category = new CategoryData(_categories.GetById(model.CategoryId));
+                if (model.CategoryId.HasValue())
+                {
+                    book.Category = new CategoryData(_categories.GetById(model.CategoryId));
+                }
+                else
+                {
+                    book.Category = null;
+                }
                 if (model.IsWhishBook)
                 {
                     _wishBooks.Save(book);
@@ -242,7 +249,10 @@ namespace BrainShare.Controllers
                 model.Id = book.Id;
                 var user = _users.GetById(UserId);
                 book.UserData = new UserData(user);
-                book.Category = new CategoryData(_categories.GetById(model.CategoryId));
+                if (model.CategoryId.HasValue())
+                {
+                    book.Category = new CategoryData(_categories.GetById(model.CategoryId));
+                }
                 if (model.IsWhishBook)
                 {
                     _wishBooks.Save(book);

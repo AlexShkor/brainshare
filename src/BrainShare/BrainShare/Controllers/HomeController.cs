@@ -22,7 +22,7 @@ namespace BrainShare.Controllers
         {
             Title("Книги. Социальный портал по обмену книгами");
             var last5Users = _users.GetLast(5);
-            var last5Books = _books.GetLast(5);
+            var last5Books = _books.GetLast(5).Where(x=> x.Image != null);
             var feeds = _activityFeeds.GetLast(10);
             var model = new HomeViewModel
             {
