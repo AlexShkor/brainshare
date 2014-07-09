@@ -92,7 +92,7 @@ namespace Brainshare.Infrastructure.Services
 
         public IEnumerable<Book> GetLast(int count)
         {
-            return Items.FindAll().SetSortOrder(SortBy<Book>.Descending(x => x.Added)).SetLimit(count);
+            return Items.Find(Query<Book>.NE(x=> x.Image, null)).SetSortOrder(SortBy<Book>.Descending(x => x.Added)).SetLimit(count);
         }
 
         public IEnumerable<Book> GetByGoogleBookId(string googleBookId)
