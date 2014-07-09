@@ -115,7 +115,7 @@ namespace BrainShare.Services
 
         public IEnumerable<User> GetLast(int count)
         {
-            return Items.FindAll().SetSortOrder(SortBy<User>.Descending(x => x.Registered)).SetLimit(count);
+            return Items.Find(Query<User>.NE(x => x.AvatarUrl, null)).SetSortOrder(SortBy<User>.Descending(x => x.Registered)).SetLimit(count);
         }
 
         protected override IEnumerable<IMongoQuery> BuildFilterQuery(UsersFilter filter)
