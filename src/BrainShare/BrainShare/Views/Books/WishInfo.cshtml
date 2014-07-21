@@ -14,7 +14,7 @@
     xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"
 }
 @section Scripts{
-    <script type="text/javascript" src="@Url.Content("~/Scripts/custom/Books/info.js")"></script>
+     <script type="text/javascript" src="~/Scripts/Views/Books/InfoModel.js"></script>
     <script>
         $(function () {
             var model = new InfoModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
@@ -124,24 +124,27 @@
         </div>
 
     </div>
-    <div>
-        <div class="span12">
-            <div>
-                <a href="#"></a>
+   <div>
+        <ul class="nav nav-tabs" id="bookInfoTabs">
+            <li class="active"><a href="#comments">Комментарии</a></li>
+            <li><a href="#preview">Предпросмотр</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="comments">
+                @Html.Partial("Comments")
             </div>
-            <hr />
-
-            @if (Model.GoogleBookId != null)
-            {<h4>Предпросмотр</h4>
-                <div>
+            <div class="tab-pane" id="preview">
+                @if (Model.GoogleBookId != null)
+                {
                     @Html.Partial("GooglePreview", Model.GoogleBookId)
-                </div>
-            }
-        </div>
-    </div>
-    <div>
-        <div class="span12">
-            @Html.Partial("Disquas")
+                }
+            </div>
         </div>
     </div>
 </div>
+<script>
+    $('#bookInfoTabs a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    })
+</script>
