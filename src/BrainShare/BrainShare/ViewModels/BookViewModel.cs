@@ -68,6 +68,11 @@ namespace BrainShare.ViewModels
             Added = book.Added.ToString(EditBookViewModel.DateFormatLong, EditBookViewModel.Culture);
         }
 
+        public BookViewModel(Book book, string currentUserId) : this(book)
+        {
+            CurrentUserId = currentUserId;
+        }
+
         public BookViewModel()
         {
 
