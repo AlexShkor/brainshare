@@ -136,20 +136,29 @@ namespace BrainShare.Controllers
         [AllowAnonymous]
         public ActionResult Info(string id, string wishBookId)
         {
-            var book = id.HasValue() ? _books.GetById(id) : _wishBooks.GetById(wishBookId);
+            Book book = null;
+            var isWishBook = false;
+            if (id.HasValue())
+            {
+                book = _books.GetById(id);
+            }
+            if (book == null)
+            {
+                book = _wishBooks.GetById(wishBookId ?? id);
+                isWishBook = true;
+            }
             if (book == null)
             {
                 Title("Книга не найдена");
                 return View("NotFound");
             }
-            var model = new BookViewModel(book);
-            model.CurrentUserId = UserId;
+            var model = new BookViewModel(book, UserId);
             Title(model.Title);
-            if (id.HasValue())
+            if (isWishBook)
             {
-                return View("Info", model);
+                return View("WishInfo", model);
             }
-            return View("WishInfo", model);
+            return View("Info", model);
         }
 
         [GET("edit/{id}")]
