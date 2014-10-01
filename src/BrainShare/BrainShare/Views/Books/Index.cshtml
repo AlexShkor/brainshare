@@ -37,6 +37,12 @@
                         <select data-bind="options: languages, optionsText: 'NativeName', value: filter.Language, optionsCaption: 'Любой', optionsValue: 'Symbol'" class="input-block-level" id="Language"></select>
                     </div>
                 </div>
+                <div class="control-group">
+                    <label class="control-label" for="SearchSource">Источник поиска</label>
+                    <div class="controls">
+                        <select data-bind="options: searchSources, optionsText: 'Text', value: filter.AreWhichBooksSearch, optionsValue: 'Value'" class="input-block-level" id="SearchSource"></select>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
