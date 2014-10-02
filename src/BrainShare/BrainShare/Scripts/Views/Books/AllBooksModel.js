@@ -4,12 +4,13 @@ var AllBooksModel = function (data) {
 
     this.languages = ko.observableArray(data.Languages);
     this.searchSources = ko.observableArray(data.SearchSources);
+    this.categories = ko.observableArray(data.Categories);
 
     delete data.Languages;
     delete data.SearchSources;
+    delete data.Categories;
 
     this.filter = ko.mapping.fromJS(data);
-   
 
     ApplyFilterModel(self, "/books");
 

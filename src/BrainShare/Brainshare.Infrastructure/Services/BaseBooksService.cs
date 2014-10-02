@@ -70,6 +70,10 @@ namespace Brainshare.Infrastructure.Services
             {
                 yield return Query<Book>.EQ(x => x.Language, filter.Language);
             }
+            if (filter.CategoryId.HasValue())
+            {
+                yield return Query<Book>.EQ(x => x.Category.Id, filter.CategoryId);
+            }
             if (filter.Location.HasValue())
             {
                yield return Query.Or(

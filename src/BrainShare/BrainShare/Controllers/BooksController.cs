@@ -62,11 +62,11 @@ namespace BrainShare.Controllers
         public ActionResult Index(string search,string ISBN)
         {
             Title("Книги на Brainshare");
-
             return View(new BooksFilterModel()
             {
                 Languages = new LanguagesService().GetAllLanguages(),
                 SearchSources = new List<BoolItem> { new BoolItem(false, "Добвленные книги"), new BoolItem(true, "Искомые книги") },
+                Categories = _categories.GetAll().Select(x=> new CategoryData(x)),
                 Search = search,
                 ISBN = ISBN
             });
