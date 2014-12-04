@@ -33,7 +33,7 @@
     <div>
         <div class="span3">
             @Html.Partial("DetailsPartial", Model)
-
+           
             @if (Model.UserId != Model.CurrentUserId)
             {
                 <div style="margin-top: 10px">
@@ -71,6 +71,14 @@
                             <div>
                                 <strong class="span5">Местонахождение книги:</strong>
                                 <span class="span7" data-bind="text: book.Address">@Model.Address</span>
+                            </div>
+                            <div>
+                                @if (Model.Change)
+                                {<span class="label label-success"><i class="icon-check"></i>Выменяю</span>}
+                                @if (Model.Buy)
+                                {<span class="label label-important"><i class="icon-check"></i>Куплю</span>}
+                                @if (Model.Gift)
+                                {<span class="label label-warning"><i class="icon-check"></i>Приму в подарок</span>}
                             </div>
                         </div>
 

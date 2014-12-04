@@ -67,6 +67,15 @@
             </div>
         </div>
 
+        <div class="control-group">
+            <label class="control-label">Действия</label>
+            <div class="controls">
+                <input type="checkbox" data-bind="checked: Change"/><span class="label label-success">Поменяю</span>
+                <input type="checkbox" data-bind="checked: Buy" /><span class="label label-important">Продам\Куплю</span>
+                <input type="checkbox" data-bind="checked: Gift" /><span class="label label-warning">В подарок</span>
+            </div>
+        </div>
+
         <a href="#" data-bind="click: $root.toggleAdditionalFiels">Дополнительные поля</a>
 
         <div class="control-group" data-bind="visible: $root.additionalVisible">

@@ -63,6 +63,7 @@ namespace BrainShare.Controllers
             {
                 _users.SetLastVisitedDate(DateTime.UtcNow, UserId);
             }
+            ViewBag.SiteName = Request.Url.Host == "bookva.me" ? "BookVA" : "BrainShare";
             base.OnActionExecuting(filterContext);
         }
 

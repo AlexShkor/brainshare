@@ -25,6 +25,11 @@ namespace BrainShare.ViewModels
         public string AvatarUrl { get; set; }
         public bool IsUserReadMe { get; set; }
 
+
+        public bool Buy { get; set; }
+        public bool Change { get; set; }
+        public bool Gift { get; set; }
+
         public string CurrentUserId { get; set; }
 
         public string SharingSearchBookText
@@ -66,6 +71,10 @@ namespace BrainShare.ViewModels
             IsUserReadMe = book.IsUserReadMe;
             UserComment = book.UserComment ?? "(нет комментария владельца)";
             Added = book.Added.ToString(EditBookViewModel.DateFormatLong, EditBookViewModel.Culture);
+
+            Change = book.Change;
+            Buy = book.Buy;
+            Gift = book.Gift;
         }
 
         public BookViewModel(Book book, string currentUserId) : this(book)

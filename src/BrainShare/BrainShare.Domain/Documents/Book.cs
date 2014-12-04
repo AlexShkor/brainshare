@@ -33,12 +33,17 @@ namespace BrainShare.Domain.Documents
         public UserData UserData { get; set; }
         public bool FromOzBy { get; set; }
 
+        public bool Buy { get; set; }
+        public bool Change { get; set; }
+        public bool Gift { get; set; }
+
         public Book()
         {
             ISBN = new List<string>();
             Authors = new List<string>();
             UserData = new UserData();
             Added = DateTime.Now;
+            Change = true;
         }
 
         public DateTime PublishedDate
