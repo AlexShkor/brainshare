@@ -25,18 +25,39 @@
     <div class="well" data-bind="visible: filter.Advanced">
         <div class="container">
             <div class="span4">
-                @KO.EditRow("UserName", modelPrefix: "filter.",displayName:"Пользователь")
-                @KO.EditRow("Location", modelPrefix: "filter.",displayName:"Город")
                 @KO.EditRow("Author", modelPrefix: "filter.",displayName:"Автор")
+                @KO.EditRow("Location", modelPrefix: "filter.", displayName: "Город")
+                @KO.EditRow("ISBN", modelPrefix: "filter.")
+                <div class="control-group">
+                    <label class="control-label" for="Category">Категория</label>
+                    <div class="controls">
+                        <select data-bind="options: categories, optionsText: 'Name', value: filter.Category, optionsCaption: 'Все', optionsValue: 'Id'" class="input-block-level" id="Category"></select>
+                    </div>
+                </div>
             </div>
             <div class="span4">
-                @KO.EditRow("ISBN", modelPrefix: "filter.")
+                @KO.EditRow("UserName", modelPrefix: "filter.", displayName: "Пользователь")
                 <div class="control-group">
                     <label class="control-label" for="Language">Язык</label>
                     <div class="controls">
                         <select data-bind="options: languages, optionsText: 'NativeName', value: filter.Language, optionsCaption: 'Любой', optionsValue: 'Symbol'" class="input-block-level" id="Language"></select>
                     </div>
                 </div>
+                <div class="control-group">
+                    <label class="control-label" for="SearchSource">Источник поиска</label>
+                    <div class="controls">
+                        <select data-bind="options: searchSources, optionsText: 'Text', value: filter.AreWhichBooksSearch, optionsValue: 'Value'" class="input-block-level" id="SearchSource"></select>
+                    </div>
+                </div>
+                @*<div class="control-group">
+                    <div class="btn-group">
+                        <label for="ExchangeOnBook"><input id="ExchangeOnBook" type="checkbox" data-bind="checked: filter.ExchangeOnBook" /> Обмен <i class="icon-book"></i></label>
+                        <br/>
+                        <label for="ExchangeOnMoney"><input id="ExchangeOnMoney" type="checkbox" data-bind="checked: filter.ExchangeOnMoney" /> Продажа <i class="icon-shopping-cart"></i></label>
+                        <br/>
+                        <label for="ExchangeOnGift"><input id="ExchangeOnGift" type="checkbox" data-bind="checked: filter.ExchangeOnGift" /> Дар <i class="icon-gift"></i></label>
+                    </div>
+                </div>*@
             </div>
         </div>
     </div>

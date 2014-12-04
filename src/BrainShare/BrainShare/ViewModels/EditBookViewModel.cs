@@ -37,6 +37,10 @@ namespace BrainShare.ViewModels
         public IEnumerable<LanguageInfo> Languages { get; set; }
         public IEnumerable<CategoryData> Categories { get; set; }
 
+        public bool Buy { get; set; }
+        public bool Change { get; set; }
+        public bool Gift { get; set; }
+
         public EditBookViewModel(Book book, IEnumerable<LanguageInfo> languages, IEnumerable<Category> categories):this()
         {
             Id = book.Id;
@@ -60,6 +64,9 @@ namespace BrainShare.ViewModels
             Language = book.Language;
             Languages = languages;
             Categories = categories.Select(x=> new CategoryData(x));
+            Change = book.Change;
+            Buy = book.Buy;
+            Gift = book.Gift;
         }
 
         public EditBookViewModel()
@@ -67,6 +74,7 @@ namespace BrainShare.ViewModels
             ISBNs = new List<StringItem> { new StringItem() };
             Authors = new List<StringItem> { new StringItem() };
             Image = Constants.DefaultBookImage;
+            Change = true;
         }
 
         public EditBookViewModel(IEnumerable<LanguageInfo> languages, IEnumerable<Category> categories)
@@ -95,6 +103,9 @@ namespace BrainShare.ViewModels
             book.Publisher = Publisher;
             book.PageCount = PageCount;
             book.UserComment = UserComment;
+            book.Change = Change;
+            book.Buy = Buy;
+            book.Gift = Gift;
             try
             {
                 DateTime dt = DateTime.ParseExact(PublishedDate,

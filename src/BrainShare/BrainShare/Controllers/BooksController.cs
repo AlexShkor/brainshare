@@ -62,10 +62,11 @@ namespace BrainShare.Controllers
         public ActionResult Index(string search,string ISBN)
         {
             Title("Книги на Brainshare");
-
             return View(new BooksFilterModel()
             {
                 Languages = new LanguagesService().GetAllLanguages(),
+                SearchSources = new List<BoolItem> { new BoolItem(false, "Добвленные книги"), new BoolItem(true, "Искомые книги") },
+                Categories = _categories.GetAll().Select(x=> new CategoryData(x)),
                 Search = search,
                 ISBN = ISBN
             });
@@ -75,7 +76,7 @@ namespace BrainShare.Controllers
         public ActionResult Filter(BooksFilterModel model)
         {
             var filter = model.ToFilter();
-            var items = _books.GetByFilter(filter).Select(x => new BookViewModel(x));
+            var items = (model.AreWhichBooksSearch ? _wishBooks.GetByFilter(filter) : _books.GetByFilter(filter)).Select(x => new BookViewModel(x));
             model.UpdatePagingInfo(filter.PagingInfo);
             return Listing(items, model);
         }
